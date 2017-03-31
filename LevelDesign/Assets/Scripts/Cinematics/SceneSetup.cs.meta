@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: dc592a6eac9a2ba4bba0c8bceab0ee5f
+timeCreated: 1480506302
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - _gameManager: {fileID: 1000012995029984, guid: ea8b28ab0d67fc244be66b8557b0e120,
+      type: 2}
+  - _lux: {fileID: 1000011172355636, guid: 85875d98fbc29e74cb8f38640c51cda3, type: 2}
+  - _cinematicCharacter: {fileID: 1000010989277172, guid: 63a820d99737e214c97330cc8c298f0b,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
