@@ -1,0 +1,1516 @@
+fileFormatVersion: 2
+guid: 0ab439924c42a414d9073b6038dca196
+timeCreated: 1489140457
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Chain_1
+    100004: Chain_10
+    100006: Chain_11
+    100008: Chain_12
+    100010: Chain_13
+    100012: Chain_2
+    100014: Chain_3
+    100016: Chain_4
+    100018: Chain_5
+    100020: Chain_6
+    100022: Chain_7
+    100024: Chain_8
+    100026: Chain_9
+    100028: Chain_Ball
+    100030: Group4
+    100032: Head
+    100034: Head_NUB
+    100036: ikHandle3
+    100038: joint15
+    100040: L_Cloth_1
+    100042: L_Cloth_2
+    100044: L_Cloth_3
+    100046: L_Cloth_4
+    100048: L_Cloth_5
+    100050: L_Foot
+    100052: L_Forarm
+    100054: L_Hand
+    100056: L_IndexFinger_1
+    100058: L_IndexFinger_2
+    100060: L_IndexFinger_3
+    100062: L_Lowerleg
+    100064: L_MiddleFinger_1
+    100066: L_MiddleFinger_2
+    100068: L_MiddleFinger_3
+    100070: L_Pinky_1
+    100072: L_Pinky_2
+    100074: L_Pinky_3
+    100076: L_RingFinger_1
+    100078: L_RingFinger_2
+    100080: L_RingFinger_3
+    100082: L_Thumb_1
+    100084: L_Thumb_2
+    100086: L_Thumb_3
+    100088: L_Upperarm
+    100090: L_Upperleg
+    100092: Neck
+    100094: R_Cloth_1
+    100096: R_Cloth_2
+    100098: R_Cloth_3
+    100100: R_Cloth_4
+    100102: R_Cloth_5
+    100104: R_Foot
+    100106: R_Forarm
+    100108: R_Hand
+    100110: R_IndexFinger_1
+    100112: R_IndexFinger_2
+    100114: R_IndexFinger_3
+    100116: R_Lowerleg
+    100118: R_MiddleFinger_1
+    100120: R_MiddleFinger_2
+    100122: R_MiddleFinger_3
+    100124: R_Pinky_1
+    100126: R_Pinky_2
+    100128: R_Pinky_3
+    100130: R_RingFinger_1
+    100132: R_RingFinger_2
+    100134: R_RingFinger_3
+    100136: R_Thumb_1
+    100138: R_Thumb_2
+    100140: R_Thumb_3
+    100142: R_Upperarm
+    100144: R_Upperleg
+    100146: ROOT
+    100148: Spine_1
+    100150: Spine_2
+    100152: Spine_3
+    400000: //RootNode
+    400002: Chain_1
+    400004: Chain_10
+    400006: Chain_11
+    400008: Chain_12
+    400010: Chain_13
+    400012: Chain_2
+    400014: Chain_3
+    400016: Chain_4
+    400018: Chain_5
+    400020: Chain_6
+    400022: Chain_7
+    400024: Chain_8
+    400026: Chain_9
+    400028: Chain_Ball
+    400030: Group4
+    400032: Head
+    400034: Head_NUB
+    400036: ikHandle3
+    400038: joint15
+    400040: L_Cloth_1
+    400042: L_Cloth_2
+    400044: L_Cloth_3
+    400046: L_Cloth_4
+    400048: L_Cloth_5
+    400050: L_Foot
+    400052: L_Forarm
+    400054: L_Hand
+    400056: L_IndexFinger_1
+    400058: L_IndexFinger_2
+    400060: L_IndexFinger_3
+    400062: L_Lowerleg
+    400064: L_MiddleFinger_1
+    400066: L_MiddleFinger_2
+    400068: L_MiddleFinger_3
+    400070: L_Pinky_1
+    400072: L_Pinky_2
+    400074: L_Pinky_3
+    400076: L_RingFinger_1
+    400078: L_RingFinger_2
+    400080: L_RingFinger_3
+    400082: L_Thumb_1
+    400084: L_Thumb_2
+    400086: L_Thumb_3
+    400088: L_Upperarm
+    400090: L_Upperleg
+    400092: Neck
+    400094: R_Cloth_1
+    400096: R_Cloth_2
+    400098: R_Cloth_3
+    400100: R_Cloth_4
+    400102: R_Cloth_5
+    400104: R_Foot
+    400106: R_Forarm
+    400108: R_Hand
+    400110: R_IndexFinger_1
+    400112: R_IndexFinger_2
+    400114: R_IndexFinger_3
+    400116: R_Lowerleg
+    400118: R_MiddleFinger_1
+    400120: R_MiddleFinger_2
+    400122: R_MiddleFinger_3
+    400124: R_Pinky_1
+    400126: R_Pinky_2
+    400128: R_Pinky_3
+    400130: R_RingFinger_1
+    400132: R_RingFinger_2
+    400134: R_RingFinger_3
+    400136: R_Thumb_1
+    400138: R_Thumb_2
+    400140: R_Thumb_3
+    400142: R_Upperarm
+    400144: R_Upperleg
+    400146: ROOT
+    400148: Spine_1
+    400150: Spine_2
+    400152: Spine_3
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: reaper:Group2
+    4300002: Group4
+    7400000: Idle
+    7400002: Walk
+    7400004: CombatIdle
+    7400006: SpellCast
+    7400008: SpecialAttack
+    7400010: Death
+    7400012: Run
+    9500000: //RootNode
+    13700000: Group4
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 400
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 450
+      lastFrame: 490
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: CombatIdle
+      takeName: Take 001
+      firstFrame: 500
+      lastFrame: 540
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: SpellCast
+      takeName: Take 001
+      firstFrame: 550
+      lastFrame: 625
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: SpecialAttack
+      takeName: Take 001
+      firstFrame: 650
+      lastFrame: 700
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 750
+      lastFrame: 840
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 450
+      lastFrame: 490
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Group4
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_Upperleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg
+        weight: 1
+      - path: ROOT/L_Upperleg/L_Lowerleg/L_Foot
+        weight: 1
+      - path: ROOT/R_Upperleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg
+        weight: 1
+      - path: ROOT/R_Upperleg/R_Lowerleg/R_Foot
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chain_1/Chain_2/Chain_3/Chain_4/Chain_5/Chain_6/Chain_7/Chain_8/Chain_9/Chain_10/Chain_11/Chain_12/Chain_13/Chain_Ball/joint15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/ikHandle3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/L_Cloth_1/L_Cloth_2/L_Cloth_3/L_Cloth_4/L_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/R_Cloth_1/R_Cloth_2/R_Cloth_3/R_Cloth_4/R_Cloth_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/L_Upperarm/L_Forarm/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/Neck/Head/Head_NUB
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Pinky_1/R_Pinky_2/R_Pinky_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Spine_3/R_Upperarm/R_Forarm/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb_3
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
