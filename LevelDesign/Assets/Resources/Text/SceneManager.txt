@@ -1,0 +1,11 @@
+Scene Manager
+--------------------------------------------------------------
+
+In a new scene when Set up new Scene is pressed  all the essential prefabs are instantiated.
+
+The following are instantiated
+
+		- Player ( Resources/Characters/PlayerCharacter )
+		- Canvas ( Resources/SceneEditor/Canvas )
+		- Camera ( Resources/SceneEditor/Camera_Target )
+		- Game Manager ( Resources/SceneEditor/GameManager )

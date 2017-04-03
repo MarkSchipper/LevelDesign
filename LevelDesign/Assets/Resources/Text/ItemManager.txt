@@ -1,0 +1,34 @@
+Item Manager
+
+Manage Items.
+
+--------------------------------------------------------------
+
+Add an Item
+
+You can set the item name and description.
+Select the Item Type:
+	Health
+	Mana
+	Quest Items
+	Weapon
+	Armour
+	None
+
+After selecting the type, select the Prefab you want to use.
+The Value is, for example how much Health a Healthpotion adds.
+
+--------------------------------------------------------------
+
+Edit an Item
+
+Edit Items which are currently in the Database
+
+
+--------------------------------------------------------------
+
+Delete an Item
+
+Delete an item from the database.
+
+--------------------------------------------------------------

@@ -1,0 +1,47 @@
+
+The Actor Manager:
+
+In the Actor Manager you can Add/Edit or delete an Actor, also knows as NPC.
+You also have the option to Add an NPC to the game or edit an NPC which is already in the game.
+
+--------------------------------------------------------------
+
+Add an Actor. ( NPC )
+
+Add a new Actor to the database.
+You can set the name which will be displayed in game.
+The prefab can be chosen as well, which means you can select which model it should use.
+Set the profession of the NPC which will also be shown in game in the UI.
+If you want the NPC to be interactive ( the player can talk to him/her ) then check Interactive.
+By checking Interactive 2 text fields will appear in which you can set the dialogue text.
+If this specific NPC should give a quest then check the Questgiver.
+
+--------------------------------------------------------------
+
+Edit an Actor
+
+Editing an Actor in the database, select the NPC you want to edit.
+
+--------------------------------------------------------------
+
+View all Actor
+
+Shows all the Actors in the database
+
+--------------------------------------------------------------
+
+Add an Actor to the Game
+
+Add an NPC to the game and set the behaviour.
+An NPC can 'idle'  and 'patrol'.
+
+If you select Patrol you will be given an option to set the amount of 'waypoints' which means how many points the NPC will walk to.
+After the last waypoint it will return to the first.
+
+Set the Movement speed for the NPC, the speed can be edited later on in the Inspector as well.
+
+--------------------------------------------------------------
+
+Edit an Actor in the Game
+
+Edit an NPC in the game already and change for example the walk speed.

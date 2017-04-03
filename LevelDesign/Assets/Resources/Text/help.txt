@@ -1,0 +1,54 @@
+Managers:
+
+The Managers are windows to add/edit or delete certain things in the game;
+
+- Actor Manager
+- Item Manager
+- Scene Manager
+- Zone Manager
+
+
+The Actor Manager for adding or editing NPCs, in the game or in the database.
+The Item Manager to manage items in the game, pickups, quest items etc.
+The Scene Manager to set up a new scene, adding all the essential prefabs.
+The Zone Manager to manage zones in the game.
+
+
+---------------------------------------------------------------------------------------------
+
+
+Player:
+
+
+The Player tab contains the Player Settings and the Spells Manager.
+The Player Settings manages things like the amount of Health and Mana but also things like Run Speed, Walk speed
+And the Combat settings like minimum distance for a ranged attack and melee attack.
+
+The Spells Manager manages the player spells, you can Add/Edit or delete them.
+Note that the spell shows up when the game is run.
+
+---------------------------------------------------------------------------------------------
+
+Enemies:
+
+This tab hold the Enemy Manager, you can Add/Edit or delete them or add them to the game.
+
+
+---------------------------------------------------------------------------------------------
+
+World Building:
+
+This holds the Level Editor and Foliage Painter.
+The Level Editor lets you place excisting prefabs in the world and snaps it to a grid.
+The Foliage Painter lets you paint grass/plants
+
+---------------------------------------------------------------------------------------------
+
+Quest System:
+
+This holds the Quest Manager which is rather self explanatory.
+
+---------------------------------------------------------------------------------------------
+
+
+

@@ -1,0 +1,8 @@
+Zone Manager
+--------------------------------------------------------------
+
+The Zone Manager manages the different zones in game.
+When the player enters a zone it is displayed in game, the zones can also act as a quest objective.
+For example to force the player to explore your game.
+
+The 'shape' when adding is the shape of the trigger displayed in game

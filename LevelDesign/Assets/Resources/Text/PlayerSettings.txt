@@ -1,0 +1,11 @@
+Player Settings
+--------------------------------------------------------------
+
+Edit the player settings like:
+	- Health
+	- Mana
+	- Movement speed ( running )
+	- Walking speed
+	
+	- Minimum distance for a ranged attack
+	- Minimum distance for a melee attack

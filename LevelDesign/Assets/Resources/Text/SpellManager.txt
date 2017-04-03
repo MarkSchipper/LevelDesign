@@ -1,0 +1,37 @@
+Player Spell Manager
+--------------------------------------------------------------
+
+Add a spell
+
+The spell name: shown in the tooltip in the UI
+Spell Description: coming soon
+
+Type of Spell:
+
+	- Buff ( not implemented )
+	- Damage
+	- AoE
+	- Healing ( not implemented )
+	- Ability
+	- Melee ( not implemented )
+
+
+When you've chosen a spelltype you can add the following
+
+	- Spell Value ( How much damage does it do? How much Healing does it do? )
+	- Mana Cost
+	- Cooldown
+	- Cast time
+	- Spell Prefab - which particle effect should it be
+	- Icon - which icon to display in the UI
+
+--------------------------------------------------------------
+
+Edit a spell
+
+Same as above
+
+
+--------------------------------------------------------------
+
+Delete Spell
