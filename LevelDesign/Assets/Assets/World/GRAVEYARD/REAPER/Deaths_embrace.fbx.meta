@@ -1,0 +1,135 @@
+fileFormatVersion: 2
+guid: 43d9fa421c013854cbe5b4ca946acade
+timeCreated: 1482490216
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Group4969
+    100004: L_Hand
+    100006: Male1
+    100008: Particle View 001
+    100010: R_Hand
+    100012: Reaper1
+    100014: scythe:Group4
+    100016: Skull2
+    100018: Wing_L:ZBrush_defualt_group
+    100020: Wing_R:ZBrush_defualt_group
+    100022: scythe:Group5_MeshPart0
+    100024: scythe:Group5_MeshPart1
+    400000: //RootNode
+    400002: Group4969
+    400004: L_Hand
+    400006: Male1
+    400008: Particle View 001
+    400010: R_Hand
+    400012: Reaper1
+    400014: scythe:Group4
+    400016: Skull2
+    400018: Wing_L:ZBrush_defualt_group
+    400020: Wing_R:ZBrush_defualt_group
+    400022: scythe:Group5_MeshPart0
+    400024: scythe:Group5_MeshPart1
+    2300000: Group4969
+    2300002: L_Hand
+    2300004: Male1
+    2300006: R_Hand
+    2300008: Reaper1
+    2300010: scythe:Group4
+    2300012: Skull2
+    2300014: Wing_L:ZBrush_defualt_group
+    2300016: Wing_R:ZBrush_defualt_group
+    2300018: scythe:Group5_MeshPart0
+    2300020: scythe:Group5_MeshPart1
+    3300000: Group4969
+    3300002: L_Hand
+    3300004: Male1
+    3300006: R_Hand
+    3300008: Reaper1
+    3300010: scythe:Group4
+    3300012: Skull2
+    3300014: Wing_L:ZBrush_defualt_group
+    3300016: Wing_R:ZBrush_defualt_group
+    3300018: scythe:Group5_MeshPart0
+    3300020: scythe:Group5_MeshPart1
+    4300000: Group4969
+    4300002: Male1
+    4300004: Reaper1
+    4300006: Wing_L:ZBrush_defualt_group
+    4300008: Wing_R:ZBrush_defualt_group
+    4300010: Skull2
+    4300012: R_Hand
+    4300014: L_Hand
+    4300016: scythe:Group4
+    4300018: scythe:Group5_MeshPart0
+    4300020: scythe:Group5_MeshPart1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 2
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
