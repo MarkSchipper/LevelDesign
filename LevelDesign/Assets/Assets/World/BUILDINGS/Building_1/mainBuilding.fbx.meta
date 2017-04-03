@@ -1,0 +1,178 @@
+fileFormatVersion: 2
+guid: 35d049f02d1a54446b9a2324725fcc3d
+timeCreated: 1469701992
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: MAIN
+    100002: //RootNode
+    100004: pCube19
+    100006: pCube21
+    100008: pCube34
+    100010: pCube35
+    100012: pCube44
+    100014: pCube45
+    100016: pCube46
+    100018: pCube48
+    100020: pCube49
+    100022: pCube51
+    100024: pCube59
+    100026: pCube60
+    100028: pCube61
+    100030: pCube62
+    100032: pCube63
+    100034: pCube64
+    100036: pCube65
+    100038: pCube66
+    100040: pCube67
+    100042: pCube69
+    100044: pCube75
+    100046: pCube83
+    100048: pCube96
+    100050: pCube97
+    100052: pCube98
+    100054: polySurface5
+    100056: Rocks
+    100058: Rocks9
+    100060: Roof
+    100062: transform60
+    100064: transform68
+    100066: transform70
+    100068: WindowPlane
+    100070: Windows
+    100072: Wood1
+    400000: MAIN
+    400002: //RootNode
+    400004: pCube19
+    400006: pCube21
+    400008: pCube34
+    400010: pCube35
+    400012: pCube44
+    400014: pCube45
+    400016: pCube46
+    400018: pCube48
+    400020: pCube49
+    400022: pCube51
+    400024: pCube59
+    400026: pCube60
+    400028: pCube61
+    400030: pCube62
+    400032: pCube63
+    400034: pCube64
+    400036: pCube65
+    400038: pCube66
+    400040: pCube67
+    400042: pCube69
+    400044: pCube75
+    400046: pCube83
+    400048: pCube96
+    400050: pCube97
+    400052: pCube98
+    400054: polySurface5
+    400056: Rocks
+    400058: Rocks9
+    400060: Roof
+    400062: transform60
+    400064: transform68
+    400066: transform70
+    400068: WindowPlane
+    400070: Windows
+    400072: Wood1
+    2300000: MAIN
+    2300002: Rocks
+    2300004: Rocks9
+    2300006: Roof
+    2300008: WindowPlane
+    2300010: Windows
+    2300012: Wood1
+    3300000: MAIN
+    3300002: Rocks
+    3300004: Rocks9
+    3300006: Roof
+    3300008: WindowPlane
+    3300010: Windows
+    3300012: Wood1
+    4300000: WindowPlane
+    4300002: Roof
+    4300004: Wood1
+    4300006: Rocks
+    4300008: Windows
+    4300010: Rocks9
+    4300012: MAIN
+    6400000: MAIN
+    6400002: Rocks
+    6400004: Rocks9
+    6400006: Roof
+    6400008: WindowPlane
+    6400010: Windows
+    6400012: Wood1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
