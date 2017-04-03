@@ -1,0 +1,274 @@
+fileFormatVersion: 2
+guid: 7b89d8dc73c283b46b46fcddb571639f
+timeCreated: 1483709945
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: crow:OBJ_Crow1
+    100002: //RootNode
+    100004: Head
+    100006: Head_nub
+    100008: L_Calf
+    100010: L_Clavicle
+    100012: L_Foot
+    100014: L_UpperLeg
+    100016: L_Wing_1
+    100018: L_Wing_2
+    100020: L_Wing_3
+    100022: L_Wing_4
+    100024: R_Calf
+    100026: R_Clavicle
+    100028: R_Foot
+    100030: R_UpperLeg
+    100032: R_Wing_1
+    100034: R_Wing_2
+    100036: R_Wing_3
+    100038: R_Wing_4
+    100040: ROOT
+    100042: Tail_1
+    100044: Tail_2
+    400000: crow:OBJ_Crow1
+    400002: //RootNode
+    400004: Head
+    400006: Head_nub
+    400008: L_Calf
+    400010: L_Clavicle
+    400012: L_Foot
+    400014: L_UpperLeg
+    400016: L_Wing_1
+    400018: L_Wing_2
+    400020: L_Wing_3
+    400022: L_Wing_4
+    400024: R_Calf
+    400026: R_Clavicle
+    400028: R_Foot
+    400030: R_UpperLeg
+    400032: R_Wing_1
+    400034: R_Wing_2
+    400036: R_Wing_3
+    400038: R_Wing_4
+    400040: ROOT
+    400042: Tail_1
+    400044: Tail_2
+    4300000: crow:OBJ_Crow1
+    7400000: Fly
+    7400002: Glide
+    9500000: //RootNode
+    13700000: crow:OBJ_Crow1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Fly
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: crow:OBJ_Crow1
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/Head
+        weight: 1
+      - path: ROOT/Head/Head_nub
+        weight: 1
+      - path: ROOT/L_Clavicle
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2/L_Wing_3
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2/L_Wing_3/L_Wing_4
+        weight: 1
+      - path: ROOT/L_UpperLeg
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf/L_Foot
+        weight: 1
+      - path: ROOT/R_Clavicle
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2/R_Wing_3
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2/R_Wing_3/R_Wing_4
+        weight: 1
+      - path: ROOT/R_UpperLeg
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf/R_Foot
+        weight: 1
+      - path: ROOT/Tail_1
+        weight: 1
+      - path: ROOT/Tail_1/Tail_2
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Glide
+      takeName: Take 001
+      firstFrame: 25
+      lastFrame: 79
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: crow:OBJ_Crow1
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/Head
+        weight: 1
+      - path: ROOT/Head/Head_nub
+        weight: 1
+      - path: ROOT/L_Clavicle
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2/L_Wing_3
+        weight: 1
+      - path: ROOT/L_Clavicle/L_Wing_1/L_Wing_2/L_Wing_3/L_Wing_4
+        weight: 1
+      - path: ROOT/L_UpperLeg
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf/L_Foot
+        weight: 1
+      - path: ROOT/R_Clavicle
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2/R_Wing_3
+        weight: 1
+      - path: ROOT/R_Clavicle/R_Wing_1/R_Wing_2/R_Wing_3/R_Wing_4
+        weight: 1
+      - path: ROOT/R_UpperLeg
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf/R_Foot
+        weight: 1
+      - path: ROOT/Tail_1
+        weight: 1
+      - path: ROOT/Tail_1/Tail_2
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
