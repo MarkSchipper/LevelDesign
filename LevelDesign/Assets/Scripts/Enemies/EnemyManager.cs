@@ -645,7 +645,7 @@ namespace EnemyCombat
 
         void DeleteFromDatabase(int _id)
         {
-            //EnemyDatabase.DeleteEnemy(_id));
+            EnemyDatabase.DeleteEnemy(_id);
             _deleteEnemy = false;
         }
 

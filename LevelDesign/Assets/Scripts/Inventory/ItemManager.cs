@@ -38,7 +38,13 @@ public class ItemManager : EditorWindow {
 
     private bool _addItem = false;
     private bool _editItem = false;
+    private bool _deleteItem = false;
     private bool _itemsLoaded = false;
+    private bool _isDeletingItem = false;
+    private bool _deleteConfirmation = false;
+
+    private int _itemToDelete;
+
 
     private int _selected;
 
@@ -52,6 +58,7 @@ public class ItemManager : EditorWindow {
 
     void OnEnable()
     {
+        ClearLists();
         // OnEnable we get all items from the Items database
         GetAllItems();
 
@@ -82,19 +89,26 @@ public class ItemManager : EditorWindow {
 
     void OnGUI()
     {
-        if (GUILayout.Button("Add Item"))
-        {
-            _addItem = !_addItem;
+        if (!_addItem && !_editItem && !_deleteItem && !_isDeletingItem) {
+            if (GUILayout.Button("Add Item"))
+            {
+                _addItem = !_addItem;
+            }
+
+            if (GUILayout.Button("Edit Items"))
+            {
+                _editItem = !_editItem;
+
+
+                _unfold = new bool[_itemID.Count];
+            }
+
+            if (GUILayout.Button("Delete an Item"))
+            {
+                _deleteItem = true;
+            }
         }
-
-        if (GUILayout.Button("Edit Items"))
-        {
-            _editItem = !_editItem;
-
-
-            _unfold = new bool[_itemID.Count];
-        }
-
+        #region ADD ITEM
         if (_addItem)
         {
 
@@ -131,8 +145,13 @@ public class ItemManager : EditorWindow {
                 ClearLists();
                 GetAllItems();
             }
+            if(GUILayout.Button("BACK"))
+            {
+                _addItem = false;
+            }
         }
-
+        #endregion
+        #region EDIT AN ITEM
         if (_editItem && !_addItem)
         {
 
@@ -157,18 +176,59 @@ public class ItemManager : EditorWindow {
                         ClearLists();
                         GetAllItems();
                     }
+
+                    /*
                     if(GUILayout.Button("Delete Item"))
                     {
                         DeleteItem(_itemID[i]);
                         ClearLists();
                         GetAllItems();
                     }
+                    */
 
                 }
             }
 
+            if (GUILayout.Button("BACK"))
+            {
+                _editItem = false;
+            }
+
         }
-       
+        #endregion
+        #region DELETE ITEM
+        if(_deleteItem)
+        {
+            for (int i = 0; i < _itemID.Count; i++)
+            {
+                if(GUILayout.Button("Delete " + _itemNameList[i] + " from the database"))
+                {
+                    _isDeletingItem = true;
+                    _itemToDelete = i;
+                }
+            }
+            if(GUILayout.Button("BACK"))
+            {
+                _deleteItem = false;
+            }
+        }
+
+        if(_isDeletingItem)
+        {
+            GUILayout.Label("Are you sure you want to delete " + _itemNameList[_itemToDelete] + "?");
+            if(GUILayout.Button("YES"))
+            {
+                DeleteItem(_itemToDelete);
+                _isDeletingItem = false;
+                
+            }
+            if(GUILayout.Button("BACK"))
+            {
+                _isDeletingItem = false;
+                _deleteItem = false;
+            }
+        }
+        #endregion
     }
 
     void GetAllItems()

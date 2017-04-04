@@ -8,12 +8,15 @@ namespace Quest
     public class Zone : MonoBehaviour
     {
 
+        [HideInInspector]
         [SerializeField]
         private string _zoneName;
 
+        [HideInInspector]
         [SerializeField]
         private string _zoneDescription;
 
+        [HideInInspector]
         [SerializeField]
         private int _questID;
 

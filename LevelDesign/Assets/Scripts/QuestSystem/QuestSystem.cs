@@ -343,6 +343,7 @@ namespace Quest
             
             if (!_retrievedAllQuests)
             {
+                Quest.QuestDatabase.ClearAll();
                 Quest.QuestDatabase.GetAllQuests();
                 Quest.QuestDatabase.GetQuestItems();
                 Quest.QuestDatabase.GetAllNpcs();
@@ -475,6 +476,7 @@ namespace Quest
                 if (GUILayout.Button("BACK"))
                 {
                     _editQuest = false;
+                    _retrievedAllQuests = false;
                 }
             
         }
@@ -483,6 +485,7 @@ namespace Quest
         {
             if (!_retrievedAllQuests)
             {
+                Quest.QuestDatabase.ClearAll();
                 Quest.QuestDatabase.GetAllActiveQuests();
                 _activeQuestActive = new bool[Quest.QuestDatabase.ReturnActiveQuestIDS().Count];
 
@@ -490,7 +493,7 @@ namespace Quest
                 {
                     _activeQuestActive[i] = true;
                     _activeID.Add(Quest.QuestDatabase.ReturnActiveQuestID(i));
-                    Debug.Log(_activeQuestActive.Length);
+                    
                 }
 
                 _retrievedAllQuests = true;
@@ -498,7 +501,7 @@ namespace Quest
             
             for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
             {
-
+                
                 
                 
                 GUILayout.BeginHorizontal(GUILayout.Width(250));
@@ -511,7 +514,7 @@ namespace Quest
                 
 
             }
-            Debug.Log(_activeID.Count);
+            
             if(GUILayout.Button("SAVE CHANGES"))
             {
                 for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
@@ -524,13 +527,16 @@ namespace Quest
             if(GUILayout.Button("BACK"))
             {
                 _activeQuests = false;
+                _retrievedAllQuests = false;
             }
         }
 
         void DeleteQuests()
         {
+            
             if (!_retrievedAllQuests)
             {
+                Quest.QuestDatabase.ClearAll();
                 Quest.QuestDatabase.GetAllQuests();
                 _activeQuestActive = new bool[Quest.QuestDatabase.ReturnQuestTitles().Count];
                 for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
@@ -550,7 +556,7 @@ namespace Quest
                     GUILayout.Label("Select: ");
                     _activeQuestActive[i] = EditorGUILayout.Toggle(_activeQuestActive[i]);
                 GUILayout.EndHorizontal();
-                Debug.Log(_activeID[i]);
+             
             }
             
             if (GUILayout.Button("DELETE SELECTED"))
@@ -565,6 +571,7 @@ namespace Quest
 
             if (GUILayout.Button("BACK"))
             {
+                _retrievedAllQuests = false;
                 _deleteQuests = false;
             }
         }

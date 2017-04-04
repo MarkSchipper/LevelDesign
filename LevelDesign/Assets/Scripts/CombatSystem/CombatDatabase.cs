@@ -79,6 +79,11 @@ namespace CombatSystem
             dbconn = null;
         }
 
+        public static void DeleteSpell(int _id)
+        {
+
+        }
+
         public static void GetAllSpells()
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerSpellsDB.db"; //Path to database.

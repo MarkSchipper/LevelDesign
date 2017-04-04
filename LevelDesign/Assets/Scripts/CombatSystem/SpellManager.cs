@@ -34,6 +34,9 @@ namespace CombatSystem
         private bool _addSpell = false;
         private bool _editSpell = false;
         private bool _deleteSpell = false;
+        private bool _deleteConfirmation = false;
+
+        private int _deleteSpellID;
 
         private Vector2 _scrollPos;
 
@@ -116,7 +119,7 @@ namespace CombatSystem
         {
             GUILayout.Label("Welcome to the Spell Manager", EditorStyles.boldLabel);
 
-            if (!_addSpell && !_editSpell)
+            if (!_addSpell && !_editSpell && !_deleteSpell)
             {
 
                 if (GUILayout.Button("Add Spell"))
@@ -127,7 +130,22 @@ namespace CombatSystem
                 if(GUILayout.Button("Edit Spell"))
                 {
                     _editSpell = true;
-                    CombatDatabase.GetAllSpells();
+                    if (!_loadedSpells)
+                    {
+                        CombatDatabase.GetAllSpells();
+                        _loadedSpells = true;
+                    }
+                }
+
+                if(GUILayout.Button("Delete Spell"))
+                {
+                    if (!_loadedSpells)
+                    {
+                        CombatDatabase.GetAllSpells();
+                        _loadedSpells = true;
+                    }
+                    _deleteSpell = true;
+                    
                 }
             }
             if (_addSpell)
@@ -138,6 +156,10 @@ namespace CombatSystem
             if(_editSpell)
             {
                 EditSpell();
+            }
+            if(_deleteSpell)
+            {
+                DeleteSpell();   
             }
 
         }
@@ -384,10 +406,41 @@ namespace CombatSystem
 
             if (GUILayout.Button("BACK"))
             {
+                
                 _editSpell = false;
             }
             EditorGUILayout.EndScrollView();
           
+        }
+
+        void DeleteSpell()
+        {
+            
+            if (!_deleteConfirmation)
+            {
+                for (int i = 0; i < CombatDatabase.ReturnSpellCount(); i++)
+                {
+                    if (GUILayout.Button("Delete " + CombatDatabase.ReturnSpellName(i)))
+                    {
+                        _deleteConfirmation = true;
+                        _deleteSpellID = i;
+                    }
+                }
+            }
+            if(_deleteConfirmation)
+            {
+                GUILayout.Label("Are you sure you want to delete " + CombatDatabase.ReturnSpellName(_deleteSpellID) + "?");
+                if(GUILayout.Button("YES"))
+                {
+                    CombatDatabase.DeleteSpell(_deleteSpellID);
+                }
+                if(GUILayout.Button("BACK"))
+                {
+                    _deleteSpell = false;
+                    _deleteConfirmation = false;
+                }
+
+            }
         }
     }
 #endif

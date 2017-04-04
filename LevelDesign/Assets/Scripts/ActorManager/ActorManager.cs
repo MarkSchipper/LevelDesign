@@ -33,6 +33,11 @@ public class ActorManager : EditorWindow
     private bool _loadedActors = false;
     private bool _addActorGame = false;
     private bool _editActorGame = false;
+    private bool _deleteActor = false;
+    private bool _isDeletingActor = false;
+    private bool _deleteConfirmation = false;
+
+    private int _deleteActorID;
 
     private UnityEngine.Object[] _actors;
 
@@ -87,7 +92,7 @@ public class ActorManager : EditorWindow
         //////////////////////////////////////////////////////////////////////////////////////////
 
         // If we are on the 'main' screen -> if ALL booleans are false
-        if (!_addingActor && !_editActor && !_viewActors && !_addActorGame && !_editActorGame)
+        if (!_addingActor && !_editActor && !_viewActors && !_addActorGame && !_editActorGame && !_deleteActor)
         {
 
             //////////////////////////////////////////////////////////////////////////////////////
@@ -125,6 +130,13 @@ public class ActorManager : EditorWindow
                     GetAllActors();
                 }
             }
+
+            if(GUILayout.Button("Delete an Actor"))
+            {
+                _deleteActor = true;
+                GetAllActors();
+            }
+
             GUILayout.EndArea();
 
 
@@ -310,6 +322,45 @@ public class ActorManager : EditorWindow
             }
         }
 
+        if(_deleteActor && !_isDeletingActor)
+        {
+            GUILayout.Label("Delete an Actor");
+
+            GUILayout.Space(30);
+
+            for (int i = 0; i < _allActorID.Count; i++)
+            {
+
+                if(GUILayout.Button("DELETE " + _allActorNames[i] + " From Database"))
+                {
+                    _isDeletingActor = true;
+                    _deleteActorID = i;
+                }
+
+                if(GUILayout.Button("BACK"))
+                {
+                    _deleteActor = false;
+                }
+
+            }
+        }
+
+        if(_isDeletingActor)
+        {
+            if(!_deleteConfirmation)
+            {
+                GUILayout.Label("Are you sure you want to delete " + _allActorNames[_deleteActorID] + "?");
+                if(GUILayout.Button("DELETE"))
+                {
+                    DeleteActor(_deleteActorID);
+                }
+                if(GUILayout.Button("BACK"))
+                {
+                    _isDeletingActor = false;
+                }
+            }
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////
         //                                      GAME OPERATIONS                                 //
         //////////////////////////////////////////////////////////////////////////////////////////
@@ -331,11 +382,17 @@ public class ActorManager : EditorWindow
                     _wayPointIdleTime = EditorGUILayout.IntField("Wait time when reaching waypoint: ", _wayPointIdleTime);
                 }
             }
+            GUILayout.BeginHorizontal();
 
             if(GUILayout.Button("Add '" + _allActorNames[_selectedActorIndex] + "' to the Game"))
             {
                 AddActorToGame();
             }
+            if(GUILayout.Button("BACK"))
+            {
+                _addActorGame = false;
+            }
+            GUILayout.EndHorizontal();
         }
 
         if(_editActorGame)
@@ -377,8 +434,8 @@ public class ActorManager : EditorWindow
                 _wayPointSpeed = EditorGUILayout.FloatField("Movement Speed: ", _wayPointSpeed);
 
                 _wayPointAmount = EditorGUILayout.IntField("Amount of waypoints: ", _wayPointAmount);
-                
 
+                GUILayout.BeginHorizontal();
                 if (GUILayout.Button("UPDATE ACTOR"))
                 {
                     _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().SetNpcBehaviour(_selectedBehaviour);
@@ -399,6 +456,11 @@ public class ActorManager : EditorWindow
                         }
                     }
                 }
+                if (GUILayout.Button("BACK"))
+                {
+                    _editActorGame = false;
+                }
+                GUILayout.EndHorizontal();
             }
         }
     }
@@ -543,6 +605,25 @@ public class ActorManager : EditorWindow
 
         _NPC.GetComponent<NPCSystem.NPC>().SetPatrolSpeed(_wayPointSpeed);
 
+    }
+
+
+    void DeleteActor(int _id)
+    {
+        string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+        IDbConnection dbconn;
+        dbconn = (IDbConnection)new SqliteConnection(conn);
+        dbconn.Open(); //Open connection to the database.
+
+        IDbCommand dbcmd = dbconn.CreateCommand();
+
+        string sqlQuery = String.Format("DELETE FROM Actors WHERE ActorID = '" + _id + "'");
+        dbcmd.CommandText = sqlQuery;
+        dbcmd.ExecuteScalar();
+        dbcmd.Dispose();
+        dbcmd = null;
+        dbconn.Close();
+        dbconn = null;
     }
 
 }
