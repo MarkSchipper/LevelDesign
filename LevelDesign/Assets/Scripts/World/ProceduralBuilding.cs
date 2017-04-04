@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+
 
 public class ProceduralBuilding : MonoBehaviour {
 
@@ -69,23 +69,4 @@ public class ProceduralBuilding : MonoBehaviour {
     }
 
 }
-#if UNITY_EDITOR
-[CustomEditor(typeof(ProceduralBuilding))]
-public class ProcBuildingEditor : Editor
-{
-    private ProceduralBuilding _PB;
-    public override void OnInspectorGUI()
-    {
-        _PB = (ProceduralBuilding)target;
 
-
-        base.OnInspectorGUI();
-        if (GUILayout.Button("Create building!"))
-        {
-            _PB.CreateBuilding();
-
-        }
-    }
-
-}
-#endif

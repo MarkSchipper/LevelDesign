@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
@@ -9,6 +9,30 @@ using System.Linq;
 
 namespace Quest
 {
+
+    public enum QuestType
+    {
+        None,
+        Collect,
+        Kill,
+        Explore,
+    }
+
+    public enum QuestItemAmount
+    {
+        None,
+        Single,
+        Multiple,
+    }
+
+    public enum QuestReward
+    {
+        None,
+        Gold,
+        Experience,
+        Both,
+
+    }
 
     public class QuestDatabase
     {

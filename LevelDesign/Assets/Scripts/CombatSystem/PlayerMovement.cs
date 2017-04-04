@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEditor;
+//using UnityEditor;
 using System.Data;
 using System;
 using Mono.Data.Sqlite;
@@ -82,10 +82,11 @@ namespace CombatSystem
             CombatSystem.AnimationSystem.SetController(_playerAnimator);
 
             // Set the CastBar GUI to false ( don't show it! )
-            GameInteraction.DisplayCastBar(false);
+            
 
             // Load the move Icon from the folder
             _clickMoveIcon = Resources.Load("Icons/ClickedToMoveTo") as GameObject;
+            Debug.Log(_clickMoveIcon);
 
             // Get the Player settings like Health/Mana from the Database
             CombatDatabase.GetPlayerSettings();
@@ -107,6 +108,7 @@ namespace CombatSystem
         void Start()
         {
             _playerGameObject = this.gameObject;
+            CombatSystem.GameInteraction.DisplayCastBar(false);
         }
 
         void Update()

@@ -37,6 +37,14 @@ namespace EnemyCombat
         Patrol,
     }
 
+    public enum EnemySpawn
+    {
+        None,
+        Spawn,
+        Placement,
+    }
+
+
     public static  class EnemyDatabase
     {
 

@@ -6,6 +6,26 @@ using System;
 namespace CombatSystem
 {
 
+    public enum SpellTypes
+    {
+        None,
+        Buff,
+        Damage,
+        AOE,
+        Healing,
+        Ability,
+        Melee,
+    }
+
+    public enum Abilities
+    {
+        None,
+        Blink,
+        Charge,
+        Disengage,
+    }
+
+
     public class Combat : MonoBehaviour
     {
 

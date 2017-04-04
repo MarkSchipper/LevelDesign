@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEditor;
+
 
 namespace Quest
 {
@@ -79,6 +79,7 @@ namespace Quest
 
 
     }
+    /*
 #if UNITY_EDITOR
     [CustomEditor(typeof(QuestItem))]
     public class QuestItemEditor : Editor
@@ -95,5 +96,6 @@ namespace Quest
             }
         }
     }
-#endif
+    */
+//#endif
 }

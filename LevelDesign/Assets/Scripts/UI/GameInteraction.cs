@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
@@ -89,6 +89,7 @@ namespace CombatSystem
             //_playerSpells = GameObject.FindGameObjectsWithTag("SpellCooldown");
             //_playerSpells = CombatSystem.CombatDatabase.ReturnSpellCount()
             _castBar = GameObject.FindGameObjectWithTag("CastBar").GetComponent<Image>();
+
 
             _skin = Resources.Load("Skins/Combat_HUD") as GUISkin;
             CombatSystem.CombatDatabase.GetAllSpells();
@@ -539,7 +540,8 @@ namespace CombatSystem
 
         public static void DisplayCastBar(bool _set)
         {
-            _castBar.transform.parent.gameObject.SetActive(_set);
+            Debug.Log(_castBar);
+         //   _castBar.transform.parent.gameObject.SetActive(_set);
         }
 
         public static void FillCastBar(float _value)
