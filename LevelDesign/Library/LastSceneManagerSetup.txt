@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Resources/Scenes/LevelEditor.unity
+- path: Assets/Resources/Scenes/interior.unity
   isLoaded: 1
   isActive: 1

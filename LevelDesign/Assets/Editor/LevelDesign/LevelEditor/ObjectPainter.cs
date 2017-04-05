@@ -640,6 +640,7 @@ namespace LevelEditor
                         EditorGUILayout.EndHorizontal();
 
                         _groundIsActive = EditorGUILayout.Toggle(_groundFloor.name + " - Active: ", _groundIsActive);
+                        _groundIsActive = true;
 
                         if(!_groundIsActive)
                         {
@@ -696,7 +697,7 @@ namespace LevelEditor
 
                             GUILayout.BeginHorizontal();
                             _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTileNames[i]));
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                             if (_previewRect[i].Contains(Event.current.mousePosition))
                             {
@@ -740,7 +741,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -784,7 +785,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -836,7 +837,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -880,7 +881,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/" + _vikingTilesNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -924,7 +925,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -968,7 +969,7 @@ namespace LevelEditor
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Props/" + _vikingPropsNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], EditorStyles.whiteLabel);
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
