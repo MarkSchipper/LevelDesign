@@ -454,6 +454,7 @@ namespace Quest
                 {
                     _editQuest = false;
                     _retrievedAllQuests = false;
+                    ClearAll();
                 }
             
         }
@@ -624,6 +625,20 @@ namespace Quest
                 }
             }
 
+        }
+
+        void ClearAll()
+        {
+            _questTitle = "";
+            _questText = "";
+            _questType = QuestType.None;
+            _qItemAmount = 0;
+            _questItemCollectAmount = 0;
+            _questReward = QuestReward.None;
+            _goldAmount = 0;
+            _expAmount = 0;
+            _questEnabled = false;
+            _oldNpcID = 0;
         }
     }
 

@@ -45,6 +45,8 @@ public class HelpMenu : EditorWindow {
     private bool _isPlayerSettings = false;
     private bool _isSpellManager = false;
 
+    private GUISkin _skin;
+
     private Vector2 _scrollPos;
 
     [MenuItem("Level Design/Help")]
@@ -65,7 +67,9 @@ public class HelpMenu : EditorWindow {
         _playerSpellsHelp = Resources.Load("Text/SpellManager") as TextAsset;
         _enemiesHelp = Resources.Load("Text/EnemyManager") as TextAsset;
         _worldBuilderHelp = Resources.Load("Text/WorldBuilder") as TextAsset;
-        _questSystemHelp = Resources.Load("Text/QuestSystem") as TextAsset;
+        _questSystemHelp = Resources.Load("Text/QuestManager") as TextAsset;
+
+        _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
     }
 
     // Use this for initialization
@@ -80,6 +84,7 @@ public class HelpMenu : EditorWindow {
 
     void OnGUI()
     {
+        GUI.skin = _skin;
         if (!_isManagers && !_isPlayer && !_isEnemies && !_isWorldBuilder && !_isQuestSystem)
         {
 
