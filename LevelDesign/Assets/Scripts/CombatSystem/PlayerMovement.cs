@@ -39,6 +39,17 @@ namespace CombatSystem
 
         private static int _playerHealth;
         private static int _playerMana;
+        private static int _playerLevel;
+        private static int _playerGold;
+        private static int _playerExp;
+
+        private static int _expRequired;
+
+        private static int _expMultiplier;
+        private float _dmgMultiplier;
+        private float _healthMultiplier;
+        private float _manaMultiplier;
+        private float _healingMultiplier;
 
         private CharacterController _charController;
 
@@ -47,6 +58,9 @@ namespace CombatSystem
         private static bool _mayCastSpell = false;
         private static bool _castSpellOnce = false;
         private static bool _isInCombat = false;
+
+        private static bool _levelUp = false;
+        
 
         private static bool _takenDamage = false;
         private static float _immunity = 2.0f;
@@ -86,7 +100,7 @@ namespace CombatSystem
 
             // Load the move Icon from the folder
             _clickMoveIcon = Resources.Load("Icons/ClickedToMoveTo") as GameObject;
-            Debug.Log(_clickMoveIcon);
+
 
             // Get the Player settings like Health/Mana from the Database
             CombatDatabase.GetPlayerSettings();
@@ -109,6 +123,19 @@ namespace CombatSystem
         {
             _playerGameObject = this.gameObject;
             CombatSystem.GameInteraction.DisplayCastBar(false);
+            CombatDatabase.GetPlayerStatistics();
+
+            _playerLevel = CombatDatabase.ReturnPlayerLevel();
+            _playerExp = CombatDatabase.ReturnPlayerExp();
+            _playerGold = CombatDatabase.ReturnPlayerGold();
+            _expMultiplier = CombatDatabase.ReturnExpMultiplier();
+            _dmgMultiplier = CombatDatabase.ReturnDamageMultiplier();
+            _healthMultiplier = CombatDatabase.ReturnHealthMultiplier();
+            _manaMultiplier = CombatDatabase.ReturnManaMultiplier();
+            _healingMultiplier = CombatDatabase.ReturnHealingMultiplier();
+
+            _expRequired = _playerLevel * _expMultiplier;
+            
         }
 
         void Update()
@@ -331,6 +358,13 @@ namespace CombatSystem
 
             CheckMouseOver();
 
+            if(_levelUp)
+            {
+                GameInteraction.LevelUp(transform.position, this.gameObject);
+                SoundSystem.LevelUp(transform.position);
+                _levelUp = false;
+            }
+
         }
 
         
@@ -487,9 +521,40 @@ namespace CombatSystem
             _draggingUI = _set;
         }
         
+        public static void CompletedQuest()
+        {
+            if (_playerExp + Quest.QuestDatabase.ReturnCurrentQuestExp() < _expRequired) {
+                _playerExp += Quest.QuestDatabase.ReturnCurrentQuestExp();
+
+                
+            }
+            if(_playerExp + Quest.QuestDatabase.ReturnCurrentQuestExp() >= _expRequired)
+            {
+                
+                _playerExp = ((_expRequired - _playerExp) - Quest.QuestDatabase.ReturnCurrentQuestExp());
+                if(_playerExp < 0)
+                {
+                    _playerExp = _playerExp * -1;
+                }
+                _playerLevel++;
+                CombatDatabase.PlayerLevelUp(_playerLevel, _playerExp);
+
+                _expRequired = _playerLevel * _expMultiplier;
+
+                _levelUp = true;
+            }
+            GameInteraction.FillExpBar();
+        }
+
+        private Vector3 ReturnPlayerPosition()
+        {
+            return transform.position;
+        }
 
         public void PlayerInCombat(bool _set)
         {
+                        
+
             if (_set)
             {
                 CombatSystem.Combat.InitiateCombat();

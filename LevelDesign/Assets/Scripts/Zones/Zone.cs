@@ -51,14 +51,21 @@ namespace Quest
 
                 if (_questID > 0)
                 {
-                    if (Quest.QuestDatabase.ReturnZoneAutoComplete(_questID))
+                    if (Quest.QuestDatabase.ReturnQuestActive(_questID))
                     {
-                        // END QUEST
-                        Quest.QuestDatabase.SetQuestComplete(_questID);
-                    }
-                    else
-                    {
-                        Quest.QuestDatabase.SetQuestComplete(_questID);
+                        if (Quest.QuestDatabase.ReturnZoneAutoComplete(_questID))
+                        {
+                            // END QUEST
+                            Quest.QuestDatabase.SetQuestComplete(_questID);
+
+                            // 
+
+                            Quest.QuestDatabase.FinishQuest(_questID);
+                        }
+                        else
+                        {
+                            Quest.QuestDatabase.SetQuestComplete(_questID);
+                        }
                     }
                 }
 

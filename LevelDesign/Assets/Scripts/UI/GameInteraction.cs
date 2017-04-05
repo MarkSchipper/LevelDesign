@@ -35,6 +35,9 @@ namespace CombatSystem
         private static Image _playerMana;
         private static Image _playerInCombat;
 
+        private static Image _expFill;
+        private static Text _expText;
+
         private bool _inCombat = false;
         private static bool _spellHasBeenCast = false;
 
@@ -86,10 +89,11 @@ namespace CombatSystem
             _playerHP = GameObject.FindGameObjectWithTag("PlayerHP").GetComponent<Image>();
             _playerMana = GameObject.FindGameObjectWithTag("PlayerMana").GetComponent<Image>();
             _playerInCombat = GameObject.FindGameObjectWithTag("PlayerInCombat").GetComponent<Image>();
-            //_playerSpells = GameObject.FindGameObjectsWithTag("SpellCooldown");
-            //_playerSpells = CombatSystem.CombatDatabase.ReturnSpellCount()
+            
             _castBar = GameObject.FindGameObjectWithTag("CastBar").GetComponent<Image>();
 
+            _expFill = GameObject.FindGameObjectWithTag("ExpBar_FILL").GetComponent<Image>();
+            _expText = GameObject.FindGameObjectWithTag("ExpBar_Text").GetComponent<Text>();
 
             _skin = Resources.Load("Skins/Combat_HUD") as GUISkin;
             CombatSystem.CombatDatabase.GetAllSpells();
@@ -140,7 +144,10 @@ namespace CombatSystem
                 _cooldownComplete[i] = true;
             }
 
+            CombatDatabase.GetPlayerStatistics();
 
+            _expFill.fillAmount = (float)CombatDatabase.ReturnPlayerExp() / (float)(CombatDatabase.ReturnPlayerLevel() * (float)CombatDatabase.ReturnExpMultiplier());
+            _expText.text = CombatDatabase.ReturnPlayerExp().ToString() + "/" + (float)(CombatDatabase.ReturnPlayerLevel() * (float)CombatDatabase.ReturnExpMultiplier());
 
         }
         // Update is called once per frame
@@ -540,14 +547,19 @@ namespace CombatSystem
 
         public static void DisplayCastBar(bool _set)
         {
-            Debug.Log(_castBar);
-         //   _castBar.transform.parent.gameObject.SetActive(_set);
+            _castBar.transform.parent.gameObject.SetActive(_set);
         }
 
         public static void FillCastBar(float _value)
         {
             _castBar.fillAmount = _value;
-            
+        }
+
+        public static void FillExpBar()
+        {
+            CombatDatabase.GetPlayerStatistics();
+            _expFill.fillAmount = (float)CombatDatabase.ReturnPlayerExp() / (float)(CombatDatabase.ReturnPlayerLevel() * (float)CombatDatabase.ReturnExpMultiplier());
+            _expText.text = CombatDatabase.ReturnPlayerExp().ToString() + "/" + (float)(CombatDatabase.ReturnPlayerLevel() * (float)CombatDatabase.ReturnExpMultiplier());
         }
 
         public static void SpellHasBeenCast()
@@ -622,6 +634,14 @@ namespace CombatSystem
         public static bool ReturnLoadingLevel()
         {
             return _loadingLevel;
+        }
+
+        public static void LevelUp(Vector3 _pos, GameObject _player)
+        {
+            GameObject _tmp = Instantiate(Resources.Load("VFX/LevelUp"), _pos, Quaternion.identity) as GameObject;
+            _tmp.transform.SetParent(_player.transform);
+            
+            Destroy(_tmp, 3f);
         }
 
     }

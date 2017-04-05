@@ -7,6 +7,7 @@ using System.Data;
 using System;
 using System.Linq;
 
+
 namespace Quest
 {
 
@@ -49,6 +50,7 @@ namespace Quest
         private static string _questText;
         private static string _questTitle;
         private static string _questCompleteText;
+        private static int _currentQuestExp;
 
         private static int _lastQuestID;
 
@@ -427,6 +429,7 @@ namespace Quest
 
         public static void FinishQuest(int _questID)
         {
+
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -434,15 +437,62 @@ namespace Quest
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("UPDATE Quests SET QuestEnabled = 'False', QuestActive = 'False' WHERE QuestID = '" + _questID + "'");
+            string sqlQuery = String.Format("Select QuestExp FROM Quests WHERE QuestID = '" + _questID + "'");
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            _currentQuestExp = int.Parse(_tmp.ToString());
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+
+            //
+            string connSec = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconnSec;
+            dbconnSec = (IDbConnection)new SqliteConnection(connSec);
+            dbconnSec.Open(); //Open connection to the database.
+
+            IDbCommand dbcmdSec = dbconnSec.CreateCommand();
+
+            string sqlQuerySec = String.Format("UPDATE Quests SET QuestEnabled = 'False', QuestActive = 'False' WHERE QuestID = '" + _questID + "'");
+            dbcmdSec.CommandText = sqlQuerySec;
+            dbcmdSec.ExecuteScalar();
+            dbcmdSec.Dispose();
+            dbcmdSec = null;
+            dbconnSec.Close();
+            dbconnSec = null;
+
+            CombatSystem.PlayerMovement.CompletedQuest();
+
+        }
+
+        public static int ReturnCurrentQuestExp()
+        {
+            return _currentQuestExp;
+        }
+
+        public static void UpdatePlayerStats(int _questID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("UPDATE PlayerStats SET QuestEnabled = 'False', QuestActive = 'False' WHERE QuestID = '" + _questID + "'");
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
             dbcmd.Dispose();
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
-        }
 
+            
+        }
 
         public static void UpdateNPC(int _npcID)
         {
@@ -503,6 +553,40 @@ namespace Quest
             dbcmd.CommandText = sqlQuery;
             System.Object _tmp = dbcmd.ExecuteScalar();
             
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+            if (_tmp != null)
+            {
+                if (_tmp.ToString() == "True")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool ReturnQuestActive(int _questID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("SELECT QuestActive FROM Quests WHERE QuestID = '" + _questID + "' AND QuestEnabled = 'True'");
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
             dbcmd.Dispose();
             dbcmd = null;
             dbconn.Close();
@@ -721,7 +805,15 @@ namespace Quest
             dbconn.Close();
             dbconn = null;
 
-            return bool.Parse(_tmp.ToString());
+            if (_tmp != null)
+            {
+
+                return bool.Parse(_tmp.ToString());
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static int GetQuestItemsCollected(int _id)

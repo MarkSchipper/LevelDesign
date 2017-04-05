@@ -33,6 +33,8 @@ namespace CombatSystem
         [FMODUnity.EventRef]
         private static string _enemySpawn = "event:/Enemies/EnemySpawn";
 
+        [FMODUnity.EventRef]
+        private static string _levelUp = "event:/character/LevelUp";
 
         [FMODUnity.EventRef]
         private static FMOD.Studio.EventDescription eventDescription = null;
@@ -177,6 +179,15 @@ namespace CombatSystem
         {
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemySpawn);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_enemyPos));
+
+            e.start();
+            e.release();
+        }
+
+        public static void LevelUp(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_levelUp);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
 
             e.start();
             e.release();

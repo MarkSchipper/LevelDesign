@@ -63,6 +63,8 @@ namespace EnemyCombat
 
         private Vector2 _scrollPos;
 
+        private GUISkin _skin;
+
         [MenuItem("Level Design/Enemies/Enemy Manager")]
 
         static void ShowEditor()
@@ -85,6 +87,8 @@ namespace EnemyCombat
             _deathFeedback = Resources.LoadAll("Characters/Enemies/Feedback/Death/");
             _hitFeedback = Resources.LoadAll("Characters/Enemies/Feedback/Hit/");
             _enemyRangedSpells = Resources.LoadAll("Characters/Enemies/RangedSpells");
+
+            _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
 
             _deleteEnemyBool = new bool[EnemyDatabase.ReturnAllEnemyID().Count];
             
@@ -153,7 +157,7 @@ namespace EnemyCombat
 
         void OnGUI()
         {
-            
+            GUI.skin = _skin;
 
             if(!_addingEnemy && !_viewingEnemies && !_editingEnemy && !_addingEnemyToGame && !_deleteEnemy)
             {

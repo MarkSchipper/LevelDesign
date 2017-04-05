@@ -36,6 +36,15 @@ namespace CombatSystem
         private static List<Abilities> _ability = new List<Abilities>();
         private static List<float> _spellCooldown = new List<float>();
 
+        private static int _playerLevel;
+        private static int _playerExp;
+        private static int _playerGold;
+        private static int _expMultiplier;
+        private static int _dmgMultiplier;
+        private static int _healthMultiplier;
+        private static int _manaMultiplier;
+        private static int _healingMultiplier;
+
 
         public static void AddSpell(string _name, string _desc, SpellTypes _type, float _value, float _manaCost, float _casttime, string _prefab, string _icon, float _chargeRange, float _disDistance, float _blinkRange, Abilities _ability, float _cooldown)
         {
@@ -303,6 +312,96 @@ namespace CombatSystem
         public static float ReturnPlayerMeleeRange()
         {
             return _playerMeleeRange;
+        }
+
+        public static void GetPlayerStatistics()
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT * FROM PlayerStats WHERE PlayerID = '1'";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+            while (reader.Read())
+            {
+                _playerLevel = reader.GetInt32(1);
+                _playerExp = reader.GetInt32(2);
+                _playerGold = reader.GetInt32(3);
+                _expMultiplier = reader.GetInt32(4);
+                _dmgMultiplier = reader.GetInt32(5);
+                _healthMultiplier = reader.GetInt32(6);
+                _manaMultiplier = reader.GetInt32(7);
+                _healingMultiplier = reader.GetInt32(8);
+
+
+            }
+
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
+        public static int ReturnPlayerLevel()
+        {
+            return _playerLevel;
+        }
+
+        public static int ReturnPlayerExp()
+        {
+            return _playerExp;
+        }
+
+        public static int ReturnPlayerGold()
+        {
+            return _playerGold;
+        }
+
+        public static int ReturnExpMultiplier()
+        {
+            return _expMultiplier;
+        }
+
+        public static int ReturnDamageMultiplier()
+        {
+            return _dmgMultiplier;
+        }
+
+        public static int ReturnHealthMultiplier()
+        {
+            return _healthMultiplier;
+        }
+
+        public static int ReturnManaMultiplier()
+        {
+            return _manaMultiplier;
+        }
+
+        public static int ReturnHealingMultiplier()
+        {
+            return _healingMultiplier;
+        }
+
+        public static void PlayerLevelUp(int _level, int _exp)
+        {
+            string connSec = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconnSec;
+            dbconnSec = (IDbConnection)new SqliteConnection(connSec);
+            dbconnSec.Open(); //Open connection to the database.
+
+            IDbCommand dbcmdSec = dbconnSec.CreateCommand();
+
+            string sqlQuerySec = String.Format("UPDATE PlayerStats SET PlayerLevel = '" + _level + "', PlayerExp = '" + _exp + "' WHERE PlayerID = '1'");
+            dbcmdSec.CommandText = sqlQuerySec;
+            dbcmdSec.ExecuteScalar();
+            dbcmdSec.Dispose();
+            dbcmdSec = null;
+            dbconnSec.Close();
+            dbconnSec = null;
         }
 
         public static void ClearAll()

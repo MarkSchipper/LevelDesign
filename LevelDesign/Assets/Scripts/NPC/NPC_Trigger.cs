@@ -53,8 +53,6 @@ namespace Quest
                     if (_npc.ReturnMetBefore())
                     {
 
-                        //Debug.Log(Quest.QuestDatabase.CheckQuestCompleteNpc(_npc.ReturnNpcID()));
-
                         if (!_npc.ReturnQuestGiver())
                         {
                             Debug.Log("dialogue2");
@@ -76,6 +74,12 @@ namespace Quest
                                 Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                                 Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestCompleteText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
                             }
+                        }
+                        if(_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
+                        {
+                            // IF THE NPC HAS A QUEST
+                            Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
+                            Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
                         }
                     }
                 }
