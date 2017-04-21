@@ -58,6 +58,9 @@ namespace CombatSystem
         private static bool _mayCastSpell = false;
         private static bool _castSpellOnce = false;
         private static bool _isInCombat = false;
+        private static bool _castHealing = false;
+
+        private static int _healingSpellAmount;
 
         private static bool _levelUp = false;
         
@@ -276,9 +279,9 @@ namespace CombatSystem
                 }
                
 
-               // If the player may cast a spell
-               if (_mayCastSpell && _castSpell)
-               {
+                // If the player may cast a spell
+                if (_mayCastSpell && _castSpell && !_castHealing)
+                {
 
                    if (!_playerBlink)
                    {
@@ -299,8 +302,42 @@ namespace CombatSystem
                    GameInteraction.DisplayCastBar(false);
 
 
-               }
+                }
+
+                if(_castHealing)
+                {
+                    if(_mayCastSpell && _castSpell)
+                    {
+                        Combat.CastHealingSpell(this.transform.position);
+
+                        if (_playerHealth < GameInteraction.ReturnPlayerMaxHealth())
+                        {
+                            // Actual healing for now
+                            _playerHealth += _healingSpellAmount;
+
+                            if(_playerHealth > GameInteraction.ReturnPlayerMaxHealth())
+                            {
+                                _playerHealth = GameInteraction.ReturnPlayerMaxHealth();
+                            }
+                            
+                            GameInteraction.SetPlayerHealth(_playerHealth);
+                            
+                        }
+
+
+                        SoundSystem.Healing(this.transform.position);
+                        GameInteraction.SpellHasBeenCast();
+                        GameInteraction.DisplayCastBar(false);
+                        _mayCastSpell = false;
+                        _castSpell = false;
+                        _castHealing = false;
+
+                        
+                    }
+                }
             }
+
+           
 
             //////////////////////////////////////////////////////////////////////
             //                  CANCEL ONE TIME ANIMATIONS                      //
@@ -750,7 +787,7 @@ namespace CombatSystem
 
         void MakePlayerBlink(Vector3 _blinkLoc)
         {
-            GameObject _blinkedParticles = Instantiate(Resources.Load("PlayerSpells/PlayerBlinked_Sparkles"), _blinkLoc, Quaternion.identity) as GameObject;
+            GameObject _blinkedParticles = Instantiate(Resources.Load("PlayerSpells/Ability/PlayerBlinked_Sparkles"), _blinkLoc, Quaternion.identity) as GameObject;
             _blinkedParticles.GetComponent<ParticleSystem>().Play();
             transform.position = new Vector3(_blinkLoc.x, _blinkLoc.y + 1, _blinkLoc.z);
             _isBlink = false;
@@ -1050,6 +1087,23 @@ namespace CombatSystem
         public static GameObject ReturnPlayerGameObject()
         {
             return _playerGameObject;
+        }
+
+        public static void CastHealingSpell(float _manaCost, float _value)
+        {
+            if (_playerMana - _manaCost > 0)
+            {
+                _healingSpellAmount = (int)_value;
+                _castSpell = true;
+                _castHealing = true;
+                _playerMana -= (int)_manaCost;
+                GameInteraction.SetPlayerMana(_playerMana);
+            }
+            else
+            {
+                _castHealing = false;
+                Dialogue.DialogueManager.ShowMessage("Not enough mana", true);
+            }
         }
     }
 }

@@ -194,14 +194,13 @@ namespace CombatSystem
             
             for (int i = 0; i < _allCooldowns.Count; i++)
             {
+                // if the player inputs Key i + 1 ( since i starts at 0 ) AND the cooldown is complete
                 if (Input.GetKeyDown((i + 1).ToString()) && _cooldownComplete[i])  
                 {
-
-                   
+                    // if it is not an ability -> it is a spell
                     if (CombatDatabase.ReturnAbility(i) == Abilities.None)
                     {
-
-
+                        // if its a damage spell
                         if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Damage)
                         {
                             PlayerMovement.CastSpell(CombatDatabase.ReturnCastTime(i), _selectedActor, CombatDatabase.ReturnSpellManaCost(i));
@@ -228,8 +227,17 @@ namespace CombatSystem
 
                         if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Healing)
                         {
-
-                            // healing
+                            PlayerMovement.CastHealingSpell(CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnSpellValue(i));
+                            _spellCastTimer = 0.0f;
+                            _isSpellCasting = true;
+                            _spellID = i;
+                            if(PlayerMovement.ReturnCastSpell())
+                            {
+                                Combat.SetHealingSpell(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i));
+                                _spellTimer[i] = 0.0f;
+                                _cooldownComplete[i] = false;
+                                break;
+                            }
                         }
                         if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Buff)
                         {
@@ -415,6 +423,11 @@ namespace CombatSystem
         public static void SetPlayerMaxMana(int _mana)
         {
             _playerMaxMana = _mana;
+        }
+
+        public static int ReturnPlayerMaxHealth()
+        {
+            return _playerMaxHealth;
         }
 
         public void EnemyDeath()

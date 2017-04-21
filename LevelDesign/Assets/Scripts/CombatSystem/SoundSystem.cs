@@ -37,6 +37,15 @@ namespace CombatSystem
         private static string _levelUp = "event:/character/LevelUp";
 
         [FMODUnity.EventRef]
+        private static string _healing = "event:/character/Healing";
+
+        [FMODUnity.EventRef]
+        private static string _thunder = "event:/Weather/Thunder";
+
+        [FMODUnity.EventRef]
+        private static string _rain = "event:/Weather/Rain";
+
+        [FMODUnity.EventRef]
         private static FMOD.Studio.EventDescription eventDescription = null;
         private static string Event = "";
 
@@ -188,6 +197,34 @@ namespace CombatSystem
         {
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_levelUp);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
+        public static void Healing(Vector3 _playerPos)
+        {
+
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_healing);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
+        public static void Thunder()
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_thunder);
+            
+
+            e.start();
+            e.release();
+        }
+
+        public static void Rain()
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_rain);
+
 
             e.start();
             e.release();

@@ -82,13 +82,19 @@ namespace CombatSystem
                     _spellValue = _value;
                     _spellMana = _manaCost;
                     _spellCastTime = _castTime;
-                    _spellPrefab = Resources.Load("PlayerSpells/" + _prefab + "") as GameObject;
+                    
+                    _spellPrefab = Resources.Load("PlayerSpells/" + _type.ToString() + "/" + _prefab + "") as GameObject;
                     _selectedTarget = _target;
                     _spellCaster = _caster;
 
                     
                 }
             }
+        }
+
+        public static void SetHealingSpell(float _value, float _manaCost, float _castTime, string _prefab)
+        {
+            _spellPrefab = Resources.Load("PlayerSpells/Healing/" + _prefab) as GameObject;
         }
 
         public static void SetAOE(float _value, string _prefab)
@@ -116,10 +122,19 @@ namespace CombatSystem
 
         }
 
+        public static void CastHealingSpell(Vector3 _playerPos)
+        {
+            _projectile = Instantiate(_spellPrefab, _playerPos, Quaternion.Euler(new Vector3(-90,0,0))) as GameObject;
+            Destroy(_projectile, 2.0f); 
+
+        }
+
         public static void CastAOE(Vector3 _location)
         {
             _projectile = Instantiate(_spellPrefab, _location, Quaternion.identity) as GameObject;
             _projectile.GetComponentInChildren<SpellObject>().SetDamage(_spellValue);
         }
+
+        
     }
 }

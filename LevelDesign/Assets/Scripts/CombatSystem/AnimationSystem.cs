@@ -4,22 +4,16 @@ using UnityEngine;
 
 namespace CombatSystem
 {
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      The Animation System                                            //
+    //                                                                                                      //
+    // Called by other classes to set booleans in the Player Character Controller                           //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     public class AnimationSystem : MonoBehaviour
     {
         private static Animator _playerAnimator;
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         public static void SetController(Animator _animator)
         {
