@@ -1,0 +1,70 @@
+Quest Manager
+--------------------------------------------------------------
+
+	Allows you to add/edit or delete quests
+
+--------------------------------------------------------------
+Add Quests:
+
+	Type of Quest:
+		
+		- Collect
+		- Kill
+		- Explore
+
+	Collect: Collect a certain amount of <item> to complete the quest.
+	Kill: Not yet implemented
+	Explore: Explore a zone ( Zone Manager ) to complete the quest.
+
+
+
+--------------------------------------------------------------
+Collect
+--------------------------------------------------------------
+
+	Select the Item ( Item Manager ) the player needs to collect.
+	Input the amount of those items need to be collected.
+
+		- Single
+		- Multiple
+
+	When selecting either options the Editor will check if that object excists in the game, if not you can add it to the game by pressing 'Add Item to the Game'.
+
+	Select the Questgiver ( Actor Manager ) from the list.
+	Input the desired dialogue for the quest.
+
+	Quest Reward: ( not yet implemented )
+		
+		- Gold
+		- Experience
+		- Both
+
+	Enable this quest?
+		By default the quest is not enabled, meaning that it will not be active in the game. Check the box to make the quest become active in the game.
+
+
+--------------------------------------------------------------
+Explore
+--------------------------------------------------------------
+
+	Which Zone to Explore:
+		The Editor will find all Zones added to the game and display them in the list, you can add more or remove them through the Zone Manager
+
+	Auto Complete Quest:
+		If you want the player to return to the NPC that gave the quest then leave it off, otherwise when the player enters a zone the quest will auto complete.
+
+--------------------------------------------------------------
+Edit A Quest
+--------------------------------------------------------------
+
+	Similar as above
+
+--------------------------------------------------------------
+View Active Quests
+--------------------------------------------------------------
+
+	Displays all Active ( check box Enable this quest? ) quests in the  game.
+
+--------------------------------------------------------------
+Delete Quests
+--------------------------------------------------------------

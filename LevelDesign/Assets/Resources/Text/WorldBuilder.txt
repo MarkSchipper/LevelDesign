@@ -1,0 +1,57 @@
+World Builder
+--------------------------------------------------------------
+
+Level Editor:
+
+	Create Levels from scratch, add buildings, props and gameplay elements.
+
+
+--------------------------------------------------------------
+Add Static Objects 
+--------------------------------------------------------------
+
+	You can chose from two themes
+	
+		- Settlement
+		- Viking
+
+	When selecting one you can chose what type of mesh you want to add:
+
+		- Buildings
+		- Tiles
+		- Perimeter
+		- Props
+
+--------------------------------------------------------------
+Buildings:
+--------------------------------------------------------------
+
+	- Select the building from the list and set a snap value ( default is 5 )
+	- The building will appear in your scene view
+
+		- use A and D to rotate the object
+		- Right click to destroy the object
+		- Left click to place it
+
+--------------------------------------------------------------
+Tiles:
+--------------------------------------------------------------
+
+	This is meant for creating levels, if there is no 'ground level' ( a plane on Vector3(0,0,0 ) ) you will be prompted to add one.
+	Once added you can click on a Tile and place it in the scene similar to buildings.
+
+	If you wish to work on a lower or higher level you can add a new level by clicking on 'Add Level Beneath' or 'Add Level Above'.
+
+	When working on a lower level turn off the ground level ( uncheck the active box )
+
+--------------------------------------------------------------
+Perimeter:
+--------------------------------------------------------------
+
+	Similar to buildings
+
+--------------------------------------------------------------
+Props
+--------------------------------------------------------------
+
+	Similar to buildings

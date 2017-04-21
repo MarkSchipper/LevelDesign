@@ -2,3 +2,47 @@ Enemy Manager
 --------------------------------------------------------------
 
 Add Enemy
+
+Set the Name, Health and Mana to its desired value.
+Chose from the dropdown in Type what kind of Enemy it is.
+
+	- Ranged
+	- Melee
+
+
+Once set you can add new values
+	
+	- Damage - how much damage does an attack do
+	- Cooldown
+
+Select the prefab from the list ( which model it will use in game )
+
+In Game By is how the enemy appears in game.
+
+	- Spawn
+	- Placement
+
+	Spawn: When the enemy enters a trigger a meteor will strike and 'spawn' the enemy
+	Placement: Place the enemy in the scene it self
+
+Select the behaviour from the dropdown
+	
+	- Idle
+	- Patrol
+
+
+In Combat you can set the values for combat.
+NOTE: MELEE MINIMUM ATTACK RANGE SHOULD BE 4
+
+In feedback you can select the type of feedback for getting hit and death
+
+--------------------------------------------------------------
+Edit Enemy
+
+--------------------------------------------------------------
+Delete Enemy
+
+
+--------------------------------------------------------------
+
+Add Enemy to Game
