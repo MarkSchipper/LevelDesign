@@ -1,0 +1,314 @@
+fileFormatVersion: 2
+guid: 8f4e2715eaa1a5849929068ad9ecdba7
+timeCreated: 1492167361
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Head
+    100002: Head_nub
+    100004: L_Calf
+    100006: L_Clavicle
+    100008: L_Clavicle_upperarm
+    100010: L_Eye
+    100012: L_Eye1
+    100014: L_Foot
+    100016: L_Forearm
+    100018: L_Hand
+    100020: L_UpperArm
+    100022: L_UpperLeg
+    100024: Monk
+    100026: //RootNode
+    100028: Neck
+    100030: R_Calf
+    100032: R_Clavicle
+    100034: R_Clavicle_upperarm
+    100036: R_Foot
+    100038: R_Forearm
+    100040: R_Hand
+    100042: R_UpperArm
+    100044: R_UpperLeg
+    100046: Root
+    100048: Spine_1
+    100050: Spine_2
+    100052: Spine_3
+    100054: Spine_4
+    400000: Head
+    400002: Head_nub
+    400004: L_Calf
+    400006: L_Clavicle
+    400008: L_Clavicle_upperarm
+    400010: L_Eye
+    400012: L_Eye1
+    400014: L_Foot
+    400016: L_Forearm
+    400018: L_Hand
+    400020: L_UpperArm
+    400022: L_UpperLeg
+    400024: Monk
+    400026: //RootNode
+    400028: Neck
+    400030: R_Calf
+    400032: R_Clavicle
+    400034: R_Clavicle_upperarm
+    400036: R_Foot
+    400038: R_Forearm
+    400040: R_Hand
+    400042: R_UpperArm
+    400044: R_UpperLeg
+    400046: Root
+    400048: Spine_1
+    400050: Spine_2
+    400052: Spine_3
+    400054: Spine_4
+    2300000: L_Eye
+    2300002: L_Eye1
+    3300000: L_Eye
+    3300002: L_Eye1
+    4300000: Monk
+    4300002: L_Eye
+    4300004: L_Eye1
+    7400000: Idle
+    7400002: Walk
+    9500000: //RootNode
+    13700000: Monk
+    13700002: L_Eye
+    13700004: L_Eye1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 300
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: L_Eye
+        weight: 1
+      - path: L_Eye1
+        weight: 1
+      - path: Monk
+        weight: 1
+      - path: Root
+        weight: 1
+      - path: Root/L_UpperLeg
+        weight: 1
+      - path: Root/L_UpperLeg/L_Calf
+        weight: 1
+      - path: Root/L_UpperLeg/L_Calf/L_Foot
+        weight: 1
+      - path: Root/R_UpperLeg
+        weight: 1
+      - path: Root/R_UpperLeg/R_Calf
+        weight: 1
+      - path: Root/R_UpperLeg/R_Calf/R_Foot
+        weight: 1
+      - path: Root/Spine_1
+        weight: 1
+      - path: Root/Spine_1/Spine_2
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm/L_Forearm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm/L_Forearm/L_Hand
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck/Head
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck/Head/Head_nub
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm/R_Forearm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm/R_Forearm/R_Hand
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walk
+      takeName: Take 001
+      firstFrame: 325
+      lastFrame: 375
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: L_Eye
+        weight: 1
+      - path: L_Eye1
+        weight: 1
+      - path: Monk
+        weight: 1
+      - path: Root
+        weight: 1
+      - path: Root/L_UpperLeg
+        weight: 1
+      - path: Root/L_UpperLeg/L_Calf
+        weight: 1
+      - path: Root/L_UpperLeg/L_Calf/L_Foot
+        weight: 1
+      - path: Root/R_UpperLeg
+        weight: 1
+      - path: Root/R_UpperLeg/R_Calf
+        weight: 1
+      - path: Root/R_UpperLeg/R_Calf/R_Foot
+        weight: 1
+      - path: Root/Spine_1
+        weight: 1
+      - path: Root/Spine_1/Spine_2
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm/L_Forearm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/L_Clavicle/L_Clavicle_upperarm/L_UpperArm/L_Forearm/L_Hand
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck/Head
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/Neck/Head/Head_nub
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm/R_Forearm
+        weight: 1
+      - path: Root/Spine_1/Spine_2/Spine_3/Spine_4/R_Clavicle/R_Clavicle_upperarm/R_UpperArm/R_Forearm/R_Hand
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Root
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
