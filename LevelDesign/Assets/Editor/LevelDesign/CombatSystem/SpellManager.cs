@@ -48,12 +48,19 @@ namespace CombatSystem
         private float _spellCasttime;
         private GameObject _spellPrefab;
         private string _spellIcon;
-        private List<string> _allSpellNames = new List<string>();
+
+        private List<string> _damageSpellNames = new List<string>();
+        private List<string> _healingSpellNames = new List<string>();
+        private List<string> _buffSpellNames = new List<string>();
+        private List<string> _abilitySpellNames = new List<string>();
         private List<string> _allSpellIconNames = new List<string>();
         private string _spellPrefabName;
         private float _spellCooldown;
 
-        private UnityEngine.Object[] _allSpellPrefabs;
+        private UnityEngine.Object[] _damageSpellPrefabs;
+        private UnityEngine.Object[] _healingSpellPrefabs;
+        private UnityEngine.Object[] _buffSpellPrefabs;
+        private UnityEngine.Object[] _abilitySpellPrefabs;
         private UnityEngine.Object[] _allSpellIcons;
 
         private Abilities _abilities;
@@ -84,20 +91,57 @@ namespace CombatSystem
         void OnEnable()
         {
 
-            _allSpellNames.Clear();
+            _damageSpellNames.Clear();
             _allSpellIconNames.Clear();
             CombatDatabase.ClearAll();
 
-            _allSpellPrefabs = Resources.LoadAll("PlayerSpells");
+            _damageSpellPrefabs = Resources.LoadAll("PlayerSpells/Damage");
+            _healingSpellPrefabs = Resources.LoadAll("PlayerSpells/Healing");
+            _buffSpellPrefabs = Resources.LoadAll("PlayerSpells/Buff");
+            _abilitySpellPrefabs = Resources.LoadAll("PlayerSpells/Ability");
+
             _allSpellIcons = Resources.LoadAll("PlayerSpells/SpellIcons");
             
-            for (int i = 0; i < _allSpellPrefabs.Length; i++)
+            for (int i = 0; i < _damageSpellPrefabs.Length; i++)
             {
                 // Create a filter so we only add the GameObjects to the loadPotionsName List
-                if (_allSpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
+                if (_damageSpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
                 {
 
-                    _allSpellNames.Add(_allSpellPrefabs[i].ToString().Remove(_allSpellPrefabs[i].ToString().Length - 25));
+                    _damageSpellNames.Add(_damageSpellPrefabs[i].ToString().Remove(_damageSpellPrefabs[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _healingSpellPrefabs.Length; i++)
+            {
+                // Create a filter so we only add the GameObjects to the loadPotionsName List
+                if (_healingSpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+
+                    _healingSpellNames.Add(_healingSpellPrefabs[i].ToString().Remove(_healingSpellPrefabs[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _buffSpellPrefabs.Length; i++)
+            {
+                // Create a filter so we only add the GameObjects to the loadPotionsName List
+                if (_buffSpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+
+                    _buffSpellNames.Add(_buffSpellPrefabs[i].ToString().Remove(_buffSpellPrefabs[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _abilitySpellPrefabs.Length; i++)
+            {
+                // Create a filter so we only add the GameObjects to the loadPotionsName List
+                if (_abilitySpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+
+                    _abilitySpellNames.Add(_abilitySpellPrefabs[i].ToString().Remove(_abilitySpellPrefabs[i].ToString().Length - 25));
 
                 }
             }
@@ -186,7 +230,19 @@ namespace CombatSystem
                     _spellManaCost = EditorGUILayout.FloatField("Mana Cost: ", _spellManaCost);
                     _spellCooldown = EditorGUILayout.FloatField("Cooldown: ", _spellCooldown);
                     _spellCasttime = EditorGUILayout.FloatField("Cast Time: ", _spellCasttime);
-                    _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _allSpellNames.ToArray());
+                    if (_spellType == SpellTypes.Damage)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _damageSpellNames.ToArray());
+                    }
+                    if (_spellType == SpellTypes.Healing)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _healingSpellNames.ToArray());
+                    }
+                    if (_spellType == SpellTypes.Buff)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _buffSpellNames.ToArray());
+                    }
+                    
                 }
 
                 if(_spellType == SpellTypes.Ability)
@@ -232,7 +288,26 @@ namespace CombatSystem
 
                 if (GUILayout.Button("ADD SPELL"))
                 {
-                    CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _allSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    if (_spellType == SpellTypes.Damage)
+                    {
+                        CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _damageSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
+                    if (_spellType == SpellTypes.Healing)
+                    {
+                        CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _healingSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
+                    if (_spellType == SpellTypes.Buff)
+                    {
+                        CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _buffSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
+                    if (_spellType == SpellTypes.Ability)
+                    {
+                        CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _abilitySpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
                     _addSpell = false;
 
                     _spellName = "";
@@ -285,9 +360,9 @@ namespace CombatSystem
                 _abilities = CombatDatabase.ReturnAbility(_editSpellIndex);
                 _spellCooldown = CombatDatabase.ReturnSpellCooldown(_editSpellIndex);
 
-                for (int i = 0; i < _allSpellNames.Count; i++)
+                for (int i = 0; i < _damageSpellNames.Count; i++)
                 {
-                    if (_spellPrefabName == _allSpellNames[i])
+                    if (_spellPrefabName == _damageSpellNames[i])
                     {
                         _spellIndex = i;
                     }
@@ -327,9 +402,19 @@ namespace CombatSystem
                     _spellCooldown = EditorGUILayout.FloatField("Cooldown: ", _spellCooldown);
                     _spellCasttime = EditorGUILayout.FloatField("Cast Time: ", _spellCasttime);
 
-                   
 
-                    _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _allSpellNames.ToArray());
+                    if (_spellType == SpellTypes.Damage)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _damageSpellNames.ToArray());
+                    }
+                    if (_spellType == SpellTypes.Healing)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _healingSpellNames.ToArray());
+                    }
+                    if (_spellType == SpellTypes.Buff)
+                    {
+                        _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _buffSpellNames.ToArray());
+                    }
                 }
 
                 if (_spellType == SpellTypes.Ability)
@@ -375,7 +460,21 @@ namespace CombatSystem
 
                 if (GUILayout.Button("SAVE SPELL"))
                 {
-                    CombatSystem.CombatDatabase.SaveSpell(CombatDatabase.ReturnSpellID(_editSpellIndex), _spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _allSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    if (_spellType == SpellTypes.Damage)
+                    {
+                        CombatSystem.CombatDatabase.SaveSpell(CombatDatabase.ReturnSpellID(_editSpellIndex), _spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _damageSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
+                    if (_spellType == SpellTypes.Healing)
+                    {
+                        CombatSystem.CombatDatabase.SaveSpell(CombatDatabase.ReturnSpellID(_editSpellIndex), _spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _healingSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
+                    if (_spellType == SpellTypes.Buff)
+                    {
+                        CombatSystem.CombatDatabase.SaveSpell(CombatDatabase.ReturnSpellID(_editSpellIndex), _spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _buffSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
+                    }
+
                     _editSpell = false;
 
                     _spellName = "";

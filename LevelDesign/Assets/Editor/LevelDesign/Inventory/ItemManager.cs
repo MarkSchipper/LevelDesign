@@ -45,8 +45,10 @@ public class ItemManager : EditorWindow {
 
     private int _itemToDelete;
 
-
     private int _selected;
+
+    private bool _isAddingScene = false;
+    private GameObject _objectToAdd;
 
     [MenuItem("Level Design/Managers/Item Manager")]
 
@@ -107,6 +109,7 @@ public class ItemManager : EditorWindow {
             {
                 _deleteItem = true;
             }
+            
         }
         #region ADD ITEM
         if (_addItem)
@@ -351,5 +354,7 @@ public class ItemManager : EditorWindow {
         _itemTypeList.Clear();
         _itemStatsList.Clear();
     }
+
+    
 }
 #endif

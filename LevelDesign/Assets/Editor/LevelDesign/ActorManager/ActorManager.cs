@@ -161,6 +161,7 @@ namespace NPCSystem
             //                                    END BUTTONS                                   //
             //////////////////////////////////////////////////////////////////////////////////////
 
+            #region Add Actor
 
             // If we pressed on the Add Actor button
 
@@ -178,7 +179,7 @@ namespace NPCSystem
                     {
                         _allActorPrefabs.Add(_actors[i].ToString().Remove(_actors[i].ToString().Length - 25));
                     }
-
+                 
                 }
 
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
@@ -224,7 +225,9 @@ namespace NPCSystem
                 if (GUILayout.Button("SAVE ACTOR"))
                 {
                     AddActor(_actorName, _allActorPrefabs[_selectedActorIndex], _actorProfession, _actorInteraction, _actorDialog1, _actorDialog2, _actorQuestGiver, 0);
+                    
                     ClearValues();
+                    _addingActor = false;
                 }
                 if (GUILayout.Button("BACK"))
                 {
@@ -235,8 +238,8 @@ namespace NPCSystem
                 // GUILayout.EndArea();
                 GUILayout.EndScrollView();
             }
-
-
+            #endregion
+            #region Edit Actor
             if (_editActor)
             {
 
@@ -287,7 +290,8 @@ namespace NPCSystem
                 }
                 GUILayout.EndScrollView();
             }
-
+            #endregion
+            #region View Actors
             if (_viewActors)
             {
                 for (int i = 0; i < _allActorID.Count; i++)
@@ -319,7 +323,8 @@ namespace NPCSystem
 
                 }
             }
-
+            #endregion
+            #region Delete Actor
             if (_deleteActor && !_isDeletingActor)
             {
                 GUILayout.Label("Delete an Actor");
@@ -342,7 +347,8 @@ namespace NPCSystem
 
                 }
             }
-
+            #endregion
+            #region Actual Deleting of Actor
             if (_isDeletingActor)
             {
                 if (!_deleteConfirmation)
@@ -358,11 +364,12 @@ namespace NPCSystem
                     }
                 }
             }
-
+            #endregion
             //////////////////////////////////////////////////////////////////////////////////////////
             //                                      GAME OPERATIONS                                 //
             //////////////////////////////////////////////////////////////////////////////////////////
-
+           
+            #region Add Actor to the Game
             if (_addActorGame)
             {
                 GUILayout.Label("Add an Actor to the Game");
@@ -392,7 +399,7 @@ namespace NPCSystem
                 }
                 GUILayout.EndHorizontal();
             }
-
+            #endregion
             if (_editActorGame)
             {
                 if (!_gotInGameActors)
@@ -572,6 +579,8 @@ namespace NPCSystem
             _npcParent.tag = "NPC";
 
             _npcParent.AddComponent<Quest.NPC_Trigger>();
+
+            Debug.Log(_allActorPrefabs[_selectedActorIndex]);
 
             GameObject _NPC = Instantiate(Resources.Load("Characters/NPC/" + _allActorPrefabs[_selectedActorIndex], typeof(GameObject))) as GameObject;
             _NPC.transform.parent = _npcParent.transform;
