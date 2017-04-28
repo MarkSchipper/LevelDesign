@@ -99,6 +99,7 @@ Shader "Custom/DoubleStandard"
 			Fog { Color (0,0,0,0) } // in additive pass fog should be black
 			ZWrite Off
 			ZTest LEqual
+			Cull Off
 
 			CGPROGRAM
 			#pragma target 3.0
@@ -154,7 +155,7 @@ Shader "Custom/DoubleStandard"
 		{
 			Name "DEFERRED"
 			Tags { "LightMode" = "Deferred" }
-
+			Cull Off
 			CGPROGRAM
 			#pragma target 3.0
 			#pragma exclude_renderers nomrt
