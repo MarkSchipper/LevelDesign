@@ -48,13 +48,19 @@ namespace CombatSystem
 
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
+                
+                transform.position = new Vector3(transform.position.x, transform.position.y - 0.6f, transform.position.z + 0.2f);
+                transform.Rotate(-2, 0, 0);
 
-                transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z + 2f), Time.deltaTime * 1f);
+                //Vector3.Distance(transform.position, _centerPoint.transform.position);
+                
 
             }
             if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
-                transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z - 2f), Time.deltaTime * 1);
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.6f, transform.position.z - 0.2f);
+                transform.Rotate(2, 0, 0);
+                //transform.position = Vector3.Slerp(transform.position, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z - 2f), Time.deltaTime * 1);
             }
 
             if(_isCameraShake)

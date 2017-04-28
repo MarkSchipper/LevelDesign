@@ -80,8 +80,6 @@ namespace EnemyCombat
         
         void OnEnable()
         {
-            EnemyDatabase.GetAllEnemies();
-
             _meleeEnemies = Resources.LoadAll("Characters/Enemies/Melee");
             _rangedEnemies = Resources.LoadAll("Characters/Enemies/Ranged");
             _deathFeedback = Resources.LoadAll("Characters/Enemies/Feedback/Death/");
@@ -109,7 +107,7 @@ namespace EnemyCombat
 
             if(_rangedEnemies.Length > 0)
             {
-                for (int i = 0; i < _meleeEnemies.Length; i++)
+                for (int i = 0; i < _rangedEnemies.Length; i++)
                 {
                     // Create a filter so we only add the GameObjects to the loadPotionsName List
                     if (_rangedEnemies[i].GetType().ToString() == "UnityEngine.GameObject")
@@ -151,7 +149,7 @@ namespace EnemyCombat
                 }
             }
 
-            EnemyDatabase.GetAllEnemies();
+            
 
         }
 
@@ -173,11 +171,15 @@ namespace EnemyCombat
                 if(GUILayout.Button("Edit an Enemy"))
                 {
                     _editingEnemy = true;
+                    EnemyDatabase.ClearLists();
+                    EnemyDatabase.GetAllEnemies();
                 }
 
                 if (GUILayout.Button("Delete an Enemy"))
                 {
                     _deleteEnemy = true;
+                    EnemyDatabase.ClearLists();
+                    EnemyDatabase.GetAllEnemies();
                 }
 
 
@@ -187,6 +189,8 @@ namespace EnemyCombat
                 if(GUILayout.Button("Add Enemy to Game"))
                 {
                     _addingEnemyToGame = true;
+                    EnemyDatabase.ClearLists();
+                    EnemyDatabase.GetAllEnemies();
                 }
             }
 
@@ -452,13 +456,13 @@ namespace EnemyCombat
             if (EnemyDatabase.ReturnEnemyType(_editSelectIndex) == EnemyType.Melee)
             { 
                 _selectedObject = Resources.Load("Characters/Enemies/Melee/" + EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex)) as GameObject;
-                Debug.Log(_selectedObject);
+
             }
 
             if (EnemyDatabase.ReturnEnemyType(_editSelectIndex) == EnemyType.Ranged)
             {
                 _selectedObject = Resources.Load("Characters/Enemies/Ranged/" + EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex)) as GameObject;
-                Debug.Log(_selectedObject);
+                
             }
 
             if (_selectedObject != null)

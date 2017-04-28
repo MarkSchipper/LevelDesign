@@ -401,5 +401,29 @@ namespace EnemyCombat
             dbconn = null;
         }
 
+        // Clear all lists
+
+        public static void ClearLists()
+        {
+            _enemyID.Clear();
+            _enemyName.Clear();
+            _enemyHealth.Clear();
+            _enemyMana.Clear();
+            _enemyType.Clear();
+            _enemyDamage.Clear();
+            _meleeSpecial.Clear();
+            _rangedSpecial.Clear();
+            _enemyPrefab.Clear();
+            _enemyMovement.Clear();
+            _enemyWaypoints.Clear();
+            _enemyCooldown.Clear();
+            _enemyAggroRange.Clear();
+            _enemyDeathFeedback.Clear();
+            _enemyHitFeedback.Clear();
+            _enemyAttackRange.Clear();
+            _enemyRangedSpell.Clear();
+            _enemySpawn.Clear();
+        }
+
     }
 }

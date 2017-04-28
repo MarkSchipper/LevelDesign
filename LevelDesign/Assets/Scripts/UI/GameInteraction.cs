@@ -55,6 +55,9 @@ namespace CombatSystem
         private static bool _isSpellCasting = false;
         private static int _spellID;
 
+        private static bool _showTooltip = false;
+        private static string _toolTip;
+
         private GameObject[] _playerSpells;
         private static List<float> _allCooldowns;
         
@@ -275,6 +278,11 @@ namespace CombatSystem
             if (!_loadingLevel)
             {
                 DisplaySpellIcons();
+
+                if(_showTooltip)
+                {
+                    GUI.Box(new Rect(Event.current.mousePosition.x + 15, Event.current.mousePosition.y, 200, 30), _toolTip);
+                }
 
                 if (_selectedActor != null)
                 {
@@ -512,30 +520,78 @@ namespace CombatSystem
                 // If the mouse is in one of the rectangles
                 if (_spellRect[i].Contains(Event.current.mousePosition))
                 {
+
+                    _toolTip = CreateToolTip(CombatDatabase.ReturnSpellDesc(i));
+                    _showTooltip = true;
+
                     if (Event.current.button == 0 && Event.current.type == EventType.mouseDown && !PlayerMovement.ReturnCastSpell())
                     {
-                        if (CombatDatabase.ReturnAbility(i) != Abilities.None)
+                        // if it is not an ability -> it is a spell
+                        if (CombatDatabase.ReturnAbility(i) == Abilities.None)
                         {
-                            if (CombatDatabase.ReturnAbility(i) == Abilities.Disengage)
+                            // if its a damage spell
+                            if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Damage)
                             {
-                                PlayerMovement.PlayerKnockback(CombatDatabase.ReturnDisengageDistance(i));
-                                _spellTimer[i] = 0.0f;
-                                _cooldownComplete[i] = false;
+                                PlayerMovement.CastSpell(CombatDatabase.ReturnCastTime(i), _selectedActor, CombatDatabase.ReturnSpellManaCost(i));
+                                _spellCastTimer = 0.0f;
+                                _isSpellCasting = true;
+                                _spellID = i;
+                                if (PlayerMovement.ReturnCastSpell())
+                                {
+                                    Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerMovement.ReturnPlayerGameObject());
+                                    _spellTimer[i] = 0.0f;
+                                    _cooldownComplete[i] = false;
+                                    break;
+                                }
                             }
-                            if(CombatDatabase.ReturnAbility(i) == Abilities.Blink)
+                            if (CombatDatabase.ReturnSpellType(i) == SpellTypes.AOE)
                             {
-                                PlayerMovement.Blink(CombatDatabase.ReturnBlinkRange(i));
-                                _cooldownComplete[i] = false;
+                                PlayerMovement.ToggleAoE();
+                                Combat.SetAOE(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellPrefab(i));
+                                PlayerMovement.CastAOE(CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellManaCost(i));
+                                break;
+                            }
+
+
+
+                            if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Healing)
+                            {
+                                PlayerMovement.CastHealingSpell(CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnSpellValue(i));
+                                _spellCastTimer = 0.0f;
+                                _isSpellCasting = true;
+                                _spellID = i;
+                                if (PlayerMovement.ReturnCastSpell())
+                                {
+                                    Combat.SetHealingSpell(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i));
+                                    _spellTimer[i] = 0.0f;
+                                    _cooldownComplete[i] = false;
+                                    break;
+                                }
+                            }
+                            if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Buff)
+                            {
+                                // buff
                             }
                         }
-                        else
+                        if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Ability)
                         {
-                            PlayerMovement.CastSpell(CombatDatabase.ReturnCastTime(i), _selectedActor, CombatDatabase.ReturnSpellManaCost(i));
-                            if (PlayerMovement.ReturnCastSpell())
+                            if (CombatDatabase.ReturnAbility(i) == Abilities.Blink)
                             {
-                               // Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor);
-                                _spellTimer[i] = 0.0f;
-                                _cooldownComplete[i] = false;
+                                // blink
+                                PlayerMovement.Blink(CombatDatabase.ReturnBlinkRange(i));
+                                _blinkSpellID = i;
+
+                                break;
+                            }
+
+                            if (CombatDatabase.ReturnAbility(i) == Abilities.Disengage)
+                            {
+                                // disengage
+                            }
+
+                            if (CombatDatabase.ReturnAbility(i) == Abilities.Charge)
+                            {
+                                // charge
                             }
                         }
                     }
@@ -556,6 +612,12 @@ namespace CombatSystem
                 CombatSystem.PlayerMovement.SetDraggingUI(false);
             }
 
+        }
+
+        static string CreateToolTip(string _tip)
+        {
+            _toolTip = _tip;
+            return _toolTip;
         }
 
         public static void DisplayCastBar(bool _set)
