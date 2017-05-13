@@ -81,6 +81,8 @@ namespace CombatSystem
 
         private static bool _loadingLevel = false;
 
+        private CombatSystem.PlayerMovement _player;
+
         private static Vector2 _devScreenSize = new Vector2(1754, 987);
 
         void OnEnable()
@@ -110,7 +112,7 @@ namespace CombatSystem
             _cursorCombat = Resources.Load("Icons/Cursor/Cursor_Combat") as Texture2D;
             _cursorNPC = Resources.Load("Icons/Cursor/Cursor_NPC") as Texture2D;
 
-            
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
 
         }
 
@@ -160,6 +162,10 @@ namespace CombatSystem
             if(Input.GetKeyDown("r"))
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+            }
+            if(Input.GetKeyUp("k"))
+            {
+                KillAllEnemies();
             }
 
             for (int i = 0; i < _allCooldowns.Count; i++)
@@ -467,7 +473,7 @@ namespace CombatSystem
 
         }
 
-        static void DisplaySpellIcons()
+        void DisplaySpellIcons()
         {
             // The rectangles for the actuall spells
             Rect[] _spellRect = new Rect[_guiIcons.Count];
@@ -596,20 +602,24 @@ namespace CombatSystem
                         }
                     }
                 }   
+                else
+                {
+                    _showTooltip = false;
+                }
             }
 
             // If the mouse is over the MainRect 
             if (_mainRect.Contains(Event.current.mousePosition))
             {
 
-                CombatSystem.PlayerMovement.HoveringOverUI(true);
-                CombatSystem.PlayerMovement.SetDraggingUI(true);
+                CombatSystem.PlayerMovement.HoveringOverSpellbar(true);
+                
                 
             }
             else
             {
-                CombatSystem.PlayerMovement.HoveringOverUI(false);
-                CombatSystem.PlayerMovement.SetDraggingUI(false);
+                CombatSystem.PlayerMovement.HoveringOverSpellbar(false);
+                
             }
 
         }
@@ -645,7 +655,7 @@ namespace CombatSystem
         public static void SetNpcCursor()
         {
             Cursor.SetCursor(_cursorNPC, Vector2.zero, CursorMode.Auto);
-            
+           
         }
 
         public static void SetCombatCursor()
@@ -655,6 +665,7 @@ namespace CombatSystem
         public static void SetNormalCursor()
         {
             Cursor.SetCursor(_cursorNormal, Vector2.zero, CursorMode.Auto);
+
          
         }
 
@@ -717,6 +728,18 @@ namespace CombatSystem
             _tmp.transform.SetParent(_player.transform);
             
             Destroy(_tmp, 3f);
+        }
+
+        public static void KillAllEnemies()
+        {
+            GameObject[] _allEnemies = GameObject.FindGameObjectsWithTag("EnemyMelee");
+
+
+            for (int i = 0; i < _allEnemies.Length; i++)
+            {
+                _allEnemies[i].GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().KillEnemy();
+                Debug.Log(_allEnemies[i].name);
+            }
         }
 
     }

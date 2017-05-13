@@ -37,12 +37,12 @@ namespace Quest
         private bool _showQuestLogWindow = false;
         private bool _draggingGameLog = false;
 
-        
+        private CombatSystem.PlayerMovement _player;
 
         // Use this for initialization
         void Start()
         {
-        
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
             _inGameLogPos = new Vector2(PlayerPrefs.GetFloat("InGameLogPosX"), PlayerPrefs.GetFloat("InGameLogPosY"));
         }
 
@@ -162,32 +162,32 @@ namespace Quest
 
             if(_gameQuestLog.Contains(Event.current.mousePosition))
             {
-                CombatSystem.PlayerMovement.HoveringOverUI(true);
+                CombatSystem.PlayerMovement.HoveringOverQuestLog(true);
 
                 if(Event.current.button == 0 && Event.current.type == EventType.mouseDown)
                 {
-                    CombatSystem.PlayerMovement.SetDraggingUI(true);
+                    CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
                 }
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                 {
-                    CombatSystem.PlayerMovement.SetDraggingUI(false);
+                    CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
                 }
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !_draggingGameLog)
                 {
                     _draggingGameLog = true;
-                    CombatSystem.PlayerMovement.SetDraggingUI(true);
+                    CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
                 }
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp && _draggingGameLog)
                 {
                     _draggingGameLog = false;
-                    CombatSystem.PlayerMovement.SetDraggingUI(false);
+                    CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
                 }
             }
             else
             {
-                CombatSystem.PlayerMovement.HoveringOverUI(false);
+                CombatSystem.PlayerMovement.HoveringOverQuestLog(false);
             }
 
         }

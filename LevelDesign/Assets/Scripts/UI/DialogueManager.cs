@@ -36,7 +36,7 @@ namespace Dialogue
         private static int _questID;
         private static bool _questCompleted;
 
-        
+        private CombatSystem.PlayerMovement _player;
 
         private static bool _showZone = false;
         private static string _zoneName;
@@ -55,6 +55,8 @@ namespace Dialogue
             {
                 _windowPosition = new Vector2(PlayerPrefs.GetFloat("QuestWindowPosX"), PlayerPrefs.GetFloat("QuestWindowPosY"));
             }
+
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
 
         }
 
@@ -110,6 +112,8 @@ namespace Dialogue
             _showQuestWindow = true;
             _questCompleted = Quest.QuestDatabase.CheckQuestCompleteByID(_questID);
 
+            Debug.Log(_questText);
+
             //Debug.Log("NPCID " + _npcID + " QuetID " + _questID);
         }
 
@@ -143,7 +147,9 @@ namespace Dialogue
 
             if (_questWindow.Contains(Event.current.mousePosition))
             {
+
                 CombatSystem.PlayerMovement.HoveringOverUI(true);
+                
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !_draggingWindow)
                 {
@@ -156,6 +162,10 @@ namespace Dialogue
                     _draggingWindow = false;
                     CombatSystem.PlayerMovement.SetDraggingUI(false);
                 }
+            }
+            else
+            {
+                //CombatSystem.PlayerMovement.HoveringOverUI(false);
             }
             if (_questAcceptRect.Contains(Event.current.mousePosition))
             {
