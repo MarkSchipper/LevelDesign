@@ -1,0 +1,2285 @@
+fileFormatVersion: 2
+guid: 127be63b6f983264dabc8e65c7753091
+timeCreated: 1482855989
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Belly_Volume_1
+    100002: Belly_Volume_2
+    100004: Belt
+    100006: Belt_1
+    100008: Belt_10
+    100010: Belt_11
+    100012: Belt_12
+    100014: Belt_13
+    100016: Belt_14
+    100018: Belt_15
+    100020: Belt_16
+    100022: Belt_17
+    100024: Belt_2
+    100026: Belt_3
+    100028: Belt_4
+    100030: Belt_5
+    100032: Belt_6
+    100034: Belt_7
+    100036: Belt_8
+    100038: Belt_9
+    100040: Chest
+    100042: Cloak_1
+    100044: Cloak_10
+    100046: Cloak_11
+    100048: Cloak_12
+    100050: Cloak_13
+    100052: Cloak_14
+    100054: Cloak_15
+    100056: Cloak_16
+    100058: Cloak_17
+    100060: Cloak_18
+    100062: Cloak_19
+    100064: Cloak_2
+    100066: Cloak_20
+    100068: Cloak_21
+    100070: Cloak_22
+    100072: Cloak_23
+    100074: Cloak_24
+    100076: Cloak_25
+    100078: Cloak_26
+    100080: Cloak_27
+    100082: Cloak_28
+    100084: Cloak_29
+    100086: Cloak_3
+    100088: Cloak_30
+    100090: Cloak_31
+    100092: Cloak_32
+    100094: Cloak_32 1
+    100096: Cloak_33
+    100098: Cloak_33 1
+    100100: Cloak_34
+    100102: Cloak_35
+    100104: Cloak_36
+    100106: Cloak_37
+    100108: Cloak_38
+    100110: Cloak_39
+    100112: Cloak_4
+    100114: Cloak_40
+    100116: Cloak_41
+    100118: Cloak_42
+    100120: Cloak_43
+    100122: Cloak_44
+    100124: Cloak_45
+    100126: Cloak_46
+    100128: Cloak_47
+    100130: Cloak_48
+    100132: Cloak_49
+    100134: Cloak_5
+    100136: Cloak_50
+    100138: Cloak_51
+    100140: Cloak_52
+    100142: Cloak_53
+    100144: Cloak_54
+    100146: Cloak_55
+    100148: Cloak_56
+    100150: Cloak_57
+    100152: Cloak_58
+    100154: Cloak_59
+    100156: Cloak_6
+    100158: Cloak_60
+    100160: Cloak_61
+    100162: Cloak_62
+    100164: Cloak_63
+    100166: Cloak_64
+    100168: Cloak_65
+    100170: Cloak_66
+    100172: Cloak_67
+    100174: Cloak_68
+    100176: Cloak_69
+    100178: Cloak_7
+    100180: Cloak_70
+    100182: Cloak_71
+    100184: Cloak_72
+    100186: Cloak_73
+    100188: Cloak_74
+    100190: Cloak_75
+    100192: Cloak_76
+    100194: Cloak_77
+    100196: Cloak_78
+    100198: Cloak_79
+    100200: Cloak_8
+    100202: Cloak_80
+    100204: Cloak_81
+    100206: Cloak_82
+    100208: Cloak_83
+    100210: Cloak_84
+    100212: Cloak_85
+    100214: Cloak_86
+    100216: Cloak_9
+    100218: Cloak_PARENT1
+    100220: CTRL_MASTER
+    100222: CTRL_Pelvis
+    100224: CTRL_Spine_1
+    100226: CTRL_Spine_2
+    100228: CTRL_Spine_3
+    100230: CTRL_Spine_4
+    100232: CTRL_STAFF_1
+    100234: //RootNode
+    100236: Feathers1
+    100238: FinalCharacter
+    100240: Head
+    100242: Head_nub
+    100244: Hood_Volume_1_1
+    100246: Hood_Volume_1_2
+    100248: Hood_Volume_2_1
+    100250: Hood_Volume_2_2
+    100252: Jaw
+    100254: L_Ankle
+    100256: L_Calf
+    100258: L_Clavicle_1
+    100260: L_Clavicle_2
+    100262: L_CTRL_Foot
+    100264: L_CTRL_SHOULDER_1
+    100266: L_Elbow_1
+    100268: L_Elbow_2
+    100270: L_Eye
+    100272: L_Eye_Base
+    100274: L_Eye_Center_1
+    100276: L_Eye_Center_FWD
+    100278: L_Eye_Lower_C
+    100280: L_Eye_Lower_C_2
+    100282: L_Eye_Lower_L
+    100284: L_Eye_Lower_L_2
+    100286: L_Eye_Lower_R
+    100288: L_Eye_Lower_R_2
+    100290: L_Eye_Upper_C
+    100292: L_Eye_Upper_C_2
+    100294: L_Eye_Upper_L
+    100296: L_Eye_Upper_L_2
+    100298: L_Eye_Upper_R
+    100300: L_Eye_Upper_R_2
+    100302: L_Foot
+    100304: L_ForeArm_1
+    100306: L_ForeArm_2
+    100308: L_ForeArm_3
+    100310: L_Hair
+    100312: L_Hair_1
+    100314: L_Hair_2
+    100316: L_Hair_3
+    100318: L_Hair_4
+    100320: L_Hand
+    100322: L_IK_Ankle
+    100324: L_IK_Foot
+    100326: L_IK_Toes
+    100328: L_IndexFinger_1
+    100330: L_IndexFinger_2
+    100332: L_IndexFinger_3
+    100334: L_IndexFinger_4
+    100336: L_INV_Ankle
+    100338: L_INV_Base
+    100340: L_INV_Foot
+    100342: L_INV_Toes
+    100344: L_MiddleFinger_1
+    100346: L_MiddleFinger_2
+    100348: L_MiddleFinger_3
+    100350: L_MiddleFinger_4
+    100352: L_PinkyFinger_1
+    100354: L_PinkyFinger_2
+    100356: L_PinkyFinger_3
+    100358: L_PinkyFinger_4
+    100360: L_RingFinger_1
+    100362: L_RingFinger_2
+    100364: L_RingFinger_3
+    100366: L_RingFinger_4
+    100368: L_Shoulder
+    100370: L_Shoulder1
+    100372: L_Shoulder_1
+    100374: L_Shoulder_2
+    100376: L_Thumb3
+    100378: L_Thumb4
+    100380: L_Thumb_1
+    100382: L_Thumb_2
+    100384: L_Toes
+    100386: L_UpperArm
+    100388: L_UpperLeg
+    100390: Lashes
+    100392: Neck
+    100394: Potion_B_1
+    100396: Potion_B_2
+    100398: Potion_C_1
+    100400: Potion_C_2
+    100402: Potion_F_1
+    100404: Potion_F_2
+    100406: Pouch_1
+    100408: Pouch_2
+    100410: R_Ankle
+    100412: R_Calf
+    100414: R_Clavicle_1
+    100416: R_Clavicle_2
+    100418: R_CTRL_Foot
+    100420: R_CTRL_SHOULDER_1
+    100422: R_Elbow_1
+    100424: R_Elbow_2
+    100426: R_Eye
+    100428: R_Eye_Base
+    100430: R_Eye_Center_1
+    100432: R_Eye_Center_FWD
+    100434: R_Eye_Lower_C
+    100436: R_Eye_Lower_C_2
+    100438: R_Eye_Lower_L
+    100440: R_Eye_Lower_R
+    100442: R_Eye_Lower_R_2
+    100444: R_Eye_Lower_R_3
+    100446: R_Eye_Upper_C
+    100448: R_Eye_Upper_C_2
+    100450: R_Eye_Upper_L
+    100452: R_Eye_Upper_R
+    100454: R_Eye_Upper_R_2
+    100456: R_Eye_Upper_R_3
+    100458: R_Foot
+    100460: R_ForeArm_1
+    100462: R_ForeArm_2
+    100464: R_ForeArm_3
+    100466: R_Hair
+    100468: R_Hair_1
+    100470: R_Hair_2
+    100472: R_Hair_3
+    100474: R_Hair_4
+    100476: R_Hand
+    100478: R_IK_Ankle
+    100480: R_IK_Foot
+    100482: R_IK_Toes
+    100484: R_IndexFinger_1
+    100486: R_IndexFinger_2
+    100488: R_IndexFinger_3
+    100490: R_IndexFinger_4
+    100492: R_INV_Ankle
+    100494: R_INV_Base
+    100496: R_INV_Foot
+    100498: R_INV_Toes
+    100500: R_MiddleFinger_1
+    100502: R_MiddleFinger_2
+    100504: R_MiddleFinger_3
+    100506: R_MiddleFinger_4
+    100508: R_PinkyFinger_1
+    100510: R_PinkyFinger_2
+    100512: R_PinkyFinger_3
+    100514: R_PinkyFinger_4
+    100516: R_RingFinger_1
+    100518: R_RingFinger_2
+    100520: R_RingFinger_3
+    100522: R_RingFinger_4
+    100524: R_Shoulder_1
+    100526: R_Shoulder_2
+    100528: R_Thumb3
+    100530: R_Thumb4
+    100532: R_Thumb_1
+    100534: R_Thumb_2
+    100536: R_Toes
+    100538: R_UpperArm
+    100540: R_UpperLeg
+    100542: ROOT
+    100544: Spine_1
+    100546: Spine_2
+    100548: Staff
+    100550: Staff_1
+    100552: Staff_2
+    100554: back
+    100556: BELT_CTRL_1
+    100558: BELT_CTRL_10
+    100560: BELT_CTRL_11
+    100562: BELT_CTRL_12
+    100564: BELT_CTRL_13
+    100566: BELT_CTRL_14
+    100568: BELT_CTRL_15
+    100570: BELT_CTRL_16
+    100572: BELT_CTRL_2
+    100574: BELT_CTRL_3
+    100576: BELT_CTRL_4
+    100578: BELT_CTRL_5
+    100580: BELT_CTRL_6
+    100582: BELT_CTRL_7
+    100584: BELT_CTRL_8
+    100586: BELT_CTRL_9
+    100588: bottom
+    100590: Char_C_2
+    100592: Cloak
+    100594: Cloak_CLSTR_1
+    100596: Cloak_CLSTR_10
+    100598: Cloak_CLSTR_11
+    100600: Cloak_CLSTR_12
+    100602: Cloak_CLSTR_13
+    100604: Cloak_CLSTR_14
+    100606: Cloak_CLSTR_15
+    100608: Cloak_CLSTR_16
+    100610: Cloak_CLSTR_17
+    100612: Cloak_CLSTR_18
+    100614: Cloak_CLSTR_19
+    100616: Cloak_CLSTR_2
+    100618: Cloak_CLSTR_20
+    100620: Cloak_CLSTR_21
+    100622: Cloak_CLSTR_22
+    100624: Cloak_CLSTR_23
+    100626: Cloak_CLSTR_24
+    100628: Cloak_CLSTR_25
+    100630: Cloak_CLSTR_26
+    100632: Cloak_CLSTR_27
+    100634: Cloak_CLSTR_28
+    100636: Cloak_CLSTR_29
+    100638: Cloak_CLSTR_3
+    100640: Cloak_CLSTR_30
+    100642: Cloak_CLSTR_31
+    100644: Cloak_CLSTR_32
+    100646: Cloak_CLSTR_33
+    100648: Cloak_CLSTR_34
+    100650: Cloak_CLSTR_35
+    100652: Cloak_CLSTR_36
+    100654: Cloak_CLSTR_37
+    100656: Cloak_CLSTR_37 1
+    100658: Cloak_CLSTR_37 10
+    100660: Cloak_CLSTR_37 11
+    100662: Cloak_CLSTR_37 12
+    100664: Cloak_CLSTR_37 13
+    100666: Cloak_CLSTR_37 14
+    100668: Cloak_CLSTR_37 15
+    100670: Cloak_CLSTR_37 16
+    100672: Cloak_CLSTR_37 2
+    100674: Cloak_CLSTR_37 3
+    100676: Cloak_CLSTR_37 4
+    100678: Cloak_CLSTR_37 5
+    100680: Cloak_CLSTR_37 6
+    100682: Cloak_CLSTR_37 7
+    100684: Cloak_CLSTR_37 8
+    100686: Cloak_CLSTR_37 9
+    100688: Cloak_CLSTR_38
+    100690: Cloak_CLSTR_39
+    100692: Cloak_CLSTR_4
+    100694: Cloak_CLSTR_40
+    100696: Cloak_CLSTR_41
+    100698: Cloak_CLSTR_42
+    100700: Cloak_CLSTR_43
+    100702: Cloak_CLSTR_44
+    100704: Cloak_CLSTR_45
+    100706: Cloak_CLSTR_46
+    100708: Cloak_CLSTR_47
+    100710: Cloak_CLSTR_48
+    100712: Cloak_CLSTR_49
+    100714: Cloak_CLSTR_5
+    100716: Cloak_CLSTR_50
+    100718: Cloak_CLSTR_51
+    100720: Cloak_CLSTR_52
+    100722: Cloak_CLSTR_53
+    100724: Cloak_CLSTR_54
+    100726: Cloak_CLSTR_55
+    100728: Cloak_CLSTR_56
+    100730: Cloak_CLSTR_57
+    100732: Cloak_CLSTR_58
+    100734: Cloak_CLSTR_59
+    100736: Cloak_CLSTR_6
+    100738: Cloak_CLSTR_60
+    100740: Cloak_CLSTR_61
+    100742: Cloak_CLSTR_62
+    100744: Cloak_CLSTR_63
+    100746: Cloak_CLSTR_64
+    100748: Cloak_CLSTR_65
+    100750: Cloak_CLSTR_66
+    100752: Cloak_CLSTR_67
+    100754: Cloak_CLSTR_68
+    100756: Cloak_CLSTR_69
+    100758: Cloak_CLSTR_7
+    100760: Cloak_CLSTR_70
+    100762: Cloak_CLSTR_71
+    100764: Cloak_CLSTR_72
+    100766: Cloak_CLSTR_73
+    100768: Cloak_CLSTR_74
+    100770: Cloak_CLSTR_75
+    100772: Cloak_CLSTR_76
+    100774: Cloak_CLSTR_77
+    100776: Cloak_CLSTR_78
+    100778: Cloak_CLSTR_79
+    100780: Cloak_CLSTR_8
+    100782: Cloak_CLSTR_80
+    100784: Cloak_CLSTR_81
+    100786: Cloak_CLSTR_82
+    100788: Cloak_CLSTR_83
+    100790: Cloak_CLSTR_84
+    100792: Cloak_CLSTR_85
+    100794: Cloak_CLSTR_86
+    100796: Cloak_CLSTR_87
+    100798: Cloak_CLSTR_88
+    100800: Cloak_CLSTR_9
+    100802: CLSTR_Spine_1
+    100804: CLSTR_Spine_2
+    100806: CLSTR_Spine_3
+    100808: CLSTR_Spine_4
+    100810: CLSTR_Spine_5
+    100812: cluster104Handle
+    100814: cluster105Handle
+    100816: cluster106Handle
+    100818: cluster107Handle
+    100820: cluster108Handle
+    100822: cluster109Handle
+    100824: cluster10Handle
+    100826: cluster110Handle
+    100828: cluster111Handle
+    100830: cluster112Handle
+    100832: cluster113Handle
+    100834: cluster114Handle
+    100836: cluster115Handle
+    100838: cluster116Handle
+    100840: cluster117Handle
+    100842: cluster118Handle
+    100844: cluster119Handle
+    100846: cluster11Handle
+    100848: cluster120Handle
+    100850: cluster12Handle
+    100852: cluster13Handle
+    100854: cluster6Handle
+    100856: cluster7Handle
+    100858: cluster8Handle
+    100860: cluster9Handle
+    100862: CTRL_CLOAK
+    100864: CTRL_CLOAK1
+    100866: CTRL_CLOAK10
+    100868: CTRL_CLOAK11
+    100870: CTRL_CLOAK12
+    100872: CTRL_CLOAK13
+    100874: CTRL_CLOAK14
+    100876: CTRL_CLOAK15
+    100878: CTRL_CLOAK16
+    100880: CTRL_CLOAK17
+    100882: CTRL_CLOAK18
+    100884: CTRL_CLOAK19
+    100886: CTRL_CLOAK2
+    100888: CTRL_CLOAK20
+    100890: CTRL_CLOAK21
+    100892: CTRL_CLOAK22
+    100894: CTRL_CLOAK23
+    100896: CTRL_CLOAK24
+    100898: CTRL_CLOAK25
+    100900: CTRL_CLOAK26
+    100902: CTRL_CLOAK27
+    100904: CTRL_CLOAK28
+    100906: CTRL_CLOAK29
+    100908: CTRL_CLOAK3
+    100910: CTRL_CLOAK30
+    100912: CTRL_CLOAK31
+    100914: CTRL_CLOAK32
+    100916: CTRL_CLOAK33
+    100918: CTRL_CLOAK34
+    100920: CTRL_CLOAK35
+    100922: CTRL_CLOAK36
+    100924: CTRL_CLOAK37
+    100926: CTRL_CLOAK38
+    100928: CTRL_CLOAK39
+    100930: CTRL_CLOAK4
+    100932: CTRL_CLOAK40
+    100934: CTRL_CLOAK41
+    100936: CTRL_CLOAK42
+    100938: CTRL_CLOAK43
+    100940: CTRL_CLOAK44
+    100942: CTRL_CLOAK45
+    100944: CTRL_CLOAK46
+    100946: CTRL_CLOAK47
+    100948: CTRL_CLOAK48
+    100950: CTRL_CLOAK49
+    100952: CTRL_CLOAK5
+    100954: CTRL_CLOAK50
+    100956: CTRL_CLOAK51
+    100958: CTRL_CLOAK52
+    100960: CTRL_CLOAK53
+    100962: CTRL_CLOAK54
+    100964: CTRL_CLOAK55
+    100966: CTRL_CLOAK56
+    100968: CTRL_CLOAK57
+    100970: CTRL_CLOAK58
+    100972: CTRL_CLOAK59
+    100974: CTRL_CLOAK6
+    100976: CTRL_CLOAK60
+    100978: CTRL_CLOAK61
+    100980: CTRL_CLOAK62
+    100982: CTRL_CLOAK63
+    100984: CTRL_CLOAK64
+    100986: CTRL_CLOAK65
+    100988: CTRL_CLOAK66
+    100990: CTRL_CLOAK67
+    100992: CTRL_CLOAK68
+    100994: CTRL_CLOAK69
+    100996: CTRL_CLOAK7
+    100998: CTRL_CLOAK70
+    101000: CTRL_CLOAK71
+    101002: CTRL_CLOAK72
+    101004: CTRL_CLOAK73
+    101006: CTRL_CLOAK74
+    101008: CTRL_CLOAK75
+    101010: CTRL_CLOAK76
+    101012: CTRL_CLOAK77
+    101014: CTRL_CLOAK78
+    101016: CTRL_CLOAK79
+    101018: CTRL_CLOAK8
+    101020: CTRL_CLOAK80
+    101022: CTRL_CLOAK81
+    101024: CTRL_CLOAK82
+    101026: CTRL_CLOAK83
+    101028: CTRL_CLOAK84
+    101030: CTRL_CLOAK85
+    101032: CTRL_CLOAK86
+    101034: CTRL_CLOAK87
+    101036: CTRL_CLOAK9
+    101038: CTRL_CLOAK_TOP
+    101040: CTRL_EYES
+    101042: CTRL_Head
+    101044: CTRL_Potion_1
+    101046: CTRL_Potion_2
+    101048: CTRL_Potion_3
+    101050: CTRL_Pouch
+    101052: CTRL_Spine_5
+    101054: CTRL_STAFF_2
+    101056: curve2
+    101058: curve3
+    101060: CV_Cloak_1
+    101062: CV_Cloak_10
+    101064: CV_Cloak_11
+    101066: CV_Cloak_12
+    101068: CV_Cloak_2
+    101070: CV_Cloak_3
+    101072: CV_Cloak_4
+    101074: CV_Cloak_5
+    101076: CV_Cloak_6
+    101078: CV_Cloak_7
+    101080: CV_Cloak_8
+    101082: CV_Cloak_9
+    101084: CV_Spine
+    101086: Eyes
+    101088: group1
+    101090: group10
+    101092: group100
+    101094: group101
+    101096: group102
+    101098: group103
+    101100: group104
+    101102: group105
+    101104: group106
+    101106: group107
+    101108: group108
+    101110: group109
+    101112: group11
+    101114: group110
+    101116: group111
+    101118: group112
+    101120: group113
+    101122: group114
+    101124: group115
+    101126: group116
+    101128: group117
+    101130: group118
+    101132: group12
+    101134: group13
+    101136: group14
+    101138: group15
+    101140: group16
+    101142: group17
+    101144: group18
+    101146: group19
+    101148: group2
+    101150: group20
+    101152: group21
+    101154: group22
+    101156: group23
+    101158: group24
+    101160: group25
+    101162: group26
+    101164: group27
+    101166: group28
+    101168: group29
+    101170: group3
+    101172: group30
+    101174: group31
+    101176: group32
+    101178: group33
+    101180: group34
+    101182: group35
+    101184: group36
+    101186: group37
+    101188: group38
+    101190: group39
+    101192: group4
+    101194: group40
+    101196: group41
+    101198: group42
+    101200: group43
+    101202: group44
+    101204: group45
+    101206: group46
+    101208: group47
+    101210: group48
+    101212: group49
+    101214: group5
+    101216: group50
+    101218: group50 1
+    101220: group50 10
+    101222: group50 11
+    101224: group50 12
+    101226: group50 13
+    101228: group50 14
+    101230: group50 15
+    101232: group50 16
+    101234: group50 2
+    101236: group50 3
+    101238: group50 4
+    101240: group50 5
+    101242: group50 6
+    101244: group50 7
+    101246: group50 8
+    101248: group50 9
+    101250: group51
+    101252: group52
+    101254: group53
+    101256: group54
+    101258: group55
+    101260: group56
+    101262: group57
+    101264: group58
+    101266: group59
+    101268: group6
+    101270: group6 1
+    101272: group6 2
+    101274: group60
+    101276: group61
+    101278: group62
+    101280: group63
+    101282: group64
+    101284: group65
+    101286: group66
+    101288: group67
+    101290: group68
+    101292: group69
+    101294: group7
+    101296: group70
+    101298: group71
+    101300: group72
+    101302: group73
+    101304: group74
+    101306: group75
+    101308: group76
+    101310: group77
+    101312: group78
+    101314: group79
+    101316: group8
+    101318: group80
+    101320: group81
+    101322: group82
+    101324: group83
+    101326: group84
+    101328: group85
+    101330: group86
+    101332: group87
+    101334: group88
+    101336: group89
+    101338: group9
+    101340: group90
+    101342: group91
+    101344: group92
+    101346: group93
+    101348: group94
+    101350: group95
+    101352: group96
+    101354: group97
+    101356: group98
+    101358: group99
+    101360: IK_Cloak_1
+    101362: IK_Cloak_10
+    101364: IK_Cloak_11
+    101366: IK_Cloak_12
+    101368: IK_Cloak_2
+    101370: IK_Cloak_3
+    101372: IK_Cloak_4
+    101374: IK_Cloak_5
+    101376: IK_Cloak_6
+    101378: IK_Cloak_7
+    101380: IK_Cloak_8
+    101382: IK_Cloak_9
+    101384: IK_Potion_B
+    101386: IK_Potion_C
+    101388: IK_Potion_F
+    101390: IK_Pouch
+    101392: IK_SC_STAFF
+    101394: IK_Spine
+    101396: ikHandle1
+    101398: L_CLAVICLE_CTRL
+    101400: L_CLAVICLE_CTRL1
+    101402: L_CTRL_Hair_1
+    101404: L_CTRL_Hair_2
+    101406: L_CTRL_Hair_3
+    101408: L_CTRL_Hair_4
+    101410: L_CTRL_Hair_5
+    101412: L_CTRL_Hair_6
+    101414: L_CTRL_Hair_7
+    101416: L_CTRL_Hair_8
+    101418: L_CTRL_Hand
+    101420: L_CTRL_IndexFinger
+    101422: L_CTRL_IndexFinger_2
+    101424: L_CTRL_IndexFinger_3
+    101426: L_CTRL_LowerEye_C
+    101428: L_CTRL_LowerEye_L
+    101430: L_CTRL_LowerEye_R
+    101432: L_CTRL_MiddleFinger
+    101434: L_CTRL_MiddleFinger1
+    101436: L_CTRL_MiddleFinger2
+    101438: L_CTRL_Pinky
+    101440: L_CTRL_Pinky1
+    101442: L_CTRL_Pinky2
+    101444: L_CTRL_PV_Arm
+    101446: L_CTRL_RingFinger
+    101448: L_CTRL_RingFinger1
+    101450: L_CTRL_RingFinger2
+    101452: L_CTRL_Shoulder
+    101454: L_CTRL_Shoulder1
+    101456: L_CTRL_Thumb1
+    101458: L_CTRL_Thumb2
+    101460: L_CTRL_Thumb3
+    101462: L_CTRL_UpperEye_C
+    101464: L_CTRL_UpperEye_L
+    101466: L_CTRL_UpperEye_R
+    101468: L_CV_Hair
+    101470: L_GRP_HAND
+    101472: L_IK_Eye_1
+    101474: L_IK_Eye_2
+    101476: L_IK_Eye_3
+    101478: L_IK_Eye_4
+    101480: L_IK_Eye_4 1
+    101482: L_IK_Eye_4 2
+    101484: L_IK_Eye_4 3
+    101486: L_IK_Eye_4 4
+    101488: L_IK_Eye_4 5
+    101490: L_IK_Eye_4 6
+    101492: L_IK_Eye_5
+    101494: L_IK_Eye_6
+    101496: L_IK_Eye_CENTER
+    101498: L_IK_HAIR
+    101500: L_IK_Hand
+    101502: left
+    101504: locator1
+    101506: locator2
+    101508: null2
+    101510: null3
+    101512: null4
+    101514: nurbsCube1
+    101516: R_CTRL_Hand
+    101518: R_CTRL_IndexFinger
+    101520: R_CTRL_IndexFinger1
+    101522: R_CTRL_IndexFinger2
+    101524: R_CTRL_LowerEye_C
+    101526: R_CTRL_LowerEye_L
+    101528: R_CTRL_LowerEye_R
+    101530: R_CTRL_MiddleFinger
+    101532: R_CTRL_MiddleFinger1
+    101534: R_CTRL_MiddleFinger2
+    101536: R_CTRL_Pinky
+    101538: R_CTRL_Pinky1
+    101540: R_CTRL_Pinky2
+    101542: R_CTRL_PV_Arm
+    101544: R_CTRL_RingFinger
+    101546: R_CTRL_RingFinger1
+    101548: R_CTRL_RingFinger2
+    101550: R_CTRL_Thumb
+    101552: R_CTRL_Thumb1
+    101554: R_CTRL_Thumb2
+    101556: R_CTRL_UpperEye_C
+    101558: R_CTRL_UpperEye_L
+    101560: R_CTRL_UpperEye_R
+    101562: R_CV_Hair
+    101564: R_GRP_HAND
+    101566: R_IK_Eye_1
+    101568: R_IK_Eye_2
+    101570: R_IK_Eye_3
+    101572: R_IK_Eye_4
+    101574: R_IK_Eye_5
+    101576: R_IK_Eye_6
+    101578: R_IK_Eye_CENTER
+    101580: R_IK_HAIR
+    101582: R_IK_Hand
+    101584: Text_C_2
+    101586: WORLD_CONSTRAINT
+    400000: Belly_Volume_1
+    400002: Belly_Volume_2
+    400004: Belt
+    400006: Belt_1
+    400008: Belt_10
+    400010: Belt_11
+    400012: Belt_12
+    400014: Belt_13
+    400016: Belt_14
+    400018: Belt_15
+    400020: Belt_16
+    400022: Belt_17
+    400024: Belt_2
+    400026: Belt_3
+    400028: Belt_4
+    400030: Belt_5
+    400032: Belt_6
+    400034: Belt_7
+    400036: Belt_8
+    400038: Belt_9
+    400040: Chest
+    400042: Cloak_1
+    400044: Cloak_10
+    400046: Cloak_11
+    400048: Cloak_12
+    400050: Cloak_13
+    400052: Cloak_14
+    400054: Cloak_15
+    400056: Cloak_16
+    400058: Cloak_17
+    400060: Cloak_18
+    400062: Cloak_19
+    400064: Cloak_2
+    400066: Cloak_20
+    400068: Cloak_21
+    400070: Cloak_22
+    400072: Cloak_23
+    400074: Cloak_24
+    400076: Cloak_25
+    400078: Cloak_26
+    400080: Cloak_27
+    400082: Cloak_28
+    400084: Cloak_29
+    400086: Cloak_3
+    400088: Cloak_30
+    400090: Cloak_31
+    400092: Cloak_32
+    400094: Cloak_32 1
+    400096: Cloak_33
+    400098: Cloak_33 1
+    400100: Cloak_34
+    400102: Cloak_35
+    400104: Cloak_36
+    400106: Cloak_37
+    400108: Cloak_38
+    400110: Cloak_39
+    400112: Cloak_4
+    400114: Cloak_40
+    400116: Cloak_41
+    400118: Cloak_42
+    400120: Cloak_43
+    400122: Cloak_44
+    400124: Cloak_45
+    400126: Cloak_46
+    400128: Cloak_47
+    400130: Cloak_48
+    400132: Cloak_49
+    400134: Cloak_5
+    400136: Cloak_50
+    400138: Cloak_51
+    400140: Cloak_52
+    400142: Cloak_53
+    400144: Cloak_54
+    400146: Cloak_55
+    400148: Cloak_56
+    400150: Cloak_57
+    400152: Cloak_58
+    400154: Cloak_59
+    400156: Cloak_6
+    400158: Cloak_60
+    400160: Cloak_61
+    400162: Cloak_62
+    400164: Cloak_63
+    400166: Cloak_64
+    400168: Cloak_65
+    400170: Cloak_66
+    400172: Cloak_67
+    400174: Cloak_68
+    400176: Cloak_69
+    400178: Cloak_7
+    400180: Cloak_70
+    400182: Cloak_71
+    400184: Cloak_72
+    400186: Cloak_73
+    400188: Cloak_74
+    400190: Cloak_75
+    400192: Cloak_76
+    400194: Cloak_77
+    400196: Cloak_78
+    400198: Cloak_79
+    400200: Cloak_8
+    400202: Cloak_80
+    400204: Cloak_81
+    400206: Cloak_82
+    400208: Cloak_83
+    400210: Cloak_84
+    400212: Cloak_85
+    400214: Cloak_86
+    400216: Cloak_9
+    400218: Cloak_PARENT1
+    400220: CTRL_MASTER
+    400222: CTRL_Pelvis
+    400224: CTRL_Spine_1
+    400226: CTRL_Spine_2
+    400228: CTRL_Spine_3
+    400230: CTRL_Spine_4
+    400232: CTRL_STAFF_1
+    400234: //RootNode
+    400236: Feathers1
+    400238: FinalCharacter
+    400240: Head
+    400242: Head_nub
+    400244: Hood_Volume_1_1
+    400246: Hood_Volume_1_2
+    400248: Hood_Volume_2_1
+    400250: Hood_Volume_2_2
+    400252: Jaw
+    400254: L_Ankle
+    400256: L_Calf
+    400258: L_Clavicle_1
+    400260: L_Clavicle_2
+    400262: L_CTRL_Foot
+    400264: L_CTRL_SHOULDER_1
+    400266: L_Elbow_1
+    400268: L_Elbow_2
+    400270: L_Eye
+    400272: L_Eye_Base
+    400274: L_Eye_Center_1
+    400276: L_Eye_Center_FWD
+    400278: L_Eye_Lower_C
+    400280: L_Eye_Lower_C_2
+    400282: L_Eye_Lower_L
+    400284: L_Eye_Lower_L_2
+    400286: L_Eye_Lower_R
+    400288: L_Eye_Lower_R_2
+    400290: L_Eye_Upper_C
+    400292: L_Eye_Upper_C_2
+    400294: L_Eye_Upper_L
+    400296: L_Eye_Upper_L_2
+    400298: L_Eye_Upper_R
+    400300: L_Eye_Upper_R_2
+    400302: L_Foot
+    400304: L_ForeArm_1
+    400306: L_ForeArm_2
+    400308: L_ForeArm_3
+    400310: L_Hair
+    400312: L_Hair_1
+    400314: L_Hair_2
+    400316: L_Hair_3
+    400318: L_Hair_4
+    400320: L_Hand
+    400322: L_IK_Ankle
+    400324: L_IK_Foot
+    400326: L_IK_Toes
+    400328: L_IndexFinger_1
+    400330: L_IndexFinger_2
+    400332: L_IndexFinger_3
+    400334: L_IndexFinger_4
+    400336: L_INV_Ankle
+    400338: L_INV_Base
+    400340: L_INV_Foot
+    400342: L_INV_Toes
+    400344: L_MiddleFinger_1
+    400346: L_MiddleFinger_2
+    400348: L_MiddleFinger_3
+    400350: L_MiddleFinger_4
+    400352: L_PinkyFinger_1
+    400354: L_PinkyFinger_2
+    400356: L_PinkyFinger_3
+    400358: L_PinkyFinger_4
+    400360: L_RingFinger_1
+    400362: L_RingFinger_2
+    400364: L_RingFinger_3
+    400366: L_RingFinger_4
+    400368: L_Shoulder
+    400370: L_Shoulder1
+    400372: L_Shoulder_1
+    400374: L_Shoulder_2
+    400376: L_Thumb3
+    400378: L_Thumb4
+    400380: L_Thumb_1
+    400382: L_Thumb_2
+    400384: L_Toes
+    400386: L_UpperArm
+    400388: L_UpperLeg
+    400390: Lashes
+    400392: Neck
+    400394: Potion_B_1
+    400396: Potion_B_2
+    400398: Potion_C_1
+    400400: Potion_C_2
+    400402: Potion_F_1
+    400404: Potion_F_2
+    400406: Pouch_1
+    400408: Pouch_2
+    400410: R_Ankle
+    400412: R_Calf
+    400414: R_Clavicle_1
+    400416: R_Clavicle_2
+    400418: R_CTRL_Foot
+    400420: R_CTRL_SHOULDER_1
+    400422: R_Elbow_1
+    400424: R_Elbow_2
+    400426: R_Eye
+    400428: R_Eye_Base
+    400430: R_Eye_Center_1
+    400432: R_Eye_Center_FWD
+    400434: R_Eye_Lower_C
+    400436: R_Eye_Lower_C_2
+    400438: R_Eye_Lower_L
+    400440: R_Eye_Lower_R
+    400442: R_Eye_Lower_R_2
+    400444: R_Eye_Lower_R_3
+    400446: R_Eye_Upper_C
+    400448: R_Eye_Upper_C_2
+    400450: R_Eye_Upper_L
+    400452: R_Eye_Upper_R
+    400454: R_Eye_Upper_R_2
+    400456: R_Eye_Upper_R_3
+    400458: R_Foot
+    400460: R_ForeArm_1
+    400462: R_ForeArm_2
+    400464: R_ForeArm_3
+    400466: R_Hair
+    400468: R_Hair_1
+    400470: R_Hair_2
+    400472: R_Hair_3
+    400474: R_Hair_4
+    400476: R_Hand
+    400478: R_IK_Ankle
+    400480: R_IK_Foot
+    400482: R_IK_Toes
+    400484: R_IndexFinger_1
+    400486: R_IndexFinger_2
+    400488: R_IndexFinger_3
+    400490: R_IndexFinger_4
+    400492: R_INV_Ankle
+    400494: R_INV_Base
+    400496: R_INV_Foot
+    400498: R_INV_Toes
+    400500: R_MiddleFinger_1
+    400502: R_MiddleFinger_2
+    400504: R_MiddleFinger_3
+    400506: R_MiddleFinger_4
+    400508: R_PinkyFinger_1
+    400510: R_PinkyFinger_2
+    400512: R_PinkyFinger_3
+    400514: R_PinkyFinger_4
+    400516: R_RingFinger_1
+    400518: R_RingFinger_2
+    400520: R_RingFinger_3
+    400522: R_RingFinger_4
+    400524: R_Shoulder_1
+    400526: R_Shoulder_2
+    400528: R_Thumb3
+    400530: R_Thumb4
+    400532: R_Thumb_1
+    400534: R_Thumb_2
+    400536: R_Toes
+    400538: R_UpperArm
+    400540: R_UpperLeg
+    400542: ROOT
+    400544: Spine_1
+    400546: Spine_2
+    400548: Staff
+    400550: Staff_1
+    400552: Staff_2
+    400554: back
+    400556: BELT_CTRL_1
+    400558: BELT_CTRL_10
+    400560: BELT_CTRL_11
+    400562: BELT_CTRL_12
+    400564: BELT_CTRL_13
+    400566: BELT_CTRL_14
+    400568: BELT_CTRL_15
+    400570: BELT_CTRL_16
+    400572: BELT_CTRL_2
+    400574: BELT_CTRL_3
+    400576: BELT_CTRL_4
+    400578: BELT_CTRL_5
+    400580: BELT_CTRL_6
+    400582: BELT_CTRL_7
+    400584: BELT_CTRL_8
+    400586: BELT_CTRL_9
+    400588: bottom
+    400590: Char_C_2
+    400592: Cloak
+    400594: Cloak_CLSTR_1
+    400596: Cloak_CLSTR_10
+    400598: Cloak_CLSTR_11
+    400600: Cloak_CLSTR_12
+    400602: Cloak_CLSTR_13
+    400604: Cloak_CLSTR_14
+    400606: Cloak_CLSTR_15
+    400608: Cloak_CLSTR_16
+    400610: Cloak_CLSTR_17
+    400612: Cloak_CLSTR_18
+    400614: Cloak_CLSTR_19
+    400616: Cloak_CLSTR_2
+    400618: Cloak_CLSTR_20
+    400620: Cloak_CLSTR_21
+    400622: Cloak_CLSTR_22
+    400624: Cloak_CLSTR_23
+    400626: Cloak_CLSTR_24
+    400628: Cloak_CLSTR_25
+    400630: Cloak_CLSTR_26
+    400632: Cloak_CLSTR_27
+    400634: Cloak_CLSTR_28
+    400636: Cloak_CLSTR_29
+    400638: Cloak_CLSTR_3
+    400640: Cloak_CLSTR_30
+    400642: Cloak_CLSTR_31
+    400644: Cloak_CLSTR_32
+    400646: Cloak_CLSTR_33
+    400648: Cloak_CLSTR_34
+    400650: Cloak_CLSTR_35
+    400652: Cloak_CLSTR_36
+    400654: Cloak_CLSTR_37
+    400656: Cloak_CLSTR_37 1
+    400658: Cloak_CLSTR_37 10
+    400660: Cloak_CLSTR_37 11
+    400662: Cloak_CLSTR_37 12
+    400664: Cloak_CLSTR_37 13
+    400666: Cloak_CLSTR_37 14
+    400668: Cloak_CLSTR_37 15
+    400670: Cloak_CLSTR_37 16
+    400672: Cloak_CLSTR_37 2
+    400674: Cloak_CLSTR_37 3
+    400676: Cloak_CLSTR_37 4
+    400678: Cloak_CLSTR_37 5
+    400680: Cloak_CLSTR_37 6
+    400682: Cloak_CLSTR_37 7
+    400684: Cloak_CLSTR_37 8
+    400686: Cloak_CLSTR_37 9
+    400688: Cloak_CLSTR_38
+    400690: Cloak_CLSTR_39
+    400692: Cloak_CLSTR_4
+    400694: Cloak_CLSTR_40
+    400696: Cloak_CLSTR_41
+    400698: Cloak_CLSTR_42
+    400700: Cloak_CLSTR_43
+    400702: Cloak_CLSTR_44
+    400704: Cloak_CLSTR_45
+    400706: Cloak_CLSTR_46
+    400708: Cloak_CLSTR_47
+    400710: Cloak_CLSTR_48
+    400712: Cloak_CLSTR_49
+    400714: Cloak_CLSTR_5
+    400716: Cloak_CLSTR_50
+    400718: Cloak_CLSTR_51
+    400720: Cloak_CLSTR_52
+    400722: Cloak_CLSTR_53
+    400724: Cloak_CLSTR_54
+    400726: Cloak_CLSTR_55
+    400728: Cloak_CLSTR_56
+    400730: Cloak_CLSTR_57
+    400732: Cloak_CLSTR_58
+    400734: Cloak_CLSTR_59
+    400736: Cloak_CLSTR_6
+    400738: Cloak_CLSTR_60
+    400740: Cloak_CLSTR_61
+    400742: Cloak_CLSTR_62
+    400744: Cloak_CLSTR_63
+    400746: Cloak_CLSTR_64
+    400748: Cloak_CLSTR_65
+    400750: Cloak_CLSTR_66
+    400752: Cloak_CLSTR_67
+    400754: Cloak_CLSTR_68
+    400756: Cloak_CLSTR_69
+    400758: Cloak_CLSTR_7
+    400760: Cloak_CLSTR_70
+    400762: Cloak_CLSTR_71
+    400764: Cloak_CLSTR_72
+    400766: Cloak_CLSTR_73
+    400768: Cloak_CLSTR_74
+    400770: Cloak_CLSTR_75
+    400772: Cloak_CLSTR_76
+    400774: Cloak_CLSTR_77
+    400776: Cloak_CLSTR_78
+    400778: Cloak_CLSTR_79
+    400780: Cloak_CLSTR_8
+    400782: Cloak_CLSTR_80
+    400784: Cloak_CLSTR_81
+    400786: Cloak_CLSTR_82
+    400788: Cloak_CLSTR_83
+    400790: Cloak_CLSTR_84
+    400792: Cloak_CLSTR_85
+    400794: Cloak_CLSTR_86
+    400796: Cloak_CLSTR_87
+    400798: Cloak_CLSTR_88
+    400800: Cloak_CLSTR_9
+    400802: CLSTR_Spine_1
+    400804: CLSTR_Spine_2
+    400806: CLSTR_Spine_3
+    400808: CLSTR_Spine_4
+    400810: CLSTR_Spine_5
+    400812: cluster104Handle
+    400814: cluster105Handle
+    400816: cluster106Handle
+    400818: cluster107Handle
+    400820: cluster108Handle
+    400822: cluster109Handle
+    400824: cluster10Handle
+    400826: cluster110Handle
+    400828: cluster111Handle
+    400830: cluster112Handle
+    400832: cluster113Handle
+    400834: cluster114Handle
+    400836: cluster115Handle
+    400838: cluster116Handle
+    400840: cluster117Handle
+    400842: cluster118Handle
+    400844: cluster119Handle
+    400846: cluster11Handle
+    400848: cluster120Handle
+    400850: cluster12Handle
+    400852: cluster13Handle
+    400854: cluster6Handle
+    400856: cluster7Handle
+    400858: cluster8Handle
+    400860: cluster9Handle
+    400862: CTRL_CLOAK
+    400864: CTRL_CLOAK1
+    400866: CTRL_CLOAK10
+    400868: CTRL_CLOAK11
+    400870: CTRL_CLOAK12
+    400872: CTRL_CLOAK13
+    400874: CTRL_CLOAK14
+    400876: CTRL_CLOAK15
+    400878: CTRL_CLOAK16
+    400880: CTRL_CLOAK17
+    400882: CTRL_CLOAK18
+    400884: CTRL_CLOAK19
+    400886: CTRL_CLOAK2
+    400888: CTRL_CLOAK20
+    400890: CTRL_CLOAK21
+    400892: CTRL_CLOAK22
+    400894: CTRL_CLOAK23
+    400896: CTRL_CLOAK24
+    400898: CTRL_CLOAK25
+    400900: CTRL_CLOAK26
+    400902: CTRL_CLOAK27
+    400904: CTRL_CLOAK28
+    400906: CTRL_CLOAK29
+    400908: CTRL_CLOAK3
+    400910: CTRL_CLOAK30
+    400912: CTRL_CLOAK31
+    400914: CTRL_CLOAK32
+    400916: CTRL_CLOAK33
+    400918: CTRL_CLOAK34
+    400920: CTRL_CLOAK35
+    400922: CTRL_CLOAK36
+    400924: CTRL_CLOAK37
+    400926: CTRL_CLOAK38
+    400928: CTRL_CLOAK39
+    400930: CTRL_CLOAK4
+    400932: CTRL_CLOAK40
+    400934: CTRL_CLOAK41
+    400936: CTRL_CLOAK42
+    400938: CTRL_CLOAK43
+    400940: CTRL_CLOAK44
+    400942: CTRL_CLOAK45
+    400944: CTRL_CLOAK46
+    400946: CTRL_CLOAK47
+    400948: CTRL_CLOAK48
+    400950: CTRL_CLOAK49
+    400952: CTRL_CLOAK5
+    400954: CTRL_CLOAK50
+    400956: CTRL_CLOAK51
+    400958: CTRL_CLOAK52
+    400960: CTRL_CLOAK53
+    400962: CTRL_CLOAK54
+    400964: CTRL_CLOAK55
+    400966: CTRL_CLOAK56
+    400968: CTRL_CLOAK57
+    400970: CTRL_CLOAK58
+    400972: CTRL_CLOAK59
+    400974: CTRL_CLOAK6
+    400976: CTRL_CLOAK60
+    400978: CTRL_CLOAK61
+    400980: CTRL_CLOAK62
+    400982: CTRL_CLOAK63
+    400984: CTRL_CLOAK64
+    400986: CTRL_CLOAK65
+    400988: CTRL_CLOAK66
+    400990: CTRL_CLOAK67
+    400992: CTRL_CLOAK68
+    400994: CTRL_CLOAK69
+    400996: CTRL_CLOAK7
+    400998: CTRL_CLOAK70
+    401000: CTRL_CLOAK71
+    401002: CTRL_CLOAK72
+    401004: CTRL_CLOAK73
+    401006: CTRL_CLOAK74
+    401008: CTRL_CLOAK75
+    401010: CTRL_CLOAK76
+    401012: CTRL_CLOAK77
+    401014: CTRL_CLOAK78
+    401016: CTRL_CLOAK79
+    401018: CTRL_CLOAK8
+    401020: CTRL_CLOAK80
+    401022: CTRL_CLOAK81
+    401024: CTRL_CLOAK82
+    401026: CTRL_CLOAK83
+    401028: CTRL_CLOAK84
+    401030: CTRL_CLOAK85
+    401032: CTRL_CLOAK86
+    401034: CTRL_CLOAK87
+    401036: CTRL_CLOAK9
+    401038: CTRL_CLOAK_TOP
+    401040: CTRL_EYES
+    401042: CTRL_Head
+    401044: CTRL_Potion_1
+    401046: CTRL_Potion_2
+    401048: CTRL_Potion_3
+    401050: CTRL_Pouch
+    401052: CTRL_Spine_5
+    401054: CTRL_STAFF_2
+    401056: curve2
+    401058: curve3
+    401060: CV_Cloak_1
+    401062: CV_Cloak_10
+    401064: CV_Cloak_11
+    401066: CV_Cloak_12
+    401068: CV_Cloak_2
+    401070: CV_Cloak_3
+    401072: CV_Cloak_4
+    401074: CV_Cloak_5
+    401076: CV_Cloak_6
+    401078: CV_Cloak_7
+    401080: CV_Cloak_8
+    401082: CV_Cloak_9
+    401084: CV_Spine
+    401086: Eyes
+    401088: group1
+    401090: group10
+    401092: group100
+    401094: group101
+    401096: group102
+    401098: group103
+    401100: group104
+    401102: group105
+    401104: group106
+    401106: group107
+    401108: group108
+    401110: group109
+    401112: group11
+    401114: group110
+    401116: group111
+    401118: group112
+    401120: group113
+    401122: group114
+    401124: group115
+    401126: group116
+    401128: group117
+    401130: group118
+    401132: group12
+    401134: group13
+    401136: group14
+    401138: group15
+    401140: group16
+    401142: group17
+    401144: group18
+    401146: group19
+    401148: group2
+    401150: group20
+    401152: group21
+    401154: group22
+    401156: group23
+    401158: group24
+    401160: group25
+    401162: group26
+    401164: group27
+    401166: group28
+    401168: group29
+    401170: group3
+    401172: group30
+    401174: group31
+    401176: group32
+    401178: group33
+    401180: group34
+    401182: group35
+    401184: group36
+    401186: group37
+    401188: group38
+    401190: group39
+    401192: group4
+    401194: group40
+    401196: group41
+    401198: group42
+    401200: group43
+    401202: group44
+    401204: group45
+    401206: group46
+    401208: group47
+    401210: group48
+    401212: group49
+    401214: group5
+    401216: group50
+    401218: group50 1
+    401220: group50 10
+    401222: group50 11
+    401224: group50 12
+    401226: group50 13
+    401228: group50 14
+    401230: group50 15
+    401232: group50 16
+    401234: group50 2
+    401236: group50 3
+    401238: group50 4
+    401240: group50 5
+    401242: group50 6
+    401244: group50 7
+    401246: group50 8
+    401248: group50 9
+    401250: group51
+    401252: group52
+    401254: group53
+    401256: group54
+    401258: group55
+    401260: group56
+    401262: group57
+    401264: group58
+    401266: group59
+    401268: group6
+    401270: group6 1
+    401272: group6 2
+    401274: group60
+    401276: group61
+    401278: group62
+    401280: group63
+    401282: group64
+    401284: group65
+    401286: group66
+    401288: group67
+    401290: group68
+    401292: group69
+    401294: group7
+    401296: group70
+    401298: group71
+    401300: group72
+    401302: group73
+    401304: group74
+    401306: group75
+    401308: group76
+    401310: group77
+    401312: group78
+    401314: group79
+    401316: group8
+    401318: group80
+    401320: group81
+    401322: group82
+    401324: group83
+    401326: group84
+    401328: group85
+    401330: group86
+    401332: group87
+    401334: group88
+    401336: group89
+    401338: group9
+    401340: group90
+    401342: group91
+    401344: group92
+    401346: group93
+    401348: group94
+    401350: group95
+    401352: group96
+    401354: group97
+    401356: group98
+    401358: group99
+    401360: IK_Cloak_1
+    401362: IK_Cloak_10
+    401364: IK_Cloak_11
+    401366: IK_Cloak_12
+    401368: IK_Cloak_2
+    401370: IK_Cloak_3
+    401372: IK_Cloak_4
+    401374: IK_Cloak_5
+    401376: IK_Cloak_6
+    401378: IK_Cloak_7
+    401380: IK_Cloak_8
+    401382: IK_Cloak_9
+    401384: IK_Potion_B
+    401386: IK_Potion_C
+    401388: IK_Potion_F
+    401390: IK_Pouch
+    401392: IK_SC_STAFF
+    401394: IK_Spine
+    401396: ikHandle1
+    401398: L_CLAVICLE_CTRL
+    401400: L_CLAVICLE_CTRL1
+    401402: L_CTRL_Hair_1
+    401404: L_CTRL_Hair_2
+    401406: L_CTRL_Hair_3
+    401408: L_CTRL_Hair_4
+    401410: L_CTRL_Hair_5
+    401412: L_CTRL_Hair_6
+    401414: L_CTRL_Hair_7
+    401416: L_CTRL_Hair_8
+    401418: L_CTRL_Hand
+    401420: L_CTRL_IndexFinger
+    401422: L_CTRL_IndexFinger_2
+    401424: L_CTRL_IndexFinger_3
+    401426: L_CTRL_LowerEye_C
+    401428: L_CTRL_LowerEye_L
+    401430: L_CTRL_LowerEye_R
+    401432: L_CTRL_MiddleFinger
+    401434: L_CTRL_MiddleFinger1
+    401436: L_CTRL_MiddleFinger2
+    401438: L_CTRL_Pinky
+    401440: L_CTRL_Pinky1
+    401442: L_CTRL_Pinky2
+    401444: L_CTRL_PV_Arm
+    401446: L_CTRL_RingFinger
+    401448: L_CTRL_RingFinger1
+    401450: L_CTRL_RingFinger2
+    401452: L_CTRL_Shoulder
+    401454: L_CTRL_Shoulder1
+    401456: L_CTRL_Thumb1
+    401458: L_CTRL_Thumb2
+    401460: L_CTRL_Thumb3
+    401462: L_CTRL_UpperEye_C
+    401464: L_CTRL_UpperEye_L
+    401466: L_CTRL_UpperEye_R
+    401468: L_CV_Hair
+    401470: L_GRP_HAND
+    401472: L_IK_Eye_1
+    401474: L_IK_Eye_2
+    401476: L_IK_Eye_3
+    401478: L_IK_Eye_4
+    401480: L_IK_Eye_4 1
+    401482: L_IK_Eye_4 2
+    401484: L_IK_Eye_4 3
+    401486: L_IK_Eye_4 4
+    401488: L_IK_Eye_4 5
+    401490: L_IK_Eye_4 6
+    401492: L_IK_Eye_5
+    401494: L_IK_Eye_6
+    401496: L_IK_Eye_CENTER
+    401498: L_IK_HAIR
+    401500: L_IK_Hand
+    401502: left
+    401504: locator1
+    401506: locator2
+    401508: null2
+    401510: null3
+    401512: null4
+    401514: nurbsCube1
+    401516: R_CTRL_Hand
+    401518: R_CTRL_IndexFinger
+    401520: R_CTRL_IndexFinger1
+    401522: R_CTRL_IndexFinger2
+    401524: R_CTRL_LowerEye_C
+    401526: R_CTRL_LowerEye_L
+    401528: R_CTRL_LowerEye_R
+    401530: R_CTRL_MiddleFinger
+    401532: R_CTRL_MiddleFinger1
+    401534: R_CTRL_MiddleFinger2
+    401536: R_CTRL_Pinky
+    401538: R_CTRL_Pinky1
+    401540: R_CTRL_Pinky2
+    401542: R_CTRL_PV_Arm
+    401544: R_CTRL_RingFinger
+    401546: R_CTRL_RingFinger1
+    401548: R_CTRL_RingFinger2
+    401550: R_CTRL_Thumb
+    401552: R_CTRL_Thumb1
+    401554: R_CTRL_Thumb2
+    401556: R_CTRL_UpperEye_C
+    401558: R_CTRL_UpperEye_L
+    401560: R_CTRL_UpperEye_R
+    401562: R_CV_Hair
+    401564: R_GRP_HAND
+    401566: R_IK_Eye_1
+    401568: R_IK_Eye_2
+    401570: R_IK_Eye_3
+    401572: R_IK_Eye_4
+    401574: R_IK_Eye_5
+    401576: R_IK_Eye_6
+    401578: R_IK_Eye_CENTER
+    401580: R_IK_HAIR
+    401582: R_IK_Hand
+    401584: Text_C_2
+    401586: WORLD_CONSTRAINT
+    2300000: L_CTRL_Hair_1
+    2300002: L_CTRL_Hair_2
+    2300004: L_CTRL_Hair_3
+    2300006: L_CTRL_Hair_4
+    2300008: L_CTRL_Hair_5
+    2300010: L_CTRL_Hair_6
+    2300012: L_CTRL_Hair_7
+    2300014: L_CTRL_Hair_8
+    3300000: L_CTRL_Hair_1
+    3300002: L_CTRL_Hair_2
+    3300004: L_CTRL_Hair_3
+    3300006: L_CTRL_Hair_4
+    3300008: L_CTRL_Hair_5
+    3300010: L_CTRL_Hair_6
+    3300012: L_CTRL_Hair_7
+    3300014: L_CTRL_Hair_8
+    4300000: FinalCharacter
+    4300002: L_Shoulder
+    4300004: L_Shoulder1
+    4300006: Feathers1
+    4300008: Lashes
+    4300010: R_Eye
+    4300012: L_Eye
+    4300014: L_Hair
+    4300016: R_Hair
+    4300018: Belt
+    4300020: Staff
+    4300022: Cloak
+    4300024: L_CTRL_Hair_7
+    4300026: L_CTRL_Hair_3
+    4300028: L_CTRL_Hair_2
+    4300030: L_CTRL_Hair_1
+    4300032: L_CTRL_Hair_8
+    4300034: L_CTRL_Hair_4
+    4300036: L_CTRL_Hair_5
+    4300038: L_CTRL_Hair_6
+    7400000: customIdle
+    9500000: //RootNode
+    13700000: Belt
+    13700002: Feathers1
+    13700004: FinalCharacter
+    13700006: L_Eye
+    13700008: L_Hair
+    13700010: L_Shoulder
+    13700012: L_Shoulder1
+    13700014: Lashes
+    13700016: R_Eye
+    13700018: R_Hair
+    13700020: Staff
+    13700022: Cloak
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: customIdle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 180
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Belt
+        weight: 1
+      - path: Belt_1
+        weight: 1
+      - path: Belt_1/Belt_2
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12/Belt_13
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12/Belt_13/Belt_14
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12/Belt_13/Belt_14/Belt_15
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12/Belt_13/Belt_14/Belt_15/Belt_16
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Belt_10/Belt_11/Belt_12/Belt_13/Belt_14/Belt_15/Belt_16/Belt_17
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Potion_B_1
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Potion_B_1/Potion_B_2
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Potion_C_1
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Belt_9/Potion_C_1/Potion_C_2
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Potion_F_1
+        weight: 1
+      - path: Belt_1/Belt_2/Belt_3/Belt_4/Belt_5/Belt_6/Belt_7/Belt_8/Potion_F_1/Potion_F_2
+        weight: 1
+      - path: Belt_1/Pouch_1
+        weight: 1
+      - path: Belt_1/Pouch_1/Pouch_2
+        weight: 1
+      - path: CTRL_MASTER
+        weight: 1
+      - path: CTRL_MASTER/CTRL_STAFF_1
+        weight: 1
+      - path: CTRL_MASTER/CTRL_STAFF_1/Staff_1
+        weight: 1
+      - path: CTRL_MASTER/CTRL_STAFF_1/Staff_1/Staff_2
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes/L_IK_Toes
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes/L_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes/L_INV_Foot/L_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes/L_INV_Foot/L_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_Base/L_INV_Toes/L_INV_Foot/L_INV_Ankle/L_IK_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes/R_IK_Toes
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes/R_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes/R_INV_Foot/R_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes/R_INV_Foot/R_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_Base/R_INV_Toes/R_INV_Foot/R_INV_Ankle/R_IK_Ankle
+        weight: 1
+      - path: Feathers1
+        weight: 1
+      - path: FinalCharacter
+        weight: 1
+      - path: L_Eye
+        weight: 1
+      - path: L_Hair
+        weight: 1
+      - path: L_Shoulder
+        weight: 1
+      - path: L_Shoulder1
+        weight: 1
+      - path: Lashes
+        weight: 1
+      - path: R_Eye
+        weight: 1
+      - path: R_Hair
+        weight: 1
+      - path: ROOT
+        weight: 1
+      - path: ROOT/L_UpperLeg
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf/L_Ankle
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf/L_Ankle/L_Foot
+        weight: 1
+      - path: ROOT/L_UpperLeg/L_Calf/L_Ankle/L_Foot/L_Toes
+        weight: 1
+      - path: ROOT/R_UpperLeg
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf/R_Ankle
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf/R_Ankle/R_Foot
+        weight: 1
+      - path: ROOT/R_UpperLeg/R_Calf/R_Ankle/R_Foot/R_Toes
+        weight: 1
+      - path: ROOT/Spine_1
+        weight: 1
+      - path: ROOT/Spine_1/Belly_Volume_1
+        weight: 1
+      - path: ROOT/Spine_1/Belly_Volume_1/Belly_Volume_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_IndexFinger_1/L_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_IndexFinger_1/L_IndexFinger_2/L_IndexFinger_3/L_IndexFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3/L_MiddleFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_PinkyFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_PinkyFinger_1/L_PinkyFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_PinkyFinger_1/L_PinkyFinger_2/L_PinkyFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_PinkyFinger_1/L_PinkyFinger_2/L_PinkyFinger_3/L_PinkyFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3/L_RingFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Elbow_1/L_Elbow_2/L_ForeArm_1/L_ForeArm_2/L_ForeArm_3/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb3/L_Thumb4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Shoulder_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/L_Clavicle_1/L_Clavicle_2/L_UpperArm/L_Shoulder_1/L_Shoulder_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1/Cloak_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1/Cloak_2/Cloak_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1/Cloak_2/Cloak_3/Cloak_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1/Cloak_2/Cloak_3/Cloak_4/Cloak_5
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_1/Cloak_2/Cloak_3/Cloak_4/Cloak_5/Cloak_6
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7/Cloak_8
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7/Cloak_8/Cloak_9
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7/Cloak_8/Cloak_9/Cloak_10
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7/Cloak_8/Cloak_9/Cloak_10/Cloak_11
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_7/Cloak_8/Cloak_9/Cloak_10/Cloak_11/Cloak_12
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15/Cloak_16
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15/Cloak_16/Cloak_17
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15/Cloak_16/Cloak_17/Cloak_18
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15/Cloak_16/Cloak_17/Cloak_18/Cloak_19
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_13/Cloak_14/Cloak_15/Cloak_16/Cloak_17/Cloak_18/Cloak_19/Cloak_20
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26/Cloak_27
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26/Cloak_27/Cloak_28
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26/Cloak_27/Cloak_28/Cloak_29
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26/Cloak_27/Cloak_28/Cloak_29/Cloak_30
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_21/Cloak_22/Cloak_23/Cloak_24/Cloak_25/Cloak_26/Cloak_27/Cloak_28/Cloak_29/Cloak_30/Cloak_31
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32/Cloak_33
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32/Cloak_33/Cloak_32
+          1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32/Cloak_33/Cloak_32
+          1/Cloak_33 1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32/Cloak_33/Cloak_32
+          1/Cloak_33 1/Cloak_34
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_32/Cloak_33/Cloak_32
+          1/Cloak_33 1/Cloak_34/Cloak_35
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37/Cloak_38
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37/Cloak_38/Cloak_39
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37/Cloak_38/Cloak_39/Cloak_40
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37/Cloak_38/Cloak_39/Cloak_40/Cloak_41
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_36/Cloak_37/Cloak_38/Cloak_39/Cloak_40/Cloak_41/Cloak_42
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44/Cloak_45
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44/Cloak_45/Cloak_46
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44/Cloak_45/Cloak_46/Cloak_47
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44/Cloak_45/Cloak_46/Cloak_47/Cloak_48
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_43/Cloak_44/Cloak_45/Cloak_46/Cloak_47/Cloak_48/Cloak_49
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55/Cloak_56
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55/Cloak_56/Cloak_57
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55/Cloak_56/Cloak_57/Cloak_58
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55/Cloak_56/Cloak_57/Cloak_58/Cloak_59
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_50/Cloak_51/Cloak_52/Cloak_53/Cloak_54/Cloak_55/Cloak_56/Cloak_57/Cloak_58/Cloak_59/Cloak_60
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61/Cloak_62
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61/Cloak_62/Cloak_63
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61/Cloak_62/Cloak_63/Cloak_64
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61/Cloak_62/Cloak_63/Cloak_64/Cloak_65
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_61/Cloak_62/Cloak_63/Cloak_64/Cloak_65/Cloak_66
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69/Cloak_70
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69/Cloak_70/Cloak_71
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69/Cloak_70/Cloak_71/Cloak_72
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69/Cloak_70/Cloak_71/Cloak_72/Cloak_73
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_67/Cloak_68/Cloak_69/Cloak_70/Cloak_71/Cloak_72/Cloak_73/Cloak_74
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75/Cloak_76
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75/Cloak_76/Cloak_77
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75/Cloak_76/Cloak_77/Cloak_78
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75/Cloak_76/Cloak_77/Cloak_78/Cloak_79
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_75/Cloak_76/Cloak_77/Cloak_78/Cloak_79/Cloak_80
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81/Cloak_82
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81/Cloak_82/Cloak_83
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81/Cloak_82/Cloak_83/Cloak_84
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81/Cloak_82/Cloak_83/Cloak_84/Cloak_85
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Cloak_PARENT1/Cloak_81/Cloak_82/Cloak_83/Cloak_84/Cloak_85/Cloak_86
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/Head_nub
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/Hood_Volume_2_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/Hood_Volume_2_1/Hood_Volume_2_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/Jaw
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Center_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Center_1/L_Eye_Center_FWD
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_C_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_C_2/L_Eye_Lower_C
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_L_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_L_2/L_Eye_Lower_L
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_R_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Lower_R_2/L_Eye_Lower_R
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_C_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_C_2/L_Eye_Upper_C
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_L_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_L_2/L_Eye_Upper_L
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_R_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Eye_Base/L_Eye_Upper_R_2/L_Eye_Upper_R
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Hair_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Hair_1/L_Hair_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Hair_1/L_Hair_2/L_Hair_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/L_Hair_1/L_Hair_2/L_Hair_3/L_Hair_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Center_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Center_1/R_Eye_Center_FWD
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_C_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_C_2/R_Eye_Lower_C
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_R_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_R_2/R_Eye_Lower_L
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_R_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Lower_R_3/R_Eye_Lower_R
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_C_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_C_2/R_Eye_Upper_C
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_R_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_R_2/R_Eye_Upper_L
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_R_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Eye_Base/R_Eye_Upper_R_3/R_Eye_Upper_R
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Hair_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Hair_1/R_Hair_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Hair_1/R_Hair_2/R_Hair_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Head/R_Hair_1/R_Hair_2/R_Hair_3/R_Hair_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Hood_Volume_1_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/Neck/Hood_Volume_1_1/Hood_Volume_1_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_IndexFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_IndexFinger_1/R_IndexFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_IndexFinger_1/R_IndexFinger_2/R_IndexFinger_3/R_IndexFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_MiddleFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_MiddleFinger_1/R_MiddleFinger_2/R_MiddleFinger_3/R_MiddleFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_PinkyFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_PinkyFinger_1/R_PinkyFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_PinkyFinger_1/R_PinkyFinger_2/R_PinkyFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_PinkyFinger_1/R_PinkyFinger_2/R_PinkyFinger_3/R_PinkyFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_RingFinger_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_RingFinger_1/R_RingFinger_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_RingFinger_1/R_RingFinger_2/R_RingFinger_3/R_RingFinger_4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_Thumb_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_Thumb_1/R_Thumb_2
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb3
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Elbow_1/R_Elbow_2/R_ForeArm_1/R_ForeArm_2/R_ForeArm_3/R_Hand/R_Thumb_1/R_Thumb_2/R_Thumb3/R_Thumb4
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Shoulder_1
+        weight: 1
+      - path: ROOT/Spine_1/Spine_2/Chest/R_Clavicle_1/R_Clavicle_2/R_UpperArm/R_Shoulder_1/R_Shoulder_2
+        weight: 1
+      - path: Staff
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: CTRL_MASTER
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
