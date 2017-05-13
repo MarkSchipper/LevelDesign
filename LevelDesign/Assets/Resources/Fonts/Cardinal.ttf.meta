@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b07452f96dffd3a4496166c25ed3ead3
+timeCreated: 1494420626
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Cardinal
+  fontNames:
+  - Cardinal
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
