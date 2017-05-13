@@ -225,7 +225,7 @@ Shader "Custom/DoubleStandard"
 			ZWrite [_ZWrite]
 
 			CGPROGRAM
-			#pragma target 2.0
+			#pragma target 3.0
 			
 			#pragma shader_feature _NORMALMAP
 			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
@@ -260,7 +260,7 @@ Shader "Custom/DoubleStandard"
 			ZTest LEqual
 			
 			CGPROGRAM
-			#pragma target 2.0
+			#pragma target 3.0
 
 			#pragma shader_feature _NORMALMAP
 			#pragma shader_feature _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
