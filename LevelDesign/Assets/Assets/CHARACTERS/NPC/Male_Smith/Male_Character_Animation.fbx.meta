@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: d0de59d0b9548d44fbb4af897d925f2f
-timeCreated: 1491417535
+guid: 2d02eee3e144fe54d94fa5edff992b7e
+timeCreated: 1488471592
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -240,7 +240,8 @@ ModelImporter:
     4300004: MaleCharacter
     4300006: Hammer
     4300008: R_EYe
-    7400000: Take 001
+    7400000: WalkCycle
+    7400002: Idle
     9500000: //RootNode
     13700000: Beard1
     13700002: Hammer
@@ -254,26 +255,540 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleCurves: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: WalkCycle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beard1
+        weight: 1
+      - path: CTRL_MASTER
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_IK_Toe
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_INV_Ankle/L_IK_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_IK_Toe
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_INV_Ankle/R_IK_Ankle
+        weight: 1
+      - path: Hammer
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint2
+        weight: 1
+      - path: L_Eye
+        weight: 1
+      - path: MaleCharacter
+        weight: 1
+      - path: Pelvis
+        weight: 1
+      - path: Pelvis/L_UpperLeg
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle/L_Foot
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle/L_Foot/L_Toe
+        weight: 1
+      - path: Pelvis/Spine_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3/L_MiddleFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3/L_Pinky_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2/L_PointFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2/L_PointFinger_3/L_PointFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3/L_RingFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3/L_Thumb_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/HeadNub
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/Jaw
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_Eye_Aim_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_Eye_Aim_1/L_Eye_Aim_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Lower_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Lower_1/L_EyeLid_Lower_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Upper_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Upper_1/L_EyeLid_Upper_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_Eye_Aim_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Lower_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Lower_1/R_EyeLid_Lower_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Upper_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Upper_1/R_EyeLid_Upper_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6/R_MiddleFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6/R_MiddleFinger_7/R_MiddleFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6/R_Pinky_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6/R_Pinky_7/R_Pinky_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6/R_PointFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6/R_PointFinger_7/R_PointFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6/R_RingFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6/R_RingFinger_7/R_RingFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6/R_Thumb_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6/R_Thumb_7/R_Thumb_8
+        weight: 1
+      - path: Pelvis/transform11
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle/R_Foot
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle/R_Foot/R_Toe
+        weight: 1
+      - path: R_EYe
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 50
+      lastFrame: 750
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Beard1
+        weight: 1
+      - path: CTRL_MASTER
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_IK_Toe
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/L_CTRL_Foot/L_INV_FootRoll/L_INV_Toe/L_INV_Foot/L_INV_Ankle/L_IK_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_IK_Toe
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_IK_Foot
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_INV_Ankle
+        weight: 1
+      - path: CTRL_MASTER/R_CTRL_Foot/R_INV_FootRoll/R_INV_Toe/R_INV_Foot/R_INV_Ankle/R_IK_Ankle
+        weight: 1
+      - path: Hammer
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint2
+        weight: 1
+      - path: L_Eye
+        weight: 1
+      - path: MaleCharacter
+        weight: 1
+      - path: Pelvis
+        weight: 1
+      - path: Pelvis/L_UpperLeg
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle/L_Foot
+        weight: 1
+      - path: Pelvis/L_UpperLeg/L_LowerLeg/L_Ankle/L_Foot/L_Toe
+        weight: 1
+      - path: Pelvis/Spine_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_MiddleFinger_1/L_MiddleFinger_2/L_MiddleFinger_3/L_MiddleFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Pinky_1/L_Pinky_2/L_Pinky_3/L_Pinky_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2/L_PointFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_PointFinger_1/L_PointFinger_2/L_PointFinger_3/L_PointFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_RingFinger_1/L_RingFinger_2/L_RingFinger_3/L_RingFinger_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/L_Clavicle/L_ClavicleNub/L_UpperArm/L_Elbow/L_LowerArm/L_LowerArmTwist_3/L_LowerArmTwist_2/L_LowerArmTwist_1/L_Hand/L_Thumb_1/L_Thumb_2/L_Thumb_3/L_Thumb_4
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/HeadNub
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/Jaw
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_Eye_Aim_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_Eye_Aim_1/L_Eye_Aim_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Lower_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Lower_1/L_EyeLid_Lower_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Upper_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/L_EyeLid_Upper_1/L_EyeLid_Upper_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_Eye_Aim_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Lower_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Lower_1/R_EyeLid_Lower_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Upper_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/Neck/Head/R_EyeLid_Upper_1/R_EyeLid_Upper_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6/R_MiddleFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_MiddleFinger_5/R_MiddleFinger_6/R_MiddleFinger_7/R_MiddleFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6/R_Pinky_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Pinky_5/R_Pinky_6/R_Pinky_7/R_Pinky_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6/R_PointFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_PointFinger_5/R_PointFinger_6/R_PointFinger_7/R_PointFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6/R_RingFinger_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_RingFinger_5/R_RingFinger_6/R_RingFinger_7/R_RingFinger_8
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6/R_Thumb_7
+        weight: 1
+      - path: Pelvis/Spine_2/Spine_3/Spine_4/Spine_5/Spine_6/R_Clavicle1/R_ClavicleNub1/R_UpperArm/R_Elbow/R_LowerArm/R_LowerArmTwist_3/R_LowerArmTwist_2/R_LowerArmTwist_1/R_Hand/R_Thumb_5/R_Thumb_6/R_Thumb_7/R_Thumb_8
+        weight: 1
+      - path: Pelvis/transform11
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle/R_Foot
+        weight: 1
+      - path: Pelvis/transform11/R_UpperLeg/R_LowerLeg/R_Ankle/R_Foot/R_Toe
+        weight: 1
+      - path: R_EYe
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 10
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
