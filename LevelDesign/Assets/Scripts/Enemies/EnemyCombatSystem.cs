@@ -354,7 +354,18 @@ namespace EnemyCombat
             _isAttacking = _set;
         }
         
+        public  void KillEnemy()
+        {
 
+            _isAttacking = false;
+            _isPatrol = false;
+            EnemyAnim.SetEnemyDeath();
+            _targetToAttack = GameObject.FindGameObjectWithTag("Player");
+            StartCoroutine(WaitForDeath());
+            _isAlive = false;
+            Debug.Log(this.GetComponentInChildren<Renderer>().material.GetFloat("_Distance"));
+
+        }
 
         public void SetCooldown(float _cd)
         {
@@ -501,6 +512,27 @@ namespace EnemyCombat
             return _isAlive;
         }
 
+        void DissolveEnemy()
+        {
+            //Debug.Log(this.GetComponentInChildren<Renderer>().material.GetFloat("_Distance"));
+
+            InvokeRepeating("DissolveOverTime", 0.1f, 0.1f);
+           
+        }
+
+        void DissolveOverTime()
+        {
+          
+            this.GetComponentInChildren<Renderer>().material.SetFloat(Shader.PropertyToID("_Distance"), this.GetComponentInChildren<Renderer>().material.GetFloat("_Distance") - 0.1f);
+            Debug.Log(GetComponentInChildren<Renderer>().material.GetFloat("_Distance"));
+
+            if (GetComponentInChildren<Renderer>().material.GetFloat("_Distance") < 0)
+            {
+                CancelInvoke();
+                EnemyDeath();
+            }
+        }
+
         IEnumerator WaitForDeath()
         {
             CombatSystem.SoundSystem.EnemyDeath(_targetToAttack.transform.position);
@@ -508,7 +540,8 @@ namespace EnemyCombat
             GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
             _tmp.GetComponent<ParticleSystem>().Play();
             yield return new WaitForSeconds(5);
-            EnemyDeath();
+            DissolveEnemy();
+            yield return new WaitForSeconds(2);
             Destroy(_tmp);
         }
                

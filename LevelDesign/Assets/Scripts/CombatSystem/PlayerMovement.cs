@@ -37,6 +37,16 @@ namespace CombatSystem
         private static bool _hovingOverUI = false;
         private static bool _draggingUI = false;
 
+        private static bool _hoveringOverSpellbar = false;
+        private static bool _draggingSpellbar = false;
+
+        private static bool _hoverOverInventory = false;
+        private static bool _draggingInventory = false;
+
+        private static bool _hoverOverQuestLog = false;
+        private static bool _draggingQuestLog = false;
+        
+
         private static int _playerHealth;
         private static int _playerMana;
         private static int _playerLevel;
@@ -154,10 +164,11 @@ namespace CombatSystem
             #region SetLocations
 
             // If we are not dragging the UI - to prevent setting a movement target while dragging
-            if (!_draggingUI)
+            if (!_hovingOverUI && !_hoveringOverSpellbar && !_hoverOverInventory)
             {
+                
                 // Same as DraggingUI - to prevent weird stuff
-                if (!_hovingOverUI)
+                if (!_draggingUI)
                 {
                     if (!_playerIsBlinking)
                     {
@@ -551,11 +562,34 @@ namespace CombatSystem
         public static void HoveringOverUI(bool _set)
         {
             _hovingOverUI = _set;
+
+            
+        }
+
+        public static void HoveringOverSpellbar(bool _set)
+        {
+            _hoveringOverSpellbar = _set;
+
+        }
+
+        public static void HoveringOverInventory(bool _set)
+        {
+            _hoverOverInventory = _set;
+        }
+
+        public static void HoveringOverQuestLog(bool _set)
+        {
+            _hoverOverQuestLog = _set;
         }
 
         public static void SetDraggingUI(bool _set)
         {
             _draggingUI = _set;
+        }
+
+        public static void SetDraggingQuestLog(bool _set)
+        {
+            _draggingQuestLog = _set;
         }
         
         public static void CompletedQuest()
@@ -795,7 +829,7 @@ namespace CombatSystem
             SoundSystem.PlayerBlink(this.transform.position);
 
             GameInteraction.ResetBlinkCooldown();
-            CombatSystem.PlayerCamera.CameraShake(2, 0.5f);
+            CombatSystem.CameraController.CameraShake(2, 0.5f);
             GameInteraction.SpellHasBeenCast();
 
             Destroy(_blinkObject);
@@ -1044,16 +1078,18 @@ namespace CombatSystem
                 if (_hit.collider.tag == "NPC")
                 {
                     GameInteraction.SetNpcCursor();
-   
+                    NPCSystem.NPC.HighlightNPC(true, _hit.collider.gameObject);
+      
                 }
                 if(_hit.collider.tag == "EnemyRanged" || _hit.collider.tag == "EnemyMelee")
                 {
                     GameInteraction.SetCombatCursor();
                     
                 }
-                else
+                if(_hit.collider.tag != "NPC" && _hit.collider.tag != "EnemyRanged" && _hit.collider.tag != "EnemyMelee" )
                 {
                     GameInteraction.SetNormalCursor();
+                    NPCSystem.NPC.HighlightNPC(false, null);
                 }
             }
         }
@@ -1104,6 +1140,11 @@ namespace CombatSystem
                 _castHealing = false;
                 Dialogue.DialogueManager.ShowMessage("Not enough mana", true);
             }
+        }
+
+        public static void StopMoving()
+        {
+            _isMoving = false;
         }
     }
 }

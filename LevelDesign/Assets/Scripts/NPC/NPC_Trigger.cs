@@ -8,6 +8,7 @@ namespace Quest
     {
         
         private NPCSystem.NPC _npc;
+        
 
         void Start()
         {
@@ -25,7 +26,9 @@ namespace Quest
             {
                 if (coll.tag == "Player")
                 {
-                    Debug.Log(coll.tag);
+
+                    CombatSystem.PlayerMovement.StopMoving();
+
                     _npc.PlayerInteraction(coll.gameObject, false);
 
                     if (!_npc.ReturnMetBefore())
@@ -47,7 +50,7 @@ namespace Quest
                         {
                             Debug.Log("QUEST IS ACTIVE");
                         }
-                        _npc.HasMetPlayer(true);
+                        
                         PlayerPrefs.SetString("MetNPC_" + _npc.ReturnNpcName(), "True");
                     }
                     if (_npc.ReturnMetBefore())
@@ -55,7 +58,7 @@ namespace Quest
 
                         if (!_npc.ReturnQuestGiver())
                         {
-                            Debug.Log("dialogue2");
+
                             Dialogue.DialogueManager.SetDialogue("", _npc.ReturnDialogue2(), false, -1, -1);
                             
                         }
@@ -98,7 +101,13 @@ namespace Quest
             {
                 _npc.PlayerInteraction(coll.gameObject, false);
             }
-            _npc.IsSelected(false);
+
+            if (!_npc.ReturnMetBefore())
+            {
+                _npc.HasMetPlayer(true);
+            }
+
+                _npc.IsSelected(false);
             Dialogue.DialogueManager.ExitDialogue(false);
         }
 

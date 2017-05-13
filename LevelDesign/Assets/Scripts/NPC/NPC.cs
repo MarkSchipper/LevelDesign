@@ -67,6 +67,9 @@ namespace NPCSystem
 
         private Animator _npcAnimator;
 
+        private static bool _highlight = false;
+        private static GameObject _goHighlight;
+        private static GameObject _storePrevGameObject;
 
         // Use this for initialization
         void Start()
@@ -121,6 +124,29 @@ namespace NPCSystem
                 {
 
                 }
+            }
+
+            if(_highlight)
+            {
+                for (int i = 0; i < _goHighlight.GetComponentsInChildren<SkinnedMeshRenderer>().Length; i++)
+                {
+                    if (_goHighlight.GetComponentsInChildren<SkinnedMeshRenderer>()[i].material.GetTexture("_EmissionMap") != null)
+                    {
+                        _goHighlight.GetComponentsInChildren<SkinnedMeshRenderer>()[i].material.SetColor("_EmissionColor", Color.white);
+                        _storePrevGameObject = _goHighlight;
+                    }
+                }                        
+                
+            }
+            if(!_highlight && _storePrevGameObject != null)
+            {
+
+                for (int i = 0; i < _storePrevGameObject.GetComponentsInChildren<SkinnedMeshRenderer>().Length; i++)
+                {
+                    _storePrevGameObject.GetComponentsInChildren<SkinnedMeshRenderer>()[i].material.SetColor("_EmissionColor", Color.black);
+                }
+
+                _storePrevGameObject = null;
             }
 
         }
@@ -351,6 +377,12 @@ namespace NPCSystem
         public string ReturnProfession()
         {
             return _npcProfession;
+        }
+
+        public static void HighlightNPC(bool _set, GameObject _npcGO)
+        {
+            _highlight = _set;
+            _goHighlight = _npcGO;
         }
 
 

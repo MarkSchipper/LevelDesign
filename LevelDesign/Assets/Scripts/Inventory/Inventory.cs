@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour {
 
     public GUISkin _skin;
 
-
+    private CombatSystem.PlayerMovement _player;
 
     // inventory positions
 
@@ -56,6 +56,8 @@ public class Inventory : MonoBehaviour {
         {
             _inventoryPos = new Vector2(PlayerPrefs.GetFloat("InventoryPosX"), PlayerPrefs.GetFloat("InventoryPosY"));
         }
+
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
 
     }
 
@@ -134,7 +136,7 @@ public class Inventory : MonoBehaviour {
         {
 
             // Set the HoveringOverUI in the Player Class to prevent clicking and setting a target and therefor moving the player
-            CombatSystem.PlayerMovement.HoveringOverUI(true);
+            CombatSystem.PlayerMovement.HoveringOverInventory(true);
 
             // If we clicked the mouse and using the Left mousebutton
             if(e.button == 0 && e.type == EventType.mouseDown)
@@ -162,7 +164,7 @@ public class Inventory : MonoBehaviour {
 
         else
         {
-            CombatSystem.PlayerMovement.HoveringOverUI(false);
+            CombatSystem.PlayerMovement.HoveringOverInventory(false);
         }
 
         for (int y = 0; y < slotsY; y++)
