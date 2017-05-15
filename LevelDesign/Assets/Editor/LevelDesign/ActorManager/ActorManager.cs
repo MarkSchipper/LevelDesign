@@ -10,9 +10,6 @@ using System.Linq;
 namespace NPCSystem
 {
 
-  
-
-
     public class ActorManager : EditorWindow
     {
         private string _actorName;
@@ -34,6 +31,8 @@ namespace NPCSystem
         private bool _deleteActor = false;
         private bool _isDeletingActor = false;
         private bool _deleteConfirmation = false;
+        private bool _setInteraction = false;
+        private bool _isActorInteraction = false;
 
         private int _deleteActorID;
 
@@ -243,11 +242,27 @@ namespace NPCSystem
             if (_editActor)
             {
 
+               
+
+                Debug.Log(_actorInteraction);
+
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
 
                 GUILayout.Label("Edit an Actor");
                 GUILayout.Space(10);
                 _selectedActorIndex = EditorGUILayout.Popup(_selectedActorIndex, _allActorNames.ToArray());
+
+                if (!_setInteraction)
+                {
+
+                    _isActorInteraction = _allActorInteractions[_selectedActorIndex];
+                    _setInteraction = true;
+                }
+
+                if(GUI.changed)
+                {
+                    _setInteraction = false;
+                }
 
                 GUILayout.Space(10);
 
@@ -260,7 +275,7 @@ namespace NPCSystem
 
                     _actorProfession = EditorGUILayout.TextField("Profession: ", _allActorProfessions[_selectedActorIndex]);
 
-                    _actorInteraction = EditorGUILayout.Toggle("Interactive?: ", _allActorInteractions[_selectedActorIndex]);
+                    _actorInteraction = EditorGUILayout.Toggle("Interactive?: ", _actorInteraction);
 
                     if (_actorInteraction)
                     {
@@ -570,21 +585,30 @@ namespace NPCSystem
 
         void AddActorToGame()
         {
+
+            // Create a new Parent object for the NPC
             GameObject _npcParent = new GameObject();
             _npcParent.name = "NPC_" + _allActorNames[_selectedActorIndex] + "";
 
+            // Add a sphere collider to initiate conversation ( simple OnTriggerEnter )
             _npcParent.AddComponent<SphereCollider>();
             _npcParent.GetComponent<SphereCollider>().isTrigger = true;
-            _npcParent.GetComponent<SphereCollider>().radius = 4.0f;
-            _npcParent.tag = "NPC";
+            _npcParent.GetComponent<SphereCollider>().radius = 3.0f;
+
+            // Set the Layer to 2 ( Ignore Raycast ), we only want this collider to trigger and not interfere in the actual game
+            _npcParent.layer = 2;
 
             _npcParent.AddComponent<Quest.NPC_Trigger>();
-
-            Debug.Log(_allActorPrefabs[_selectedActorIndex]);
+            
 
             GameObject _NPC = Instantiate(Resources.Load("Characters/NPC/" + _allActorPrefabs[_selectedActorIndex], typeof(GameObject))) as GameObject;
             _NPC.transform.parent = _npcParent.transform;
             _NPC.tag = "NPC";
+            _NPC.AddComponent<CapsuleCollider>();
+            _NPC.GetComponent<CapsuleCollider>().radius = 1.0f;
+            _NPC.GetComponent<CapsuleCollider>().height = 4.0f;
+            _NPC.GetComponent<CapsuleCollider>().center = new Vector3(0, 1.5f, 0);
+
             _NPC.AddComponent<NPCSystem.NPC>();
 
             _NPC.GetComponent<NPCSystem.NPC>().SetNpcID(_allActorID[_selectedActorIndex]);
@@ -634,5 +658,5 @@ namespace NPCSystem
         }
 
     }
-
+    
 }

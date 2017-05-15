@@ -22,7 +22,11 @@ namespace LevelEditor
         private UnityEngine.Object[] _loadSettlementProps;
         private UnityEngine.Object[] _loadAllLevels;
         private UnityEngine.Object[] _loadAllLoadingScreens;
-        
+        private UnityEngine.Object[] _loadDungeonTiles;
+        private UnityEngine.Object[] _loadDungeonProps;
+        private UnityEngine.Object[] _loadDungeonWalls;
+        private UnityEngine.Object[] _loadDungeonBorders;
+
 
         private UnityEngine.Object[] _loadAllPotions;
 
@@ -52,6 +56,13 @@ namespace LevelEditor
         private List<string> _vikingPropsNames = new List<string>();
         private List<string> _staticPropNames = new List<string>();
 
+        // dungeon
+
+        private List<string> _dungeonTileNames = new List<string>();
+        private List<string> _dungeonPropsNames = new List<string>();
+        private List<string> _dungeonWallNames = new List<string>();
+        private List<string> _dungeonBorderNames = new List<string>();
+
         // Other
         private UnityEngine.Object[] _loadGraveyard;
 
@@ -64,6 +75,7 @@ namespace LevelEditor
         private string[] _gameplaySelectType;
         private string[] _triggerSelectType;
         private string[] _vikingTileSelectType;
+        private string[] _gameplayTriggerSelectType;
 
         private int _themeSelectionIndex;
         private int _themeSelectTypeIndex;
@@ -72,6 +84,7 @@ namespace LevelEditor
         private int _loadScreenIndex;
         private int _triggerSelectIndex;
         private int _soundSelectIndex;
+        private int _gameplayTriggerIndex;
 
         private int _vikingTileSelectIndex;
 
@@ -87,7 +100,7 @@ namespace LevelEditor
         private bool _addPotions;
         private bool _isAddingTriggers = false;
         private bool _addStaticProps;
-        
+
         private bool _isGroundLevel;
 
         private Editor _gameObjectEditor;
@@ -120,6 +133,8 @@ namespace LevelEditor
         private List<string> _itemObject = new List<string>();
 
         private GUISkin _skin;
+
+        private int _numberOfRows = 5;
 
         [MenuItem("Level Design/World Builder/Level Editor")]
         static void ShowWindow()
@@ -171,6 +186,11 @@ namespace LevelEditor
             _loadVikingPerimeter = Resources.LoadAll("World_Building/Viking/Perimeter");
             _loadVikingProps = Resources.LoadAll("World_Building/Viking/Props");
             _loadStaticProps = Resources.LoadAll("World_Building/Rocks");
+
+            _loadDungeonTiles = Resources.LoadAll("World_Building/Dungeon/Tiles");
+            _loadDungeonProps = Resources.LoadAll("World_Building/Dungeon/Props");
+            _loadDungeonBorders = Resources.LoadAll("World_Building/Dungeon/Borders");
+            _loadDungeonWalls = Resources.LoadAll("World_Building/Dungeon/Walls");
 
             _loadGraveyard = Resources.LoadAll("World_Building/Graveyard");
             _loadAllLoadingScreens = Resources.LoadAll("Scenes/LoadingScreens");
@@ -332,6 +352,62 @@ namespace LevelEditor
 
             #endregion
 
+            #region DUNGEON
+
+            for (int i = 0; i < _loadDungeonTiles.Length; i++)
+            {
+                if (_loadDungeonTiles[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonTileNames.Add(_loadDungeonTiles[i].ToString().Remove(_loadDungeonTiles[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonProps.Length; i++)
+            {
+                if (_loadDungeonProps[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonPropsNames.Add(_loadDungeonProps[i].ToString().Remove(_loadDungeonProps[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonWalls.Length; i++)
+            {
+                if (_loadDungeonWalls[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonWallNames.Add(_loadDungeonWalls[i].ToString().Remove(_loadDungeonWalls[i].ToString().Length - 25));
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonBorders.Length; i++)
+            {
+                if (_loadDungeonBorders[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonBorderNames.Add(_loadDungeonBorders[i].ToString().Remove(_loadDungeonBorders[i].ToString().Length - 25));
+
+                }
+            }
+
+            #endregion
+
             #region STATIC PROPS
 
             for (int i = 0; i < _loadGraveyard.Length; i++)
@@ -375,11 +451,14 @@ namespace LevelEditor
             }
             #endregion
 
-            _themeSelection = new string[] { "", "Settlement", "Viking", "Graveyard" };
-            _themeSelectType = new string[] { "", "Buildings", "Tiles", "Perimeter", "Props" };
+            _themeSelection = new string[] { "", "Settlement", "Viking", "Graveyard", "Dungeon" };
+            _themeSelectType = new string[] { "", "Buildings", "Tiles", "Perimeter", "Props", "Borders" };
             _gameplaySelectType = new string[] { "", "Scene Management", "Triggers", "Events" };
-            _triggerSelectType = new string[] { "", "Audio Trigger", "Animation Trigger" };
+            _triggerSelectType = new string[] { "", "Audio Trigger", "Animation Trigger", "GamePlay" };
             _vikingTileSelectType = new string[] { "", "Surfaces", "Edges" };
+            _gameplayTriggerSelectType = new string[] { "", "Instant Death", "Level Up" };
+
+
         }
 
         void OnDisable()
@@ -426,7 +505,7 @@ namespace LevelEditor
                 {
                     _addItems = true;
                 }
-                if(GUILayout.Button("Add Static Props"))
+                if (GUILayout.Button("Add Static Props"))
                 {
                     _addStaticProps = true;
                 }
@@ -458,12 +537,12 @@ namespace LevelEditor
                     GetAllItems();
                 }
             }
-            if(_addPotions)
+            if (_addPotions)
             {
                 AddPotions();
             }
 
-            if(_addStaticProps)
+            if (_addStaticProps)
             {
                 AddStaticProps();
             }
@@ -482,6 +561,9 @@ namespace LevelEditor
 
                 Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
                 RaycastHit _hit;
+
+                SceneView sceneView = (SceneView)SceneView.sceneViews[0];
+                sceneView.Focus();
 
                 if (Physics.Raycast(_ray, out _hit))
                 {
@@ -505,14 +587,14 @@ namespace LevelEditor
                             _world.name = "WORLD";
                         }
 
-                        if(GameObject.Find("PROPS") == null)
+                        if (GameObject.Find("PROPS") == null)
                         {
                             GameObject _props = new GameObject();
                             _props.name = "PROPS";
                             _props.transform.SetParent(GameObject.Find("WORLD").transform);
                         }
 
-                        if(GameObject.Find("POTIONS") == null)
+                        if (GameObject.Find("POTIONS") == null)
                         {
                             GameObject _potions = new GameObject();
                             _potions.name = "POTIONS";
@@ -651,7 +733,7 @@ namespace LevelEditor
                         #endregion
                         //Selection.
                         _isAddingToScene = false;
-                        
+
 
                         // Set the Layer to 0 ( standard ) if it is not a gameplay trigger
                         if (!_isAddingTriggers)
@@ -725,7 +807,7 @@ namespace LevelEditor
 
                         if (i > 0)
                         {
-                            if ((i + 1) % 3 == 0)
+                            if ((i + 1) % _numberOfRows == 0)
                             {
 
                                 _yPos++;
@@ -758,126 +840,8 @@ namespace LevelEditor
                 #region SETTLEMENT TILES
                 if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
                 {
-                    if (GameObject.Find("GroundLevel") == null)
-                    {
-                        if (GUILayout.Button("Add Ground Level"))
-                        {
 
-                            if (GameObject.Find("WORLD") == null)
-                            {
-                                GameObject _worldParent = new GameObject();
-                                _worldParent.name = "WORLD";
-
-                            }
-
-                            if (GameObject.Find("WorldLevels") == null)
-                            {
-                                GameObject _levelsParent = new GameObject();
-                                _levelsParent.name = "WorldLevels";
-                                _levelsParent.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-
-                            GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                            _plane.GetComponent<MeshRenderer>().enabled = false;
-                            _plane.AddComponent<BoxCollider>();
-
-                            _plane.transform.localScale = new Vector3(1000, 0, 1000);
-                            _plane.name = "GroundLevel";
-                            _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                            _plane.AddComponent<FloorObject>();
-                            _plane.GetComponent<FloorObject>().SetLocation(-1);
-                            _plane.GetComponent<FloorObject>().SetObjectActive(true);
-
-                            _groundFloor = _plane;
-
-
-                        }
-                    }
-                    else {
-                        EditorGUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Add Level Beneath"))
-                        {
-                            GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                            _plane.GetComponent<MeshRenderer>().enabled = false;
-                            _plane.AddComponent<BoxCollider>();
-
-                            _plane.transform.localScale = new Vector3(1000, 0, 1000);
-
-                            _plane.transform.position = new Vector3(0, ((_lowerLevels.Count * 5) + 5) * -1, 0);
-
-                            _plane.name = "LowerLevel" + _lowerLevels.Count;
-                            _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                            _plane.AddComponent<FloorObject>();
-                            _plane.GetComponent<FloorObject>().SetObjectActive(true);
-                            _plane.GetComponent<FloorObject>().SetLocation(0);
-
-                            _lowerLevels.Add(_plane);
-                            _lowerLevelsIsActive.Add(true);
-
-
-
-                        }
-
-                        if (GUILayout.Button("Add Level Above"))
-                        {
-                            GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                            _plane.GetComponent<MeshRenderer>().enabled = false;
-                            _plane.AddComponent<BoxCollider>();
-
-                            _plane.transform.localScale = new Vector3(1000, 0, 1000);
-
-                            _plane.transform.position = new Vector3(0, ((_upperLevels.Count * 5) + 5), 0);
-
-                            _plane.name = "UpperLevels" + _upperLevels.Count;
-                            _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                            _plane.AddComponent<FloorObject>();
-                            _plane.GetComponent<FloorObject>().SetObjectActive(true);
-                            _plane.GetComponent<FloorObject>().SetLocation(1);
-
-                            _upperLevels.Add(_plane);
-                            _upperLevelsIsActive.Add(true);
-
-                        }
-                        EditorGUILayout.EndHorizontal();
-
-                        _groundIsActive = EditorGUILayout.Toggle(_groundFloor.name + " - Active: ", _groundIsActive);
-                        _groundIsActive = true;
-
-                        if (!_groundIsActive)
-                        {
-                            _groundFloor.GetComponent<FloorObject>().SetObjectActive(false);
-                        }
-                        if (_groundIsActive)
-                        {
-                            _groundFloor.GetComponent<FloorObject>().SetObjectActive(true);
-                        }
-
-                        for (int i = 0; i < _lowerLevels.Count; i++)
-                        {
-                            _lowerLevelsIsActive[i] = EditorGUILayout.Toggle(_lowerLevels[i].name + " - Active: ", _lowerLevelsIsActive[i]);
-
-                            if (!_lowerLevelsIsActive[i])
-                            {
-                                _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
-                            }
-                            else
-                            {
-                                _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
-                            }
-                        }
-
-                        for (int i = 0; i < _upperLevels.Count; i++)
-                        {
-                            _upperLevelsIsActive[i] = EditorGUILayout.Toggle(_upperLevels[i].name + " - Active: ", _upperLevelsIsActive[i]);
-                            if (!_upperLevelsIsActive[i])
-                            {
-                                _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
-                            }
-                            else
-                            {
-                                _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
-                            }
-                        }
+                    CheckFloors();
 
                         _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
@@ -888,7 +852,7 @@ namespace LevelEditor
 
                             if (i > 0)
                             {
-                                if (i % 3 == 0)
+                                if (i % _numberOfRows == 0)
                                 {
 
                                     _yPos++;
@@ -912,7 +876,7 @@ namespace LevelEditor
                                 }
                             }
                         }
-                    }
+                    
                 }
                 #endregion
 
@@ -931,7 +895,7 @@ namespace LevelEditor
 
                         if (i > 0)
                         {
-                            if ((i + 1) % 3 == 0)
+                            if ((i + 1) % _numberOfRows == 0)
                             {
 
                                 _yPos++;
@@ -975,7 +939,7 @@ namespace LevelEditor
 
                         if (i > 0)
                         {
-                            if ((i + 1) % 3 == 0)
+                            if ((i + 1) % _numberOfRows == 0)
                             {
 
                                 _yPos++;
@@ -1027,7 +991,7 @@ namespace LevelEditor
 
                         if (i > 0)
                         {
-                            if ((i + 1) % 3 == 0)
+                            if ((i + 1) % _numberOfRows == 0)
                             {
 
                                 _yPos++;
@@ -1103,7 +1067,8 @@ namespace LevelEditor
                             _groundIsActive = true;
                         }
                     }
-                    if(_isGroundLevel) {
+                    if (_isGroundLevel)
+                    {
                         EditorGUILayout.BeginHorizontal();
                         if (GUILayout.Button("Add Level Beneath"))
                         {
@@ -1211,7 +1176,7 @@ namespace LevelEditor
 
                                 if (i > 0)
                                 {
-                                    if (i % 5 == 0)
+                                    if (i % _numberOfRows == 0)
                                     {
 
                                         _yPos++;
@@ -1249,7 +1214,7 @@ namespace LevelEditor
 
                                 if (i > 0)
                                 {
-                                    if (i % 5 == 0)
+                                    if (i % _numberOfRows == 0)
                                     {
 
                                         _yPos++;
@@ -1368,6 +1333,193 @@ namespace LevelEditor
             }
             #endregion
 
+            #region DUNGEON
+            if (_themeSelection[_themeSelectionIndex] == "Dungeon")
+            {
+
+                _themeSelectTypeIndex = EditorGUILayout.Popup(_themeSelectTypeIndex, _themeSelectType);
+
+
+                #region TILES
+                if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
+                {
+
+                    CheckFloors();
+
+                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
+
+                    for (int i = 0; i < _dungeonTileNames.Count; i++)
+                    {
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+
+
+                        _xPos++;
+
+                        if (i > 0)
+                        {
+                            if ((i + 1) % _numberOfRows == 0)
+                            {
+
+                                _yPos++;
+                                _xPos = 0;
+                            }
+                        }
+
+
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i]));
+
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+
+                        if (_previewRect[i].Contains(Event.current.mousePosition))
+                        {
+                            EditorGUILayout.HelpBox(_dungeonTileNames[i].ToString(), MessageType.Info);
+                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
+                            {
+                                _isAddingToScene = true;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i])) as GameObject;
+
+                                Event.current.Use();
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region PROPS
+                if (_themeSelectType[_themeSelectTypeIndex] == "Props")
+                {
+
+                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
+
+                    for (int i = 0; i < _dungeonPropsNames.Count; i++)
+                    {
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+
+
+                        _xPos++;
+
+                        if (i > 0)
+                        {
+                            if ((i + 1) % _numberOfRows == 0)
+                            {
+
+                                _yPos++;
+                                _xPos = 0;
+                            }
+                        }
+
+
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i]));
+
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+
+                        if (_previewRect[i].Contains(Event.current.mousePosition))
+                        {
+                            EditorGUILayout.HelpBox(_dungeonPropsNames[i].ToString(), MessageType.Info);
+                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
+                            {
+                                _isAddingToScene = true;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i])) as GameObject;
+
+                                Event.current.Use();
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region WALLS
+                if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
+                {
+
+                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
+
+                    for (int i = 0; i < _dungeonWallNames.Count; i++)
+                    {
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+
+
+                        _xPos++;
+
+                        if (i > 0)
+                        {
+                            if ((i + 1) % _numberOfRows == 0)
+                            {
+
+                                _yPos++;
+                                _xPos = 0;
+                            }
+                        }
+
+
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i]));
+
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+
+                        if (_previewRect[i].Contains(Event.current.mousePosition))
+                        {
+                            EditorGUILayout.HelpBox(_dungeonWallNames[i].ToString(), MessageType.Info);
+                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
+                            {
+                                _isAddingToScene = true;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i])) as GameObject;
+
+                                Event.current.Use();
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+                #region BORDERS
+                if (_themeSelectType[_themeSelectTypeIndex] == "Borders")
+                {
+
+                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
+
+                    for (int i = 0; i < _dungeonBorderNames.Count; i++)
+                    {
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+
+
+                        _xPos++;
+
+                        if (i > 0)
+                        {
+                            if ((i + 1) % _numberOfRows == 0)
+                            {
+
+                                _yPos++;
+                                _xPos = 0;
+                            }
+                        }
+
+
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i]));
+
+                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+
+                        if (_previewRect[i].Contains(Event.current.mousePosition))
+                        {
+                            EditorGUILayout.HelpBox(_dungeonBorderNames[i].ToString(), MessageType.Info);
+                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
+                            {
+                                _isAddingToScene = true;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i])) as GameObject;
+
+                                Event.current.Use();
+                            }
+                        }
+                    }
+                }
+                #endregion
+
+            }
+            #endregion
             #region GRAVEYARD
             if (_themeSelection[_themeSelectionIndex] == "Graveyard")
             {
@@ -1522,6 +1674,20 @@ namespace LevelEditor
 
             }
 
+            if (_triggerSelectType[_triggerSelectIndex] == "GamePlay")
+            {
+                _gameplayTriggerIndex = EditorGUILayout.Popup(_gameplayTriggerIndex, _gameplayTriggerSelectType);
+
+                if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Instant Death")
+                {
+                    // add cube that kills the player
+                }
+                if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Level Up")
+                {
+
+                }
+            }
+
             if (GUILayout.Button("BACK"))
             {
                 _addGameplay = false;
@@ -1568,7 +1734,7 @@ namespace LevelEditor
                         _isAddingToScene = true;
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Rocks/" + _staticPropNames[i])) as GameObject;
                         _objectToAdd.transform.SetParent(GameObject.Find("STATICPROPS").transform);
-                        
+
                         Event.current.Use();
                     }
                 }
@@ -1582,14 +1748,14 @@ namespace LevelEditor
 
         void AddItems()
         {
-            if(GUILayout.Button("Add Potions"))
+            if (GUILayout.Button("Add Potions"))
             {
                 _addPotions = true;
-            }   
-            if(GUILayout.Button("BACK"))
+            }
+            if (GUILayout.Button("BACK"))
             {
                 _addItems = false;
-            }        
+            }
         }
 
         void AddPotions()
@@ -1614,10 +1780,10 @@ namespace LevelEditor
                         _xPos = 0;
                     }
                 }
-                
+
                 _gameObjectEditor = Editor.CreateEditor(Resources.Load("Items/Potions/" + _AllPotionNames[i]));
                 Debug.Log(_gameObjectEditor);
-                 
+
                 _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                 if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1638,7 +1804,7 @@ namespace LevelEditor
                 }
             }
 
-            if(GUILayout.Button("BACK"))
+            if (GUILayout.Button("BACK"))
             {
                 _addPotions = false;
             }
@@ -1697,7 +1863,133 @@ namespace LevelEditor
             _itemStats.Clear();
             _itemObject.Clear();
             _AllPotionNames.Clear();
-    }
+        }
+
+        void CheckFloors()
+        {
+            if (GameObject.Find("GroundLevel") == null)
+            {
+                if (GUILayout.Button("Add Ground Level"))
+                {
+
+                    if (GameObject.Find("WORLD") == null)
+                    {
+                        GameObject _worldParent = new GameObject();
+                        _worldParent.name = "WORLD";
+
+                    }
+
+                    if (GameObject.Find("WorldLevels") == null)
+                    {
+                        GameObject _levelsParent = new GameObject();
+                        _levelsParent.name = "WorldLevels";
+                        _levelsParent.transform.SetParent(GameObject.Find("WORLD").transform);
+                    }
+
+                    GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.AddComponent<BoxCollider>();
+
+                    _plane.transform.localScale = new Vector3(1000, 0, 1000);
+                    _plane.name = "GroundLevel";
+                    _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
+                    _plane.AddComponent<FloorObject>();
+                    _plane.GetComponent<FloorObject>().SetLocation(-1);
+                    _plane.GetComponent<FloorObject>().SetObjectActive(true);
+
+                    _groundFloor = _plane;
+
+
+                }
+            }
+            else {
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Add Level Beneath"))
+                {
+                    GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.AddComponent<BoxCollider>();
+
+                    _plane.transform.localScale = new Vector3(1000, 0, 1000);
+
+                    _plane.transform.position = new Vector3(0, ((_lowerLevels.Count * 5) + 5) * -1, 0);
+
+                    _plane.name = "LowerLevel" + _lowerLevels.Count;
+                    _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
+                    _plane.AddComponent<FloorObject>();
+                    _plane.GetComponent<FloorObject>().SetObjectActive(true);
+                    _plane.GetComponent<FloorObject>().SetLocation(0);
+
+                    _lowerLevels.Add(_plane);
+                    _lowerLevelsIsActive.Add(true);
+
+
+
+                }
+
+                if (GUILayout.Button("Add Level Above"))
+                {
+                    GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.AddComponent<BoxCollider>();
+
+                    _plane.transform.localScale = new Vector3(1000, 0, 1000);
+
+                    _plane.transform.position = new Vector3(0, ((_upperLevels.Count * 5) + 5), 0);
+
+                    _plane.name = "UpperLevels" + _upperLevels.Count;
+                    _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
+                    _plane.AddComponent<FloorObject>();
+                    _plane.GetComponent<FloorObject>().SetObjectActive(true);
+                    _plane.GetComponent<FloorObject>().SetLocation(1);
+
+                    _upperLevels.Add(_plane);
+                    _upperLevelsIsActive.Add(true);
+
+                }
+                EditorGUILayout.EndHorizontal();
+
+                _groundIsActive = EditorGUILayout.Toggle(_groundFloor.name + " - Active: ", _groundIsActive);
+                //_groundIsActive = true;
+
+                if (!_groundIsActive)
+                {
+                    _groundFloor.GetComponent<FloorObject>().SetObjectActive(false);
+                }
+                if (_groundIsActive)
+                {
+                    _groundFloor.GetComponent<FloorObject>().SetObjectActive(true);
+                }
+
+                for (int i = 0; i < _lowerLevels.Count; i++)
+                {
+                    _lowerLevelsIsActive[i] = EditorGUILayout.Toggle(_lowerLevels[i].name + " - Active: ", _lowerLevelsIsActive[i]);
+
+                    if (!_lowerLevelsIsActive[i])
+                    {
+                        _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
+                    }
+                    else
+                    {
+                        _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
+                    }
+                }
+
+                for (int i = 0; i < _upperLevels.Count; i++)
+                {
+                    _upperLevelsIsActive[i] = EditorGUILayout.Toggle(_upperLevels[i].name + " - Active: ", _upperLevelsIsActive[i]);
+                    if (!_upperLevelsIsActive[i])
+                    {
+                        _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
+                    }
+                    else
+                    {
+                        _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
+                    }
+                }
+
+            }
+        }
     }
 }
 #endif
