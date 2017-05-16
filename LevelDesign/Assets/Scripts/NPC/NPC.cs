@@ -49,6 +49,7 @@ namespace NPCSystem
 
 
         public bool _patrol;
+        private bool _isPatrolling;
         public float _patrolSpeed;
 
         private int _currentWayPoint;
@@ -71,6 +72,9 @@ namespace NPCSystem
         private static GameObject _goHighlight;
         private static GameObject _storePrevGameObject;
 
+
+        private CharacterController _charController;
+
         // Use this for initialization
         void Start()
         {
@@ -87,11 +91,14 @@ namespace NPCSystem
             }
 
             _npcAnimator = GetComponent<Animator>();
+            _isPatrolling = _patrol;
+
+            _charController = GetComponent<CharacterController>();
 
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
 
             if (_player != null && _communicate)
@@ -107,7 +114,7 @@ namespace NPCSystem
 
             }
 
-            if (_patrol)
+            if (_isPatrolling)
             {
                 Patrol();
                 _npcAnimator.SetBool("isWalk", true);
@@ -157,7 +164,7 @@ namespace NPCSystem
         {
 
             _player = _playerTarget;
-            _patrol = _moving;
+            _isPatrolling = _moving;
 
             if (!_moving)
             {
@@ -173,7 +180,7 @@ namespace NPCSystem
 
         void Patrol()
         {
-            if (_patrol)
+            if (_isPatrolling)
             {
                 if (_wayPoints.Count > 0)
                 {
@@ -203,9 +210,11 @@ namespace NPCSystem
                     Vector3 _dir = _wayPointTarget - transform.position;                                        // get the Vector we are going to move to
                     _dir.y = 0f;                                                                                // we dont want to move up
                     Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
+                    Vector3 _forward = transform.TransformDirection(Vector3.forward);
 
                     transform.rotation = Quaternion.Slerp(transform.rotation, _targetRot, Time.deltaTime * 2);
-                    transform.position = Vector3.MoveTowards(transform.position, _wayPointTarget, _patrolSpeed / 10);
+                    _charController.SimpleMove(_forward * _patrolSpeed);
+                    
 
                     _distanceTraveled += (transform.position - _oldPosition).magnitude;
 
@@ -237,8 +246,9 @@ namespace NPCSystem
         public void PlayerInteraction(GameObject _playerTarget, bool _shouldMove)
         {
             _player = _playerTarget;
-            _patrol = _shouldMove;
+            _isPatrolling = _shouldMove;
 
+            
         }
 
         public int ReturnNpcID()
@@ -296,10 +306,12 @@ namespace NPCSystem
             if (_behaviour == ActorBehaviour.Idle)
             {
                 _patrol = false;
+                _isPatrolling = false;
             }
             if (_behaviour == ActorBehaviour.Patrol)
             {
                 _patrol = true;
+                _isPatrolling = true;
             }
         }
 

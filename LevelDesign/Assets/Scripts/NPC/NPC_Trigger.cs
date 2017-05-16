@@ -13,7 +13,7 @@ namespace Quest
         void Start()
         {
             
-            _npc = this.GetComponentInChildren<NPCSystem.NPC>();
+            _npc = this.GetComponentInParent<NPCSystem.NPC>();
             
         }
 
@@ -80,9 +80,19 @@ namespace Quest
                         }
                         if(_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
+                            if(Quest.QuestDatabase.ReturnQuestTitle() != null)
+                            {
+                                Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
+                                Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
+                            }
+
+                            // If the NPC is a questgiver but the ReturnQuestTitle() == nothing it means that the quest is no longer enabled ( completed ), therefor show the regular text
+                            if (Quest.QuestDatabase.ReturnQuestTitle() == null)
+                            {
+                                Dialogue.DialogueManager.SetDialogue("", _npc.ReturnDialogue2(), false, -1, -1);
+                            }
                             // IF THE NPC HAS A QUEST
-                            Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
-                            Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
+                            
                         }
                     }
                 }
@@ -93,22 +103,29 @@ namespace Quest
 
         void OnTriggerExit(Collider coll)
         {
-            if (_npc.ReturnPatrol())
+            if (coll.tag == "Player")
             {
-                _npc.PlayerInteraction(coll.gameObject, true);
-            }
-            if(!_npc.ReturnPatrol())
-            {
-                _npc.PlayerInteraction(coll.gameObject, false);
-            }
 
-            if (!_npc.ReturnMetBefore())
-            {
-                _npc.HasMetPlayer(true);
-            }
+                Debug.Log(_npc.ReturnBehaviour());
+
+                if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Patrol)
+                {
+                    _npc.PlayerInteraction(null, true);
+                    Debug.Log("RETURN TO PATROL");
+                }
+                if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Idle)
+                {
+                    _npc.PlayerInteraction(null, false);
+                }
+
+                if (!_npc.ReturnMetBefore())
+                {
+                    _npc.HasMetPlayer(true);
+                }
 
                 _npc.IsSelected(false);
-            Dialogue.DialogueManager.ExitDialogue(false);
+                Dialogue.DialogueManager.ExitDialogue(false);
+            }
         }
 
 

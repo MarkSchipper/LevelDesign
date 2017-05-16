@@ -425,19 +425,17 @@ namespace NPCSystem
                         _inGameActorNames.Add(_allInGameActors[i].GetComponentInChildren<NPCSystem.NPC>().ReturnNpcName());
                         Debug.Log(_inGameActorNames.Count);
                     }
-
+                    _selectedBehaviour = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnBehaviour();
                     _gotInGameActors = true;
                 }
                 GUILayout.Label("Edit the behaviour of an In Game Actor");
                 _selectedActorIndex = EditorGUILayout.Popup(_selectedActorIndex, _inGameActorNames.ToArray());
 
-                _selectedBehaviour = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnBehaviour();
+                
                 _selectedBehaviour = (ActorBehaviour)EditorGUILayout.EnumPopup("Behaviour", _selectedBehaviour);
                 if (_selectedBehaviour == ActorBehaviour.Patrol)
                 {
-
-
-
+                    Debug.Log("PATROL");
                     if (!_loadedWaypoints)
                     {
                         for (int i = 0; i < _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnWaypointAmount(); i++)
@@ -590,24 +588,13 @@ namespace NPCSystem
             GameObject _npcParent = new GameObject();
             _npcParent.name = "NPC_" + _allActorNames[_selectedActorIndex] + "";
 
-            // Add a sphere collider to initiate conversation ( simple OnTriggerEnter )
-            _npcParent.AddComponent<SphereCollider>();
-            _npcParent.GetComponent<SphereCollider>().isTrigger = true;
-            _npcParent.GetComponent<SphereCollider>().radius = 3.0f;
-
-            // Set the Layer to 2 ( Ignore Raycast ), we only want this collider to trigger and not interfere in the actual game
-            _npcParent.layer = 2;
-
-            _npcParent.AddComponent<Quest.NPC_Trigger>();
-            
-
             GameObject _NPC = Instantiate(Resources.Load("Characters/NPC/" + _allActorPrefabs[_selectedActorIndex], typeof(GameObject))) as GameObject;
             _NPC.transform.parent = _npcParent.transform;
             _NPC.tag = "NPC";
-            _NPC.AddComponent<CapsuleCollider>();
-            _NPC.GetComponent<CapsuleCollider>().radius = 1.0f;
-            _NPC.GetComponent<CapsuleCollider>().height = 4.0f;
-            _NPC.GetComponent<CapsuleCollider>().center = new Vector3(0, 1.5f, 0);
+            _NPC.AddComponent<CharacterController>();
+            _NPC.GetComponent<CharacterController>().radius = 1.0f;
+            _NPC.GetComponent<CharacterController>().height = 4.0f;
+            _NPC.GetComponent<CharacterController>().center = new Vector3(0, 2f, 0);
 
             _NPC.AddComponent<NPCSystem.NPC>();
 
@@ -617,7 +604,6 @@ namespace NPCSystem
             _NPC.GetComponent<NPCSystem.NPC>().SetInteraction(_allActorInteractions[_selectedActorIndex]);
             _NPC.GetComponent<NPCSystem.NPC>().SetDialogues(_allActorDialogue1[_selectedActorIndex], _allActorDialogue2[_selectedActorIndex]);
             _NPC.GetComponent<NPCSystem.NPC>().SetQuestGiver(_allActorQuestGivers[_selectedActorIndex]);
-            Debug.Log(_allActorQuestGivers[_selectedActorIndex]);
             _NPC.GetComponent<NPCSystem.NPC>().SetNpcBehaviour(_selectedBehaviour);
 
             if (_selectedBehaviour == ActorBehaviour.Patrol && _wayPointAmount > 0)
@@ -635,6 +621,17 @@ namespace NPCSystem
             }
 
             _NPC.GetComponent<NPCSystem.NPC>().SetPatrolSpeed(_wayPointSpeed);
+
+            GameObject _npcTrigger = new GameObject();
+            _npcTrigger.name = "NPC_" + _allActorNames[_selectedActorIndex] + "_TRIGGER";
+
+            _npcTrigger.transform.SetParent(_NPC.transform);
+
+            _npcTrigger.AddComponent<SphereCollider>();
+            _npcTrigger.GetComponent<SphereCollider>().isTrigger = true;
+            _npcTrigger.GetComponent<SphereCollider>().radius = 3.5f;
+            _npcTrigger.layer = 2;
+            _npcTrigger.AddComponent<Quest.NPC_Trigger>();
 
         }
 

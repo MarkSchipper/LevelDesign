@@ -29,10 +29,13 @@ namespace CombatSystem
         private bool _moveToAttack = false;
         private bool _moveToNPC = false;
         private static bool _isKnockedBack = false;
+        private bool _isMovingToNPC = false;
+
 
         private GameObject _selectedActor;
         private GameObject _posClicked;
         private GameObject _clickMoveIcon;
+        private GameObject _selectedNPC;
 
         private static bool _hovingOverUI = false;
         private static bool _draggingUI = false;
@@ -232,12 +235,21 @@ namespace CombatSystem
             // If we are Moving ( walking )
             if (_isMoving)
             {
-                // Call the MoveToPosition function
-                MoveToPosition(_targetPosition);
+                if (!_isMovingToNPC)
+                {
+                    // Call the MoveToPosition function
+                    MoveToPosition(_targetPosition);
 
+                }
+                
+                
+                if(_isMovingToNPC)
+                {
+                    MoveToPosition(_selectedNPC.transform.position);
+                }
                 // Check if the Player is playing the running animation, if not -  Play the Running Animation
                 if (!AnimationSystem.ReturnRunningAnim())
-                {    
+                {
                     AnimationSystem.SetPlayerRunning();
                 }
             }
@@ -425,6 +437,8 @@ namespace CombatSystem
             {
                 _targetPosition = _hit.point;
                 _isMoving = true;
+                _isMovingToNPC = false;
+                
             }
         }
 
@@ -541,9 +555,12 @@ namespace CombatSystem
 
                 if (_hit.collider.gameObject.tag == "NPC")
                 {
-                    _targetPosition = _hit.point;
+                    //_targetPosition = _hit.point;
+                    _selectedNPC = _hit.collider.gameObject;
                     _hit.collider.gameObject.GetComponentInChildren<NPCSystem.NPC>().IsSelected(true);
                     _isMoving = true;
+                    _isMovingToNPC = true;
+
                 }
                 if (_hit.collider.gameObject.tag == "EnemyRanged" || _hit.collider.gameObject.tag == "EnemyMelee")
                 {
@@ -552,11 +569,15 @@ namespace CombatSystem
                     _moveToAttack = true;
 
                     _targetObject = _hit.collider.gameObject;
-                    
+
 
                 }
-                _selectedActor = _hit.collider.gameObject;
+                
+                    _selectedActor = _hit.collider.gameObject;
+                
             }
+
+            Debug.Log(_isMovingToNPC);
         }
         
         public static void HoveringOverUI(bool _set)
