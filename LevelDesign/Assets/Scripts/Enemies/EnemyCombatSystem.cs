@@ -253,7 +253,7 @@ namespace EnemyCombat
                 if(_dir.magnitude > 0.5f)
                 {
                     _characterController.SimpleMove(_forward * _enemyMoveSpeed);
-                    EnemyAnim.SetEnemyWalking();
+                    EnemyAnim.SetEnemyWalking(true);
                 }
 
             }
@@ -346,12 +346,17 @@ namespace EnemyCombat
             if (_set)
             {
                 _isPatrol = false;
+                EnemyAnim.SetEnemyWalking(false);
             }
             if(!_set)
             {
                 _isPatrol = true;
+                EnemyAnim.StopEnemyCombatIdle();
+                EnemyAnim.StopEnemyRunning();
             }
             _isAttacking = _set;
+
+
         }
         
         public  void KillEnemy()
@@ -385,10 +390,11 @@ namespace EnemyCombat
 
         void AttackPlayer()
         {
+            Vector3 _dir = _targetToAttack.transform.position - transform.position;
+
             if (_isInRange)
             {
-
-                Vector3 _dir = _targetToAttack.transform.position - transform.position;                                        // get the Vector we are going to move to
+               
                 _dir.y = 0f;                                                                                // we dont want to move up
                 Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
 
@@ -422,8 +428,12 @@ namespace EnemyCombat
 
 
             }
-            else
+            if(_dir.magnitude > _attackRange) 
             {
+                _isInRange = false;
+                EnemyAnim.SetAttackFalse();
+                EnemyAnim.StopEnemyCombatIdle();
+                EnemyAnim.SetEnemyRunning();
                 MoveToPlayer();
             }
         }
@@ -474,6 +484,7 @@ namespace EnemyCombat
                 else
                 {
                     _isInRange = true;
+                    Debug.Log("we are in range");
                     EnemyAnim.StopEnemyRunning();
                     EnemyAnim.SetEnemyCombatIdle();
                 }
@@ -524,7 +535,6 @@ namespace EnemyCombat
         {
           
             this.GetComponentInChildren<Renderer>().material.SetFloat(Shader.PropertyToID("_Distance"), this.GetComponentInChildren<Renderer>().material.GetFloat("_Distance") - 0.1f);
-            Debug.Log(GetComponentInChildren<Renderer>().material.GetFloat("_Distance"));
 
             if (GetComponentInChildren<Renderer>().material.GetFloat("_Distance") < 0)
             {
@@ -540,9 +550,7 @@ namespace EnemyCombat
             GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
             _tmp.GetComponent<ParticleSystem>().Play();
             yield return new WaitForSeconds(5);
-            DissolveEnemy();
-            yield return new WaitForSeconds(2);
-            Destroy(_tmp);
+            EnemyDeath();
         }
                
         IEnumerator KillParticleSystem(GameObject _obj, int _seconds)

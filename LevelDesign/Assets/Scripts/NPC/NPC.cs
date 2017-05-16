@@ -385,6 +385,11 @@ namespace NPCSystem
             _goHighlight = _npcGO;
         }
 
+        public void UpdateQuestNPC(bool _set)
+        {
+            _questGiver = _set;
+        }
+
 
     }
 }

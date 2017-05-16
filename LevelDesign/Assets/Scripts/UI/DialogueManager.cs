@@ -112,7 +112,7 @@ namespace Dialogue
             _showQuestWindow = true;
             _questCompleted = Quest.QuestDatabase.CheckQuestCompleteByID(_questID);
 
-            Debug.Log(_questText);
+
 
             //Debug.Log("NPCID " + _npcID + " QuetID " + _questID);
         }

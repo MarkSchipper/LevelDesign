@@ -309,7 +309,7 @@ namespace CombatSystem
                             _enemyHP.transform.parent.gameObject.SetActive(true);
                             _enemyHP.fillAmount = _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnHealth() / _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnMaxHealth();
 
-                            _enemyHP.transform.parent.GetComponentInChildren<Text>().text = _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnName();
+                         //   _enemyHP.transform.parent.GetComponentInChildren<Text>().text = _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnName();
 
                         }
                     }

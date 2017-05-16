@@ -25,8 +25,8 @@ namespace CombatSystem
                     coll.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
 
 
-                    this.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
-                    this.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
+                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
+                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
 
                     CombatSystem.SoundSystem.InCombat();
 
@@ -47,27 +47,24 @@ namespace CombatSystem
                     coll.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
 
 
-                    this.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
-                    this.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
+                    
+                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
 
                     CombatSystem.SoundSystem.InCombat();
 
                     _setOnce = true;
                 }
+                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
             }
         }
 
         void OnTriggerExit(Collider coll)
         {
 
-            if (coll.tag == "Player")
-            {
-
-                coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(false);
-                this.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(false);
-                
-
-            }
+            coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(false);
+            this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(false);
+            
+            
         }
     }
 

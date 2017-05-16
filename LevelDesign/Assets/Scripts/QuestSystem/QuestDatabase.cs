@@ -106,6 +106,15 @@ namespace Quest
                 {
                     _allQuestsType.Add(QuestType.Collect);
                 }
+                if(reader.GetString(3) == "Explore")
+                {
+                    _allQuestsType.Add(QuestType.Explore);
+                }
+
+                if(reader.GetString(3) == "Kill")
+                {
+                    _allQuestsType.Add(QuestType.Kill);
+                }
                 _allQuestItems.Add(reader.GetString(4));
                 if (reader.GetInt32(5) > 0)
                 {
@@ -217,7 +226,10 @@ namespace Quest
         // Called to get a specific QuestType based on the ID given from the QuestSystem
         public static QuestType GetQuestType(int _id)
         {
+            Debug.Log(_allQuestsType.Count);
+            
             return _allQuestsType[_id];
+         
         }
 
         // Called to get a specific QuestItem based on the ID given from the QuestSystem

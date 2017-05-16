@@ -17,14 +17,14 @@ namespace EnemyCombat
             _animator = _anim;
         }
 
-        public void SetEnemyWalking()
+        public void SetEnemyWalking(bool _set)
         {
-            _animator.SetBool("isWalk", true);
+            _animator.SetBool("isWalk", _set);
         }
 
         public void SetEnemyIdle()
         {
-
+            _animator.SetBool("isIdle", true);
         }
 
         public void SetEnemyCombatIdle()
@@ -33,6 +33,11 @@ namespace EnemyCombat
             _animator.SetBool("skipIdle", true);
             
             
+        }
+
+        public void StopEnemyCombatIdle()
+        {
+            _animator.SetBool("isCombatIdle", false);
         }
 
         public void SetEnemyRunning()
