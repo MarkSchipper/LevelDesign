@@ -300,6 +300,12 @@ namespace Quest
                 {
                     if (GUILayout.Button("SAVE QUEST"))
                     {
+                        Debug.Log(GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)));
+                        if(GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                        {
+                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                        }
+
                         Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled);
                         Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
 
@@ -617,6 +623,11 @@ namespace Quest
             {
                 if (GUILayout.Button("SAVE QUEST"))
                 {
+                    Debug.Log(GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)));
+                    if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                    {
+                        GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                    }
 
                     Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", 0, "", false, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled);
                     Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
