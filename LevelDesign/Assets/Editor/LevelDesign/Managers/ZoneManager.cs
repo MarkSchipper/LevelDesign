@@ -33,6 +33,8 @@ public class ZoneManager : EditorWindow
     private int _selectedZoneIndex;
     private bool[] _selectedZoneDelete;
 
+    private GUISkin _skin;
+
     [MenuItem("Level Design/Managers/Zone Manager")]
 
     static void ShowEditor()
@@ -40,8 +42,14 @@ public class ZoneManager : EditorWindow
         ZoneManager _zoneManager = EditorWindow.GetWindow<ZoneManager>();
     }
 
+    void OnEnable()
+    {
+        _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
+    }
+
     void OnGUI()
     {
+        GUI.skin = _skin;
 
         GUILayout.Label("Welcome to the Zone Manager", EditorStyles.boldLabel);
 

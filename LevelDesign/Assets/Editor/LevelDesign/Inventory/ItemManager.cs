@@ -50,6 +50,8 @@ public class ItemManager : EditorWindow {
     private bool _isAddingScene = false;
     private GameObject _objectToAdd;
 
+    private GUISkin _skin;
+
     [MenuItem("Level Design/Managers/Item Manager")]
 
     static void ShowEditor()
@@ -60,6 +62,9 @@ public class ItemManager : EditorWindow {
 
     void OnEnable()
     {
+
+        _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
+
         ClearLists();
         // OnEnable we get all items from the Items database
         GetAllItems();
@@ -91,6 +96,8 @@ public class ItemManager : EditorWindow {
 
     void OnGUI()
     {
+        GUI.skin = _skin;
+
         if (!_addItem && !_editItem && !_deleteItem && !_isDeletingItem) {
             if (GUILayout.Button("Add Item"))
             {

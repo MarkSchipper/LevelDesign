@@ -78,6 +78,8 @@ namespace CombatSystem
 
         private int _editSpellIndex;
 
+        private GUISkin _skin;
+
         [MenuItem("Level Design/Player/Spell Manager")]
         // Use this for initialization
 
@@ -90,6 +92,8 @@ namespace CombatSystem
 
         void OnEnable()
         {
+
+            _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
 
             _damageSpellNames.Clear();
             _allSpellIconNames.Clear();
@@ -161,6 +165,9 @@ namespace CombatSystem
 
         void OnGUI()
         {
+
+            GUI.skin = _skin;
+
             GUILayout.Label("Welcome to the Spell Manager", EditorStyles.boldLabel);
 
             if (!_addSpell && !_editSpell && !_deleteSpell)

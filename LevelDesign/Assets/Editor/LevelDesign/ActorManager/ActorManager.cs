@@ -69,18 +69,27 @@ namespace NPCSystem
         private bool _gotInGameActors = false;
         private bool _loadedWaypoints = false;
 
+        private GUISkin _skin;
 
         private Vector2 scrollPos;
 
-        [MenuItem("Level Design/Managers/Actor Manager")]
+        [MenuItem("Level Design/Managers/NPC Manager")]
 
         static void ShowEditor()
         {
             ActorManager _actorManager = EditorWindow.GetWindow<ActorManager>();
         }
 
+        void OnEnable()
+        {
+            _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
+        }
+
         void OnGUI()
         {
+
+            GUI.skin = _skin;
+
             GUILayout.Label("Welcome to the Actor Manager", EditorStyles.boldLabel);
 
 

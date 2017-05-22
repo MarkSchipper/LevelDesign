@@ -105,7 +105,7 @@ namespace LevelEditor
 
         private Editor _gameObjectEditor;
 
-        private Vector2 _scrollPos;
+        private Vector2 _scrollPos = Vector2.zero;
 
         private bool _isAddingToScene = false;
         private GameObject _objectToAdd;
@@ -139,7 +139,7 @@ namespace LevelEditor
         [MenuItem("Level Design/World Builder/Level Editor")]
         static void ShowWindow()
         {
-            ObjectPainter _objectPainter = EditorWindow.GetWindow<ObjectPainter>();
+            ObjectPainter _objectPainter = EditorWindow.GetWindow<ObjectPainter>(true, "Level Editor");
         }
 
         void OnEnable()
@@ -451,10 +451,10 @@ namespace LevelEditor
             }
             #endregion
 
-            _themeSelection = new string[] { "", "Settlement", "Viking", "Graveyard", "Dungeon" };
-            _themeSelectType = new string[] { "", "Buildings", "Tiles", "Perimeter", "Props", "Borders" };
-            _gameplaySelectType = new string[] { "", "Scene Management", "Triggers", "Events" };
-            _triggerSelectType = new string[] { "", "Audio Trigger", "Animation Trigger", "GamePlay" };
+            _themeSelection = new string[] { "Select a Theme", "Settlement", "Viking", "Graveyard", "Dungeon" };
+            _themeSelectType = new string[] { "Select the type of Object", "Buildings", "Tiles", "Perimeter", "Props", "Borders" };
+            _gameplaySelectType = new string[] { "Select the type of Gameplay Trigger", "Switch Scene Trigger", "Triggers", "Events" };
+            _triggerSelectType = new string[] { "Select the type of Trigger", "Audio Trigger", "Animation Trigger", "GamePlay" };
             _vikingTileSelectType = new string[] { "", "Surfaces", "Edges" };
             _gameplayTriggerSelectType = new string[] { "", "Instant Death", "Level Up" };
 
@@ -488,34 +488,39 @@ namespace LevelEditor
         void OnGUI()
         {
 
+
+            //_scrollPos = GUILayout.BeginScrollView(_scrollPos, true, true, GUILayout.Width(400), GUILayout.Height(400));
+            
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+            
             GUI.skin = _skin;
+
+            //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
 
             if (!_addBuildings && !_addGameplay && !_addLoadLevels && !_addTriggers && !_addItems && !_addPotions && !_addStaticProps)
             {
-                if (GUILayout.Button("Add Static Objects"))
+                if (GUILayout.Button("Add World Objects", GUILayout.Width(750)))
                 {
                     _addBuildings = true;
                 }
 
-                if (GUILayout.Button("Add GamePlay Objects"))
+                if (GUILayout.Button("Add Gameplay Triggers", GUILayout.Width(750)))
                 {
                     _addGameplay = true;
                 }
-                if (GUILayout.Button("Add Items"))
+                if (GUILayout.Button("Add Items", GUILayout.Width(750)))
                 {
                     _addItems = true;
                 }
-                if (GUILayout.Button("Add Static Props"))
+                if (GUILayout.Button("Add Environmental Props", GUILayout.Width(750)))
                 {
                     _addStaticProps = true;
                 }
             }
-
+            
             if (_addBuildings)
-            {
-                _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+            {                
                 AddBuildings();
-                EditorGUILayout.EndScrollView();
             }
             if (_addGameplay)
             {
@@ -546,6 +551,13 @@ namespace LevelEditor
             {
                 AddStaticProps();
             }
+
+            //GUILayout.EndArea();
+            Rect view = GUILayoutUtility.GetRect(750, 1500);
+            //GUILayout.EndScrollView();
+            EditorGUILayout.EndScrollView();
+            
+            
         }
 
         // OnSceneGUI gets activated in the editor
@@ -775,8 +787,13 @@ namespace LevelEditor
         void AddBuildings()
         {
 
-            GUILayout.Label("Add a building", EditorStyles.boldLabel);
+            GUILayout.Label("Add World Objects", EditorStyles.boldLabel);
+
+            
+
             _themeSelectionIndex = EditorGUILayout.Popup(_themeSelectionIndex, _themeSelection);
+
+            
 
             Rect[] _previewRect = new Rect[50];
 
@@ -798,6 +815,8 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
+                    
+
                     for (int i = 0; i < _buildingNames.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
@@ -815,12 +834,11 @@ namespace LevelEditor
                             }
                         }
 
+                        
 
                         _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Buildings/" + _buildingNames[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
@@ -833,7 +851,9 @@ namespace LevelEditor
                                 Event.current.Use();
                             }
                         }
+                        
                     }
+                    
                 }
                 #endregion
 
@@ -860,7 +880,7 @@ namespace LevelEditor
                                 }
                             }
 
-                            GUILayout.BeginHorizontal();
+                            
                             _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTileNames[i]));
                             _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
@@ -1566,7 +1586,7 @@ namespace LevelEditor
                 _addBuildings = false;
             }
 
-
+            
         }
 
         void AddLoadLevel()
@@ -1587,25 +1607,26 @@ namespace LevelEditor
             if (GUILayout.Button("BACK"))
             {
                 _addLoadLevels = false;
+                
             }
 
         }
 
         void AddGameplay()
         {
+  
             if (!_addLoadLevels && !_addTriggers)
             {
                 _gameplaySelectIndex = EditorGUILayout.Popup(_gameplaySelectIndex, _gameplaySelectType);
 
                 if (_addGameplay)
                 {
-
                     if (GUILayout.Button("BACK"))
                     {
                         _addGameplay = false;
                     }
                 }
-                if (_gameplaySelectType[_gameplaySelectIndex] == "Scene Management")
+                if (_gameplaySelectType[_gameplaySelectIndex] == "Switch Scene Trigger")
                 {
                     if (GUILayout.Button("Add Trigger to load scene"))
                     {
@@ -1689,9 +1710,9 @@ namespace LevelEditor
             }
 
             if (GUILayout.Button("BACK"))
-            {
-                _addGameplay = false;
+            {                
                 _addTriggers = false;
+                _gameplaySelectIndex = 0;
             }
 
         }
@@ -1712,7 +1733,7 @@ namespace LevelEditor
 
                 if (i > 0)
                 {
-                    if ((i + 1) % 3 == 0)
+                    if ((i + 1) % _numberOfRows == 0)
                     {
                         _yPos++;
                         _xPos = 0;
@@ -1720,7 +1741,7 @@ namespace LevelEditor
                 }
 
                 _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Rocks/" + _staticPropNames[i]));
-                Debug.Log(_gameObjectEditor);
+
 
                 _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 

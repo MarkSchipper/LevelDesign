@@ -66,6 +66,8 @@ namespace Quest
         private int _zoneSelectedIndex;
         private bool _questAutoComplete;
 
+        private GUISkin _skin;
+
         [MenuItem("Level Design/Quest System/Quest Manager")]
         static void ShowEditor()
         {
@@ -75,11 +77,13 @@ namespace Quest
         void OnEnable()
         {
             Quest.QuestDatabase.ClearAll();
+
+            _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
         }
 
         void OnGUI()
         {
-
+            GUI.skin = _skin;
 
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
             GUILayout.Label("Welcome to the Quest System", EditorStyles.boldLabel);

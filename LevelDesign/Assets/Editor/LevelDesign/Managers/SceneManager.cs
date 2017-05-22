@@ -11,17 +11,25 @@ public class SceneManager : EditorWindow {
     private GameObject _sceneCanvas;
     private GameObject _camSetup;
     private GameObject _gameManager;
-	
-    [MenuItem("Level Design/Managers/Scene Mananger")]
 
-  
+    private GUISkin _skin;
+
+    [MenuItem("Level Design/Managers/Scene Mananger")]
+      
     static void ShowEditor()
     {
         SceneManager _sceneManager = EditorWindow.GetWindow<SceneManager>();
     }
 
+    void OnEnable()
+    {
+        _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
+    }
+
     void OnGUI()
     {
+        GUI.skin = _skin;
+
         GUILayout.Label("Welcome to the Scene Manager", EditorStyles.boldLabel);
 
         if(GUILayout.Button("Set up new Scene"))
