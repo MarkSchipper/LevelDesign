@@ -45,6 +45,9 @@ namespace Dialogue
         private static bool _showMessage = false;
         private static string _message;
 
+        private static bool _showHint = false;
+        private static string _hintMessage;
+
         private List<int> _questRewards = new List<int>();
 
         // Use this for initialization
@@ -98,6 +101,12 @@ namespace Dialogue
                 GUI.Label(_zoneRect, _message, _skin.GetStyle("Message"));
 
                 InvokeRepeating("CancelShowMessage", 2, 100);
+            }
+            if(_showHint)
+            {
+                Rect _hintRect = new Rect(Screen.width / 2 - 150, Screen.height / 2 - 350, 300, 100);
+                GUI.Label(_hintRect, _hintMessage, _skin.GetStyle("Hint"));
+                InvokeRepeating("CancelShowHint", 4, 100);
             }
         }
 
@@ -234,11 +243,24 @@ namespace Dialogue
             CancelInvoke();
         }
 
+        void CancelShowHint()
+        {
+            _showHint = false;
+            _hintMessage = "";
+            CancelInvoke();
+        }
+
         public static void ShowMessage(string _msg, bool _set)
         {
             _showMessage = _set;
             _message = _msg;
 
+        }
+
+        public static void ShowHint(string _msg, bool _set)
+        {
+            _showHint = _set;
+            _hintMessage = _msg;
         }
 
     }

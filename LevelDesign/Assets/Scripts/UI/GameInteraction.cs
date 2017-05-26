@@ -21,6 +21,14 @@ class mySorter : IComparer
 namespace CombatSystem
 {
 
+    // This project took almost a year to 'complete'.
+    // Started out as a small test which as you can see got much much much bigger.
+    // Most of of the stuff was done in my own spare time so i would like to thank my fiancee for her patience and support
+    // <3 Esther
+
+    // GameInteraction class //
+    // Handles most feedback things, UI and inputs
+
     public class GameInteraction : MonoBehaviour
     {
 
@@ -88,8 +96,8 @@ namespace CombatSystem
         void OnEnable()
         {
 
-            _enemyHP = GameObject.FindGameObjectWithTag("EnemyHP").GetComponent<Image>();
-            _enemyHP.transform.parent.gameObject.SetActive(false);
+            //_enemyHP = GameObject.FindGameObjectWithTag("EnemyHP").GetComponent<Image>();
+            //_enemyHP.transform.parent.gameObject.SetActive(false);
 
             _playerHP = GameObject.FindGameObjectWithTag("PlayerHP").GetComponent<Image>();
             _playerMana = GameObject.FindGameObjectWithTag("PlayerMana").GetComponent<Image>();
@@ -320,7 +328,7 @@ namespace CombatSystem
                 }
                 else
                 {
-                    _enemyHP.transform.parent.gameObject.SetActive(false);
+                    //_enemyHP.transform.parent.gameObject.SetActive(false);
                 }
             }
         }

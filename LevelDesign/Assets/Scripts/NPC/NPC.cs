@@ -97,6 +97,11 @@ namespace NPCSystem
 
         }
 
+        public void ClearCache()
+        {
+            PlayerPrefs.DeleteKey("MetNPC_" + ReturnNpcName());
+        }
+
         // Update is called once per frame
         void FixedUpdate()
         {
@@ -300,7 +305,6 @@ namespace NPCSystem
             }
         }
 
-
         public void SetNpcBehaviour(ActorBehaviour _behaviour)
         {
             if (_behaviour == ActorBehaviour.Idle)
@@ -320,12 +324,10 @@ namespace NPCSystem
             _wayPoints.Add(_wp);
         }
 
-
         public void SetPatrolSpeed(float _speed)
         {
             _patrolSpeed = _speed;
         }
-
 
         public void HasMetPlayer(bool _met)
         {
@@ -354,7 +356,6 @@ namespace NPCSystem
         {
             return _health;
         }
-
 
         public string ReturnDialogue1()
         {

@@ -69,7 +69,7 @@ namespace EnemyCombat
 
         static void ShowEditor()
         {
-            EnemyManager _EM = EditorWindow.GetWindow<EnemyManager>();
+            EnemyManager _EM = EditorWindow.GetWindow<EnemyManager>(false, "ENEMY MANAGER");
         }
 
         // Use this for initialization
@@ -155,12 +155,18 @@ namespace EnemyCombat
 
         void OnGUI()
         {
-            GUI.skin = _skin;
 
-            if(!_addingEnemy && !_viewingEnemies && !_editingEnemy && !_addingEnemyToGame && !_deleteEnemy)
+            GUI.skin = _skin;
+            Debug.Log(GUI.skin);
+            //GUI.backgroundColor = Color.black;
+
+            if (!_addingEnemy && !_viewingEnemies && !_editingEnemy && !_addingEnemyToGame && !_deleteEnemy)
             {
 
                 GUILayout.Label("Welcome to the Enemy Manager", EditorStyles.boldLabel);
+
+                GUILayout.Space(20);
+                GUILayout.Label("Perform Database Operations");
 
                 if (GUILayout.Button("Add Enemy"))
                 {
@@ -185,6 +191,7 @@ namespace EnemyCombat
 
 
                 GUILayout.Space(50);
+                GUILayout.Label("Add an Enemy to the Game and place it");
 
                 if(GUILayout.Button("Add Enemy to Game"))
                 {
