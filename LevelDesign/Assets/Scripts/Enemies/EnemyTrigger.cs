@@ -60,10 +60,11 @@ namespace CombatSystem
 
         void OnTriggerExit(Collider coll)
         {
-
-            coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(false);
-            this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(false);
-            
+            if (coll.tag == "Player")
+            {
+                coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(false);
+                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(false);
+            }
             
         }
     }

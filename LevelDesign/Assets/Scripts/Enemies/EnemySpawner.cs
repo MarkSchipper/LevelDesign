@@ -136,6 +136,7 @@ namespace EnemyCombat
                 _enemy.GetComponent<CapsuleCollider>().isTrigger = true;
                 _enemy.GetComponent<CapsuleCollider>().radius = 1.5f;
                 _enemy.GetComponent<CapsuleCollider>().height = 4.0f;
+                _enemy.GetComponent<CapsuleCollider>().center = new Vector3(0, 2, 0);
 
                 _enemy.AddComponent<CharacterController>();
 

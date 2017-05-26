@@ -32,6 +32,7 @@ namespace CombatSystem
     public class GameInteraction : MonoBehaviour
     {
 
+        private static Image[] _enemyBars;
         private static Image _enemyHP;
         private Image _enemyHUD;
         private Text _enemyText;
@@ -314,7 +315,20 @@ namespace CombatSystem
                         }
                         if (_selectedActor.tag == "EnemyRanged" || _selectedActor.tag == "EnemyMelee")
                         {
-                            _enemyHP.transform.parent.gameObject.SetActive(true);
+                            _enemyBars = _selectedActor.GetComponentsInChildren<Image>();
+
+                            for (int i = 0; i < _enemyBars.Length; i++)
+                            {
+                                if(_enemyBars[i].tag == "EnemyHP")
+                                {
+                                    _enemyHP = _enemyBars[i];
+                                }
+
+                                _enemyBars[i].enabled = true;
+
+                            }
+
+                            //_enemyHP.transform.parent.gameObject.SetActive(true);
                             _enemyHP.fillAmount = _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnHealth() / _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnMaxHealth();
 
                          //   _enemyHP.transform.parent.GetComponentInChildren<Text>().text = _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnName();
@@ -323,7 +337,7 @@ namespace CombatSystem
                     }
                     if (!_showBars)
                     {
-                        _enemyHP.transform.parent.gameObject.SetActive(false);
+                       // _enemyHP.transform.parent.gameObject.SetActive(false);
                     }
                 }
                 else
@@ -374,7 +388,7 @@ namespace CombatSystem
 
                 _enemyHUD = GameObject.FindGameObjectWithTag("EnemyHUD").GetComponent<Image>();
                 _enemyHUD.enabled = true;
-                _enemyHP = GameObject.FindGameObjectWithTag("EnemyHP").GetComponent<Image>();
+                //_enemyHP = GameObject.FindGameObjectWithTag("EnemyHP").GetComponent<Image>();
                 _enemyText = GameObject.FindGameObjectWithTag("EnemyName").GetComponent<Text>();
 
                 if (_selected.tag == "EnemyRanged")
@@ -397,7 +411,7 @@ namespace CombatSystem
                 {
 
                     _enemyText.text = _selected.GetComponentInChildren<NPCSystem.NPC>().ReturnNpcName();
-                    _enemyHP.fillAmount = _selected.GetComponentInChildren<NPCSystem.NPC>().ReturnNpcHealth();
+                    //_enemyHP.fillAmount = _selected.GetComponentInChildren<NPCSystem.NPC>().ReturnNpcHealth();
                     _enemyText.fontSize = _enemyText.fontSize * (int)(Screen.width / _devScreenSize.x);
 
                 }
@@ -418,7 +432,7 @@ namespace CombatSystem
             {
                 _enemyHP.fillAmount = _health / _selectedActor.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().ReturnMaxHealth();
             }
-
+     
         }
 
         public static void SetPlayerHealth(float _health)
