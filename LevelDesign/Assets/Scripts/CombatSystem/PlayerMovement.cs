@@ -1125,6 +1125,7 @@ namespace CombatSystem
         {
             if (_targetObject != null)
             {
+
                 Vector3 _dir = _targetObject.transform.position - transform.position;                       // get the Vector we are going to move to
                 _dir.y = 0f;                                                                                // we dont want to move up
                 Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
