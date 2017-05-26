@@ -15,6 +15,10 @@ namespace LevelEditor
     public class ObjectPainter : EditorWindow
     {
 
+        private bool _SHOWICONS = true;
+
+        // ENEMIES NAKIJKEN
+
         // Settlement
         private UnityEngine.Object[] _loadSettlementBuildings;
         private UnityEngine.Object[] _loadSettlementTiles;
@@ -47,6 +51,16 @@ namespace LevelEditor
         private UnityEngine.Object[] _loadVikingSurfaces;
         private UnityEngine.Object[] _loadVikingEdges;
         private UnityEngine.Object[] _loadStaticProps;
+
+        private UnityEngine.Object[] _loadDungeonPropsIcons;
+        private UnityEngine.Object[] _loadDungeonBordersIcons;
+        private UnityEngine.Object[] _loadDungeonTilesIcons;
+        private UnityEngine.Object[] _loadDungeonWallsIcons;
+
+        private List<string> _dungeonPropsIcons = new List<string>();
+        private List<string> _dungeonBordersIcons = new List<string>();
+        private List<string> _dungeonTilesIcons = new List<string>();
+        private List<string> _dungeonWallsIcons = new List<string>();
 
         private List<string> _vikingBuildingNames = new List<string>();
         private List<string> _vikingTilesNames = new List<string>();
@@ -103,6 +117,8 @@ namespace LevelEditor
 
         private bool _isGroundLevel;
 
+        
+
         private Editor _gameObjectEditor;
 
         private Vector2 _scrollPos = Vector2.zero;
@@ -117,13 +133,18 @@ namespace LevelEditor
 
         private List<GameObject> _upperLevels = new List<GameObject>();
 
-        private bool _groundIsActive;
+        private bool _groundIsActive = true;
         private List<bool> _lowerLevelsIsActive = new List<bool>();
         private List<bool> _upperLevelsIsActive = new List<bool>();
 
         private FloorObject[] _getFloors;
+        private List<string> _allFloors = new List<string>();
+        private int _floorObjectIndex = 0;
+        private List<GameObject> _activeFloors = new List<GameObject>();
 
         private int _previewWindow = 128;
+        private int _previewOffset = 175;
+        private int _previewTilesOffset = 200;
 
         private List<int> _itemID = new List<int>();
         private List<string> _itemName = new List<string>();
@@ -150,6 +171,9 @@ namespace LevelEditor
 
             for (int i = 0; i < _getFloors.Length; i++)
             {
+
+                _allFloors.Add(_getFloors[i].name);
+
                 if (_getFloors[i].ReturnLocation() == 0)
                 {
                     _lowerLevels.Add(_getFloors[i].gameObject);
@@ -195,9 +219,71 @@ namespace LevelEditor
             _loadGraveyard = Resources.LoadAll("World_Building/Graveyard");
             _loadAllLoadingScreens = Resources.LoadAll("Scenes/LoadingScreens");
 
+            _loadDungeonPropsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Props");
+            _loadDungeonBordersIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Borders");
+            _loadDungeonTilesIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Tiles");
+            _loadDungeonWallsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Walls");
+
             _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
 
 
+            for (int i = 0; i < _loadDungeonPropsIcons.Length; i++)
+            {
+                if (_loadDungeonPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonPropsIcons.Add(_loadDungeonPropsIcons[i].ToString().Remove(_loadDungeonPropsIcons[i].ToString().Length - 24));
+                    
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonBordersIcons.Length; i++)
+            {
+                if (_loadDungeonBordersIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonBordersIcons.Add(_loadDungeonBordersIcons[i].ToString().Remove(_loadDungeonBordersIcons[i].ToString().Length - 24));
+                    
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonTilesIcons.Length; i++)
+            {
+                if (_loadDungeonTilesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonTilesIcons.Add(_loadDungeonTilesIcons[i].ToString().Remove(_loadDungeonTilesIcons[i].ToString().Length - 24));
+                    
+
+                }
+            }
+
+            for (int i = 0; i < _loadDungeonWallsIcons.Length; i++)
+            {
+                if (_loadDungeonWallsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _dungeonWallsIcons.Add(_loadDungeonWallsIcons[i].ToString().Remove(_loadDungeonWallsIcons[i].ToString().Length - 24));
+
+
+                }
+            }
+
+            //  Debug.Log(_dungeonPropsIcons.Count);
             #region LEVEL SWITCHING
             for (int i = 0; i < _loadAllLoadingScreens.Length; i++)
             {
@@ -793,7 +879,7 @@ namespace LevelEditor
 
             _themeSelectionIndex = EditorGUILayout.Popup(_themeSelectionIndex, _themeSelection);
 
-            
+
 
             Rect[] _previewRect = new Rect[50];
 
@@ -819,7 +905,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _buildingNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                         _xPos++;
@@ -867,7 +953,7 @@ namespace LevelEditor
 
                         for (int i = 0; i < _settlementTileNames.Count; i++)
                         {
-                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 300 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
                             _xPos++;
 
                             if (i > 0)
@@ -908,7 +994,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _settlementPerimeterNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                         _xPos++;
@@ -952,7 +1038,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _settlementPropsNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                         _xPos++;
@@ -1004,7 +1090,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _vikingBuildingNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
 
                         _xPos++;
@@ -1039,223 +1125,86 @@ namespace LevelEditor
                     }
                 }
                 #endregion
-
                 #region VIKING TILES
                 if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
                 {
-                    if (!_isGroundLevel)
+                    _vikingTileSelectIndex = EditorGUILayout.Popup(_vikingTileSelectIndex, _vikingTileSelectType);
+
+
+                    CheckFloors();
+
+                    if (_vikingTileSelectType[_vikingTileSelectIndex] == "Surfaces")
                     {
-                        #region LEVELS
-                        if (GameObject.Find("GroundLevel") == null)
+
+
+                        for (int i = 0; i < _vikingSurfaceNames.Count; i++)
                         {
-                            if (GUILayout.Button("Add Ground Level"))
+
+                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                            _xPos++;
+
+                            if (i > 0)
                             {
 
-                                if (GameObject.Find("WORLD") == null)
+                                if (i % _numberOfRows == 0)
                                 {
-                                    GameObject _worldParent = new GameObject();
-                                    _worldParent.name = "WORLD";
 
+                                    _yPos++;
+                                    _xPos = 0;
                                 }
-
-                                if (GameObject.Find("WorldLevels") == null)
-                                {
-                                    GameObject _levelsParent = new GameObject();
-                                    _levelsParent.name = "WorldLevels";
-                                    _levelsParent.transform.SetParent(GameObject.Find("WORLD").transform);
-                                }
-
-                                GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                                _plane.GetComponent<MeshRenderer>().enabled = false;
-                                _plane.AddComponent<BoxCollider>();
-
-                                _plane.transform.localScale = new Vector3(1000, 0, 1000);
-                                _plane.name = "GroundLevel";
-                                _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                                _plane.AddComponent<FloorObject>();
-                                _plane.GetComponent<FloorObject>().SetLocation(-1);
-                                _plane.GetComponent<FloorObject>().SetObjectActive(true);
-
-                                _groundFloor = _plane;
-
-                                _isGroundLevel = true;
                             }
-                        }
-                        else
-                        {
-                            _isGroundLevel = true;
-                            _groundIsActive = true;
+
+                            // GUILayout.BeginHorizontal();
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i]));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+
+                            if (_previewRect[i].Contains(Event.current.mousePosition))
+                            {
+
+                                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
+                                {
+                                    _isAddingToScene = true;
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i])) as GameObject;
+
+                                    Event.current.Use();
+                                }
+                            }
                         }
                     }
-                    if (_isGroundLevel)
+
+                    if (_vikingTileSelectType[_vikingTileSelectIndex] == "Edges")
                     {
-                        EditorGUILayout.BeginHorizontal();
-                        if (GUILayout.Button("Add Level Beneath"))
+
+                        for (int i = 0; i < _vikingEdgeNames.Count; i++)
                         {
-                            GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                            _plane.GetComponent<MeshRenderer>().enabled = false;
-                            _plane.AddComponent<BoxCollider>();
-
-                            _plane.transform.localScale = new Vector3(1000, 0, 1000);
-
-                            _plane.transform.position = new Vector3(0, ((_lowerLevels.Count * 5) + 5) * -1, 0);
-
-                            _plane.name = "LowerLevel" + _lowerLevels.Count;
-                            _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                            _plane.AddComponent<FloorObject>();
-                            _plane.GetComponent<FloorObject>().SetObjectActive(true);
-                            _plane.GetComponent<FloorObject>().SetLocation(0);
-
-                            _lowerLevels.Add(_plane);
-                            _lowerLevelsIsActive.Add(true);
 
 
+                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                            _xPos++;
 
-                        }
-
-                        if (GUILayout.Button("Add Level Above"))
-                        {
-                            GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                            _plane.GetComponent<MeshRenderer>().enabled = false;
-                            _plane.AddComponent<BoxCollider>();
-
-                            _plane.transform.localScale = new Vector3(1000, 0, 1000);
-
-                            _plane.transform.position = new Vector3(0, ((_upperLevels.Count * 5) + 5), 0);
-
-                            _plane.name = "UpperLevels" + _upperLevels.Count;
-                            _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
-                            _plane.AddComponent<FloorObject>();
-                            _plane.GetComponent<FloorObject>().SetObjectActive(true);
-                            _plane.GetComponent<FloorObject>().SetLocation(1);
-
-                            _upperLevels.Add(_plane);
-                            _upperLevelsIsActive.Add(true);
-
-                        }
-                        #endregion
-
-
-
-                        EditorGUILayout.EndHorizontal();
-
-
-
-                        _groundIsActive = EditorGUILayout.Toggle(_groundFloor.name + " - Active: ", _groundIsActive);
-
-
-                        if (!_groundIsActive)
-                        {
-                            _groundFloor.GetComponent<FloorObject>().SetObjectActive(false);
-                        }
-                        if (_groundIsActive)
-                        {
-                            _groundFloor.GetComponent<FloorObject>().SetObjectActive(true);
-                        }
-
-                        for (int i = 0; i < _lowerLevels.Count; i++)
-                        {
-                            _lowerLevelsIsActive[i] = EditorGUILayout.Toggle(_lowerLevels[i].name + " - Active: ", _lowerLevelsIsActive[i]);
-
-                            if (!_lowerLevelsIsActive[i])
+                            if (i > 0)
                             {
-                                _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
-                            }
-                            else
-                            {
-                                _lowerLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
-                            }
-                        }
-
-                        for (int i = 0; i < _upperLevels.Count; i++)
-                        {
-                            _upperLevelsIsActive[i] = EditorGUILayout.Toggle(_upperLevels[i].name + " - Active: ", _upperLevelsIsActive[i]);
-                            if (!_upperLevelsIsActive[i])
-                            {
-                                _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(false);
-                            }
-                            else
-                            {
-                                _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
-                            }
-                        }
-
-                        _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-                        GUILayout.Space(20);
-                        _vikingTileSelectIndex = EditorGUILayout.Popup(_vikingTileSelectIndex, _vikingTileSelectType);
-
-                        if (_vikingTileSelectType[_vikingTileSelectIndex] == "Surfaces")
-                        {
-
-                            for (int i = 0; i < _vikingSurfaceNames.Count; i++)
-                            {
-
-
-                                _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 320 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-                                _xPos++;
-
-                                if (i > 0)
-                                {
-                                    if (i % _numberOfRows == 0)
-                                    {
-
-                                        _yPos++;
-                                        _xPos = 0;
-                                    }
-                                }
-
-                                GUILayout.BeginHorizontal();
-                                _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i]));
-                                _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                                if (_previewRect[i].Contains(Event.current.mousePosition))
+                                if (i % _numberOfRows == 0)
                                 {
 
-                                    if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                                    {
-                                        _isAddingToScene = true;
-                                        _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i])) as GameObject;
-
-                                        Event.current.Use();
-                                    }
+                                    _yPos++;
+                                    _xPos = 0;
                                 }
                             }
-                        }
 
-                        if (_vikingTileSelectType[_vikingTileSelectIndex] == "Edges")
-                        {
+                            //                                GUILayout.BeginHorizontal();
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i]));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
-                            for (int i = 0; i < _vikingEdgeNames.Count; i++)
+                            if (_previewRect[i].Contains(Event.current.mousePosition))
                             {
 
-
-                                _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 320 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-                                _xPos++;
-
-                                if (i > 0)
+                                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                                 {
-                                    if (i % _numberOfRows == 0)
-                                    {
+                                    _isAddingToScene = true;
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i])) as GameObject;
 
-                                        _yPos++;
-                                        _xPos = 0;
-                                    }
-                                }
-
-                                GUILayout.BeginHorizontal();
-                                _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i]));
-                                _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                                if (_previewRect[i].Contains(Event.current.mousePosition))
-                                {
-
-                                    if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                                    {
-                                        _isAddingToScene = true;
-                                        _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i])) as GameObject;
-
-                                        Event.current.Use();
-                                    }
+                                    Event.current.Use();
                                 }
                             }
                         }
@@ -1271,7 +1220,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _vikingPerimeterNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                         _xPos++;
@@ -1307,22 +1256,20 @@ namespace LevelEditor
                 }
                 #endregion
                 #region VIKING PROPS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Props")
+                if (_themeSelectType[_themeSelectTypeIndex] == "Props" && _themeSelection[_themeSelectionIndex] == "Viking")
                 {
-                    Debug.Log(_vikingPropsNames.Count);
-
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
                     for (int i = 0; i < _vikingPropsNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                         _xPos++;
 
                         if (i > 0)
                         {
-                            if ((i + 1) % 3 == 0)
+                            if ((i + 1) % _numberOfRows == 0)
                             {
 
                                 _yPos++;
@@ -1350,9 +1297,9 @@ namespace LevelEditor
                     }
                 }
                 #endregion
+                
             }
             #endregion
-
             #region DUNGEON
             if (_themeSelection[_themeSelectionIndex] == "Dungeon")
             {
@@ -1370,7 +1317,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _dungeonTileNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
 
                         _xPos++;
@@ -1385,10 +1332,17 @@ namespace LevelEditor
                             }
                         }
 
+                        if (_SHOWICONS)
+                        {
+                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Tiles/" + _dungeonTilesIcons[i]) as Texture2D);
+                        }
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i]));
+                        if (!_SHOWICONS)
+                        {
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        }
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1405,7 +1359,6 @@ namespace LevelEditor
                     }
                 }
                 #endregion
-
                 #region PROPS
                 if (_themeSelectType[_themeSelectTypeIndex] == "Props")
                 {
@@ -1414,7 +1367,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _dungeonPropsNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
 
                         _xPos++;
@@ -1429,10 +1382,16 @@ namespace LevelEditor
                             }
                         }
 
+                        if (_SHOWICONS)
+                        {
+                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Props/" + _dungeonPropsIcons[i]) as Texture2D);
+                        }
+                        if (!_SHOWICONS)
+                        {
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i]));
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        }
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1449,7 +1408,6 @@ namespace LevelEditor
                     }
                 }
                 #endregion
-
                 #region WALLS
                 if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
                 {
@@ -1458,7 +1416,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _dungeonWallNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
 
                         _xPos++;
@@ -1473,10 +1431,17 @@ namespace LevelEditor
                             }
                         }
 
+                        if(_SHOWICONS)
+                        {
+                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Walls/" + _dungeonWallsIcons[i]) as Texture2D);
+                        }
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i]));
+                        if (!_SHOWICONS)
+                        {
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i]));
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                        }
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1493,7 +1458,6 @@ namespace LevelEditor
                     }
                 }
                 #endregion
-
                 #region BORDERS
                 if (_themeSelectType[_themeSelectTypeIndex] == "Borders")
                 {
@@ -1502,7 +1466,7 @@ namespace LevelEditor
 
                     for (int i = 0; i < _dungeonBorderNames.Count; i++)
                     {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, 100);
+                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
 
                         _xPos++;
@@ -1517,10 +1481,18 @@ namespace LevelEditor
                             }
                         }
 
+                        if(_SHOWICONS)
+                        {
+                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Borders/" + _dungeonBordersIcons[i]) as Texture2D);
+                        }
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i]));
+                        if (!_SHOWICONS)
+                        {
 
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i]));
+                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
+
+                        }
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1545,7 +1517,7 @@ namespace LevelEditor
             {
                 for (int i = 0; i < _graveyardNames.Count; i++)
                 {
-                    _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                    _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
 
                     _xPos++;
@@ -1585,8 +1557,8 @@ namespace LevelEditor
             {
                 _addBuildings = false;
             }
-
             
+
         }
 
         void AddLoadLevel()
@@ -1919,7 +1891,8 @@ namespace LevelEditor
                     _plane.GetComponent<FloorObject>().SetObjectActive(true);
 
                     _groundFloor = _plane;
-
+                    _activeFloors.Add(_groundFloor);
+                    _allFloors.Add(_groundFloor.name);
 
                 }
             }
@@ -1935,7 +1908,7 @@ namespace LevelEditor
 
                     _plane.transform.position = new Vector3(0, ((_lowerLevels.Count * 5) + 5) * -1, 0);
 
-                    _plane.name = "LowerLevel" + _lowerLevels.Count;
+                    _plane.name = "LowerLevel_" + _lowerLevels.Count;
                     _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
                     _plane.AddComponent<FloorObject>();
                     _plane.GetComponent<FloorObject>().SetObjectActive(true);
@@ -1943,6 +1916,8 @@ namespace LevelEditor
 
                     _lowerLevels.Add(_plane);
                     _lowerLevelsIsActive.Add(true);
+                    _activeFloors.Add(_plane);
+                    _allFloors.Add(_plane.name);
 
 
 
@@ -1958,7 +1933,7 @@ namespace LevelEditor
 
                     _plane.transform.position = new Vector3(0, ((_upperLevels.Count * 5) + 5), 0);
 
-                    _plane.name = "UpperLevels" + _upperLevels.Count;
+                    _plane.name = "UpperLevels_" + _upperLevels.Count;
                     _plane.transform.SetParent(GameObject.Find("WorldLevels").transform);
                     _plane.AddComponent<FloorObject>();
                     _plane.GetComponent<FloorObject>().SetObjectActive(true);
@@ -1966,10 +1941,28 @@ namespace LevelEditor
 
                     _upperLevels.Add(_plane);
                     _upperLevelsIsActive.Add(true);
+                    _activeFloors.Add(_plane);
+                    _allFloors.Add(_plane.name);
 
                 }
                 EditorGUILayout.EndHorizontal();
 
+                GameObject _current = GameObject.Find(_allFloors[_floorObjectIndex]);
+
+                GUILayout.Label("Which Floor is Active");
+                _floorObjectIndex = EditorGUILayout.Popup(_floorObjectIndex, _allFloors.ToArray());
+
+                if(GameObject.Find(_allFloors[_floorObjectIndex]) != _current)
+                {
+                    Debug.Log("OLD FLOOR " + _current.name);
+                    _current.GetComponent<FloorObject>().SetObjectActive(false);
+                    _current = GameObject.Find(_allFloors[_floorObjectIndex]);
+                    Debug.Log("NEW FLOOR " + _current.name);
+                    _current.GetComponent<FloorObject>().SetObjectActive(true);
+
+                } 
+
+                /*
                 _groundIsActive = EditorGUILayout.Toggle(_groundFloor.name + " - Active: ", _groundIsActive);
                 //_groundIsActive = true;
 
@@ -2008,6 +2001,7 @@ namespace LevelEditor
                         _upperLevels[i].GetComponent<FloorObject>().SetObjectActive(true);
                     }
                 }
+                */
 
             }
         }
