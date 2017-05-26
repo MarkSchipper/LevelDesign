@@ -1315,7 +1315,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _dungeonTileNames.Count; i++)
+                    for (int i = 0; i < _dungeonTilesIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
