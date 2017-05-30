@@ -20,37 +20,23 @@ namespace LevelEditor
         // ENEMIES NAKIJKEN
 
         // Settlement
-        private UnityEngine.Object[] _loadSettlementBuildings;
-        private UnityEngine.Object[] _loadSettlementTiles;
-        private UnityEngine.Object[] _loadSettlementPerimeter;
-        private UnityEngine.Object[] _loadSettlementProps;
+        
         private UnityEngine.Object[] _loadAllLevels;
         private UnityEngine.Object[] _loadAllLoadingScreens;
-        private UnityEngine.Object[] _loadDungeonTiles;
-        private UnityEngine.Object[] _loadDungeonProps;
-        private UnityEngine.Object[] _loadDungeonWalls;
-        private UnityEngine.Object[] _loadDungeonBorders;
-
-
         private UnityEngine.Object[] _loadAllPotions;
 
-        private List<string> _buildingNames = new List<string>();
-        private List<string> _settlementTileNames = new List<string>();
-        private List<string> _settlementPerimeterNames = new List<string>();
-        private List<string> _settlementPropsNames = new List<string>();
 
         private List<string> _loadLevelNames = new List<string>();
         private List<string> _loadingScreenNames = new List<string>();
 
-        // Viking
+        // Environment ICONS
+        
+        
+        private UnityEngine.Object[] _loadEnvIcons;
 
-        private UnityEngine.Object[] _loadVikingBuildings;
-        private UnityEngine.Object[] _loadVikingTiles;
-        private UnityEngine.Object[] _loadVikingPerimeter;
-        private UnityEngine.Object[] _loadVikingProps;
-        private UnityEngine.Object[] _loadVikingSurfaces;
-        private UnityEngine.Object[] _loadVikingEdges;
-        private UnityEngine.Object[] _loadStaticProps;
+        private List<string> _environmentIcons = new List<string>();
+
+        // Dungeon ICONS
 
         private UnityEngine.Object[] _loadDungeonPropsIcons;
         private UnityEngine.Object[] _loadDungeonBordersIcons;
@@ -62,25 +48,47 @@ namespace LevelEditor
         private List<string> _dungeonTilesIcons = new List<string>();
         private List<string> _dungeonWallsIcons = new List<string>();
 
-        private List<string> _vikingBuildingNames = new List<string>();
-        private List<string> _vikingTilesNames = new List<string>();
-        private List<string> _vikingSurfaceNames = new List<string>();
-        private List<string> _vikingEdgeNames = new List<string>();
-        private List<string> _vikingPerimeterNames = new List<string>();
-        private List<string> _vikingPropsNames = new List<string>();
-        private List<string> _staticPropNames = new List<string>();
+        // Settlement ICONS
+
+        private UnityEngine.Object[] _loadSettlementPropsIcons;
+        private UnityEngine.Object[] _loadSettlementBuildingsIcons;
+        private UnityEngine.Object[] _loadSettlementPerimeterIcons;
+        private UnityEngine.Object[] _loadSettlementTilesIcons;
+
+        private List<string> _settlementPropsIcons = new List<string>();
+        private List<string> _settlementBuildingsIcons = new List<string>();
+        private List<string> _settlementPerimeterIcons = new List<string>();
+        private List<string> _settlementTilesIcons = new List<string>();
+
+        // Viking ICONS
+
+        private UnityEngine.Object[] _loadVikingPropsIcons;
+        private UnityEngine.Object[] _loadVikingBuildingsIcons;
+        private UnityEngine.Object[] _loadVikingPerimeterIcons;
+        private UnityEngine.Object[] _loadVikingEdgesIcons;
+        private UnityEngine.Object[] _loadVikingSurfacesIcons;
+
+        private List<string> _vikingPropsIcons = new List<string>();
+        private List<string> _vikingBuildingsIcons = new List<string>();
+        private List<string> _vikingPerimeterIcons = new List<string>();
+        private List<string> _vikingEdgesIcons = new List<string>();
+        private List<string> _vikingSurfacesIcons = new List<string>();
+
+        // Graveyard ICONS
+
+        private UnityEngine.Object[] _loadGraveyardIcons;
+
+        private List<string> _graveyardIcons = new List<string>();
+
+        
 
         // dungeon
 
-        private List<string> _dungeonTileNames = new List<string>();
-        private List<string> _dungeonPropsNames = new List<string>();
-        private List<string> _dungeonWallNames = new List<string>();
-        private List<string> _dungeonBorderNames = new List<string>();
-
+        
         // Other
-        private UnityEngine.Object[] _loadGraveyard;
+        
 
-        private List<string> _graveyardNames = new List<string>();
+        
 
         private List<string> _AllPotionNames = new List<string>();
 
@@ -197,26 +205,10 @@ namespace LevelEditor
 
             SceneView.onSceneGUIDelegate += this.OnSceneGUI;
 
-            _loadSettlementBuildings = Resources.LoadAll("World_Building/Settlement/Buildings/");
-            _loadSettlementTiles = Resources.LoadAll("World_Building/Settlement/Tiles/");
-            _loadSettlementPerimeter = Resources.LoadAll("World_Building/Settlement/Perimeter");
-            _loadSettlementProps = Resources.LoadAll("World_Building/Settlement/Props");
+
             _loadAllLevels = Resources.LoadAll("Scenes/");
             _loadAllPotions = Resources.LoadAll("Items/Potions/");
-
-            _loadVikingBuildings = Resources.LoadAll("World_Building/Viking/Buildings");
-            _loadVikingSurfaces = Resources.LoadAll("World_Building/Viking/Tiles/Surfaces");
-            _loadVikingEdges = Resources.LoadAll("World_Building/Viking/Tiles/Edges");
-            _loadVikingPerimeter = Resources.LoadAll("World_Building/Viking/Perimeter");
-            _loadVikingProps = Resources.LoadAll("World_Building/Viking/Props");
-            _loadStaticProps = Resources.LoadAll("World_Building/Rocks");
-
-            _loadDungeonTiles = Resources.LoadAll("World_Building/Dungeon/Tiles");
-            _loadDungeonProps = Resources.LoadAll("World_Building/Dungeon/Props");
-            _loadDungeonBorders = Resources.LoadAll("World_Building/Dungeon/Borders");
-            _loadDungeonWalls = Resources.LoadAll("World_Building/Dungeon/Walls");
-
-            _loadGraveyard = Resources.LoadAll("World_Building/Graveyard");
+            _loadEnvIcons = Resources.LoadAll("World_Building/ICONS/Rocks");
             _loadAllLoadingScreens = Resources.LoadAll("Scenes/LoadingScreens");
 
             _loadDungeonPropsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Props");
@@ -224,9 +216,23 @@ namespace LevelEditor
             _loadDungeonTilesIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Tiles");
             _loadDungeonWallsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Walls");
 
+            _loadSettlementBuildingsIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Buildings");
+            _loadSettlementPerimeterIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Perimeter");
+            _loadSettlementPropsIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Props");
+            _loadSettlementTilesIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Tiles");
+
+            _loadVikingBuildingsIcons = Resources.LoadAll("World_Building/ICONS/Viking/Buildings");
+            _loadVikingEdgesIcons = Resources.LoadAll("World_Building/ICONS/Viking/Tiles/Edges");
+            _loadVikingPerimeterIcons = Resources.LoadAll("World_Building/ICONS/Viking/Perimeter");
+            _loadVikingPropsIcons = Resources.LoadAll("World_Building/ICONS/Viking/Props");
+            _loadVikingSurfacesIcons = Resources.LoadAll("World_Building/ICONS/Viking/Tiles/Surfaces");
+
+            _loadGraveyardIcons = Resources.LoadAll("World_Building/ICONS/Graveyard");
+
             _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
 
 
+            #region DUNGEON ICONS
             for (int i = 0; i < _loadDungeonPropsIcons.Length; i++)
             {
                 if (_loadDungeonPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
@@ -282,8 +288,140 @@ namespace LevelEditor
 
                 }
             }
+            #endregion
+            #region SETTLEMENT ICONS
+            for (int i = 0; i < _loadSettlementBuildingsIcons.Length; i++)
+            {
+                if (_loadSettlementBuildingsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _settlementBuildingsIcons.Add(_loadSettlementBuildingsIcons[i].ToString().Remove(_loadSettlementBuildingsIcons[i].ToString().Length - 24));
 
-            //  Debug.Log(_dungeonPropsIcons.Count);
+                }
+            }
+
+            for (int i = 0; i < _loadSettlementPerimeterIcons.Length; i++)
+            {
+                if (_loadSettlementPerimeterIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _settlementPerimeterIcons.Add(_loadSettlementPerimeterIcons[i].ToString().Remove(_loadSettlementPerimeterIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadSettlementPropsIcons.Length; i++)
+            {
+                if (_loadSettlementPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _settlementPropsIcons.Add(_loadSettlementPropsIcons[i].ToString().Remove(_loadSettlementPropsIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadSettlementTilesIcons.Length; i++)
+            {
+                if (_loadSettlementTilesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _settlementTilesIcons.Add(_loadSettlementTilesIcons[i].ToString().Remove(_loadSettlementTilesIcons[i].ToString().Length - 24));
+
+                }
+            }
+            #endregion
+            #region VIKING ICONS
+            for (int i = 0; i < _loadVikingBuildingsIcons.Length; i++)
+            {
+                if (_loadVikingBuildingsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _vikingBuildingsIcons.Add(_loadVikingBuildingsIcons[i].ToString().Remove(_loadVikingBuildingsIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadVikingEdgesIcons.Length; i++)
+            {
+                if (_loadVikingEdgesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _vikingEdgesIcons.Add(_loadVikingEdgesIcons[i].ToString().Remove(_loadVikingEdgesIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadVikingPerimeterIcons.Length; i++)
+            {
+                if (_loadVikingPerimeterIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _vikingPerimeterIcons.Add(_loadVikingPerimeterIcons[i].ToString().Remove(_loadVikingPerimeterIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadVikingPropsIcons.Length; i++)
+            {
+                if (_loadVikingPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _vikingPropsIcons.Add(_loadVikingPropsIcons[i].ToString().Remove(_loadVikingPropsIcons[i].ToString().Length - 24));
+
+                }
+            }
+
+            for (int i = 0; i < _loadVikingSurfacesIcons.Length; i++)
+            {
+                if (_loadVikingSurfacesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _vikingSurfacesIcons.Add(_loadVikingSurfacesIcons[i].ToString().Remove(_loadVikingSurfacesIcons[i].ToString().Length - 24));
+
+                }
+            }
+            #endregion
+            #region GRAVEYARD ICONS
+            for (int i = 0; i < _loadGraveyardIcons.Length; i++)
+            {
+                if (_loadGraveyardIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
+                {
+                    // Strip the length of the string of the objects in the folder
+                    // By default it is :
+                    //                      Plant ( UnityEngine.GameObject )
+                    // Add it to a list
+                    _graveyardIcons.Add(_loadGraveyardIcons[i].ToString().Remove(_loadGraveyardIcons[i].ToString().Length - 24));
+
+                }
+            }
+            #endregion
             #region LEVEL SWITCHING
             for (int i = 0; i < _loadAllLoadingScreens.Length; i++)
             {
@@ -314,215 +452,20 @@ namespace LevelEditor
                 }
             }
             #endregion
-            #region SETTLEMENT
-
-            for (int i = 0; i < _loadSettlementBuildings.Length; i++)
-            {
-                if (_loadSettlementBuildings[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _buildingNames.Add(_loadSettlementBuildings[i].ToString().Remove(_loadSettlementBuildings[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementTiles.Length; i++)
-            {
-                if (_loadSettlementTiles[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementTileNames.Add(_loadSettlementTiles[i].ToString().Remove(_loadSettlementTiles[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementPerimeter.Length; i++)
-            {
-                if (_loadSettlementPerimeter[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementPerimeterNames.Add(_loadSettlementPerimeter[i].ToString().Remove(_loadSettlementPerimeter[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementProps.Length; i++)
-            {
-                if (_loadSettlementProps[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementPropsNames.Add(_loadSettlementProps[i].ToString().Remove(_loadSettlementProps[i].ToString().Length - 25));
-
-                }
-            }
-            #endregion
-
-            #region VIKING
-
-            for (int i = 0; i < _loadVikingBuildings.Length; i++)
-            {
-                if (_loadVikingBuildings[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingBuildingNames.Add(_loadVikingBuildings[i].ToString().Remove(_loadVikingBuildings[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingSurfaces.Length; i++)
-            {
-                if (_loadVikingSurfaces[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingSurfaceNames.Add(_loadVikingSurfaces[i].ToString().Remove(_loadVikingSurfaces[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingEdges.Length; i++)
-            {
-                if (_loadVikingEdges[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingEdgeNames.Add(_loadVikingEdges[i].ToString().Remove(_loadVikingEdges[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingPerimeter.Length; i++)
-            {
-                if (_loadVikingPerimeter[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingPerimeterNames.Add(_loadVikingPerimeter[i].ToString().Remove(_loadVikingPerimeter[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingProps.Length; i++)
-            {
-                if (_loadVikingProps[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingPropsNames.Add(_loadVikingProps[i].ToString().Remove(_loadVikingProps[i].ToString().Length - 25));
-
-                }
-            }
-
-            #endregion
-
-            #region DUNGEON
-
-            for (int i = 0; i < _loadDungeonTiles.Length; i++)
-            {
-                if (_loadDungeonTiles[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonTileNames.Add(_loadDungeonTiles[i].ToString().Remove(_loadDungeonTiles[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonProps.Length; i++)
-            {
-                if (_loadDungeonProps[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonPropsNames.Add(_loadDungeonProps[i].ToString().Remove(_loadDungeonProps[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonWalls.Length; i++)
-            {
-                if (_loadDungeonWalls[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonWallNames.Add(_loadDungeonWalls[i].ToString().Remove(_loadDungeonWalls[i].ToString().Length - 25));
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonBorders.Length; i++)
-            {
-                if (_loadDungeonBorders[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonBorderNames.Add(_loadDungeonBorders[i].ToString().Remove(_loadDungeonBorders[i].ToString().Length - 25));
-
-                }
-            }
-
-            #endregion
-
             #region STATIC PROPS
 
-            for (int i = 0; i < _loadGraveyard.Length; i++)
+            for (int i = 0; i < _loadEnvIcons.Length; i++)
             {
-                if (_loadGraveyard[i].GetType().ToString() == "UnityEngine.GameObject")
+                if (_loadEnvIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
                 {
                     // Strip the length of the string of the objects in the folder
                     // By default it is :
                     //                      Plant ( UnityEngine.GameObject )
                     // Add it to a list
-                    _graveyardNames.Add(_loadGraveyard[i].ToString().Remove(_loadGraveyard[i].ToString().Length - 25));
-
-                }
-            }
-
-
-            for (int i = 0; i < _loadStaticProps.Length; i++)
-            {
-                if (_loadStaticProps[i].GetType().ToString() == "UnityEngine.GameObject")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _staticPropNames.Add(_loadStaticProps[i].ToString().Remove(_loadStaticProps[i].ToString().Length - 25));
+                    _environmentIcons.Add(_loadEnvIcons[i].ToString().Remove(_loadEnvIcons[i].ToString().Length - 24));
                 }
             }
             #endregion
-
             #region POTIONS
             for (int i = 0; i < _loadAllPotions.Length; i++)
             {
@@ -875,11 +818,7 @@ namespace LevelEditor
 
             GUILayout.Label("Add World Objects", EditorStyles.boldLabel);
 
-            
-
             _themeSelectionIndex = EditorGUILayout.Popup(_themeSelectionIndex, _themeSelection);
-
-
 
             Rect[] _previewRect = new Rect[50];
 
@@ -903,7 +842,7 @@ namespace LevelEditor
 
                     
 
-                    for (int i = 0; i < _buildingNames.Count; i++)
+                    for (int i = 0; i < _settlementBuildingsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -922,17 +861,17 @@ namespace LevelEditor
 
                         
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Buildings/" + _buildingNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Buildings/" + _settlementBuildingsIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_buildingNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_settlementBuildingsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _buildingNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -951,7 +890,7 @@ namespace LevelEditor
 
                         _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                        for (int i = 0; i < _settlementTileNames.Count; i++)
+                        for (int i = 0; i < _settlementTilesIcons.Count; i++)
                         {
                             _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
                             _xPos++;
@@ -967,7 +906,7 @@ namespace LevelEditor
                             }
 
                             
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTileNames[i]));
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Tiles/" + _settlementTilesIcons[i]));
                             _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                             if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -976,7 +915,7 @@ namespace LevelEditor
                                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                                 {
                                     _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTileNames[i])) as GameObject;
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[i])) as GameObject;
 
                                     Event.current.Use();
                                 }
@@ -992,7 +931,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _settlementPerimeterNames.Count; i++)
+                    for (int i = 0; i < _settlementPerimeterIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -1010,18 +949,18 @@ namespace LevelEditor
                         }
 
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Perimeter/" + _settlementPerimeterIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_settlementPerimeterNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_settlementPerimeterIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1036,7 +975,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _settlementPropsNames.Count; i++)
+                    for (int i = 0; i < _settlementPropsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -1054,18 +993,18 @@ namespace LevelEditor
                         }
 
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Props/" + _settlementPropsIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_settlementPropsNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_settlementPropsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPropsNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1088,7 +1027,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _vikingBuildingNames.Count; i++)
+                    for (int i = 0; i < _vikingBuildingsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
@@ -1106,18 +1045,18 @@ namespace LevelEditor
                         }
 
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Buildings/" + _vikingBuildingsIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_vikingBuildingNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_vikingBuildingsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1137,7 +1076,7 @@ namespace LevelEditor
                     {
 
 
-                        for (int i = 0; i < _vikingSurfaceNames.Count; i++)
+                        for (int i = 0; i < _vikingSurfacesIcons.Count; i++)
                         {
 
                             _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
@@ -1155,7 +1094,7 @@ namespace LevelEditor
                             }
 
                             // GUILayout.BeginHorizontal();
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i]));
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[i]));
                             _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                             if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1164,7 +1103,7 @@ namespace LevelEditor
                                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                                 {
                                     _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfaceNames[i])) as GameObject;
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[i])) as GameObject;
 
                                     Event.current.Use();
                                 }
@@ -1175,7 +1114,7 @@ namespace LevelEditor
                     if (_vikingTileSelectType[_vikingTileSelectIndex] == "Edges")
                     {
 
-                        for (int i = 0; i < _vikingEdgeNames.Count; i++)
+                        for (int i = 0; i < _vikingEdgesIcons.Count; i++)
                         {
 
 
@@ -1193,7 +1132,7 @@ namespace LevelEditor
                             }
 
                             //                                GUILayout.BeginHorizontal();
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i]));
+                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Tiles/Edges/" + _vikingEdgesIcons[i]));
                             _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
                             if (_previewRect[i].Contains(Event.current.mousePosition))
@@ -1202,7 +1141,7 @@ namespace LevelEditor
                                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                                 {
                                     _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgeNames[i])) as GameObject;
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[i])) as GameObject;
 
                                     Event.current.Use();
                                 }
@@ -1218,7 +1157,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _vikingPerimeterNames.Count; i++)
+                    for (int i = 0; i < _vikingPerimeterIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -1236,18 +1175,18 @@ namespace LevelEditor
                         }
 
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Perimeter/" + _vikingPerimeterIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_vikingPerimeterNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_vikingPerimeterIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1260,7 +1199,7 @@ namespace LevelEditor
                 {
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _vikingPropsNames.Count; i++)
+                    for (int i = 0; i < _vikingPropsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -1278,18 +1217,18 @@ namespace LevelEditor
                         }
 
 
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Viking/Props/" + _vikingPropsNames[i]));
+                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Props/" + _vikingPropsIcons[i]));
 
                         _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                         //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_vikingPropsNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_vikingPropsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1331,27 +1270,16 @@ namespace LevelEditor
                                 _xPos = 0;
                             }
                         }
-
-                        if (_SHOWICONS)
-                        {
-                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Tiles/" + _dungeonTilesIcons[i]) as Texture2D);
-                        }
-
-                        if (!_SHOWICONS)
-                        {
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i]));
-
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        }
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+                        
+                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Tiles/" + _dungeonTilesIcons[i]) as Texture2D);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_dungeonTileNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_dungeonTilesIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTileNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1365,7 +1293,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _dungeonPropsNames.Count; i++)
+                    for (int i = 0; i < _dungeonPropsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
@@ -1381,26 +1309,16 @@ namespace LevelEditor
                                 _xPos = 0;
                             }
                         }
-
-                        if (_SHOWICONS)
-                        {
-                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Props/" + _dungeonPropsIcons[i]) as Texture2D);
-                        }
-                        if (!_SHOWICONS)
-                        {
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i]));
-
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        }
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+                                               
+                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Props/" + _dungeonPropsIcons[i]) as Texture2D);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_dungeonPropsNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_dungeonPropsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1414,7 +1332,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _dungeonWallNames.Count; i++)
+                    for (int i = 0; i < _dungeonWallsIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
@@ -1431,26 +1349,15 @@ namespace LevelEditor
                             }
                         }
 
-                        if(_SHOWICONS)
-                        {
-                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Walls/" + _dungeonWallsIcons[i]) as Texture2D);
-                        }
-
-                        if (!_SHOWICONS)
-                        {
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i]));
-
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        }
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Walls/" + _dungeonWallsIcons[i]) as Texture2D);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_dungeonWallNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_dungeonWallsIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1464,7 +1371,7 @@ namespace LevelEditor
 
                     _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
 
-                    for (int i = 0; i < _dungeonBorderNames.Count; i++)
+                    for (int i = 0; i < _dungeonBordersIcons.Count; i++)
                     {
                         _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
 
@@ -1481,27 +1388,15 @@ namespace LevelEditor
                             }
                         }
 
-                        if(_SHOWICONS)
-                        {
-                            EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Borders/" + _dungeonBordersIcons[i]) as Texture2D);
-                        }
-
-                        if (!_SHOWICONS)
-                        {
-
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i]));
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                        }
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
+                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Borders/" + _dungeonBordersIcons[i]) as Texture2D);
 
                         if (_previewRect[i].Contains(Event.current.mousePosition))
                         {
-                            EditorGUILayout.HelpBox(_dungeonBorderNames[i].ToString(), MessageType.Info);
+                            EditorGUILayout.HelpBox(_dungeonBordersIcons[i].ToString(), MessageType.Info);
                             if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                             {
                                 _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBorderNames[i])) as GameObject;
+                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[i])) as GameObject;
 
                                 Event.current.Use();
                             }
@@ -1515,7 +1410,7 @@ namespace LevelEditor
             #region GRAVEYARD
             if (_themeSelection[_themeSelectionIndex] == "Graveyard")
             {
-                for (int i = 0; i < _graveyardNames.Count; i++)
+                for (int i = 0; i < _graveyardIcons.Count; i++)
                 {
                     _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
 
@@ -1524,7 +1419,7 @@ namespace LevelEditor
 
                     if (i > 0)
                     {
-                        if ((i + 1) % 3 == 0)
+                        if ((i + 1) % _numberOfRows == 0)
                         {
 
                             _yPos++;
@@ -1533,18 +1428,18 @@ namespace LevelEditor
                     }
 
 
-                    _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Graveyard/" + _graveyardNames[i]));
+                    _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Graveyard/" + _graveyardIcons[i]));
 
                     _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
                     //EditorGUILayout.LabelField("test", _nameRect[i]);
 
                     if (_previewRect[i].Contains(Event.current.mousePosition))
                     {
-                        EditorGUILayout.HelpBox(_graveyardNames[i].ToString(), MessageType.Info);
+                        EditorGUILayout.HelpBox(_graveyardIcons[i].ToString(), MessageType.Info);
                         if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                         {
                             _isAddingToScene = true;
-                            _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardNames[i])) as GameObject;
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardIcons[i])) as GameObject;
 
                             Event.current.Use();
                         }
@@ -1696,9 +1591,9 @@ namespace LevelEditor
             int _yPos = 0;
             int _xPos = 0;
 
-            GUILayout.Button("Add Static Props", EditorStyles.boldLabel);
-
-            for (int i = 0; i < _staticPropNames.Count; i++)
+            GUILayout.Button("Add Environmental Props", EditorStyles.boldLabel);
+            
+            for (int i = 0; i < _environmentIcons.Count; i++)
             {
                 _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
                 _xPos++;
@@ -1712,20 +1607,17 @@ namespace LevelEditor
                     }
                 }
 
-                _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/Rocks/" + _staticPropNames[i]));
-
-
-                _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
+                EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Rocks/" + _environmentIcons[i]) as Texture2D);
+            
                 if (_previewRect[i].Contains(Event.current.mousePosition))
                 {
                     _snapAmount = 1;
 
-                    EditorGUILayout.HelpBox(_buildingNames[i].ToString(), MessageType.Info);
+                    EditorGUILayout.HelpBox(_environmentIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                     {
                         _isAddingToScene = true;
-                        _objectToAdd = Instantiate(Resources.Load("World_Building/Rocks/" + _staticPropNames[i])) as GameObject;
+                        _objectToAdd = Instantiate(Resources.Load("World_Building/Rocks/" + _environmentIcons[i])) as GameObject;
                         _objectToAdd.transform.SetParent(GameObject.Find("STATICPROPS").transform);
 
                         Event.current.Use();
@@ -1775,7 +1667,7 @@ namespace LevelEditor
                 }
 
                 _gameObjectEditor = Editor.CreateEditor(Resources.Load("Items/Potions/" + _AllPotionNames[i]));
-                Debug.Log(_gameObjectEditor);
+
 
                 _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
 
@@ -1783,7 +1675,7 @@ namespace LevelEditor
                 {
                     _snapAmount = 1;
 
-                    EditorGUILayout.HelpBox(_buildingNames[i].ToString(), MessageType.Info);
+                    EditorGUILayout.HelpBox(_AllPotionNames[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                     {
                         _isAddingToScene = true;
