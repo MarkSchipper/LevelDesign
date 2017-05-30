@@ -125,7 +125,9 @@ namespace LevelEditor
 
         private bool _isGroundLevel;
 
-        
+        private bool _isLayerSet = false;
+        private int _oldLayer = 0;
+    
 
         private Editor _gameObjectEditor;
 
@@ -606,9 +608,24 @@ namespace LevelEditor
                 SceneView sceneView = (SceneView)SceneView.sceneViews[0];
                 sceneView.Focus();
 
+
+                if (!_isLayerSet)
+                {
+                    _oldLayer = _objectToAdd.layer;
+                    _isLayerSet = true;
+                    
+                }
+                
                 if (Physics.Raycast(_ray, out _hit))
                 {
+                    
+                    
                     // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
+                    foreach (Transform child in _objectToAdd.transform)
+                    {
+                        child.gameObject.layer = 2;
+                    }
+
                     _objectToAdd.layer = 2;
 
                     // Snapping
@@ -779,7 +796,8 @@ namespace LevelEditor
                         // Set the Layer to 0 ( standard ) if it is not a gameplay trigger
                         if (!_isAddingTriggers)
                         {
-                            _objectToAdd.layer = 0;
+                            _objectToAdd.layer = _oldLayer;
+                            
                         }
                         if (_isAddingTriggers)
                         {
