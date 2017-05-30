@@ -613,7 +613,7 @@ namespace LevelEditor
                 {
                     _oldLayer = _objectToAdd.layer;
                     _isLayerSet = true;
-                    
+                    Debug.Log(_oldLayer);
                 }
                 
                 if (Physics.Raycast(_ray, out _hit))

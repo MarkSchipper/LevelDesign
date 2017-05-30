@@ -301,7 +301,7 @@ namespace NPCSystem
             else
             {
                 _questGiver = false;
-                Debug.Log(_questGiver);
+
             }
         }
 

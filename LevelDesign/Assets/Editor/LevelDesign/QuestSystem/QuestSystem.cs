@@ -139,7 +139,7 @@ namespace Quest
             EditorGUILayout.EndScrollView();
         }
 
-        void AddQuestItems(string _obj, int _amount)
+        void AddQuestItems(string _obj, int _amount, bool _edit, int _questID)
         {
             for (int i = 0; i < _amount; i++)
             {
@@ -162,6 +162,11 @@ namespace Quest
                     QuestObject.AddComponent<Quest.QuestItem>();
                     
                     _createdQuestItems.Add(QuestObject);
+
+                    if(_edit)
+                    {
+                        QuestObject.GetComponent<Quest.QuestItem>().SetQuestID(_questID);
+                    }
                 }
             }
         }
@@ -237,7 +242,7 @@ namespace Quest
                     {
                         if (GUILayout.Button("Add Items to the Game"))
                         {
-                            AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount);
+                            AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, false, 0);
                         }
                     }
                 }
@@ -250,7 +255,8 @@ namespace Quest
                 GUILayout.Space(20);
                 if (GUILayout.Button("Add Item to the Game"))
                 {
-                    AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), 1);
+                    _questItemCollectAmount = 1;
+                    AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), 1, false, 0);
                 }
             }
 
@@ -320,6 +326,9 @@ namespace Quest
                                 _createdQuestItems[i].GetComponent<Quest.QuestItem>().SetQuestID(Quest.QuestDatabase.ReturnLastQuestID());
                             }
                         }
+
+                        _addingQuest = false;
+
                     }
                 }
             }
@@ -384,6 +393,15 @@ namespace Quest
                 if (_questType == QuestType.Collect)
                 {
                     _questItemIndex = EditorGUILayout.Popup("Which Item: ", _questItemIndex, _allItemNames);
+                    if(GameObject.Find(_allItemNames[_questItemIndex]) == null)
+                    {
+                        GUILayout.Space(20);
+                        if (GUILayout.Button("Add Item to the Game"))
+                        {
+                            _questItemCollectAmount = 1;
+                            AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), 1, true, Quest.QuestDatabase.GetQuestID(_selectedQuestIndex));
+                        }
+                    }
                 }
 
                 _qItemAmount = (QuestItemAmount)EditorGUILayout.EnumPopup("Amount to Collect: ", _qItemAmount);
@@ -413,7 +431,7 @@ namespace Quest
                         if (GUILayout.Button("The Quest Items do not exist: Click to Add"))
                         {
 
-                            AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount);
+                            AddQuestItems(Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, true, Quest.QuestDatabase.GetQuestID(_selectedQuestIndex));
 
                         }
                     }
@@ -507,7 +525,7 @@ namespace Quest
             {
                 for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
                 {
-                    Debug.Log(_activeID[i]);
+                    
                     Quest.QuestDatabase.UpdateActiveQuests(_activeID[i], _activeQuestActive[i]);
                 }
             }
@@ -537,10 +555,9 @@ namespace Quest
 
             for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
             {
-                GUILayout.BeginHorizontal(GUILayout.Width(250));
-                    GUILayout.Label("Quest ID: " + Quest.QuestDatabase.GetQuestID(i));
-                    GUILayout.Label("Quest Title: " + Quest.QuestDatabase.GetQuestTitle(i));
-                    GUILayout.Space(50);
+                GUILayout.BeginHorizontal(GUILayout.Width(550));
+                    GUILayout.Label("Quest ID: " + Quest.QuestDatabase.GetQuestID(i), GUILayout.Width(150));
+                    GUILayout.Label("Quest Title: " + Quest.QuestDatabase.GetQuestTitle(i), GUILayout.Width(200));
                     GUILayout.Label("Select: ");
                     _activeQuestActive[i] = EditorGUILayout.Toggle(_activeQuestActive[i]);
                 GUILayout.EndHorizontal();
@@ -627,7 +644,7 @@ namespace Quest
             {
                 if (GUILayout.Button("SAVE QUEST"))
                 {
-                    Debug.Log(GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)));
+                    
                     if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
                     {
                         GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);

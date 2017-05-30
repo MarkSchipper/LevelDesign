@@ -38,26 +38,30 @@ namespace Quest
         {
             if (coll.tag == "Player")
             {
-                _amountCollected = Quest.QuestDatabase.GetQuestItemsCollected(_questID);
-
-                if (_amountCollected < Quest.QuestDatabase.GetQuestAmount(_questID))
+                if (Quest.QuestDatabase.ReturnQuestActive(_questID))
                 {
-                    _amountCollected++;
-                    Quest.QuestDatabase.AddQuestItemCollected(_questID, _amountCollected);
 
-                    _visibleInGame = false;
-                    this.gameObject.SetActive(_visibleInGame);
-                    PlayerPrefs.SetString(this.gameObject.name, _visibleInGame.ToString().ToLower());
+                    _amountCollected = Quest.QuestDatabase.GetQuestItemsCollected(_questID);
 
-                    if(_amountCollected == Quest.QuestDatabase.GetQuestAmount(_questID))
+                    if (_amountCollected < Quest.QuestDatabase.GetQuestAmount(_questID))
                     {
-                        Quest.QuestDatabase.SetQuestComplete(_questID);
-                    }
-                    Quest.QuestLog.SetQuestCollection(false);
-                }
-                else
-                {
+                        _amountCollected++;
+                        Quest.QuestDatabase.AddQuestItemCollected(_questID, _amountCollected);
 
+                        _visibleInGame = false;
+                        this.gameObject.SetActive(_visibleInGame);
+                        PlayerPrefs.SetString(this.gameObject.name, _visibleInGame.ToString().ToLower());
+
+                        if (_amountCollected == Quest.QuestDatabase.GetQuestAmount(_questID))
+                        {
+                            Quest.QuestDatabase.SetQuestComplete(_questID);
+                        }
+                        Quest.QuestLog.SetQuestCollection(false);
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
         }

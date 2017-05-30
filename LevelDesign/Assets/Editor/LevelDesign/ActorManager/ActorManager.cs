@@ -124,6 +124,7 @@ namespace NPCSystem
                     _editActor = true;
                     if (!_loadedActors)
                     {
+                        ClearAll();
                         GetAllActors();
                     }
                 }
@@ -133,6 +134,7 @@ namespace NPCSystem
                     _viewActors = true;
                     if (!_loadedActors)
                     {
+                        ClearAll();
                         GetAllActors();
                     }
                 }
@@ -140,6 +142,7 @@ namespace NPCSystem
                 if (GUILayout.Button("Delete an Actor"))
                 {
                     _deleteActor = true;
+                    ClearAll();
                     GetAllActors();
                 }
 
@@ -154,6 +157,7 @@ namespace NPCSystem
                 if (GUILayout.Button("Add Actor to the Game"))
                 {
                     _addActorGame = true;
+                    ClearAll();
                     GetAllActors();
                 }
 
@@ -415,7 +419,7 @@ namespace NPCSystem
 
                 if (GUILayout.Button("Add '" + _allActorNames[_selectedActorIndex] + "' to the Game"))
                 {
-                    AddActorToGame();
+                    AddActorToGame(_selectedActorIndex);
                 }
                 if (GUILayout.Button("BACK"))
                 {
@@ -424,6 +428,7 @@ namespace NPCSystem
                 GUILayout.EndHorizontal();
             }
             #endregion
+            #region edit actor in game
             if (_editActorGame)
             {
                 if (!_gotInGameActors)
@@ -490,6 +495,7 @@ namespace NPCSystem
                     GUILayout.EndHorizontal();
                 }
             }
+            #endregion
         }
 
         void GetAllActors()
@@ -590,14 +596,15 @@ namespace NPCSystem
 
         }
 
-        void AddActorToGame()
+        void AddActorToGame(int _id)
         {
 
             // Create a new Parent object for the NPC
             GameObject _npcParent = new GameObject();
-            _npcParent.name = "NPC_" + _allActorNames[_selectedActorIndex] + "";
+            _npcParent.name = "NPC_" + _allActorNames[_id] + "";
 
-            GameObject _NPC = Instantiate(Resources.Load("Characters/NPC/" + _allActorPrefabs[_selectedActorIndex], typeof(GameObject))) as GameObject;
+            GameObject _NPC = Instantiate(Resources.Load("Characters/NPC/" + _allActorPrefabs[_id], typeof(GameObject))) as GameObject;
+
             _NPC.transform.parent = _npcParent.transform;
             _NPC.tag = "NPC";
             _NPC.AddComponent<CharacterController>();
@@ -607,12 +614,12 @@ namespace NPCSystem
 
             _NPC.AddComponent<NPCSystem.NPC>();
 
-            _NPC.GetComponent<NPCSystem.NPC>().SetNpcID(_allActorID[_selectedActorIndex]);
-            _NPC.GetComponent<NPCSystem.NPC>().SetNPCName(_allActorNames[_selectedActorIndex]);
-            _NPC.GetComponent<NPCSystem.NPC>().SetProfession(_allActorProfessions[_selectedActorIndex]);
-            _NPC.GetComponent<NPCSystem.NPC>().SetInteraction(_allActorInteractions[_selectedActorIndex]);
-            _NPC.GetComponent<NPCSystem.NPC>().SetDialogues(_allActorDialogue1[_selectedActorIndex], _allActorDialogue2[_selectedActorIndex]);
-            _NPC.GetComponent<NPCSystem.NPC>().SetQuestGiver(_allActorQuestGivers[_selectedActorIndex]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetNpcID(_allActorID[_id]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetNPCName(_allActorNames[_id]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetProfession(_allActorProfessions[_id]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetInteraction(_allActorInteractions[_id]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetDialogues(_allActorDialogue1[_id], _allActorDialogue2[_id]);
+            _NPC.GetComponent<NPCSystem.NPC>().SetQuestGiver(_allActorQuestGivers[_id]);
             _NPC.GetComponent<NPCSystem.NPC>().SetNpcBehaviour(_selectedBehaviour);
 
             if (_selectedBehaviour == ActorBehaviour.Patrol && _wayPointAmount > 0)
@@ -661,6 +668,22 @@ namespace NPCSystem
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
+        }
+
+        void ClearAll()
+        {
+            _allActorID.Clear();
+            _allActorNames.Clear();
+            _allActorPrefabs.Clear();
+            _allActorProfessions.Clear();
+            _allActorInteractions.Clear();
+            _allActorDialogue1.Clear();
+            _allActorDialogue2.Clear();
+            _allActorQuestGivers.Clear();
+            _allActorQuestGiverID.Clear();
+            _allActorQuestDialogue1.Clear();
+            _allActorQuestDialogue2.Clear();
+            _allActorQuestComplete.Clear();
         }
 
     }

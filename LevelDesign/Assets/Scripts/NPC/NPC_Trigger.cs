@@ -45,6 +45,7 @@ namespace Quest
                             // IF THE NPC HAS A QUEST
                             Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                             Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
+                            Debug.Log("QUeST IS HERE");
                         }
                         else
                         {
@@ -65,7 +66,6 @@ namespace Quest
 
                         if (_npc.ReturnQuestGiver() && Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
-                            Debug.Log("WE HAVE QUEST");
                             if (!Quest.QuestDatabase.CheckQuestCompleteNpc(_npc.ReturnNpcID()))
                             {
                                 Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
@@ -80,9 +80,10 @@ namespace Quest
                         }
                         if(_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
+                            Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                             if(Quest.QuestDatabase.ReturnQuestTitle() != null)
                             {
-                                Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
+                                
                                 Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
                             }
 
@@ -105,8 +106,6 @@ namespace Quest
         {
             if (coll.tag == "Player")
             {
-
-                Debug.Log(_npc.ReturnBehaviour());
 
                 if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Patrol)
                 {

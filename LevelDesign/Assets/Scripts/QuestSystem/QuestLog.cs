@@ -20,7 +20,8 @@ namespace Quest
         private Vector2 _questWindowPos = new Vector2(100, 100);
         private Vector2 _questWindowSize = new Vector2(700, 500);
 
-        private bool _queryDatabase = false;
+        private static bool _queryDatabase = false;
+        private static bool _clearLists = false;
 
         private List<int> _questLogQuestID = new List<int>();
 
@@ -79,6 +80,12 @@ namespace Quest
                     PlayerPrefs.SetFloat("InGameLogPosY", _inGameLogPos.y);
                 }
             }
+
+            if(_clearLists)
+            {
+                Clear();
+                _clearLists = false;
+            }
         }
 
         void QuestLogWindow()
@@ -134,31 +141,39 @@ namespace Quest
             GUI.Box(_gameQuestLog, "");
             GUI.Label(_gameQuestLogTitle, "Quest Log", _skin.GetStyle("QuestLogTitle"));
 
-            for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
+            if (_questLogQuestID.Count() > 0)
             {
-                
-                if (_questTypes[i] == QuestType.Collect || _questTypes[i] == QuestType.Kill)
+                for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
                 {
-                    GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
-                    if (!Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
-                    {
-                        GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(" + _currentCollected[i] + "/" + _totalToCollect[i] + ")", _skin.GetStyle("QuestLogQuest"));
-                    }
-                    if (Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
-                    {
-                        GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
-                    }
-                }
-                if(_questTypes[i] == QuestType.Explore)
-                {
-                    GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
-                    if(Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
-                    {
-                        GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
-                    }
+                    
+
+                        if (_questTypes[i] != QuestType.None)
+                        {
+                            if (_questTypes[i] == QuestType.Collect || _questTypes[i] == QuestType.Kill)
+                            {
+                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
+                                if (!Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                {
+                                    GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(" + _currentCollected[i] + "/" + _totalToCollect[i] + ")", _skin.GetStyle("QuestLogQuest"));
+                                }
+                                if (Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                {
+                                    GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
+                                }
+                            }
+
+                            if (_questTypes[i] == QuestType.Explore)
+                            {
+                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
+                                if (Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                {
+                                    GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
+                                }
+                            }
+                        }
+                    
                 }
             }
-
 
             if(_gameQuestLog.Contains(Event.current.mousePosition))
             {
@@ -196,5 +211,26 @@ namespace Quest
         {
             _questQuestCollection = _set;
         }
+
+        public static void UpdateLog()
+        {
+            _queryDatabase = false;
+        }
+
+        public static void ClearAll()
+        {
+            _clearLists = true;
+        }
+
+        void Clear()
+        {
+            _questLogQuestID.Clear();
+            _currentCollected.Clear();
+            _totalToCollect.Clear();
+            _questTitles.Clear();
+
+            _questTypes.Clear();
+        }
+
     }
 }
