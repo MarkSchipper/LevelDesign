@@ -1698,7 +1698,23 @@ namespace LevelEditor
                     {
                         _isAddingToScene = true;
                         _objectToAdd = Instantiate(Resources.Load("Items/Potions/" + _AllPotionNames[i])) as GameObject;
-                        _objectToAdd.transform.SetParent(GameObject.Find("POTIONS").transform);
+                        if (GameObject.Find("POTIONS") != null)
+                        {
+                            _objectToAdd.transform.SetParent(GameObject.Find("POTIONS").transform);
+                        }
+                        else
+                        {
+                            GameObject _potionParent = new GameObject();
+                            _potionParent.name = "POTIONS";
+
+                            _objectToAdd.transform.SetParent(_potionParent.transform);
+
+                        }
+
+                        _objectToAdd.AddComponent<SphereCollider>();
+                        _objectToAdd.GetComponent<SphereCollider>().isTrigger = true;
+                        _objectToAdd.GetComponent<SphereCollider>().radius = 1.5f;
+
                         _objectToAdd.AddComponent<ItemCollectable>();
                         _objectToAdd.GetComponent<ItemCollectable>().SetValues(_itemID[i], _itemName[i], _itemType[i].ToString(), _itemStats[i]);
 

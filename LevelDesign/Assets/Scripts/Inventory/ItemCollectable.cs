@@ -50,7 +50,7 @@ public class ItemCollectable : MonoBehaviour {
 
     void OnTriggerEnter(Collider coll)
     {
-        if(coll.name == "Player")
+        if(coll.tag == "Player")
         {
             _inventory.AddItem(_itemID);
             Destroy(this.gameObject);
