@@ -654,6 +654,7 @@ namespace NPCSystem
 
         void DeleteActor(int _id)
         {
+                            
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -661,13 +662,19 @@ namespace NPCSystem
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("DELETE FROM Actors WHERE ActorID = '" + _id + "'");
+            string sqlQuery = String.Format("DELETE FROM Actors WHERE ActorID = '" + _allActorID[_id] + "'");
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
             dbcmd.Dispose();
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
+
+            
+
+            _deleteActor = false;
+            _isDeletingActor = false;
+            ClearAll();
         }
 
         void ClearAll()
