@@ -71,7 +71,11 @@ namespace NPCSystem
         private static bool _highlight = false;
         private static GameObject _goHighlight;
         private static GameObject _storePrevGameObject;
+        private GameObject _questParticles;
+        private GameObject _questCompleteParticles;
 
+        private static bool _hasPlayerAcceptedQuest = false;
+        private static bool _hasPlayerFinishedQuest = false;
 
         private CharacterController _charController;
 
@@ -94,7 +98,8 @@ namespace NPCSystem
             _isPatrolling = _patrol;
 
             _charController = GetComponent<CharacterController>();
-
+            //CheckActiveQuest();
+            //CheckCompletedQuest();
         }
 
         public void ClearCache()
@@ -160,6 +165,19 @@ namespace NPCSystem
 
                 _storePrevGameObject = null;
             }
+            /*
+            if(_hasPlayerAcceptedQuest)
+            {
+                CheckActiveQuest();
+                _hasPlayerAcceptedQuest = false;
+            }
+
+            if(_hasPlayerFinishedQuest)
+            {
+                CheckCompletedQuest();
+                _hasPlayerFinishedQuest = false;
+            }
+            */
 
         }
 
@@ -403,6 +421,87 @@ namespace NPCSystem
             _questGiver = _set;
         }
 
+        public void CheckActiveQuest()
+        {
+
+            if (!_hasPlayerAcceptedQuest)
+            {
+                if (Quest.QuestDatabase.NPCHasNewQuest(_npcID))
+                {
+                    _questParticles = Instantiate(Resources.Load("VFX/PS_NPC_Quest")) as GameObject;
+                    _questParticles.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.1f, this.transform.position.z);
+                    _questParticles.transform.SetParent(this.transform);
+
+                    
+
+                }
+            }
+            if(_hasPlayerAcceptedQuest)
+            {
+                if (_questParticles != null)
+                {
+                    Destroy(_questParticles.gameObject);
+                }
+
+                else
+                {
+                    _questParticles = Instantiate(Resources.Load("VFX/PS_NPC_Quest")) as GameObject;
+                    _questParticles.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.1f, this.transform.position.z);
+                    _questParticles.transform.SetParent(this.transform);
+                }
+            }
+
+            Debug.Log("HAs player Accept Quest? : " + _hasPlayerAcceptedQuest);
+
+        }
+
+        void CheckCompletedQuest()
+        {
+
+            if (!_hasPlayerFinishedQuest)
+            {
+                if (Quest.QuestDatabase.CheckQuestCompleteNpc(_npcID))
+                {
+                    _questCompleteParticles = Instantiate(Resources.Load("VFX/PS_NPC_Quest_Completed")) as GameObject;
+                    _questCompleteParticles.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.1f, this.transform.position.z);
+                    _questCompleteParticles.transform.SetParent(this.transform);
+
+                    Debug.Log("Spawning Finishing Quest Particles! " + _npcID);
+
+                }
+            }
+            if(_hasPlayerFinishedQuest)
+            {
+                if (_questCompleteParticles != null)
+                {
+                    Destroy(_questCompleteParticles.gameObject);
+                    _hasPlayerAcceptedQuest = true;
+
+                }
+                if(_questCompleteParticles == null)
+                {
+
+
+                    _questCompleteParticles = Instantiate(Resources.Load("VFX/PS_NPC_Quest_Completed")) as GameObject;
+                    _questCompleteParticles.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.1f, this.transform.position.z);
+                    _questCompleteParticles.transform.SetParent(this.transform);
+
+                    Debug.Log("Spawning Finishing Quest Particles! " + _npcID);
+
+                }
+            }
+        }
+
+        public static void PlayerHasAcceptedQuest()
+        {
+            _hasPlayerAcceptedQuest = true;
+        }
+
+        public static void PlayerHasFinishedQuest()
+        {
+            _hasPlayerFinishedQuest = true;
+
+        }
 
     }
 }

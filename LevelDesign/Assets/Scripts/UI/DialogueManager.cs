@@ -184,13 +184,15 @@ namespace Dialogue
                     {
                         Quest.QuestDatabase.AcceptQuest(_questID);
                         Quest.QuestLog.UpdateLog();
+                        NPCSystem.NPC.PlayerHasAcceptedQuest();
                     }
                     if (_questCompleted)
                     {
                         //Quest.QuestDatabase.ReturnQuestRewards(_questID);
                         Quest.QuestDatabase.FinishQuest(_questID);
-                        Quest.QuestLog.ClearAll();
-                        Quest.QuestLog.UpdateLog();
+                        //Quest.QuestLog.ClearAll();
+                        //Quest.QuestLog.UpdateLog();
+                        
                         
                     }
                     _showQuestWindow = false;

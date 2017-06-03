@@ -45,11 +45,11 @@ namespace Quest
                             // IF THE NPC HAS A QUEST
                             Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                             Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
-                            Debug.Log("QUeST IS HERE");
+                            
                         }
                         else
                         {
-                            Debug.Log("QUEST IS ACTIVE");
+                            
                         }
                         
                         PlayerPrefs.SetString("MetNPC_" + _npc.ReturnNpcName(), "True");
@@ -66,8 +66,11 @@ namespace Quest
 
                         if (_npc.ReturnQuestGiver() && Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
+                            
                             if (!Quest.QuestDatabase.CheckQuestCompleteNpc(_npc.ReturnNpcID()))
                             {
+
+                                
                                 Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                                 Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), false, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
                             }

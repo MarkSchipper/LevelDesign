@@ -196,11 +196,11 @@ namespace NPCSystem
 
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-                GUILayout.Label("Add an Actor");
+                GUILayout.Label("Add an Actor", EditorStyles.boldLabel);
 
                 _actorName = EditorGUILayout.TextField("Name: ", _actorName);
 
-                GUILayout.Label("Which Model");
+                GUILayout.Label("Which Model", EditorStyles.boldLabel);
                 _selectedActorIndex = EditorGUILayout.Popup(_selectedActorIndex, _allActorPrefabs.ToArray());
 
                 _actorProfession = EditorGUILayout.TextField("Profession: ", _actorProfession);
@@ -209,28 +209,13 @@ namespace NPCSystem
                 if (_actorInteraction)
                 {
 
-                    GUILayout.Label("Initial Dialogue");
+                    GUILayout.Label("Initial Dialogue ( Non Quest related ) ");
                     _actorDialog1 = EditorGUILayout.TextArea(_actorDialog1, GUILayout.Height(100));
 
-                    GUILayout.Label("Return Dialogue");
+                    GUILayout.Label("Return Dialogue ( Non Quest related ");
                     _actorDialog2 = EditorGUILayout.TextArea(_actorDialog2, GUILayout.Height(100));
 
-                    _actorQuestGiver = EditorGUILayout.Toggle("Quest giver?: ", _actorQuestGiver);
-
-                    if (_actorQuestGiver)
-                    {
-                        // ADD ALL QUEST IN A POPUP
-
-                        GUILayout.Label("Quest Dialogue");
-                        _actorQuestDialog1 = EditorGUILayout.TextArea(_actorQuestDialog1, GUILayout.Height(100));
-
-                        GUILayout.Label("Return Quest Dialogue");
-                        _actorQuestDialog2 = EditorGUILayout.TextArea(_actorQuestDialog2, GUILayout.Height(100));
-
-                        GUILayout.Label("Quest Complete Dialogue");
-                        _actorQuestComplete = EditorGUILayout.TextArea(_actorQuestComplete, GUILayout.Height(100));
-
-                    }
+                    
                 }
                 GUILayout.BeginHorizontal();
 
