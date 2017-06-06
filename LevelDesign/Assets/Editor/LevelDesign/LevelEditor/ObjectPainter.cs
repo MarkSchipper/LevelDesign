@@ -127,6 +127,7 @@ namespace LevelEditor
 
         private bool _isLayerSet = false;
         private int _oldLayer = 0;
+        private int[] _childLayers;
     
 
         private Editor _gameObjectEditor;
@@ -597,41 +598,58 @@ namespace LevelEditor
             Handles.BeginGUI();
 
             Vector3 _newPos;
+            int counter = 0;
 
             if (_isAddingToScene)
             {
+                
                 HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 
                 Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
                 RaycastHit _hit;
 
+
+                // Set the focus on the editor
                 SceneView sceneView = (SceneView)SceneView.sceneViews[0];
                 sceneView.Focus();
 
 
                 if (!_isLayerSet)
                 {
+                    // Create an int array to store all the old layers with the length of the amount of children in an object
+                    _childLayers = new int[_objectToAdd.transform.childCount];
+
+                    // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
+                    if (_childLayers.Length > 0)
+                    {
+                        foreach (Transform child in _objectToAdd.transform)
+                        {
+                            _childLayers[counter] = child.gameObject.layer;
+                            counter++;
+                        }
+                    }
+
                     _oldLayer = _objectToAdd.layer;
+                    counter = 0;
                     _isLayerSet = true;
-                    Debug.Log(_oldLayer);
+
                 }
                 
                 if (Physics.Raycast(_ray, out _hit))
                 {
-                    
-                    
+
                     // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
                     foreach (Transform child in _objectToAdd.transform)
                     {
                         child.gameObject.layer = 2;
                     }
+                    
+                    //_objectToAdd.layer = 2;
 
-                    _objectToAdd.layer = 2;
 
                     // Snapping
                     _newPos = new Vector3((int)Mathf.Round(_hit.point.x / _snapAmount) * _snapAmount, (int)Mathf.Round(_hit.point.y / 1) * 1, (int)Mathf.Round(_hit.point.z / _snapAmount) * _snapAmount);
                     _objectToAdd.transform.position = _newPos;
-
                     if (Event.current.button == 0 && Event.current.type == EventType.mouseDown)
                     {
                         #region SAFEGUARDS
@@ -790,14 +808,22 @@ namespace LevelEditor
                         }
                         #endregion
                         //Selection.
-                        _isAddingToScene = false;
-
-
+                        
                         // Set the Layer to 0 ( standard ) if it is not a gameplay trigger
                         if (!_isAddingTriggers)
                         {
+                            if (_childLayers.Length > 0)
+                            {
+                                foreach (Transform child in _objectToAdd.transform)
+                                {
+
+                                    child.gameObject.layer = _childLayers[counter];
+                                    counter++;
+                                }
+                            }
+
                             _objectToAdd.layer = _oldLayer;
-                            
+
                         }
                         if (_isAddingTriggers)
                         {
@@ -808,6 +834,9 @@ namespace LevelEditor
                         {
                             _objectToAdd.GetComponent<ProceduralBuilding>().CreateBuilding();
                         }
+                        counter = 0;
+                        _isAddingToScene = false;
+
                     }
                     if (Event.current.button == 1 && Event.current.type == EventType.mouseDown)
                     {
