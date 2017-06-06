@@ -558,7 +558,7 @@ namespace NPCSystem
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("UPDATE Actors " + "SET ActorName = " + "'" + _name + "'" + ", ActorPrefab = " + "'" + _prefab + "'" + ", ActorProfession = " + "'" + _profession + "'" + ", ActorInteraction = " + "'" + _interaction.ToString() + "'" + ", ActorDialog1 = " + "'" + _dialogue1 + "'" + ", ActorDialog2 = " + "'" + _actorDialog2 + "'" + ", ActorQuestGiver = " + "'" + _questGiver + "'" + ", ActorQuestID = " + "'" + 0 + "'");
+            string sqlQuery = String.Format("UPDATE Actors " + "SET ActorName = " + "'" + _name + "'" + ", ActorPrefab = " + "'" + _prefab + "'" + ", ActorProfession = " + "'" + _profession + "'" + ", ActorInteraction = " + "'" + _interaction.ToString() + "'" + ", ActorDialog1 = " + "'" + _dialogue1 + "'" + ", ActorDialog2 = " + "'" + _actorDialog2 + "'" + ", ActorQuestGiver = " + "'" + _questGiver + "'" + ", ActorQuestID = " + "'" + 0 + "' WHERE ActorID = '" + _id + "'");
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
             dbcmd.Dispose();
