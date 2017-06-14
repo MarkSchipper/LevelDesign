@@ -365,10 +365,11 @@ namespace EnemyCombat
             _isAttacking = false;
             _isPatrol = false;
             EnemyAnim.SetEnemyDeath();
-            _targetToAttack = GameObject.FindGameObjectWithTag("Player");
+            _targetToAttack = null;
+            //_targetToAttack = GameObject.FindGameObjectWithTag("Player");
             StartCoroutine(WaitForDeath());
             _isAlive = false;
-            Debug.Log(this.GetComponentInChildren<Renderer>().material.GetFloat("_Distance"));
+            
 
         }
 
@@ -484,7 +485,7 @@ namespace EnemyCombat
                 else
                 {
                     _isInRange = true;
-                    Debug.Log("we are in range");
+
                     EnemyAnim.StopEnemyRunning();
                     EnemyAnim.SetEnemyCombatIdle();
                 }
@@ -494,10 +495,16 @@ namespace EnemyCombat
         void EnemyDeath()
         {
             
-            
             Destroy(this.gameObject);
-
             CombatSystem.PlayerMovement.SetOutOfCombat();
+
+            Quest.QuestDatabase.GetAllQuests();
+
+            if(Quest.QuestDatabase.ReturnEnemyKillQuest(this.transform.parent.name.ToString().Remove(this.transform.parent.name.ToString().Length - 5)))
+            {
+                Quest.QuestDatabase.UpdateEnemyKillQuest();
+                Quest.QuestLog.UpdateLog();
+            }
 
         }
 
