@@ -126,6 +126,7 @@ namespace NPCSystem
                     {
                         ClearAll();
                         GetAllActors();
+                        _loadedActors = true;
                     }
                 }
 
@@ -136,6 +137,7 @@ namespace NPCSystem
                     {
                         ClearAll();
                         GetAllActors();
+                        _loadedActors = true;
                     }
                 }
 
@@ -239,10 +241,6 @@ namespace NPCSystem
             #region Edit Actor
             if (_editActor)
             {
-
-               
-
-                Debug.Log(_actorInteraction);
 
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
 
