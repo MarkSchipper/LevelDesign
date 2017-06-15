@@ -100,6 +100,8 @@ namespace NPCSystem
             _charController = GetComponent<CharacterController>();
             //CheckActiveQuest();
             //CheckCompletedQuest();
+
+            ClearCache();
         }
 
         public void ClearCache()
