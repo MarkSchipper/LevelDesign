@@ -499,7 +499,8 @@ namespace Quest
                 {
                     if (_killAllEnemies[i].transform.parent.name == "ENEMIES")
                     {
-                        _killAllEnemiesName.Add(_killAllEnemies[i].name.ToString().Remove(_killAllEnemies[i].name.ToString().Length - 5));
+                        string[] _splitArray = _killAllEnemies[i].name.ToString().Split(char.Parse("_"));
+                        _killAllEnemiesName.Add(_splitArray[0]);
                     }
                 }
 

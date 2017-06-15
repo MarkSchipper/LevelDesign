@@ -500,7 +500,9 @@ namespace EnemyCombat
 
             Quest.QuestDatabase.GetAllQuests();
 
-            if(Quest.QuestDatabase.ReturnEnemyKillQuest(this.transform.parent.name.ToString().Remove(this.transform.parent.name.ToString().Length - 5)))
+            string[] _splitArray = this.transform.parent.name.Split(char.Parse("_"));
+
+            if(Quest.QuestDatabase.ReturnEnemyKillQuest(_splitArray[0]))
             {
                 Quest.QuestDatabase.UpdateEnemyKillQuest();
                 Quest.QuestLog.UpdateLog();
