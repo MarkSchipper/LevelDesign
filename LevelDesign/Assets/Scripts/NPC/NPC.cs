@@ -84,15 +84,7 @@ namespace NPCSystem
         {
             _communicate = false;
 
-
-            if (PlayerPrefs.GetString("MetNPC_" + ReturnNpcName()) == "True")
-            {
-                _haveMetPlayer = true;
-            }
-            else
-            {
                 _haveMetPlayer = false;
-            }
 
             _npcAnimator = GetComponent<Animator>();
             _isPatrolling = _patrol;

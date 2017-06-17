@@ -36,16 +36,20 @@ namespace Quest
                         // If the NPC is not a quest giver
                         if (!_npc.ReturnQuestGiver())
                         {
-                            Debug.Log("test");
                             Dialogue.DialogueManager.SetDialogue("", _npc.ReturnDialogue1(), false, -1, -1);
                         }
 
                         if (_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
-                            // IF THE NPC HAS A QUEST
-                            Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
-                            Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
-                            
+                            if (Quest.QuestDatabase.ReturnQuestTitle() == "")
+                            {
+                                Dialogue.DialogueManager.SetDialogue("", _npc.ReturnDialogue1(), false, -1, -1);
+                            }
+                            else {
+                                // IF THE NPC HAS A QUEST
+                                Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
+                                Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
+                            }
                         }
                         else
                         {
