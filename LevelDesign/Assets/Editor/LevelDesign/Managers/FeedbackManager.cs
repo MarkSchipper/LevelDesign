@@ -281,27 +281,36 @@ namespace FeedbackEditor
             _feedback.transform.SetParent(GameObject.Find("PLAYERFEEDBACK").transform);
             _feedback.layer = 2;
 
+            Transform _feedbackChild = _feedback.GetComponentInChildren<Transform>(true);
+
             if (_trigger == FeedbackTrigger.Trigger)
             {
-                if (_triggerShape == TriggerShape.Capsule)
+                
+                foreach (Transform child in _feedbackChild)
                 {
-                    _feedback.AddComponent<CapsuleCollider>();
-                    _feedback.GetComponent<CapsuleCollider>().radius = _triggerSize;
-                    _feedback.GetComponent<CapsuleCollider>().isTrigger = true;
+                    
+                    child.transform.localScale = new Vector3(_triggerSize * _triggerSize, _triggerSize * _triggerSize, _triggerSize * _triggerSize);
+                    if (_shape == TriggerShape.Capsule)
+                    {
+                        child.gameObject.AddComponent<CapsuleCollider>();
+                        child.GetComponent<CapsuleCollider>().radius = _triggerSize;
+                        child.GetComponent<CapsuleCollider>().isTrigger = true;
+                        Debug.Log(child.name);
 
-                }
-                if (_triggerShape == TriggerShape.Sphere)
-                {
-                    _feedback.AddComponent<SphereCollider>();
-                    _feedback.GetComponent<SphereCollider>().radius = _triggerSize;
-                    _feedback.GetComponent<SphereCollider>().isTrigger = true;
-                }
+                    }
+                    if (_shape == TriggerShape.Sphere)
+                    {
+                        child.gameObject.AddComponent<SphereCollider>();
+                        child.GetComponent<SphereCollider>().radius = _triggerSize;
+                        child.GetComponent<SphereCollider>().isTrigger = true;
+                    }
 
-                if(_triggerShape == TriggerShape.Square)
-                {
-                    _feedback.AddComponent<BoxCollider>();
-                    _feedback.GetComponent<BoxCollider>().size = new Vector3(_triggerSize, _triggerSize, _triggerSize);
-                    _feedback.GetComponent<BoxCollider>().isTrigger = true;
+                    if (_shape == TriggerShape.Square)
+                    {
+                        child.gameObject.AddComponent<BoxCollider>();
+                        child.GetComponent<BoxCollider>().isTrigger = true;
+                        Debug.Log(child.name);
+                    }
                 }
             }
 
@@ -362,7 +371,7 @@ namespace FeedbackEditor
                 {
                     _shape = TriggerShape.Square;
                 }
-                
+
 
                 AddToGame(FeedbackDB.ReturnFeedbackID(_feedbackSelectIndex), _type, _trigger, FeedbackDB.ReturnFeedbackTimer(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackIdleTimer(_feedbackSelectIndex), _shape, FeedbackDB.ReturnFeedbackText(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackCondition(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackAchievement(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackTriggerSize(_feedbackSelectIndex), FeedbackDB.ReturnAchievementAmount(_feedbackSelectIndex));
             }
