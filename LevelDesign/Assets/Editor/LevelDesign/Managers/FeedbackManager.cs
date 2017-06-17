@@ -295,7 +295,7 @@ namespace FeedbackEditor
                         child.gameObject.AddComponent<CapsuleCollider>();
                         child.GetComponent<CapsuleCollider>().radius = _triggerSize;
                         child.GetComponent<CapsuleCollider>().isTrigger = true;
-                        Debug.Log(child.name);
+                        child.gameObject.layer = 2;
 
                     }
                     if (_shape == TriggerShape.Sphere)
@@ -303,13 +303,14 @@ namespace FeedbackEditor
                         child.gameObject.AddComponent<SphereCollider>();
                         child.GetComponent<SphereCollider>().radius = _triggerSize;
                         child.GetComponent<SphereCollider>().isTrigger = true;
+                        child.gameObject.layer = 2;
                     }
 
                     if (_shape == TriggerShape.Square)
                     {
                         child.gameObject.AddComponent<BoxCollider>();
                         child.GetComponent<BoxCollider>().isTrigger = true;
-                        Debug.Log(child.name);
+                        child.gameObject.layer = 2;
                     }
                 }
             }
