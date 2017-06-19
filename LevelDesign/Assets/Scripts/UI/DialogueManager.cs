@@ -50,6 +50,8 @@ namespace Dialogue
 
         private List<int> _questRewards = new List<int>();
 
+        private static bool _playerFinishedQuest;
+
         // Use this for initialization
         void Start()
         {
@@ -192,6 +194,7 @@ namespace Dialogue
                         Quest.QuestDatabase.FinishQuest(_questID);
                         //Quest.QuestLog.ClearAll();
                         //Quest.QuestLog.UpdateLog();
+                        _playerFinishedQuest = true;
                         
                         
                     }
@@ -265,6 +268,17 @@ namespace Dialogue
         {
             _showHint = _set;
             _hintMessage = _msg;
+        }
+
+        public static bool ReturnPlayerFinishedQuest()
+        {
+            return _playerFinishedQuest;
+            
+        }
+
+        public static void ResetPlayerFinishedQuest()
+        {
+            _playerFinishedQuest = false;
         }
 
     }

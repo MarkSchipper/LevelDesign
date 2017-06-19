@@ -10,7 +10,6 @@ using System.Linq;
 
 namespace Quest
 {
-
     public enum QuestType
     {
         None,
@@ -54,7 +53,6 @@ namespace Quest
         private static List<int> _questItemID = new List<int>();
         private static List<string> _questItemNames = new List<string>();
         private static List<string> _questItemPrefabs = new List<string>();
-
 
         private static List<int> _actorID = new List<int>();
         private static List<string> _actorNames = new List<string>();
@@ -100,6 +98,9 @@ namespace Quest
 
         private static List<int> _questReward = new List<int>();
 
+        private static int _tmpID;
+
+        private static bool _hasFollowUpQuest;
 
         // Fetch ALL quests regardless of Active or Enabled
         public static void GetAllQuests()
@@ -347,8 +348,6 @@ namespace Quest
 
         }
 
-
-
         // Get all the data for a specific Quest
         public static void GetQuest(int _id)
         {
@@ -584,14 +583,26 @@ namespace Quest
                     {
 
                         SetFollowupQuestActive(int.Parse(_tmp.ToString()));
+                        _hasFollowUpQuest = true;
+                        
                     }
                 }
+            }
+            
+            else
+            {
+                _hasFollowUpQuest = false;
             }
 
             dbcmd.Dispose();
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
+        }
+
+        public static bool ReturnHasFollowUpQuest()
+        {
+            return _hasFollowUpQuest;
         }
 
         static void SetFollowupQuestActive(int _id)
@@ -797,7 +808,6 @@ namespace Quest
             return _lastQuestID;
         }
 
-
         public static int ReturnQuestID()
         {
             return _questID;
@@ -817,7 +827,6 @@ namespace Quest
         {
             return _questCompleteText;
         }
-
 
         public static void GetAllActiveQuests()
         {
@@ -1048,7 +1057,7 @@ namespace Quest
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("UPDATE Quests SET QuestActive = 'False', QuestComplete = 'True' WHERE QuestID = '" + _id + "'");
+            string sqlQuery = String.Format("UPDATE Quests SET QuestComplete = 'True' WHERE QuestID = '" + _id + "'");
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
             dbcmd.Dispose();
@@ -1058,7 +1067,6 @@ namespace Quest
 
             NPCSystem.NPC.PlayerHasFinishedQuest();
         }
-
 
         public static void AddQuestItemCollected(int _id, int _amount)
         {
@@ -1238,7 +1246,8 @@ namespace Quest
                 if (_allQuestMobs[i] == _name)
                 {
                     _questID = _allQuestID[i];
-                    CheckKillQuestComplete(i);
+                    //CheckKillQuestComplete(i);
+                    _tmpID = i;
                     return true;
                     
                 }
@@ -1251,13 +1260,16 @@ namespace Quest
             
         }
 
-        static void CheckKillQuestComplete(int _id)
+        public static void CheckKillQuestComplete(int _id)
         {
             ClearAll();
             GetAllQuests();
 
+            Debug.Log(_allQuestAmount[_id] + " - " + _allQuestCollected[_id]);
+
             if(_allQuestAmount[_id] == _allQuestCollected[_id])
             {
+                
                 SetQuestComplete(_questID);
             }
         }
@@ -1278,6 +1290,10 @@ namespace Quest
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
+
+            CheckKillQuestComplete(_tmpID);
+
+            
         }
     }
 }

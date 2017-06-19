@@ -28,6 +28,11 @@ namespace FeedbackEditor
         [SerializeField]
         private int _feedbackAchievementAmount;
 
+        [SerializeField]
+        private bool _showHintOnce = false;
+
+        [SerializeField]
+        private int _timesShown;
 
         // Use this for initialization
         void Start()
@@ -69,7 +74,23 @@ namespace FeedbackEditor
             {
                 if (coll.tag == "Player")
                 {
-                    Dialogue.DialogueManager.ShowHint(_feedbackText, true);
+
+                    // Credits to Alex Mazur for this contribution
+
+                    if (_showHintOnce)
+                    {
+                        if (_timesShown == 0)
+                        {
+                            Dialogue.DialogueManager.ShowHint(_feedbackText, true);
+                            _timesShown++;
+                        }
+                        
+                    }
+                    else
+                    { 
+
+                        Dialogue.DialogueManager.ShowHint(_feedbackText, true);
+                    }
                 }
             }
         }

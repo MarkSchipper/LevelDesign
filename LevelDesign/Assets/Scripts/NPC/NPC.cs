@@ -42,11 +42,9 @@ namespace NPCSystem
         [SerializeField]
         private bool _questGiver;
 
-
         [Header("Conversation")]
         public bool _AutoCommunicate;
         private bool _communicate;
-
 
         public bool _patrol;
         private bool _isPatrolling;
@@ -65,7 +63,6 @@ namespace NPCSystem
         [SerializeField]
         private bool _haveMetPlayer;
 
-
         private Animator _npcAnimator;
 
         private static bool _highlight = false;
@@ -79,12 +76,14 @@ namespace NPCSystem
 
         private CharacterController _charController;
 
+        private static bool _updateQuestGiver;
+
         // Use this for initialization
         void Start()
         {
             _communicate = false;
 
-                _haveMetPlayer = false;
+            _haveMetPlayer = false;
 
             _npcAnimator = GetComponent<Animator>();
             _isPatrolling = _patrol;
@@ -94,6 +93,8 @@ namespace NPCSystem
             //CheckCompletedQuest();
 
             ClearCache();
+
+            
         }
 
         public void ClearCache()
@@ -172,10 +173,9 @@ namespace NPCSystem
                 _hasPlayerFinishedQuest = false;
             }
             */
+            
 
         }
-
-
 
         public void SetConversation(GameObject _playerTarget, bool _moving)
         {
@@ -495,6 +495,11 @@ namespace NPCSystem
         {
             _hasPlayerFinishedQuest = true;
 
+        }
+
+        public void ToggleQuestGiver(bool _set)
+        {
+            _questGiver = _set;
         }
 
     }
