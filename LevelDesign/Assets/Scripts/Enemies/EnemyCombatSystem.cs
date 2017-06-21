@@ -19,7 +19,10 @@ namespace EnemyCombat
         private bool _isPatrol = false;
         private bool _isIdle = false;
         private bool _isAttacking = false;
-        private static bool _isAlive = true;
+        [SerializeField]
+        private bool _isAlive = true;
+
+        private static bool _staticIsAlive = true;
 
         private bool _chargeSound = false;
 
@@ -165,11 +168,33 @@ namespace EnemyCombat
 
                 }
                 */
+
+                
+            }
+
+            if (_enemyHealth < 1)
+            {
+                if (_isAlive)
+                {
+                    _isAttacking = false;
+                    _isPatrol = false;
+                    EnemyAnim.SetEnemyDeath();
+                    StartCoroutine(WaitForDeath());
+                    _isAlive = false;
+                    _staticIsAlive = _isAlive;
+
+
+                    CombatSystem.AnimationSystem.SetPlayerIdle();
+                    CombatSystem.PlayerMovement.SetOutOfCombat();
+                    CombatSystem.Combat.OutofCombat();
+
+                }
             }
         }
 
         void OnTriggerEnter(Collider coll)
         {
+
             if (coll.tag == "PlayerRangedSpell")
             {
                 _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
@@ -206,23 +231,7 @@ namespace EnemyCombat
 
             }
 
-            if (_enemyHealth < 1)
-            {
-                if (_isAlive)
-                {
-                    _isAttacking = false;
-                    _isPatrol = false;
-                    EnemyAnim.SetEnemyDeath();
-                    StartCoroutine(WaitForDeath());
-                    _isAlive = false;
-
-
-                    CombatSystem.AnimationSystem.SetPlayerIdle();
-                    CombatSystem.PlayerMovement.SetOutOfCombat();
-                    CombatSystem.Combat.OutofCombat();
-
-                }
-            }
+            
         }
 
         void Patrol()
@@ -505,9 +514,10 @@ namespace EnemyCombat
             if(Quest.QuestDatabase.ReturnEnemyKillQuest(_splitArray[0]))
             {
                 Quest.QuestDatabase.UpdateEnemyKillQuest();
+                
                 Quest.QuestLog.UpdateLog();
             }
-
+            StopCoroutine(WaitForDeath());
         }
 
         void EnemyCastSpell()
@@ -529,7 +539,7 @@ namespace EnemyCombat
 
         public static bool ReturnIsAlive()
         {
-            return _isAlive;
+            return _staticIsAlive;
         }
 
         void DissolveEnemy()
