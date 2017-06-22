@@ -18,6 +18,61 @@ namespace Quest
         void OnTriggerEnter(Collider coll)
         {
             // IF THE PLAYER HAS SELECTED THE NPC
+            DisplayDialogue(coll);
+           
+        }
+
+        void OnTriggerStay(Collider coll)
+        {
+            if (coll.tag == "Player")
+            {
+                if (Dialogue.DialogueManager.ReturnPlayerFinishedQuest())
+                {
+                    if (Quest.QuestDatabase.ReturnHasFollowUpQuest())
+                    {
+                        _npc.ToggleQuestGiver(true);
+                    }
+                    if (!Quest.QuestDatabase.ReturnHasFollowUpQuest())
+                    {
+                        _npc.ToggleQuestGiver(false);
+
+                    }
+                    Dialogue.DialogueManager.ResetPlayerFinishedQuest();
+                }
+            }
+
+         //   DisplayDialogue(coll);
+        }
+
+        void OnTriggerExit(Collider coll)
+        {
+            if (coll.tag == "Player")
+            {
+                if (_npc.ReturnIsSelected())
+                {
+                    if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Patrol)
+                    {
+                        _npc.PlayerInteraction(null, true);
+                        Debug.Log("RETURN TO PATROL");
+                    }
+                    if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Idle)
+                    {
+                        _npc.PlayerInteraction(null, false);
+                    }
+
+                    if (!_npc.ReturnMetBefore())
+                    {
+                        _npc.HasMetPlayer(true);
+                    }
+                }
+                _npc.IsSelected(false);
+                Dialogue.DialogueManager.ExitDialogue(false);
+
+            }
+        }
+
+        void DisplayDialogue(Collider coll)
+        {
             if (_npc.ReturnIsSelected())
             {
                 if (coll.tag == "Player")
@@ -47,9 +102,9 @@ namespace Quest
                         }
                         else
                         {
-                            
+
                         }
-                        
+
                         PlayerPrefs.SetString("MetNPC_" + _npc.ReturnNpcName(), "True");
                     }
                     if (_npc.ReturnMetBefore())
@@ -61,7 +116,7 @@ namespace Quest
 
                         if (_npc.ReturnQuestGiver() && Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
-                            
+
                             if (!Quest.QuestDatabase.CheckQuestCompleteNpc(_npc.ReturnNpcID()))
                             {
                                 Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
@@ -71,14 +126,14 @@ namespace Quest
                             {
                                 Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
                                 Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestCompleteText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
-                                
+
                             }
                         }
 
-                        if(_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
+                        if (_npc.ReturnQuestGiver() && !Quest.QuestDatabase.GetActiveFromNPC(_npc.ReturnNpcID()))
                         {
                             Quest.QuestDatabase.GetQuestFromNpc(_npc.ReturnNpcID());
-                            if(Quest.QuestDatabase.ReturnQuestTitle() != null)
+                            if (Quest.QuestDatabase.ReturnQuestTitle() != null)
                             {
                                 Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npc.ReturnNpcID(), Quest.QuestDatabase.ReturnQuestID());
                             }
@@ -89,57 +144,11 @@ namespace Quest
                                 Dialogue.DialogueManager.SetDialogue("", _npc.ReturnDialogue2(), false, -1, -1);
                             }
                             // IF THE NPC HAS A QUEST
-                            
+
                         }
                     }
                 }
 
-           }
-           
-        }
-
-        void OnTriggerStay(Collider coll)
-        {
-            if (coll.tag == "Player")
-            {
-                if (Dialogue.DialogueManager.ReturnPlayerFinishedQuest())
-                {
-                    if (Quest.QuestDatabase.ReturnHasFollowUpQuest())
-                    {
-                        _npc.ToggleQuestGiver(true);
-                    }
-                    if (!Quest.QuestDatabase.ReturnHasFollowUpQuest())
-                    {
-                        _npc.ToggleQuestGiver(false);
-
-                    }
-                    Dialogue.DialogueManager.ResetPlayerFinishedQuest();
-                }
-            }
-        }
-
-        void OnTriggerExit(Collider coll)
-        {
-            if (coll.tag == "Player")
-            {
-
-                if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Patrol)
-                {
-                    _npc.PlayerInteraction(null, true);
-                    Debug.Log("RETURN TO PATROL");
-                }
-                if (_npc.ReturnBehaviour() == NPCSystem.ActorBehaviour.Idle)
-                {
-                    _npc.PlayerInteraction(null, false);
-                }
-
-                if (!_npc.ReturnMetBefore())
-                {
-                    _npc.HasMetPlayer(true);
-                }
-
-                _npc.IsSelected(false);
-                Dialogue.DialogueManager.ExitDialogue(false);
             }
         }
 
