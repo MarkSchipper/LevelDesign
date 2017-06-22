@@ -702,6 +702,7 @@ namespace Quest
                     _chainType = Quest.QuestDatabase.GetQuestChainType(_selectedQuestIndex);
                     _questChainSelectIndex = Quest.QuestDatabase.GetQuestChainFollowupID(_selectedQuestIndex);
                     _killAmount = _questItemCollectAmount;
+                    _killSelect = KillQuestSelection.InGame;
 
                 }
                 _retrievedAllQuests = true;
