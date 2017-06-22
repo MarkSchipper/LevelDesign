@@ -94,6 +94,8 @@ namespace NPCSystem
 
             ClearCache();
 
+            _questGiver = Quest.QuestDatabase.GetNPCQuestGiver(_npcID);
+
             
         }
 

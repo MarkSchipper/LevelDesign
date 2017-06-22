@@ -560,6 +560,25 @@ namespace Quest
             Quest.QuestLog.UpdateLog();
         }
 
+        static void FinishedQuestUpdateNPC(int _questID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("UPDATE Actors SET ActorQuestgiver = 'False ' WHERE ActorQuestID = '" + _questID + "'");
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+            
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
         static void CheckFollowupQuest(int _id)
         {
 
@@ -592,6 +611,7 @@ namespace Quest
             else
             {
                 _hasFollowUpQuest = false;
+                FinishedQuestUpdateNPC(_id);
             }
 
             dbcmd.Dispose();
@@ -729,6 +749,29 @@ namespace Quest
             {
                 return false;
             }
+        }
+
+        public static bool GetNPCQuestGiver(int _npcID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("SELECT ActorQuestgiver FROM Actors WHERE ActorID = '" + _npcID + "'");
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+            return bool.Parse(_tmp.ToString());
         }
 
         public static bool NPCHasNewQuest(int _npcID)
@@ -980,7 +1023,27 @@ namespace Quest
                 dbcmd = null;
                 dbconn.Close();
                 dbconn = null;
+
+                DeleteQuestUpdateNPC(_id);
             }
+        }
+
+        static void DeleteQuestUpdateNPC(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("UPDATE Actors SET ActorQuestgiver = 'False', ActorQuestID = '0' WHERE ActorQuestID = '" + _id + "'");
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
         }
 
         public static bool CheckQuestCompleteNpc(int _npcID)
@@ -1234,7 +1297,26 @@ namespace Quest
                 dbcmd = null;
                 dbconn.Close();
                 dbconn = null;
+
+                ResetQuestUpdateNPC(_id);
             }
+        }
+
+        static void ResetQuestUpdateNPC(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "UPDATE Actors SET ActorQuestgiver = 'True' WHERE ActorQuestID = '" + _id + "'";
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
         }
 
         public static bool ReturnEnemyKillQuest(string _name)
