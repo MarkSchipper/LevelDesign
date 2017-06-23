@@ -1280,7 +1280,7 @@ namespace Quest
 
         }
 
-        public static void ResetQuest(int _id, bool _state)
+        public static void ResetQuest(int _id, bool _state, int npcID)
         {
             if (_state)
             {
@@ -1289,7 +1289,15 @@ namespace Quest
                 dbconn = (IDbConnection)new SqliteConnection(conn);
                 dbconn.Open(); //Open connection to the database.
                 IDbCommand dbcmd = dbconn.CreateCommand();
-                string sqlQuery = "UPDATE Quests SET QuestActive = 'False', QuestComplete = 'False',  QuestCollected = '0', QuestEnabled = 'True' WHERE QuestID = '" + _id + "'";
+                string sqlQuery;
+                if (npcID != -1)
+                {
+                    sqlQuery = "UPDATE Quests SET QuestActive = 'False', QuestComplete = 'False',  QuestCollected = '0', QuestEnabled = 'True' WHERE QuestID = '" + _id + "'";
+                }
+                else
+                {
+                    sqlQuery = "UPDATE Quests SET QuestActive = 'True', QuestComplete = 'False',  QuestCollected = '0', QuestEnabled = 'True' WHERE QuestID = '" + _id + "'";
+                }
                 dbcmd.CommandText = sqlQuery;
                 dbcmd.ExecuteScalar();
 

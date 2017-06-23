@@ -57,6 +57,7 @@ namespace Quest
         private string _questZone;
 
         private bool _questEnabled = false;
+        private bool _questGameStart = false;
 
         private Vector2 _scrollPos;
 
@@ -346,8 +347,9 @@ namespace Quest
                 Quest.QuestDatabase.GetAllNpcs();
                 GUILayout.Space(20);
                 EditorGUILayout.Separator();
-                _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
 
+                _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
+                
                 GUILayout.Space(20);
 
                 GUILayout.Label("Quest Title");
@@ -447,16 +449,22 @@ namespace Quest
                 {
                     if (GUILayout.Button("SAVE QUEST"))
                     {
-                        if(GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                        if (!_questGameStart)
                         {
+                            if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                            {
                             
                             GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
                             
+                            }
+                                                    
+                            Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                            Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
                         }
-
-                        Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                        Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
-
+                        if(_questGameStart)
+                        {
+                            Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                        }
                         if(_createdQuestItems.Count > 0)
                         {
                             for (int i = 0; i < _createdQuestItems.Count; i++)
@@ -536,7 +544,10 @@ namespace Quest
                     Quest.QuestDatabase.GetAllNpcs();
                     GUILayout.Space(20);
                     EditorGUILayout.Separator();
+                    
                     _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
+                    
+                    //_actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
 
                     GUILayout.Space(20);
 
@@ -637,24 +648,41 @@ namespace Quest
                     {
                         if (GUILayout.Button("SAVE QUEST"))
                         {
-                            if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                            if (!_questGameStart)
                             {
+                                if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                                {
 
-                                GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                                    GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+
+                                }
+
+                                if (_killSelect == KillQuestSelection.InGame)
+                                {
+                                    Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
+
+                                if (_killSelect == KillQuestSelection.Database)
+                                {
+                                    Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
+
+                                Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
+                            }
+
+                            if(_questGameStart)
+                            {
+                                if (_killSelect == KillQuestSelection.InGame)
+                                {
+                                    Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
+
+                                if (_killSelect == KillQuestSelection.Database)
+                                {
+                                    Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
 
                             }
-                            if (_killSelect == KillQuestSelection.InGame)
-                            {
-                                Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                            }
-
-                            if (_killSelect == KillQuestSelection.Database)
-                            {
-                                Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                            }
-                            
-                            Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
-
 
                             ClearAll();
                             _addingQuest = false;
@@ -703,6 +731,10 @@ namespace Quest
                     _questChainSelectIndex = Quest.QuestDatabase.GetQuestChainFollowupID(_selectedQuestIndex);
                     _killAmount = _questItemCollectAmount;
                     _killSelect = KillQuestSelection.InGame;
+                    if(_oldNpcID == -1)
+                    {
+                        _questGameStart = true;
+                    }
 
                 }
                 _retrievedAllQuests = true;
@@ -720,7 +752,13 @@ namespace Quest
 
 
                 EditorGUILayout.Separator();
-                _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, _allNpcNames);
+                
+
+                _questGameStart = EditorGUILayout.Toggle("Quest Game Start? ", _questGameStart);
+                if (!_questGameStart)
+                {
+                    _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, _allNpcNames);
+                }
 
                 GUILayout.Space(20);
 
@@ -933,42 +971,67 @@ namespace Quest
                 {
                     if (GUILayout.Button("SAVE QUEST"))
                     {
-
-                        
+                                              
 
                         if (_questType == QuestType.Explore)
                         {
-                            Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", 0, "", false, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                        //    Debug.Log(_questText);
+                            if (!_questGameStart)
+                            {
+                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", 0, "", false, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                            }
+                            if(_questGameStart)
+                            {
+                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", 0, "", true, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                            }
                         }
                         if (_questType == QuestType.Collect)
                         {
-                            Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex),_questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                         //   Debug.Log(_questText);
+                            if (!_questGameStart)
+                            {
+                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                            }
+                            if(_questGameStart)
+                            {
+                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, Quest.QuestDatabase.ReturnQuestItemPrefab(_questItemIndex), _questItemCollectAmount, "", true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                            }
                         }
                         if (_questType == QuestType.Kill)
                         {
                             if (_killSelect == KillQuestSelection.InGame)
                             {
-                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                           //     Debug.Log(_questText);
+                                if (!_questGameStart)
+                                {
+                                    Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
+                                if(_questGameStart)
+                                {
+                                    Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", _killAmount, _killAllEnemiesName[_killSelectIndex], true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
                             }
 
                             if (_killSelect == KillQuestSelection.Database)
                             {
-                                Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex),_questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                                Debug.Log(_questText);
+                                if (!_questGameStart)
+                                {
+                                    Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), false, false, "", false, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
+                                if(_questGameStart)
+                                {
+                                    Quest.QuestDatabase.SaveQuest(Quest.QuestDatabase.GetQuestID(_selectedQuestIndex), _questTitle, _questText, _questType, "", _killAmount, EnemyCombat.EnemyDatabase.ReturnEnemyName(_killSelectIndex), true, false, "", false, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                                }
                             }
                         }
 
-
-                        if (_oldNpcID != Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex))
+                        if (!_questGameStart)
                         {
-                            Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
-                        }
-                        else
-                        {
-                            Quest.QuestDatabase.UpdateNPC(_oldNpcID);
+                            if (_oldNpcID != Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex))
+                            {
+                                Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
+                            }
+                            else
+                            {
+                                Quest.QuestDatabase.UpdateNPC(_oldNpcID);
+                            }
                         }
 
                         _editQuest = false;
@@ -1098,7 +1161,12 @@ namespace Quest
             Quest.QuestDatabase.GetAllNpcs();
             GUILayout.Space(20);
             EditorGUILayout.Separator();
-            _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
+
+            _questGameStart = EditorGUILayout.Toggle("Quest Game Start? ", _questGameStart);
+            if (!_questGameStart)
+            {
+                _actorSelectionIndex = EditorGUILayout.Popup("NPC QuestGiver: ", _actorSelectionIndex, Quest.QuestDatabase.ReturnActorNames().ToArray());
+            }
 
             GUILayout.Space(20);
 
@@ -1137,7 +1205,14 @@ namespace Quest
 
             EditorGUILayout.BeginHorizontal(GUILayout.Width(350));
             GUILayout.Label("Auto Complete Quest?:");
-            _questAutoComplete = EditorGUILayout.Toggle(_questAutoComplete);
+            if (!_questGameStart)
+            {
+                _questAutoComplete = EditorGUILayout.Toggle(_questAutoComplete);
+            }
+            else
+            {
+                GUILayout.Label("Auto Complete is On by default");
+            }
             EditorGUILayout.EndHorizontal();
 
             _chain = (QuestChain)EditorGUILayout.EnumPopup("Single or Chain?: ", _chain);
@@ -1200,17 +1275,23 @@ namespace Quest
             {
                 if (GUILayout.Button("SAVE QUEST"))
                 {
-                    
-                    if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                    if (!_questGameStart)
                     {
-                        GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
-                        
+                        if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
+                        {
+                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+
+                        }
+
+                        Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", 0, "", false, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                        Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
+                        Quest.QuestDatabase.UpdateQuestZone(_allZones[_zoneSelectedIndex], Quest.QuestDatabase.ReturnLastQuestID());
                     }
-
-                    Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", 0, "", false, false, _zoneNames[_zoneSelectedIndex], _questAutoComplete, Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex), 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
-                    Quest.QuestDatabase.UpdateNPC(Quest.QuestDatabase.ReturnActorID(_actorSelectionIndex));
-                    Quest.QuestDatabase.UpdateQuestZone(_allZones[_zoneSelectedIndex], Quest.QuestDatabase.ReturnLastQuestID());
-
+                    if(_questGameStart)
+                    {
+                        Quest.QuestDatabase.AddQuest(_questTitle, _questText, _questType, "", 0, "", true, false, _zoneNames[_zoneSelectedIndex], true, -1, 0, _questComplete, _goldAmount, _expAmount, "", 0, _questEnabled, _chain.ToString(), _chainType.ToString(), _tmpID);
+                        Quest.QuestDatabase.UpdateQuestZone(_allZones[_zoneSelectedIndex], Quest.QuestDatabase.ReturnLastQuestID());
+                    }
                     ClearAll();
                     _questEnabled = false;
                     _addingQuest = false;
@@ -1274,7 +1355,7 @@ namespace Quest
             {
                 for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
                 {
-                    Quest.QuestDatabase.ResetQuest(_activeID[i], _activeQuestActive[i]);
+                    Quest.QuestDatabase.ResetQuest(_activeID[i], _activeQuestActive[i], Quest.QuestDatabase.GetNpcIdFromQuest(i));
                     _resetQuest = false;
                     _retrievedAllQuests = false;
                 }
@@ -1304,6 +1385,7 @@ namespace Quest
             _chain = QuestChain.Single;
             _chainType = QuestChainType.Start;
             _questChainSelectIndex = 0;
+            _questGameStart = false;
         }
 
         
