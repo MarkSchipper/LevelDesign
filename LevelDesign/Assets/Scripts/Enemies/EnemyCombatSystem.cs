@@ -142,34 +142,25 @@ namespace EnemyCombat
         // Update is called once per frame
         void Update()
         {
-            if(_isPatrol)
+            if (_isAlive)
             {
-                Patrol();
-            }
-
-            if(_isAttacking)
-            {
-                if(_isInRange)
+                if (_isPatrol)
                 {
-                    AttackPlayer();
+                    Patrol();
                 }
-                if(!_isInRange)
+            
+                if (_isAttacking)
                 {
-                    MoveToPlayer();
-                }
-                /*
-                if (_enemyType == EnemyType.Ranged)
-                {
-                    if (Vector3.Distance(transform.position, _targetToAttack.transform.position) < _attackRange)
-
+                    if (_isInRange)
                     {
-                        StartCoroutine(WaitToFireAoE());
+                        AttackPlayer();
                     }
-
+                    if (!_isInRange)
+                    {
+                        MoveToPlayer();
+                    }
                 }
-                */
 
-                
             }
 
             if (_enemyHealth < 1)
@@ -178,10 +169,11 @@ namespace EnemyCombat
                 {
                     _isAttacking = false;
                     _isPatrol = false;
-                    EnemyAnim.SetEnemyDeath();
-                    StartCoroutine(WaitForDeath());
                     _isAlive = false;
                     _staticIsAlive = _isAlive;
+                    EnemyAnim.SetEnemyDeath();
+                    StartCoroutine(WaitForDeath());
+                    
 
 
                     CombatSystem.AnimationSystem.SetPlayerIdle();
@@ -197,26 +189,29 @@ namespace EnemyCombat
 
             if (coll.tag == "PlayerRangedSpell")
             {
-                _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
-                CombatSystem.GameInteraction.SetEnemyHealth(_enemyHealth);
-                CombatSystem.GameInteraction.DisplayDamageDoneToEnemy((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
+                if (_isAlive)
+                {
+                    _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
+                    CombatSystem.GameInteraction.SetEnemyHealth(_enemyHealth);
+                    CombatSystem.GameInteraction.DisplayDamageDoneToEnemy((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
 
-                GameObject _tmp = Instantiate(_hitParticles, transform.position, Quaternion.identity);
+                    GameObject _tmp = Instantiate(_hitParticles, transform.position, Quaternion.identity);
 
-                _targetToAttack = coll.GetComponent<SpellObject>().ReturnSpellCaster();
+                    _targetToAttack = coll.GetComponent<SpellObject>().ReturnSpellCaster();
 
-                _tmp.GetComponent<ParticleSystem>().Play();
+                    _tmp.GetComponent<ParticleSystem>().Play();
 
-                StartCoroutine(KillParticleSystem(_tmp, 1));
+                    StartCoroutine(KillParticleSystem(_tmp, 1));
 
-                Destroy(coll.gameObject);
+                    Destroy(coll.gameObject);
 
-                SetTarget(_targetToAttack);
-                SetAttack(true);
+                    SetTarget(_targetToAttack);
+                    SetAttack(true);
 
-                CombatSystem.SoundSystem.InCombat();
-                _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(true);
-                _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
+                    CombatSystem.SoundSystem.InCombat();
+                    _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(true);
+                    _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
+                }
             }
 
             if(coll.tag == "PlayerAOE_DMG")
@@ -333,39 +328,54 @@ namespace EnemyCombat
             return _enemyDamage;
         }
 
+        public float ReturnEnemyCooldown()
+        {
+            return _cooldown;
+        }
+
+        public float ReturnEnemyAttackRange()
+        {
+            return _attackRange;
+        }
+
         public void SetTarget(GameObject _target)
         {
             if(_target != null)
             {
-                _targetToAttack = _target;
-                _oldPosition = transform.position;
-                Vector3 _dir = _target.transform.position - transform.position;                                        // get the Vector we are going to move to
-                _dir.y = 0f;                                                                                // we dont want to move up
-                if (_dir != Vector3.zero)
+                if (_isAlive)
                 {
-                    Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
+                    _targetToAttack = _target;
+                    _oldPosition = transform.position;
+                    Vector3 _dir = _target.transform.position - transform.position;                                        // get the Vector we are going to move to
+                    _dir.y = 0f;                                                                                // we dont want to move up
+                    if (_dir != Vector3.zero)
+                    {
+                        Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
 
-                    transform.rotation = Quaternion.Slerp(transform.rotation, _targetRot, Time.deltaTime * 4);  // rotate the player
+                        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRot, Time.deltaTime * 4);  // rotate the player
+                    }
                 }
             }
         }
 
         public void SetAttack(bool _set)
         {
-            if (_set)
+            if (_isAlive)
             {
-                _isPatrol = false;
-                EnemyAnim.SetEnemyWalking(false);
-            }
-            if(!_set)
-            {
-                _isPatrol = true;
-                EnemyAnim.StopEnemyCombatIdle();
-                EnemyAnim.StopEnemyRunning();
-            }
-            _isAttacking = _set;
+                if (_set)
+                {
+                    _isPatrol = false;
+                    EnemyAnim.SetEnemyWalking(false);
+                }
+                if (!_set)
+                {
+                    _isPatrol = true;
+                    EnemyAnim.StopEnemyCombatIdle();
+                    EnemyAnim.StopEnemyRunning();
+                }
+                _isAttacking = _set;
 
-
+            }
         }
         
         public  void KillEnemy()
