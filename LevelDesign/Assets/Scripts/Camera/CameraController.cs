@@ -72,47 +72,88 @@ namespace CombatSystem
         private static float _shakeDuration;
         private Vector3 _oldPosition;
 
+        private  Quaternion _startPosition;
+        private bool _resetCamera = false;
+
+        private bool _orbitCamera = false;
+
+        private float _startDot;
 
         private float vOrbitInput, hOrbitInput, zoomInput, hOrbitSnapInput;
+
+        private static bool _firstPerson = true;
+        private float _rotateAngleX = 0f;
+        private float _rotateAngleY = 0f;
 
         void Start()
         {
             SetCameraTarget(transform.parent.transform);
+            _startPosition = transform.rotation;
             MoveToTarget();
 
             collision.Initialize(Camera.main);
             collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
             collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
-
+            _startDot = Vector3.Dot(transform.position.normalized, PlayerController.instance.ReturnPlayerPosition().normalized);
         }
 
         void SetCameraTarget(Transform t)
         {
             _target = t;
+            
         }
 
         void GetInput()
         {
-            vOrbitInput = Input.GetAxisRaw(input.ORBIT_VERTICAL);
-            hOrbitInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL);
-            hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
-            zoomInput = Input.GetAxisRaw(input.ZOOM);
+            if (!_firstPerson)
+            {
+                if (Input.GetMouseButton(1))
+                {
+                    _orbitCamera = true;
+                    vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
+                    hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
+                    hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
+                    Cursor.lockState = CursorLockMode.Locked;
+                    PlayerController.instance.RotatePlayer(hOrbitInput);
+
+                }
+                if (Input.GetMouseButtonUp(1))
+                {
+                    _orbitCamera = false;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+
+                zoomInput = Input.GetAxisRaw(input.ZOOM);
+            }
+            else
+            {
+                vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
+                hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
+                PlayerController.instance.RotatePlayer(hOrbitInput);
+                RotateCamera(vOrbitInput * -1, hOrbitInput);
+                Cursor.visible = false;
+            }
         }
 
         void Update()
         {
             GetInput();
-            OrbitTarget();
+            //OrbitTarget();
             ZoomInOnTarget();
             MoveToTarget();
-            LookAtTarget();
+            if (!_firstPerson)
+            {
+                LookAtTarget();
+            }
+
+          
         }
 
         void FixedUpdate()
         {
             
-            LookAtTarget();
-//            OrbitTarget();
+           // LookAtTarget();
+            OrbitTarget();
 
             collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
             collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
@@ -134,6 +175,7 @@ namespace CombatSystem
             collision.CheckColliding(targetPos);
             if (collision.colliding)
             {
+                
                 if (collision.ReturnCollidedWith() != null)
                 {
                     if (collision.ReturnCollidedWith().GetComponent<Renderer>() != null)
@@ -184,36 +226,44 @@ namespace CombatSystem
 
         void MoveToTarget()
         {
-            targetPos = _target.position + position.targetPosOffset;
-            destination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + _target.eulerAngles.y, 0) * -Vector3.forward * position.distance;
-            destination += targetPos;
-            transform.position = destination;
-
-            if (collision.colliding)
+            if (!_firstPerson)
             {
-                adjustedDestination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + _target.eulerAngles.y, 0) * Vector3.forward * position.adjustmentDistance;
-                adjustedDestination += targetPos;
+                targetPos = _target.position + position.targetPosOffset;
+                destination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + _target.eulerAngles.y, 0) * -Vector3.forward * position.distance;
+                destination += targetPos;
+                transform.position = destination;
 
-                if (position.smoothFollow)
+                if (collision.colliding)
                 {
-                    transform.position = Vector3.SmoothDamp(transform.position, adjustedDestination, ref cameraVelocity, position.smooth);
-                    Debug.Log("adjusting cam");
+                    adjustedDestination = Quaternion.Euler(orbit.xRotation, orbit.yRotation + _target.eulerAngles.y, 0) * Vector3.forward * position.adjustmentDistance;
+                    adjustedDestination += targetPos;
+
+                    if (position.smoothFollow)
+                    {
+                        transform.position = Vector3.SmoothDamp(transform.position, adjustedDestination, ref cameraVelocity, position.smooth);
+
+                    }
+                    else
+                    {
+                        transform.position = adjustedDestination;
+                    }
                 }
                 else
                 {
-                    transform.position = adjustedDestination;
+                    if (position.smoothFollow)
+                    {
+                        transform.position = Vector3.SmoothDamp(transform.position, destination, ref cameraVelocity, position.smooth);
+                    }
+                    else
+                    {
+                        transform.position = destination;
+                    }
                 }
             }
             else
             {
-                if (position.smoothFollow)
-                {
-                    transform.position = Vector3.SmoothDamp(transform.position, destination, ref cameraVelocity, position.smooth);
-                }
-                else
-                {
-                    transform.position = destination;
-                }
+                targetPos = new Vector3(_target.position.x, _target.position.y + 2.7f, _target.position.z);
+                transform.position = targetPos;
             }
 
         }
@@ -224,25 +274,40 @@ namespace CombatSystem
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, position.lookSmooth * Time.deltaTime);
         }
 
+        void RotateCamera(float x, float y)
+        {
+            _rotateAngleX += x;
+            _rotateAngleY += y;
+            transform.rotation = Quaternion.Euler(new Vector3(_rotateAngleX, _rotateAngleY, 0));
+        }
+
         void OrbitTarget()
         {
-            if (hOrbitSnapInput > 0)
+            if (_orbitCamera)
             {
-                orbit.yRotation = -180;
-            }
+                if (hOrbitSnapInput > 0)
+                {
+                    orbit.yRotation = -180;
+                }
 
-            orbit.xRotation += -vOrbitInput * orbit.vOrbitSmooth * Time.deltaTime;
-            orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
+                orbit.xRotation += -vOrbitInput * orbit.vOrbitSmooth * Time.deltaTime;
+                orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
 
-            if (orbit.xRotation > orbit.maxXRotation)
-            {
-                orbit.xRotation = orbit.maxXRotation;
-            }
+                if (orbit.xRotation > orbit.maxXRotation)
+                {
+                    orbit.xRotation = orbit.maxXRotation;
+                }
 
-            if (orbit.xRotation < orbit.minXRotation)
-            {
-                orbit.xRotation = orbit.minXRotation;
+                if (orbit.xRotation < orbit.minXRotation)
+                {
+                    orbit.xRotation = orbit.minXRotation;
+                }
             }
+        }
+
+        void OrbitToStart(int _multiplier)
+        {            
+            orbit.yRotation += ((-orbit.hOrbitSmooth * (Time.deltaTime / 5)) * _multiplier);
         }
 
         void ZoomInOnTarget()
@@ -279,6 +344,11 @@ namespace CombatSystem
             yield return new WaitForSeconds(_shakeDuration);
             _isCameraShake = false;
             transform.position = _oldPosition;
+        }
+
+        public static bool ReturnFirstPerson()
+        {
+            return _firstPerson;
         }
 
         [System.Serializable]

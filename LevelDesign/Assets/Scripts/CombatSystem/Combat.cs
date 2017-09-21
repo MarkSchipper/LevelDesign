@@ -25,7 +25,6 @@ namespace CombatSystem
         Disengage,
     }
 
-
     public class Combat : MonoBehaviour
     {
 
@@ -69,7 +68,19 @@ namespace CombatSystem
             _inCombat = false;
             
         }
-        
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                      SetSpell(int _id, ... )                                             //
+        //                                                                                                          //
+        //  Initialising the Spell, setting all the values                                                          //
+        //                                                                                                          //
+        //  If the given _target is not null                                                                        //
+        //      If the tag of the target is EnemyRanged or EnemyMelee                                               //
+        //          Set the values                                                                                  //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         public static void SetSpell(int _id, SpellTypes _type, float _value, float _manaCost, float _castTime, string _prefab, GameObject _target, GameObject _caster)
         {
             if (_target != null)
@@ -92,6 +103,13 @@ namespace CombatSystem
             }
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                      SetHealingSpell(float _value, ...)                                  //
+        //                                                                                                          //
+        //   Set the _spellPrefab                                                                                   //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         public static void SetHealingSpell(float _value, float _manaCost, float _castTime, string _prefab)
         {
             _spellPrefab = Resources.Load("PlayerSpells/Healing/" + _prefab) as GameObject;
@@ -103,21 +121,36 @@ namespace CombatSystem
             _spellValue = _value;
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                  CastSpell(Vector3 _playerPos)                                           //
+        //                                                                                                          //
+        //  The actual Spell Casting                                                                                //
+        //      Again check if the _selectedTarget is not null                                                      //
+        //          Set the _playerAimVector                                                                        //
+        //          Instantiate the prefab                                                                          //
+        //          Make sure the projectile is facing the target                                                   //
+        //          AddForce to the projectile                                                                      //
+        //          Add the SpellObject Component                                                                   //
+        //          If the spell is from the Player then set SetFromPlayer to true                                  //
+        //          Set the damage in the SpellObject                                                               //
+        //          Set the SetSpellCaster to _spellCaster                                                          //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         public static void CastSpell(Vector3 _playerPos)
         {
             if (_selectedTarget != null)
             {
-                Vector3 _playerAimVector = _selectedTarget.transform.position - _playerPos;
-                _projectile = Instantiate(_spellPrefab, _playerPos, Quaternion.identity) as GameObject;
+                    Vector3 _playerAimVector = _selectedTarget.transform.position - _playerPos;
+                    _projectile = Instantiate(_spellPrefab, _playerPos, Quaternion.identity) as GameObject;
 
-                _projectile.transform.LookAt(_selectedTarget.transform);
-                _projectile.GetComponent<Rigidbody>().AddForce(_playerAimVector * 1);
-                _projectile.AddComponent<SpellObject>();
-                _projectile.GetComponent<SpellObject>().SetFromPlayer(true);
-                _projectile.GetComponent<SpellObject>().SetDamage(_spellValue);
-                _projectile.GetComponent<SpellObject>().SetSpellCaster(_spellCaster);
-               
-                //GameInteraction.SetPlayerMana()
+                    _projectile.transform.LookAt(_selectedTarget.transform);
+                    _projectile.GetComponent<Rigidbody>().AddForce(_playerAimVector * 0.7f);
+                    _projectile.AddComponent<SpellObject>();
+                    _projectile.GetComponent<SpellObject>().SetFromPlayer(true);
+                    _projectile.GetComponent<SpellObject>().SetDamage(_spellValue);
+                    _projectile.GetComponent<SpellObject>().SetSpellCaster(_spellCaster);
+                
             }
 
         }

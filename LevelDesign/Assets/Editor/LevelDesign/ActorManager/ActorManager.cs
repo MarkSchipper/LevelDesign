@@ -7,7 +7,7 @@ using System.Data;
 using System;
 using System.Linq;
 
-namespace NPCSystem
+namespace NPC
 {
 
     public class ActorManager : EditorWindow
@@ -419,10 +419,10 @@ namespace NPCSystem
                     _allInGameActors = GameObject.FindGameObjectsWithTag("NPC");
                     for (int i = 0; i < _allInGameActors.Length; i++)
                     {
-                        _inGameActorNames.Add(_allInGameActors[i].GetComponentInChildren<NPCSystem.NPC>().ReturnNpcName());
+                        _inGameActorNames.Add(_allInGameActors[i].GetComponentInChildren<NPC.NpcSystem>().ReturnNpcName());
                         Debug.Log(_inGameActorNames.Count);
                     }
-                    _selectedBehaviour = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnBehaviour();
+                    _selectedBehaviour = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().ReturnNpcBehaviour();
                     _gotInGameActors = true;
                 }
                 GUILayout.Label("Edit the behaviour of an In Game Actor");
@@ -435,13 +435,13 @@ namespace NPCSystem
                     Debug.Log("PATROL");
                     if (!_loadedWaypoints)
                     {
-                        for (int i = 0; i < _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnWaypointAmount(); i++)
+                        for (int i = 0; i < _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().ReturnWaypointAmount(); i++)
                         {
                             _allActorWayPoints.Add(GameObject.Find("NPC_" + _inGameActorNames[_selectedActorIndex] + "_Waypoint_" + i + ""));
                             _wayPointAmount = _allActorWayPoints.Count;
 
                         }
-                        _wayPointSpeed = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnPatrolSpeed();
+                        _wayPointSpeed = _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().ReturnPatrolSpeed();
                         _loadedWaypoints = true;
 
                     }
@@ -453,8 +453,8 @@ namespace NPCSystem
                     GUILayout.BeginHorizontal();
                     if (GUILayout.Button("UPDATE ACTOR"))
                     {
-                        _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().SetNpcBehaviour(_selectedBehaviour);
-                        _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().SetPatrolSpeed(_wayPointSpeed);
+                        _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().SetNpcBehaviour(_selectedBehaviour);
+                        _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().SetPatrolSpeed(_wayPointSpeed);
 
                         if (_wayPointAmount > _allActorWayPoints.Count)
                         {
@@ -464,10 +464,10 @@ namespace NPCSystem
                             {
                                 Debug.Log("i = " + i + " Amount of waypoints = " + _wayPointAmount);
                                 GameObject _wayPoint = new GameObject();
-                                _wayPoint.name = "NPC_" + _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().ReturnNpcName() + "_WayPoint_" + i + "";
+                                _wayPoint.name = "NPC_" + _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().ReturnNpcName() + "_WayPoint_" + i + "";
                                 _wayPoint.transform.parent = GameObject.Find("NPC_" + _inGameActorNames[_selectedActorIndex] + "").transform;
                                 _wayPoint.transform.position = new Vector3(5 * i, 0, 0);
-                                _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPCSystem.NPC>().SetWayPoints(_wayPoint.transform);
+                                _allInGameActors[_selectedActorIndex].GetComponentInChildren<NPC.NpcSystem>().SetWaypoints(_wayPoint.transform);
                             }
                         }
                     }
@@ -595,8 +595,9 @@ namespace NPCSystem
             _NPC.GetComponent<CharacterController>().height = 4.0f;
             _NPC.GetComponent<CharacterController>().center = new Vector3(0, 2f, 0);
 
-            _NPC.AddComponent<NPCSystem.NPC>();
-
+            _NPC.AddComponent<NPC.NpcSystem>();
+            _NPC.GetComponent<NPC.NpcSystem>().SetData(_allActorID[_id], _allActorNames[_id], _allActorDialogue1[_id], _allActorDialogue2[_id], _selectedBehaviour, _wayPointSpeed, _allActorPrefabs[_id]);
+            /*
             _NPC.GetComponent<NPCSystem.NPC>().SetNpcID(_allActorID[_id]);
             _NPC.GetComponent<NPCSystem.NPC>().SetNPCName(_allActorNames[_id]);
             _NPC.GetComponent<NPCSystem.NPC>().SetProfession(_allActorProfessions[_id]);
@@ -604,6 +605,7 @@ namespace NPCSystem
             _NPC.GetComponent<NPCSystem.NPC>().SetDialogues(_allActorDialogue1[_id], _allActorDialogue2[_id]);
             _NPC.GetComponent<NPCSystem.NPC>().SetQuestGiver(_allActorQuestGivers[_id]);
             _NPC.GetComponent<NPCSystem.NPC>().SetNpcBehaviour(_selectedBehaviour);
+            */
 
             if (_selectedBehaviour == ActorBehaviour.Patrol && _wayPointAmount > 0)
             {
@@ -614,12 +616,10 @@ namespace NPCSystem
                     _wayPoint.transform.parent = _npcParent.transform;
                     _wayPoint.transform.position = new Vector3(5 * i, 0, 0);
 
-                    _NPC.GetComponent<NPCSystem.NPC>().SetWayPoints(_wayPoint.transform);
+                    _NPC.GetComponent<NPC.NpcSystem>().SetWaypoints(_wayPoint.transform);
 
                 }
             }
-
-            _NPC.GetComponent<NPCSystem.NPC>().SetPatrolSpeed(_wayPointSpeed);
 
             GameObject _npcTrigger = new GameObject();
             _npcTrigger.name = "NPC_" + _allActorNames[_selectedActorIndex] + "_TRIGGER";
