@@ -38,12 +38,11 @@ namespace Quest
         private bool _showQuestLogWindow = false;
         private bool _draggingGameLog = false;
 
-        private CombatSystem.PlayerMovement _player;
+
 
         // Use this for initialization
         void Start()
         {
-            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
             _inGameLogPos = new Vector2(PlayerPrefs.GetFloat("InGameLogPosX"), PlayerPrefs.GetFloat("InGameLogPosY"));
         }
 
@@ -59,7 +58,7 @@ namespace Quest
 
         void OnGUI()
         {
-            if (!CombatSystem.GameInteraction.ReturnLoadingLevel())
+            if (!CombatSystem.InteractionManager.instance.ReturnLoadingLevel())
             {
                 InGameQuestLog();
 
@@ -183,32 +182,32 @@ namespace Quest
 
             if(_gameQuestLog.Contains(Event.current.mousePosition))
             {
-                CombatSystem.PlayerMovement.HoveringOverQuestLog(true);
+                //CombatSystem.PlayerMovement.HoveringOverQuestLog(true);
 
                 if(Event.current.button == 0 && Event.current.type == EventType.mouseDown)
                 {
-                    CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
+                    //CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
                 }
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
                 {
-                    CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
+                  //  CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
                 }
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !_draggingGameLog)
                 {
                     _draggingGameLog = true;
-                    CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
+                    //CombatSystem.PlayerMovement.SetDraggingQuestLog(true);
                 }
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp && _draggingGameLog)
                 {
                     _draggingGameLog = false;
-                    CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
+                    //CombatSystem.PlayerMovement.SetDraggingQuestLog(false);
                 }
             }
             else
             {
-                CombatSystem.PlayerMovement.HoveringOverQuestLog(false);
+                //CombatSystem.PlayerMovement.HoveringOverQuestLog(false);
             }
 
         }

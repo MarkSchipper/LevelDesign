@@ -31,6 +31,17 @@ namespace CombatSystem
             _playerAnimator.SetBool("isRunning", true);
             
         }
+
+        public static void SetPlayerWalking()
+        {
+            _playerAnimator.SetBool("isWalking", true);
+        }
+
+        public static void StopPlayerWalking()
+        {
+            _playerAnimator.SetBool("isWalking", false);
+        }
+
         public static void StopPlayerRunning()
         {
             _playerAnimator.SetBool("isRunning", false);

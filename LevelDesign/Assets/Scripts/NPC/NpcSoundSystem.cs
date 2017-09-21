@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPCSystem
+namespace NPC
 {
 
     public class NpcSoundSystem : MonoBehaviour

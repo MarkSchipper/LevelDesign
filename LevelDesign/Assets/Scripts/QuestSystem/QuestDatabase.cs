@@ -233,6 +233,158 @@ namespace Quest
             dbconn = null;
         }
 
+        public static void GetAllQuestsNyNPC(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT * FROM Quests WHERE NPC_ID = '" + _id + "'";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                _allQuestID.Add(reader.GetInt32(0));
+                _allQuestTitles.Add(reader.GetString(1));
+                _allQuestTexts.Add(reader.GetString(2));
+                if (reader.GetString(3) == "Collect")
+                {
+                    _allQuestsType.Add(QuestType.Collect);
+                }
+                if (reader.GetString(3) == "Explore")
+                {
+                    _allQuestsType.Add(QuestType.Explore);
+                }
+
+                if (reader.GetString(3) == "Kill")
+                {
+                    _allQuestsType.Add(QuestType.Kill);
+                }
+                _allQuestItems.Add(reader.GetString(4));
+                if (reader.GetInt32(5) > 1)
+                {
+                    _allQuestAmountType.Add(QuestItemAmount.Multiple);
+
+                    _allQuestAmount.Add(reader.GetInt32(5));
+                }
+                else
+                {
+                    _allQuestAmountType.Add(QuestItemAmount.Single);
+                    _allQuestAmount.Add(reader.GetInt32(5));
+                }
+                _allQuestMobs.Add(reader.GetString(6));
+                if (reader.GetString(7) == "True")
+                {
+                    _allQuestActive.Add(true);
+                }
+                else
+                {
+                    _allQuestActive.Add(false);
+                }
+                if (reader.GetString(8) == "True")
+                {
+                    _allQuestCompleted.Add(true);
+                }
+                else
+                {
+                    _allQuestCompleted.Add(false);
+                }
+                _allQuestZones.Add(reader.GetString(9));
+                if (reader.GetString(10) == "True")
+                {
+                    _allQuestZoneAutoComplete.Add(true);
+                }
+                else
+                {
+                    _allQuestZoneAutoComplete.Add(false);
+                }
+                _allQuestNpcID.Add(reader.GetInt32(11));
+                _allQuestCollected.Add(reader.GetInt32(12));
+                _allQuestCompleteText.Add(reader.GetString(13));
+
+                if (reader.GetInt32(14) > 0 && reader.GetInt32(15) == 0)
+                {
+                    _allQuestRewards.Add(QuestReward.Gold);
+                }
+
+                if (reader.GetInt32(14) == 0 && reader.GetInt32(15) > 0)
+                {
+                    _allQuestRewards.Add(QuestReward.Experience);
+                }
+                if (reader.GetInt32(14) > 0 && reader.GetInt32(15) > 0)
+                {
+                    _allQuestRewards.Add(QuestReward.Both);
+                }
+
+
+                _allQuestGold.Add(reader.GetInt32(14));
+                _allQuestExp.Add(reader.GetInt32(15));
+                _allQuestItemReward.Add(reader.GetString(16));
+                _allQuestFollowupID.Add(reader.GetInt32(17));
+                if (reader.GetString(18) == "True")
+                {
+                    _allQuestEnabled.Add(true);
+                }
+                else
+                {
+                    _allQuestEnabled.Add(false);
+                }
+
+                if (reader.GetString(19) == "Single")
+                {
+
+                    _allQuestChain.Add(QuestChain.Single);
+                }
+                if (reader.GetString(19) == "Chain")
+                {
+                    _allQuestChain.Add(QuestChain.Chain);
+                }
+                if (reader.GetString(20) == "Start")
+                {
+                    _allQuestChainType.Add(QuestChainType.Start);
+                }
+                if (reader.GetString(20) == "Followup")
+                {
+                    _allQuestChainType.Add(QuestChainType.Followup);
+                }
+                if (reader.GetString(20) == "End")
+                {
+                    _allQuestChainType.Add(QuestChainType.End);
+                }
+                _allQuestChainFollowupID.Add(reader.GetInt32(21));
+
+            }
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
+        public static bool ReturnNpcHasQuests(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT QuestID FROM Quests WHERE NPC_ID = '" + _id + "'";
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            if(_tmp != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static int ReturnAllQuestsCount()
         {
             return _allQuestID.Count;
@@ -259,7 +411,14 @@ namespace Quest
         // Called to get a specific Text based on the ID given from the QuestSystem
         public static string GetQuestText(int _id)
         {
-            return _allQuestTexts[_id];
+            if (_allQuestTexts[_id] != null)
+            {
+                return _allQuestTexts[_id];
+            }
+            else
+            {
+                return String.Empty;
+            }
         }
 
         public static string GetQuestCompletedText(int _id)
@@ -345,12 +504,6 @@ namespace Quest
 
             }
             return _returnValue;
-
-        }
-
-        // Get all the data for a specific Quest
-        public static void GetQuest(int _id)
-        {
 
         }
 
@@ -555,8 +708,8 @@ namespace Quest
 
             //Quest.QuestLog.ClearAll();
 
-            CombatSystem.PlayerMovement.CompletedQuest();
-            NPCSystem.NPC.PlayerHasFinishedQuest();
+            CombatSystem.PlayerController.instance.CompletedQuest();
+            //NPCSystem.NPC.PlayerHasFinishedQuest();
             Quest.QuestLog.UpdateLog();
         }
 
@@ -638,6 +791,12 @@ namespace Quest
             dbcmd.CommandText = sqlQuery;
             System.Object _tmp = dbcmd.ExecuteScalar();
 
+            NPC.NpcSystem[] _allNPC = GameObject.FindObjectsOfType<NPC.NpcSystem>();
+
+            for (int i = 0; i < _allNPC.Length; i++)
+            {
+                _allNPC[i].CheckForQuest();
+            }
 
             dbcmd.Dispose();
             dbcmd = null;
@@ -1128,7 +1287,7 @@ namespace Quest
             dbconn.Close();
             dbconn = null;
 
-            NPCSystem.NPC.PlayerHasFinishedQuest();
+         //   NPCSystem.NPC.PlayerHasFinishedQuest();
         }
 
         public static void AddQuestItemCollected(int _id, int _amount)
@@ -1384,6 +1543,24 @@ namespace Quest
             CheckKillQuestComplete(_tmpID);
 
             
+        }
+
+        public static void SaveQuestFromNode(int _id, string _title, string _text, string _complete)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("UPDATE Quests SET QuestTitle = '" + _title + "', QuestText = '" + _text + "', QuestCompletedText = '" + _complete + "'  WHERE QuestID = '" + _id + "'");
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
         }
     }
 }

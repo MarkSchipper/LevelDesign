@@ -82,6 +82,8 @@ namespace EnemyCombat
         private GameObject _targetToAttack;
         private bool _isInRange = false;
 
+        private bool _isSelected = false;
+
         private float _cooldownTimer = 0;
         private float _aoeCooldownTimer;
 
@@ -177,7 +179,7 @@ namespace EnemyCombat
 
 
                     CombatSystem.AnimationSystem.SetPlayerIdle();
-                    CombatSystem.PlayerMovement.SetOutOfCombat();
+                    CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
                     CombatSystem.Combat.OutofCombat();
 
                 }
@@ -192,14 +194,14 @@ namespace EnemyCombat
                 if (_isAlive)
                 {
                     _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
-                    CombatSystem.GameInteraction.SetEnemyHealth(_enemyHealth);
-                    CombatSystem.GameInteraction.DisplayDamageDoneToEnemy((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
+                    CombatSystem.InteractionManager.instance.SetEnemyHealth(_enemyHealth);
+                    CombatSystem.InteractionManager.instance.DisplayDamageDoneToEnemy((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
 
-                    GameObject _tmp = Instantiate(_hitParticles, transform.position, Quaternion.identity);
+                    GameObject _tmp = Instantiate(_hitParticles, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
 
                     _targetToAttack = coll.GetComponent<SpellObject>().ReturnSpellCaster();
 
-                    _tmp.GetComponent<ParticleSystem>().Play();
+                    _tmp.GetComponentInChildren<ParticleSystem>().Play();
 
                     StartCoroutine(KillParticleSystem(_tmp, 1));
 
@@ -208,16 +210,16 @@ namespace EnemyCombat
                     SetTarget(_targetToAttack);
                     SetAttack(true);
 
-                    CombatSystem.SoundSystem.InCombat();
-                    _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(true);
-                    _targetToAttack.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
+
+                    _targetToAttack.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                    CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
                 }
             }
 
             if(coll.tag == "PlayerAOE_DMG")
             {
                 _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
-                CombatSystem.GameInteraction.SetEnemyHealth(_enemyHealth);
+                CombatSystem.InteractionManager.instance.SetEnemyHealth(_enemyHealth);
 
                 GameObject _tmp = Instantiate(_hitParticles, transform.position, Quaternion.identity);
                 _tmp.GetComponent<ParticleSystem>().Play();
@@ -233,8 +235,7 @@ namespace EnemyCombat
         {
             if (_currentWayPoint < _waypoints.Count)
             {
-
-                _wayPointTarget = _waypoints[_currentWayPoint].transform.position;
+                 _wayPointTarget = _waypoints[_currentWayPoint].transform.position;
                 _oldPosition = transform.position;
                 Vector3 _dir = _wayPointTarget - transform.position;                                        // get the Vector we are going to move to
                 _dir.y = 0f;                                                                                // we dont want to move up
@@ -496,7 +497,7 @@ namespace EnemyCombat
                     EnemyAnim.SetEnemyRunning();
                     if (!_chargeSound)
                     {
-                        CombatSystem.SoundSystem.EnemyCharge(_targetToAttack.transform.position);
+
                         _chargeSound = true;
                     }
 
@@ -515,7 +516,7 @@ namespace EnemyCombat
         {
             
             Destroy(this.gameObject);
-            CombatSystem.PlayerMovement.SetOutOfCombat();
+            CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
 
             Quest.QuestDatabase.GetAllQuests();
 
@@ -574,8 +575,6 @@ namespace EnemyCombat
 
         IEnumerator WaitForDeath()
         {
-            CombatSystem.SoundSystem.EnemyDeath(_targetToAttack.transform.position);
-
             GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
             _tmp.GetComponent<ParticleSystem>().Play();
             yield return new WaitForSeconds(5);

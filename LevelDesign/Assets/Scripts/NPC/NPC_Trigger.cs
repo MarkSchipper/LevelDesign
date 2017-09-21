@@ -6,7 +6,7 @@ namespace Quest
 
     public class NPC_Trigger : MonoBehaviour
     {
-        
+     /*   
         private NPCSystem.NPC _npc;
         
 
@@ -77,7 +77,7 @@ namespace Quest
             {
                 if (coll.tag == "Player")
                 {
-                    CombatSystem.PlayerMovement.StopMoving();
+
                     _npc.PlayerInteraction(coll.gameObject, false);
 
                     if (!_npc.ReturnMetBefore())
@@ -152,6 +152,6 @@ namespace Quest
             }
         }
 
-
+    */
     }
 }

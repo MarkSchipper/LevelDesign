@@ -228,7 +228,6 @@ namespace EnemyCombat
         IEnumerator EnemySpawnDelay()
         {
             yield return new WaitForSeconds(0.66f);
-            CombatSystem.SoundSystem.EnemySpawn(this.transform.position);
             CombatSystem.CameraController.CameraShake(8, 1.5f);
             SpawnEnemy();
         }

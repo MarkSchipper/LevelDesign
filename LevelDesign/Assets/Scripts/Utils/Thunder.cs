@@ -21,7 +21,6 @@ public class Thunder : MonoBehaviour {
         StartCoroutine(SetThunder(Random.Range(2, 10)));
 
         // Call the SoundSystem to start playing the Rain
-        CombatSystem.SoundSystem.Rain();
 	}
 	
 	// Update is called once per frame
@@ -67,8 +66,6 @@ public class Thunder : MonoBehaviour {
         _setOnce = false;
 
         // Play the thunder sound
-        CombatSystem.SoundSystem.Thunder();
-
         // _isThunder is true ( see Update )
         _isThunder = true;
     }

@@ -356,6 +356,22 @@ namespace CombatSystem
             return _playerExp;
         }
 
+        public static void UpdatePlayerExp(int _exp)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "UPDATE PlayerStats SET PlayerExp = '" + _exp + "' WHERE PlayerID = '1'";
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
         public static int ReturnPlayerGold()
         {
             return _playerGold;

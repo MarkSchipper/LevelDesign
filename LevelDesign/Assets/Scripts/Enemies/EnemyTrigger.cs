@@ -12,49 +12,50 @@ namespace CombatSystem
         void OnTriggerEnter(Collider coll)
         {
 
-            if (EnemyCombat.EnemyCombatSystem.ReturnIsAlive())
+            if (transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnIsAlive())
             {
-
-                if (coll.tag == "Player")
+                if (!transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLeashingBack())
                 {
-                    // If the enemy engages the player, the player get set in Combat
-                    // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
+                    if (coll.tag == "Player")
+                    {
+                        // If the enemy engages the player, the player get set in Combat
+                        // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
 
-                    CombatSystem.GameInteraction.SetSelectedUI(this.transform.parent.gameObject);
-                    coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(true);
-                    coll.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
+                        InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
+                        coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                        coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
 
+                        this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
+                        this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetLeashStart(transform.position);
 
-                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
-                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
-
-                    CombatSystem.SoundSystem.InCombat();
-
+                    }
                 }
             }
         }
 
         void OnTriggerStay(Collider coll)
         {
-            if (coll.tag == "Player")
+            if (transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnIsAlive())
             {
-                // If the enemy engages the player, the player get set in Combat
-                // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
-                if (!_setOnce)
+                if(!transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLeashingBack())
                 {
-                    CombatSystem.GameInteraction.SetSelectedUI(this.transform.parent.gameObject);
-                    coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(true);
-                    coll.GetComponent<CombatSystem.PlayerMovement>().SetEnemy(this.transform.parent.gameObject);
-
-
-                    
-                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(true);
-
-                    CombatSystem.SoundSystem.InCombat();
-
-                    _setOnce = true;
+                    if (coll.tag == "Player")
+                    {
+                        // If the enemy engages the player, the player get set in Combat
+                        // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
+                        if (!_setOnce)
+                        {
+                            InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
+                            coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                            coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
+                            _setOnce = true;
+                        }
+                        if (!this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().MaxLeashDistanceMet())
+                        {
+                            this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
+                        }
+                    }
                 }
-                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetTarget(coll.gameObject);
             }
         }
 
@@ -62,8 +63,8 @@ namespace CombatSystem
         {
             if (coll.tag == "Player")
             {
-                coll.GetComponent<CombatSystem.PlayerMovement>().PlayerInCombat(false);
-                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyCombatSystem>().SetAttack(false);
+                coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(false);
+                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(false, null);
             }
             
         }

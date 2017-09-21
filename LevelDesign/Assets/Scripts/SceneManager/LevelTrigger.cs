@@ -69,9 +69,6 @@ namespace LevelEditor
                 _canvasImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
                 _canvasImage.GetComponent<RectTransform>().sizeDelta = new Vector2(_loadingScreenImage.textureRect.width, _loadingScreenImage.textureRect.height);
 
-
-                CombatSystem.GameInteraction.LoadingLevel();
-
             }
         }
 

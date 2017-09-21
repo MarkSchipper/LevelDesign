@@ -9,11 +9,17 @@ namespace CombatSystem
 
     public class SoundSystem : MonoBehaviour
     {
+        /*
         [FMODUnity.EventRef]
         private static string _playerGrunt = "event:/grunts/female_grunts";
 
         [FMODUnity.EventRef]
         private static string _playerSpells = "event:/spells/fire_ball_cast";
+
+        [FMODUnity.EventRef]
+        private static string _spellCasting = "event:/spells/spell_casting";
+
+        private static FMOD.Studio.EventInstance _spellCast;
 
         [FMODUnity.EventRef]
         private static string _playerBlink = "event:/spells/blink";
@@ -57,9 +63,17 @@ namespace CombatSystem
         private static float m_Grass;
         private static float m_Stone;
         private static float m_Snow;
-
+        */
         private static UnityEngine.Object[] _allFoliageSounds;
         private static List<string> _foliageSounds = new List<string>();
+        /*
+        public static void SetSpellCastingSound()
+        {
+            _spellCast = FMODUnity.RuntimeManager.CreateInstance(_spellCasting);
+            Debug.Log(_spellCast);
+        }
+
+        
         
         public static void PlaySpellCast(Vector3 _playerPos)
         {
@@ -204,13 +218,28 @@ namespace CombatSystem
 
         public static void Healing(Vector3 _playerPos)
         {
-
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_healing);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
 
             e.start();
             e.release();
         }
+
+        public static void SpellCasting(Vector3 _playerPos, bool _play)
+        {
+            if (_play)
+            {
+                _spellCast.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+                _spellCast.start();
+            }
+            if(!_play)
+            {
+                _spellCast.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            }
+            
+        }
+
+    
 
         public static void Thunder()
         {
@@ -240,7 +269,7 @@ namespace CombatSystem
             }
             parameter.setValue(value);
         }
-
+        */
         public static void GetAllFoliage()
         {
             _foliageSounds.Clear();
@@ -266,6 +295,7 @@ namespace CombatSystem
         {
             return _foliageSounds;
         }
+        
     }
 
 }

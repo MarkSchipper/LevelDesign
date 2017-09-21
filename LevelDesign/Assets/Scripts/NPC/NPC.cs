@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-
+/*
 namespace NPCSystem
 {
     [System.Serializable]
@@ -162,7 +162,6 @@ namespace NPCSystem
 
                 _storePrevGameObject = null;
             }
-            /*
             if(_hasPlayerAcceptedQuest)
             {
                 CheckActiveQuest();
@@ -174,7 +173,7 @@ namespace NPCSystem
                 CheckCompletedQuest();
                 _hasPlayerFinishedQuest = false;
             }
-            */
+  
             
 
         }
@@ -203,7 +202,6 @@ namespace NPCSystem
             {
                 if (_wayPoints.Count > 0)
                 {
-
                     if (_currentWayPoint < _wayPoints.Count)
                     {
                         _wayPointTarget = _wayPoints[_currentWayPoint].position;
@@ -243,7 +241,7 @@ namespace NPCSystem
                     if (_distanceTraveled >= 2f)
                     {
                         // Call the PlayFootstepSound in the SoundSystem Class
-                        NpcSoundSystem.PlayFootSteps(this.transform.position);
+                        NPC.NpcSoundSystem.PlayFootSteps(this.transform.position);
                         _distanceTraveled = 0.0f;
                     }
                 }
@@ -506,3 +504,4 @@ namespace NPCSystem
 
     }
 }
+*/

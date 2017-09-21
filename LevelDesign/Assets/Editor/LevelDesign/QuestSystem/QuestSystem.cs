@@ -454,7 +454,7 @@ namespace Quest
                             if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
                             {
                             
-                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPC.NpcSystem>().UpdateQuestNPC(true);
                             
                             }
                                                     
@@ -653,7 +653,7 @@ namespace Quest
                                 if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
                                 {
 
-                                    GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                                    GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPC.NpcSystem>().UpdateQuestNPC(true);
 
                                 }
 
@@ -1279,7 +1279,7 @@ namespace Quest
                     {
                         if (GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)) != null)
                         {
-                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPCSystem.NPC>().UpdateQuestNPC(true);
+                            GameObject.Find("NPC_" + Quest.QuestDatabase.ReturnActorName(_actorSelectionIndex)).GetComponentInChildren<NPC.NpcSystem>().UpdateQuestNPC(true);
 
                         }
 

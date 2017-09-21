@@ -18,10 +18,16 @@ namespace Dialogue
         private Rect _questTextRect;
         private Rect _questAcceptRect;
 
-
+        private Rect _dialogueBox;
+        private Rect _dialogueTextBox;
+        private Rect[] _dialogueAnswersBox = new Rect[2];
+        private Rect[] _dialogueAnswersRect = new Rect[2];
+        private static string[] _dialogueAnswers = new string[2];
+ 
         public GUISkin _skin;
 
         private static bool _showQuestWindow = false;
+        private static bool _showDialogue = false;
         private static bool _showButton = false;
         private static bool _draggingWindow = false;
 
@@ -36,7 +42,7 @@ namespace Dialogue
         private static int _questID;
         private static bool _questCompleted;
 
-        private CombatSystem.PlayerMovement _player;
+
 
         private static bool _showZone = false;
         private static string _zoneName;
@@ -47,6 +53,8 @@ namespace Dialogue
 
         private static bool _showHint = false;
         private static string _hintMessage;
+
+        private static GameObject _selectedNPC;
 
         private List<int> _questRewards = new List<int>();
 
@@ -61,7 +69,7 @@ namespace Dialogue
                 _windowPosition = new Vector2(PlayerPrefs.GetFloat("QuestWindowPosX"), PlayerPrefs.GetFloat("QuestWindowPosY"));
             }
 
-            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
+
 
         }
 
@@ -79,6 +87,12 @@ namespace Dialogue
 
         void OnGUI()
         {
+
+            if(_showDialogue)
+            {
+                ShowDialogue();
+            }
+
             if (_showQuestWindow)
             {
                 ShowQuestWindow();
@@ -112,7 +126,7 @@ namespace Dialogue
             }
         }
 
-        public static void SetDialogue(string _title, string _text, bool _buttonVis, int _nwNpcID, int _nwQuestID)
+        public static void SetDialogue(string _title, string _text, bool _buttonVis, int _nwNpcID, int _nwQuestID, GameObject _npc)
         {
 
             _questTitle = _title;
@@ -120,12 +134,118 @@ namespace Dialogue
             _showButton = _buttonVis;
             _npcID = _nwNpcID;
             _questID = _nwQuestID;
-            _showQuestWindow = true;
+            _showDialogue = true;
+            //_showQuestWindow = true;
+            _selectedNPC = _npc;
+
             _questCompleted = Quest.QuestDatabase.CheckQuestCompleteByID(_questID);
+        }
+
+        public static void SetAnswers(string _one, string _two)
+        {
+            _dialogueAnswers[0] = _one;
+            _dialogueAnswers[1] = _two;
 
 
+        }
 
-            //Debug.Log("NPCID " + _npcID + " QuetID " + _questID);
+        void ShowDialogue()
+        {
+            if (CombatSystem.CameraController.ReturnFirstPerson())
+            {
+                if (!Cursor.visible)
+                {
+                    Cursor.visible = true;
+                }
+            }
+            _dialogueBox = new Rect(Screen.width / 2 - 250, Screen.height - 400, 500, 100);
+            _dialogueTextBox = new Rect(Screen.width / 2 - 250 + 25, Screen.height - 360, 450, 100);
+
+            GUI.Box(_dialogueBox, "");
+            GUI.Label(_dialogueTextBox, _questText, _skin.GetStyle("QuestText"));
+
+            _dialogueAnswersBox[0] = new Rect(Screen.width / 2 - 250, Screen.height - 300, 200, 50);
+            _dialogueAnswersBox[1] = new Rect(Screen.width / 2, Screen.height - 300, 200, 50);
+
+            _dialogueAnswersRect[0] = new Rect(Screen.width / 2 - 250, Screen.height - 300, 200, 50);
+            _dialogueAnswersRect[1] = new Rect(Screen.width / 2, Screen.height - 300, 200, 50);
+
+            GUI.Box(_dialogueAnswersBox[0], "");
+            GUI.Label(_dialogueAnswersRect[0], _dialogueAnswers[0]);
+
+            GUI.Box(_dialogueAnswersBox[1], "");
+            GUI.Label(_dialogueAnswersRect[1], _dialogueAnswers[1]);
+
+            if (_dialogueAnswersBox[0].Contains(Event.current.mousePosition))
+            {
+                if (Event.current.button == 0 && Event.current.type == EventType.mouseDown)
+                {
+
+                    Debug.Log(DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]));
+                    if (DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]) != -1)
+                    {
+                        Debug.Log("ShowDialogue - node id " + DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]));
+                        DialogueSystem.DialogueDatabase.GetAnswersByNode(DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]));
+                        _questText = DialogueSystem.DialogueDatabase.GetFollowupQuestion(_npcID, DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]));
+
+                        if (_questText != String.Empty)
+                        {
+                            SetAnswers(DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[0], DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[1]);
+                        }
+                        else
+                        {
+                            _showDialogue = false;
+                            if (CombatSystem.CameraController.ReturnFirstPerson())
+                            {
+                                if (Cursor.visible)
+                                {
+                                    Cursor.visible = false;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _showDialogue = false;
+                        if (CombatSystem.CameraController.ReturnFirstPerson())
+                        {
+                            if (Cursor.visible)
+                            {
+                                Cursor.visible = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (_dialogueAnswersBox[1].Contains(Event.current.mousePosition))
+            {
+                if (Event.current.button == 0 && Event.current.type == EventType.mouseDown)
+                {
+                    Debug.Log("ShowDialogue - node id " + DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[0]));
+                    if (DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[1]) != -1)
+                    {
+                        
+                        DialogueSystem.DialogueDatabase.GetAnswersByNode(DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[1]));
+                        _questText = DialogueSystem.DialogueDatabase.GetFollowupQuestion(_npcID, DialogueSystem.DialogueDatabase.GetNodeID(_npcID, DialogueSystem.DialogueDatabase.ReturnNodeIdByNode()[1]));
+                        if (_questText != String.Empty)
+                        {
+                            SetAnswers(DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[0], DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[1]);
+                        }
+                        else
+                        {
+                            _showDialogue = false;
+                        }
+                    }
+                    else
+                    {
+                        _showDialogue = false;
+                    }
+                }
+
+            }
+
+
         }
 
         void ShowQuestWindow()
@@ -159,24 +279,24 @@ namespace Dialogue
             if (_questWindow.Contains(Event.current.mousePosition))
             {
 
-                CombatSystem.PlayerMovement.HoveringOverUI(true);
+                CombatSystem.PlayerController.instance.HoverOverUI(true);
                 
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !_draggingWindow)
                 {
                     _draggingWindow = true;
-                    CombatSystem.PlayerMovement.SetDraggingUI(true);
+                  //  CombatSystem.PlayerMovement.SetDraggingUI(true);
                 }
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseUp && _draggingWindow)
                 {
                     _draggingWindow = false;
-                    CombatSystem.PlayerMovement.SetDraggingUI(false);
+                    //CombatSystem.PlayerMovement.SetDraggingUI(false);
                 }
             }
             else
             {
-                //CombatSystem.PlayerMovement.HoveringOverUI(false);
+                CombatSystem.PlayerController.instance.HoverOverUI(false);
             }
             if (_questAcceptRect.Contains(Event.current.mousePosition))
             {
@@ -186,7 +306,8 @@ namespace Dialogue
                     {
                         Quest.QuestDatabase.AcceptQuest(_questID);
                         Quest.QuestLog.UpdateLog();
-                        NPCSystem.NPC.PlayerHasAcceptedQuest();
+                        // NPCSystem.NPC.PlayerHasAcceptedQuest();
+                        _selectedNPC.GetComponent<NPC.NpcSystem>().CheckForQuest();
                     }
                     if (_questCompleted)
                     {
@@ -195,11 +316,13 @@ namespace Dialogue
                         //Quest.QuestLog.ClearAll();
                         //Quest.QuestLog.UpdateLog();
                         _playerFinishedQuest = true;
-                        
-                        
+                        _selectedNPC.GetComponent<NPC.NpcSystem>().CheckForQuest();
+
                     }
                     _showQuestWindow = false;
-                    CombatSystem.PlayerMovement.HoveringOverUI(false);
+                    _selectedNPC.GetComponent<NPC.NpcSystem>().PlayerHasMetNPC();
+                    _selectedNPC.GetComponent<NPC.NpcSystem>().SetInteraction(false);
+                    CombatSystem.PlayerController.instance.HoverOverUI(false);
                 }
             }
 

@@ -16,6 +16,7 @@ namespace EnemyCombat
         private bool _viewingEnemies = false;
         private bool _addingEnemyToGame = false;
         private bool _deleteEnemy = false;
+        private bool _editEnemyInGame = false;
 
         private string _enemyName;
         private EnemyType _enemyType;
@@ -54,7 +55,10 @@ namespace EnemyCombat
         private List<string> _enemyRangedSpellsList = new List<string>();
 
         private int _editSelectIndex;
+        private int _editGameSelectIndex;
         private bool _hasLoadedEnemy = false;
+
+        private EnemyCombatSystem _enemyData;
 
         private Editor _gameObjectEditor;
         private GameObject _selectedObject;
@@ -157,10 +161,10 @@ namespace EnemyCombat
         {
 
             GUI.skin = _skin;
-            Debug.Log(GUI.skin);
+
             //GUI.backgroundColor = Color.black;
 
-            if (!_addingEnemy && !_viewingEnemies && !_editingEnemy && !_addingEnemyToGame && !_deleteEnemy)
+            if (!_addingEnemy && !_viewingEnemies && !_editingEnemy && !_addingEnemyToGame && !_deleteEnemy && !_editEnemyInGame)
             {
 
                 GUILayout.Label("Welcome to the Enemy Manager", EditorStyles.boldLabel);
@@ -199,6 +203,15 @@ namespace EnemyCombat
                     EnemyDatabase.ClearLists();
                     EnemyDatabase.GetAllEnemies();
                 }
+
+                GUILayout.Space(50);
+                GUILayout.Label("Edit an Enemy currently in game");
+
+                if(GUILayout.Button("Edit Enemy in Game"))
+                {
+                    _editEnemyInGame = true;
+                }
+
             }
 
 
@@ -220,6 +233,10 @@ namespace EnemyCombat
             if(_deleteEnemy)
             {
                 DeleteEnemy();
+            }
+            if(_editEnemyInGame)
+            {
+                EditInGameEnemies();
             }
 
         }
@@ -453,6 +470,148 @@ namespace EnemyCombat
             EditorGUILayout.EndScrollView();
         }
 
+        void EditInGameEnemies()
+        {
+
+            GUILayout.Label("Edit an Enemy in Game", EditorStyles.boldLabel);
+            GUILayout.Space(10);
+
+            GameObject[] _allEnemies = GameObject.FindGameObjectsWithTag("EnemyMelee");
+            List<string> _enemiesSorted = new List<string>();
+            
+
+
+            for (int i = 0; i < _allEnemies.Length; i++)
+            {
+                if(_allEnemies[i].transform.parent.name == "ENEMIES")
+                {
+                    _enemiesSorted.Add(_allEnemies[i].name);
+                    
+                }
+            }
+            
+            _editGameSelectIndex = EditorGUILayout.Popup("Which Enemy: ", _editGameSelectIndex, _enemiesSorted.ToArray());
+            if(GUI.changed)
+            {
+                _enemyData = GameObject.Find(_enemiesSorted[_editGameSelectIndex]).GetComponentInChildren<EnemyCombatSystem>();
+                _enemyName = _enemyData.ReturnName();
+                _enemyHealth = (int)_enemyData.ReturnHealth();
+                _enemyMana = _enemyData.ReturnMana();
+                _enemyDamage = _enemyData.ReturnEnemyDamage();
+                _enemyCooldown = _enemyData.ReturnEnemyCooldown();
+                //Debug.Log(_enemyData.transform.parent.transform.Find("AGGRO").name);
+                foreach (Transform item in _enemyData.transform)
+                {
+                    
+                    if(item.ToString().Contains("AGGRO"))
+                    {
+                        _enemyAggroRange = (int)item.GetComponent<SphereCollider>().radius;
+                    }
+                }
+                //_enemyAggroRange = (int)_enemyData.transform.parent.GetComponentInChildren<SphereCollider>().radius;
+                _enemyAttackRange = _enemyData.ReturnEnemyAttackRange();
+            }
+
+
+
+            _enemyName = EditorGUILayout.TextField("Enemy Name: ", _enemyName);
+            _enemyHealth = EditorGUILayout.IntField("Enemy Health: ", _enemyHealth);
+            _enemyMana = EditorGUILayout.IntField("Enemy Mana: ", _enemyMana);
+
+            GUILayout.Label("[ COMBAT ]", EditorStyles.boldLabel);
+
+            _enemyAggroRange = EditorGUILayout.IntField("Aggro Range: ", _enemyAggroRange);
+            _enemyAttackRange = EditorGUILayout.FloatField("Attack Range: ", _enemyAttackRange);
+
+            /*
+            _enemyType = (EnemyType)EditorGUILayout.EnumPopup("Type: ", _enemyType);
+            if (_enemyType != EnemyType.None)
+            {
+                _enemyDamage = EditorGUILayout.FloatField("Damage: ", _enemyDamage);
+                _enemyCooldown = EditorGUILayout.FloatField("Cooldown: ", _enemyCooldown);
+
+                if (_enemyDamage > 0)
+                {
+                    if (_enemyType == EnemyType.Melee)
+                    {
+                        _meleeSpecial = (EnemyMeleeSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _meleeSpecial);
+                        _special = _meleeSpecial.ToString();
+
+
+                    }
+                    if (_enemyType == EnemyType.Ranged)
+                    {
+                        _rangedSpecial = (EnemyRangedSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _rangedSpecial);
+                        _special = _rangedSpecial.ToString();
+                    }
+                }
+
+                GUILayout.Space(20);
+                GUILayout.Label("Mesh Settings", EditorStyles.boldLabel);
+                if (_enemyType == EnemyType.Melee)
+                {
+                    _meleeIndex = EditorGUILayout.Popup("Which Prefab: ", _meleeIndex, _meleeEnemyNames.ToArray());
+                }
+
+                if (_enemyType == EnemyType.Ranged)
+                {
+                    _rangedIndex = EditorGUILayout.Popup("Which Prefab: ", _rangedIndex, _rangedEnemyNames.ToArray());
+                }
+
+                GUILayout.Space(20);
+                _enemySpawn = (EnemySpawn)EditorGUILayout.EnumPopup("In Game by: ", _enemySpawn);
+
+                GUILayout.Space(20);
+                _enemyMovement = (EnemyMovement)EditorGUILayout.EnumPopup("Behaviour: ", _enemyMovement);
+
+                if (_enemyMovement == EnemyMovement.Patrol)
+                {
+                    _enemyWaypointAmount = EditorGUILayout.IntField("How many waypoints: ", _enemyWaypointAmount);
+                }
+
+                GUILayout.Label("[ COMBAT ]", EditorStyles.boldLabel);
+                _enemyAggroRange = EditorGUILayout.IntField("Aggro Range: ", _enemyAggroRange);
+                _enemyAttackRange = EditorGUILayout.FloatField("Attack Range: ", _enemyAttackRange);
+                if (_enemyType == EnemyType.Ranged)
+                {
+                    _spellIndex = EditorGUILayout.Popup("Which Spell: ", _spellIndex, _enemyRangedSpellsList.ToArray());
+                }
+
+                GUILayout.Label("[ FEEDBACK ]", EditorStyles.boldLabel);
+                _deathIndex = EditorGUILayout.Popup("Death Feedback: ", _deathIndex, _deathFeedbackList.ToArray());
+                _hitIndex = EditorGUILayout.Popup("Hit Feedback: ", _hitIndex, _hitFeedbackList.ToArray());
+            }
+
+            EditorGUILayout.BeginHorizontal();
+            if (_enemyType == EnemyType.Melee)
+            {
+                if (GUILayout.Button("SAVE ENEMY"))
+                {
+                    EnemyDatabase.UpdateEnemy(EnemyDatabase.ReturnEnemyID(_editSelectIndex), _enemyName, _enemyHealth, _enemyMana, _enemyType, _enemyDamage, _enemyCooldown, _special, _meleeEnemyNames[_meleeIndex], _enemyMovement, _enemyWaypointAmount, _deathFeedbackList[_deathIndex], _hitFeedbackList[_hitIndex], _enemyAttackRange, "", _enemySpawn);
+                    _editingEnemy = false;
+                }
+            }
+
+            if (_enemyType == EnemyType.Ranged)
+            {
+                if (GUILayout.Button("SAVE ENEMY"))
+                {
+                    EnemyDatabase.UpdateEnemy(EnemyDatabase.ReturnEnemyID(_editSelectIndex), _enemyName, _enemyHealth, _enemyMana, _enemyType, _enemyDamage, _enemyCooldown, _special, _rangedEnemyNames[_rangedIndex], _enemyMovement, _enemyWaypointAmount, _deathFeedbackList[_deathIndex], _hitFeedbackList[_hitIndex], _enemyAttackRange, _enemyRangedSpellsList[_spellIndex], _enemySpawn);
+                    _editingEnemy = false;
+                }
+            }
+
+            if (GUILayout.Button("BACK"))
+            {
+                _editingEnemy = false;
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndScrollView();
+            */
+
+        }
+
         void AddEnemyToGame()
         {
 
@@ -675,6 +834,8 @@ namespace EnemyCombat
             _enemyAttackRange = 0f;
             _enemySpawn = EnemySpawn.None;
         }
+
+
 
 
     }

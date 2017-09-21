@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour {
 
     public GUISkin _skin;
 
-    private CombatSystem.PlayerMovement _player;
+    
 
     // inventory positions
 
@@ -57,7 +57,7 @@ public class Inventory : MonoBehaviour {
             _inventoryPos = new Vector2(PlayerPrefs.GetFloat("InventoryPosX"), PlayerPrefs.GetFloat("InventoryPosY"));
         }
 
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerMovement>();
+        //_player = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatSystem.PlayerController>();
 
     }
 
@@ -136,35 +136,35 @@ public class Inventory : MonoBehaviour {
         {
 
             // Set the HoveringOverUI in the Player Class to prevent clicking and setting a target and therefor moving the player
-            CombatSystem.PlayerMovement.HoveringOverInventory(true);
+         //   CombatSystem.PlayerMovement.HoveringOverInventory(true);
 
             // If we clicked the mouse and using the Left mousebutton
             if(e.button == 0 && e.type == EventType.mouseDown)
             {
                 // Set the SetDraggingUI function in the Player class to True so we cancel all essential player control functions
-                CombatSystem.PlayerMovement.SetDraggingUI(true);
+           //     CombatSystem.PlayerMovement.SetDraggingUI(true);
             }
             if(e.button == 0 && e.type == EventType.mouseUp)
             {
-                CombatSystem.PlayerMovement.SetDraggingUI(false);
+             //   CombatSystem.PlayerMovement.SetDraggingUI(false);
             }
 
             if(e.button == 0 && e.type == EventType.mouseDrag && !_draggingInventory)
             {
                 _draggingInventory = true;
-                CombatSystem.PlayerMovement.SetDraggingUI(true);
+               // CombatSystem.PlayerMovement.SetDraggingUI(true);
 
             }
             if(e.button == 0 && e.type == EventType.mouseUp && _draggingInventory)
             {
                 _draggingInventory = false;
-                CombatSystem.PlayerMovement.SetDraggingUI(false);
+                //CombatSystem.PlayerMovement.SetDraggingUI(false);
             }
         }
 
         else
         {
-            CombatSystem.PlayerMovement.HoveringOverInventory(false);
+            //CombatSystem.PlayerMovement.HoveringOverInventory(false);
         }
 
         for (int y = 0; y < slotsY; y++)
@@ -215,7 +215,7 @@ public class Inventory : MonoBehaviour {
                         if (_inventory[i]._itemType == ItemType.Health)
                         {
                             // Call the player script to add Health to the player based on the item stats
-                            CombatSystem.PlayerMovement.AddPlayerHealth(_inventory[i]._itemStats);
+                            CombatSystem.PlayerController.instance.AddPlayerHealth(_inventory[i]._itemStats);
                             _inventory[i] = new Item();
                         }
 
@@ -223,7 +223,7 @@ public class Inventory : MonoBehaviour {
                         if (_inventory[i]._itemType == ItemType.Mana)
                         {
                             // Call the player script to add Mana to the player based on the item stats
-                            CombatSystem.PlayerMovement.AddPlayerMana(_inventory[i]._itemStats);
+                            CombatSystem.PlayerController.instance.AddPlayerMana(_inventory[i]._itemStats);
                             _inventory[i] = new Item();
                         }
                     }

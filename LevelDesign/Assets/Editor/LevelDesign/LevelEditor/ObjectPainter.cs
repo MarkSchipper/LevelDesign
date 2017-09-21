@@ -619,7 +619,9 @@ namespace LevelEditor
                     // Create an int array to store all the old layers with the length of the amount of children in an object
                     _childLayers = new int[_objectToAdd.transform.childCount];
 
-                    // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
+                    // Get the original layer index and store it in the _childLayers array
+
+                    // make sure there are children
                     if (_childLayers.Length > 0)
                     {
                         foreach (Transform child in _objectToAdd.transform)
@@ -630,6 +632,8 @@ namespace LevelEditor
                     }
 
                     _oldLayer = _objectToAdd.layer;
+
+                    // reset the counter
                     counter = 0;
                     _isLayerSet = true;
 
