@@ -21,8 +21,8 @@ namespace FMODUnity
         public float OverrideMaxDistance = -1.0f;
 
         
-        private FMOD.Studio.EventDescription eventDescription = null;
-        private FMOD.Studio.EventInstance instance = null;
+        private FMOD.Studio.EventDescription eventDescription;
+        private FMOD.Studio.EventInstance instance;
         private bool hasTriggered = false;
         private bool isQuitting = false;
 
@@ -38,7 +38,11 @@ namespace FMODUnity
                 eventDescription.getSampleLoadingState(out loadingState);
                 while(loadingState == FMOD.Studio.LOADING_STATE.LOADING)
                 {
+#if WINDOWS_UWP
+                    System.Threading.Tasks.Task.Delay(1).Wait();
+#else
                     System.Threading.Thread.Sleep(1);
+#endif
                     eventDescription.getSampleLoadingState(out loadingState);
                 }
             }
@@ -55,7 +59,7 @@ namespace FMODUnity
             if (!isQuitting)
             {
                 HandleGameEvent(EmitterGameEvent.ObjectDestroy);
-                if (instance != null && instance.isValid())
+                if (instance.isValid())
                 {
                     RuntimeManager.DetachInstanceFromGameObject(instance);
                 }
@@ -65,6 +69,16 @@ namespace FMODUnity
                     eventDescription.unloadSampleData();
                 }
             }
+        }
+
+        void OnEnable()
+        {
+            HandleGameEvent(EmitterGameEvent.ObjectEnable);
+        }
+
+        void OnDisable()
+        {
+            HandleGameEvent(EmitterGameEvent.ObjectDisable);
         }
 
         void OnTriggerEnter(Collider other)
@@ -83,6 +97,22 @@ namespace FMODUnity
             }
         }
 
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (String.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
+            {
+                HandleGameEvent(EmitterGameEvent.TriggerEnter2D);
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (String.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
+            {
+                HandleGameEvent(EmitterGameEvent.TriggerExit2D);
+            }
+        }
+
         void OnCollisionEnter()
         {
             HandleGameEvent(EmitterGameEvent.CollisionEnter);
@@ -91,6 +121,16 @@ namespace FMODUnity
         void OnCollisionExit()
         {
             HandleGameEvent(EmitterGameEvent.CollisionExit);
+        }
+
+        void OnCollisionEnter2D()
+        {
+            HandleGameEvent(EmitterGameEvent.CollisionEnter2D);
+        }
+
+        void OnCollisionExit2D()
+        {
+            HandleGameEvent(EmitterGameEvent.CollisionExit2D);
         }
 
         void HandleGameEvent(EmitterGameEvent gameEvent)
@@ -122,7 +162,7 @@ namespace FMODUnity
                 return;
             }
 
-            if (eventDescription == null)
+            if (!eventDescription.isValid())
             {
                 Lookup();
             }
@@ -135,19 +175,19 @@ namespace FMODUnity
             bool is3D;
             eventDescription.is3D(out is3D);
 
-            if (instance != null && !instance.isValid())
+            if (!instance.isValid())
             {
-                instance = null;
+                instance.clearHandle();
             }
 
             // Let previous oneshot instances play out
-            if (isOneshot && instance != null)
+            if (isOneshot && instance.isValid())
             {
                 instance.release();
-                instance = null;
+                instance.clearHandle();
             }
 
-            if (instance == null)
+            if (!instance.isValid())
             {
                 eventDescription.createInstance(out instance);
 
@@ -155,9 +195,18 @@ namespace FMODUnity
                 if (is3D)
                 {
                     var rigidBody = GetComponent<Rigidbody>();
+                    var rigidBody2D = GetComponent<Rigidbody2D>();
                     var transform = GetComponent<Transform>();
-                    instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject, rigidBody));
-                    RuntimeManager.AttachInstanceToGameObject(instance, transform, rigidBody);
+                    if (rigidBody)
+                    {
+                        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject, rigidBody));
+                        RuntimeManager.AttachInstanceToGameObject(instance, transform, rigidBody);
+                    }
+                    else
+                    {
+                        instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject, rigidBody2D));
+                        RuntimeManager.AttachInstanceToGameObject(instance, transform, rigidBody2D);
+                    }
                 }
             }
 
@@ -180,17 +229,17 @@ namespace FMODUnity
 
         public void Stop()
         {
-            if (instance != null)
+            if (instance.isValid())
             {
                 instance.stop(AllowFadeout ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
                 instance.release();
-                instance = null;
+                instance.clearHandle();
             }
         }
         
         public void SetParameter(string name, float value)
         {
-            if (instance != null)
+            if (instance.isValid())
             {
                 instance.setParameterValue(name, value);
             }
@@ -198,7 +247,7 @@ namespace FMODUnity
         
         public bool IsPlaying()
         {
-            if (instance != null && instance.isValid())
+            if (instance.isValid() && instance.isValid())
             {
                 FMOD.Studio.PLAYBACK_STATE playbackState;
                 instance.getPlaybackState(out playbackState);
