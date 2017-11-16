@@ -36,60 +36,6 @@ namespace LevelEditor
 
         private List<string> _environmentIcons = new List<string>();
 
-        // Dungeon ICONS
-
-        private UnityEngine.Object[] _loadDungeonPropsIcons;
-        private UnityEngine.Object[] _loadDungeonBordersIcons;
-        private UnityEngine.Object[] _loadDungeonTilesIcons;
-        private UnityEngine.Object[] _loadDungeonWallsIcons;
-
-        private List<string> _dungeonPropsIcons = new List<string>();
-        private List<string> _dungeonBordersIcons = new List<string>();
-        private List<string> _dungeonTilesIcons = new List<string>();
-        private List<string> _dungeonWallsIcons = new List<string>();
-
-        // Settlement ICONS
-
-        private UnityEngine.Object[] _loadSettlementPropsIcons;
-        private UnityEngine.Object[] _loadSettlementBuildingsIcons;
-        private UnityEngine.Object[] _loadSettlementPerimeterIcons;
-        private UnityEngine.Object[] _loadSettlementTilesIcons;
-
-        private List<string> _settlementPropsIcons = new List<string>();
-        private List<string> _settlementBuildingsIcons = new List<string>();
-        private List<string> _settlementPerimeterIcons = new List<string>();
-        private List<string> _settlementTilesIcons = new List<string>();
-
-        // Viking ICONS
-
-        private UnityEngine.Object[] _loadVikingPropsIcons;
-        private UnityEngine.Object[] _loadVikingBuildingsIcons;
-        private UnityEngine.Object[] _loadVikingPerimeterIcons;
-        private UnityEngine.Object[] _loadVikingEdgesIcons;
-        private UnityEngine.Object[] _loadVikingSurfacesIcons;
-
-        private List<string> _vikingPropsIcons = new List<string>();
-        private List<string> _vikingBuildingsIcons = new List<string>();
-        private List<string> _vikingPerimeterIcons = new List<string>();
-        private List<string> _vikingEdgesIcons = new List<string>();
-        private List<string> _vikingSurfacesIcons = new List<string>();
-
-        // Graveyard ICONS
-
-        private UnityEngine.Object[] _loadGraveyardIcons;
-
-        private List<string> _graveyardIcons = new List<string>();
-
-        
-
-        // dungeon
-
-        
-        // Other
-        
-
-        
-
         private List<string> _AllPotionNames = new List<string>();
 
         private string[] _themeSelection;
@@ -99,9 +45,6 @@ namespace LevelEditor
         private string[] _vikingTileSelectType;
         private string[] _gameplayTriggerSelectType;
 
-        private int _themeSelectionIndex;
-        private int _themeSelectTypeIndex;
-        private int _gameplaySelectIndex;
         private int _loadLevelIndex;
         private int _loadScreenIndex;
         private int _triggerSelectIndex;
@@ -112,16 +55,14 @@ namespace LevelEditor
 
         private int _soundTriggerSize = 5;
         private float _soundVolume = 0.5f;
-
-        private bool _addBuildings;
-        private bool _addGameplay;
+        
         private bool _addLoadLevels;
         private bool _addTriggers;
         private bool _playSoundOnce;
         private bool _addItems;
         private bool _addPotions;
         private bool _isAddingTriggers = false;
-        private bool _addStaticProps;
+
 
         private bool _isGroundLevel;
 
@@ -134,7 +75,7 @@ namespace LevelEditor
 
         private Vector2 _scrollPos = Vector2.zero;
 
-        private bool _isAddingToScene = false;
+        private static bool _isAddingToScene = false;
         private GameObject _objectToAdd;
 
         private int _snapAmount = 5;
@@ -166,9 +107,16 @@ namespace LevelEditor
 
         private GUISkin _skin;
 
+        private int _tabIndex = -1;
+        private int _worldTabIndex = -1;
+        private int _worldTypeTabIndex = -1;
+        private int _gameplayTabIndex = -1;
+        private int _vikingTileTabIndex = -1;
+        private int _triggerTabIndex = -1;
+        private int _itemTabIndex = -1;
+
         private int _numberOfRows = 5;
 
-        [MenuItem("Level Design/World Builder/Level Editor")]
         static void ShowWindow()
         {
             ObjectPainter _objectPainter = EditorWindow.GetWindow<ObjectPainter>(true, "Level Editor");
@@ -214,217 +162,8 @@ namespace LevelEditor
             _loadEnvIcons = Resources.LoadAll("World_Building/ICONS/Rocks");
             _loadAllLoadingScreens = Resources.LoadAll("Scenes/LoadingScreens");
 
-            _loadDungeonPropsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Props");
-            _loadDungeonBordersIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Borders");
-            _loadDungeonTilesIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Tiles");
-            _loadDungeonWallsIcons = Resources.LoadAll("World_Building/ICONS/Dungeon/Walls");
-
-            _loadSettlementBuildingsIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Buildings");
-            _loadSettlementPerimeterIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Perimeter");
-            _loadSettlementPropsIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Props");
-            _loadSettlementTilesIcons = Resources.LoadAll("World_Building/ICONS/Settlement/Tiles");
-
-            _loadVikingBuildingsIcons = Resources.LoadAll("World_Building/ICONS/Viking/Buildings");
-            _loadVikingEdgesIcons = Resources.LoadAll("World_Building/ICONS/Viking/Tiles/Edges");
-            _loadVikingPerimeterIcons = Resources.LoadAll("World_Building/ICONS/Viking/Perimeter");
-            _loadVikingPropsIcons = Resources.LoadAll("World_Building/ICONS/Viking/Props");
-            _loadVikingSurfacesIcons = Resources.LoadAll("World_Building/ICONS/Viking/Tiles/Surfaces");
-
-            _loadGraveyardIcons = Resources.LoadAll("World_Building/ICONS/Graveyard");
-
             _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
-
-
-            #region DUNGEON ICONS
-            for (int i = 0; i < _loadDungeonPropsIcons.Length; i++)
-            {
-                if (_loadDungeonPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonPropsIcons.Add(_loadDungeonPropsIcons[i].ToString().Remove(_loadDungeonPropsIcons[i].ToString().Length - 24));
-                    
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonBordersIcons.Length; i++)
-            {
-                if (_loadDungeonBordersIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonBordersIcons.Add(_loadDungeonBordersIcons[i].ToString().Remove(_loadDungeonBordersIcons[i].ToString().Length - 24));
-                    
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonTilesIcons.Length; i++)
-            {
-                if (_loadDungeonTilesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonTilesIcons.Add(_loadDungeonTilesIcons[i].ToString().Remove(_loadDungeonTilesIcons[i].ToString().Length - 24));
-                    
-
-                }
-            }
-
-            for (int i = 0; i < _loadDungeonWallsIcons.Length; i++)
-            {
-                if (_loadDungeonWallsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _dungeonWallsIcons.Add(_loadDungeonWallsIcons[i].ToString().Remove(_loadDungeonWallsIcons[i].ToString().Length - 24));
-
-
-                }
-            }
-            #endregion
-            #region SETTLEMENT ICONS
-            for (int i = 0; i < _loadSettlementBuildingsIcons.Length; i++)
-            {
-                if (_loadSettlementBuildingsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementBuildingsIcons.Add(_loadSettlementBuildingsIcons[i].ToString().Remove(_loadSettlementBuildingsIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementPerimeterIcons.Length; i++)
-            {
-                if (_loadSettlementPerimeterIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementPerimeterIcons.Add(_loadSettlementPerimeterIcons[i].ToString().Remove(_loadSettlementPerimeterIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementPropsIcons.Length; i++)
-            {
-                if (_loadSettlementPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementPropsIcons.Add(_loadSettlementPropsIcons[i].ToString().Remove(_loadSettlementPropsIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadSettlementTilesIcons.Length; i++)
-            {
-                if (_loadSettlementTilesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _settlementTilesIcons.Add(_loadSettlementTilesIcons[i].ToString().Remove(_loadSettlementTilesIcons[i].ToString().Length - 24));
-
-                }
-            }
-            #endregion
-            #region VIKING ICONS
-            for (int i = 0; i < _loadVikingBuildingsIcons.Length; i++)
-            {
-                if (_loadVikingBuildingsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingBuildingsIcons.Add(_loadVikingBuildingsIcons[i].ToString().Remove(_loadVikingBuildingsIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingEdgesIcons.Length; i++)
-            {
-                if (_loadVikingEdgesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingEdgesIcons.Add(_loadVikingEdgesIcons[i].ToString().Remove(_loadVikingEdgesIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingPerimeterIcons.Length; i++)
-            {
-                if (_loadVikingPerimeterIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingPerimeterIcons.Add(_loadVikingPerimeterIcons[i].ToString().Remove(_loadVikingPerimeterIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingPropsIcons.Length; i++)
-            {
-                if (_loadVikingPropsIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingPropsIcons.Add(_loadVikingPropsIcons[i].ToString().Remove(_loadVikingPropsIcons[i].ToString().Length - 24));
-
-                }
-            }
-
-            for (int i = 0; i < _loadVikingSurfacesIcons.Length; i++)
-            {
-                if (_loadVikingSurfacesIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _vikingSurfacesIcons.Add(_loadVikingSurfacesIcons[i].ToString().Remove(_loadVikingSurfacesIcons[i].ToString().Length - 24));
-
-                }
-            }
-            #endregion
-            #region GRAVEYARD ICONS
-            for (int i = 0; i < _loadGraveyardIcons.Length; i++)
-            {
-                if (_loadGraveyardIcons[i].GetType().ToString() == "UnityEngine.Texture2D")
-                {
-                    // Strip the length of the string of the objects in the folder
-                    // By default it is :
-                    //                      Plant ( UnityEngine.GameObject )
-                    // Add it to a list
-                    _graveyardIcons.Add(_loadGraveyardIcons[i].ToString().Remove(_loadGraveyardIcons[i].ToString().Length - 24));
-
-                }
-            }
-            #endregion
+           
             #region LEVEL SWITCHING
             for (int i = 0; i < _loadAllLoadingScreens.Length; i++)
             {
@@ -483,12 +222,12 @@ namespace LevelEditor
             }
             #endregion
 
-            _themeSelection = new string[] { "Select a Theme", "Settlement", "Viking", "Graveyard", "Dungeon" };
-            _themeSelectType = new string[] { "Select the type of Object", "Buildings", "Tiles", "Perimeter", "Props", "Borders" };
-            _gameplaySelectType = new string[] { "Select the type of Gameplay Trigger", "Switch Scene Trigger", "Triggers", "Events" };
-            _triggerSelectType = new string[] { "Select the type of Trigger", "Audio Trigger", "Animation Trigger", "GamePlay" };
-            _vikingTileSelectType = new string[] { "", "Surfaces", "Edges" };
-            _gameplayTriggerSelectType = new string[] { "", "Instant Death", "Level Up" };
+            _themeSelection = new string[] { "Settlement", "Viking", "Graveyard", "Dungeon" };
+            _themeSelectType = new string[] { "Buildings", "Tiles", "Perimeter", "Props", "Borders" };
+            _gameplaySelectType = new string[] { "Switch Scene Trigger", "Triggers", "Events" };
+            _triggerSelectType = new string[] { "Audio Trigger", "Animation Trigger", "GamePlay" };
+            _vikingTileSelectType = new string[] {"Surfaces", "Edges" };
+            _gameplayTriggerSelectType = new string[] { "Instant Death", "Level Up" };
 
 
         }
@@ -519,71 +258,33 @@ namespace LevelEditor
 
         void OnGUI()
         {
-
-
-            //_scrollPos = GUILayout.BeginScrollView(_scrollPos, true, true, GUILayout.Width(400), GUILayout.Height(400));
-            
+            GUI.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 1);
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
-            
-            GUI.skin = _skin;
 
-            //GUILayout.BeginArea(new Rect(0, 0, 1000, 1000));
+            _tabIndex = GUILayout.Toolbar(_tabIndex, new string[] { "Add World Objects", "Add Gameplay Trigger", "Add Items", "Add Environmental Props" });
 
-            if (!_addBuildings && !_addGameplay && !_addLoadLevels && !_addTriggers && !_addItems && !_addPotions && !_addStaticProps)
+            switch (_tabIndex)
             {
-                if (GUILayout.Button("Add World Objects", GUILayout.Width(750)))
-                {
-                    _addBuildings = true;
-                }
-
-                if (GUILayout.Button("Add Gameplay Triggers", GUILayout.Width(750)))
-                {
-                    _addGameplay = true;
-                }
-                if (GUILayout.Button("Add Items", GUILayout.Width(750)))
-                {
-                    _addItems = true;
-                }
-                if (GUILayout.Button("Add Environmental Props", GUILayout.Width(750)))
-                {
-                    _addStaticProps = true;
-                }
-            }
-            
-            if (_addBuildings)
-            {                
-                AddBuildings();
-            }
-            if (_addGameplay)
-            {
-                AddGameplay();
-            }
-            if (_addLoadLevels)
-            {
-                AddLoadLevel();
-            }
-            if (_addTriggers)
-            {
-                AddTriggers();
-            }
-            if (_addItems)
-            {
-                if (!_addPotions)
-                {
+                case 0:
+                    GUI.backgroundColor = new Color(0.5f, 0.7f, 0.2f, 1f);
+                    AddBuildings();
+                    break;
+                case 1:
+                    GUI.backgroundColor = new Color(0.2f, 0.7f, 0.5f, 1);
+                    AddGameplay();
+                    break;
+                case 2:
+                    GUI.backgroundColor = new Color(0.7f, 0.5f, 0.4f, 1);
                     AddItems();
-                    GetAllItems();
-                }
+                    break;
+                case 3:
+                    GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                    AddStaticProps();
+                    break;
+                default:
+                    break;
             }
-            if (_addPotions)
-            {
-                AddPotions();
-            }
-
-            if (_addStaticProps)
-            {
-                AddStaticProps();
-            }
-
+           
             //GUILayout.EndArea();
             Rect view = GUILayoutUtility.GetRect(750, 1500);
             //GUILayout.EndScrollView();
@@ -599,8 +300,28 @@ namespace LevelEditor
 
             Vector3 _newPos;
             int counter = 0;
+            
 
-            if (_isAddingToScene)
+            if(Theme.Settlement.ReturnObjectToAdd() != null)
+            {
+                _objectToAdd = Theme.Settlement.ReturnObjectToAdd();
+            }
+
+            if (Theme.Viking.ReturnObjectToAdd() != null)
+            {
+                _objectToAdd = Theme.Viking.ReturnObjectToAdd();
+            }
+            if (Theme.Graveyard.ReturnObjectToAdd() != null)
+            {
+                _objectToAdd = Theme.Graveyard.ReturnObjectToAdd();
+            }
+            if (Theme.Dungeon.ReturnObjectToAdd() != null)
+            {
+                _objectToAdd = Theme.Dungeon.ReturnObjectToAdd();
+            }
+            
+            #region ADDING TO SCENE
+            if (_isAddingToScene && _objectToAdd != null)
             {
                 
                 HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
@@ -687,164 +408,225 @@ namespace LevelEditor
                             _staticProps.transform.SetParent(GameObject.Find("WORLD").transform);
                         }
 
-
-                        if (_themeSelection[_themeSelectionIndex] == "Settlement")
+                        switch (_worldTabIndex)
                         {
-
-                            if (GameObject.Find("Settlement") == null)
-                            {
-                                GameObject _settlementParent = new GameObject();
-                                _settlementParent.name = "Settlement";
-                                _settlementParent.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-
-                            if (GameObject.Find("Settlement_Buildings") == null)
-                            {
-                                GameObject _buildingParent = new GameObject();
-                                _buildingParent.name = "Settlement_Buildings";
-                                _buildingParent.transform.SetParent(GameObject.Find("Settlement").transform);
-                            }
-
-                            if (GameObject.Find("Settlement_Perimeter") == null)
-                            {
-                                GameObject _perimeterParent = new GameObject();
-                                _perimeterParent.name = "Settlement_Perimeter";
-                                _perimeterParent.transform.SetParent(GameObject.Find("Settlement").transform);
-                            }
-
-                            if (GameObject.Find("Settlement_Props") == null)
-                            {
-                                GameObject _props = new GameObject();
-                                _props.name = "Settlement_Props";
-                                _props.transform.SetParent(GameObject.Find("Settlement").transform);
-                            }
-
-                            if (GameObject.Find("Settlement_Tiles") == null)
-                            {
-                                GameObject _settlementTiles = new GameObject();
-                                _settlementTiles.name = "Settlement_Tiles";
-                                _settlementTiles.transform.SetParent(GameObject.Find("Settlement").transform);
-                            }
-
-                        }
-
-                        if (_themeSelection[_themeSelectionIndex] == "Viking")
-                        {
-
-                            if (GameObject.Find("Viking") == null)
-                            {
-                                GameObject _settlementParent = new GameObject();
-                                _settlementParent.name = "Viking";
-                                _settlementParent.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-
-                            if (GameObject.Find("Viking_Buildings") == null)
-                            {
-                                GameObject _buildingParent = new GameObject();
-                                _buildingParent.name = "Viking_Buildings";
-                                _buildingParent.transform.SetParent(GameObject.Find("Viking").transform);
-                            }
-
-                            if (GameObject.Find("Viking_Perimeter") == null)
-                            {
-                                GameObject _perimeterParent = new GameObject();
-                                _perimeterParent.name = "Viking_Perimeter";
-                                _perimeterParent.transform.SetParent(GameObject.Find("Viking").transform);
-                            }
-
-                            if (GameObject.Find("Viking_Props") == null)
-                            {
-                                GameObject _props = new GameObject();
-                                _props.name = "Viking_Props";
-                                _props.transform.SetParent(GameObject.Find("Viking").transform);
-                            }
-
-                            if (GameObject.Find("Viking_Tiles") == null)
-                            {
-                                GameObject _settlementTiles = new GameObject();
-                                _settlementTiles.name = "Viking_Tiles";
-                                _settlementTiles.transform.SetParent(GameObject.Find("Viking").transform);
-                            }
-
-                        }
-
-                        #endregion
-                        // For scene organising we parent it to the corresponding GameObject
-                        #region PARENTING
-                        if (_themeSelection[_themeSelectionIndex] == "Settlement")
-                        {
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Buildings")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Buildings").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Tiles").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Perimeter").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Props")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Props").transform);
-                            }
-                        }
-
-                        if (_themeSelection[_themeSelectionIndex] == "Viking")
-                        {
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Buildings")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Viking_Buildings").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Viking_Tiles").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Viking_Perimeter").transform);
-                            }
-                            if (_themeSelectType[_themeSelectTypeIndex] == "Props")
-                            {
-                                _objectToAdd.transform.SetParent(GameObject.Find("Viking_Props").transform);
-                            }
-                        }
-                        #endregion
-                        //Selection.
-                        
-                        // Set the Layer to 0 ( standard ) if it is not a gameplay trigger
-                        if (!_isAddingTriggers)
-                        {
-                            if (_childLayers.Length > 0)
-                            {
-                                foreach (Transform child in _objectToAdd.transform)
+                            case 0:
+                                if (GameObject.Find("Settlement") == null)
                                 {
-
-                                    child.gameObject.layer = _childLayers[counter];
-                                    counter++;
+                                    GameObject _settlementParent = new GameObject();
+                                    _settlementParent.name = "Settlement";
+                                    _settlementParent.transform.SetParent(GameObject.Find("WORLD").transform);
                                 }
+
+                                if (GameObject.Find("Settlement_Buildings") == null)
+                                {
+                                    GameObject _buildingParent = new GameObject();
+                                    _buildingParent.name = "Settlement_Buildings";
+                                    _buildingParent.transform.SetParent(GameObject.Find("Settlement").transform);
+                                }
+
+                                if (GameObject.Find("Settlement_Perimeter") == null)
+                                {
+                                    GameObject _perimeterParent = new GameObject();
+                                    _perimeterParent.name = "Settlement_Perimeter";
+                                    _perimeterParent.transform.SetParent(GameObject.Find("Settlement").transform);
+                                }
+
+                                if (GameObject.Find("Settlement_Props") == null)
+                                {
+                                    GameObject _props = new GameObject();
+                                    _props.name = "Settlement_Props";
+                                    _props.transform.SetParent(GameObject.Find("Settlement").transform);
+                                }
+
+                                if (GameObject.Find("Settlement_Tiles") == null)
+                                {
+                                    GameObject _settlementTiles = new GameObject();
+                                    _settlementTiles.name = "Settlement_Tiles";
+                                    _settlementTiles.transform.SetParent(GameObject.Find("Settlement").transform);
+                                }
+
+                                switch (_worldTypeTabIndex)
+                                {
+                                    case 0:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Buildings").transform);
+                                        break;
+                                    case 1:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Tiles").transform);
+                                        break;
+                                    case 2:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Perimeter").transform);
+                                        break;
+                                    case 3:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Settlement_Props").transform);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                               // Theme.Settlement.DeleteLoadedObject();
+
+                                break;
+                            case 1:
+
+                                if (GameObject.Find("Viking") == null)
+                                {
+                                    GameObject _settlementParent = new GameObject();
+                                    _settlementParent.name = "Viking";
+                                    _settlementParent.transform.SetParent(GameObject.Find("WORLD").transform);
+                                }
+
+                                if (GameObject.Find("Viking_Buildings") == null)
+                                {
+                                    GameObject _buildingParent = new GameObject();
+                                    _buildingParent.name = "Viking_Buildings";
+                                    _buildingParent.transform.SetParent(GameObject.Find("Viking").transform);
+                                }
+
+                                if (GameObject.Find("Viking_Perimeter") == null)
+                                {
+                                    GameObject _perimeterParent = new GameObject();
+                                    _perimeterParent.name = "Viking_Perimeter";
+                                    _perimeterParent.transform.SetParent(GameObject.Find("Viking").transform);
+                                }
+
+                                if (GameObject.Find("Viking_Props") == null)
+                                {
+                                    GameObject _props = new GameObject();
+                                    _props.name = "Viking_Props";
+                                    _props.transform.SetParent(GameObject.Find("Viking").transform);
+                                }
+
+                                if (GameObject.Find("Viking_Tiles") == null)
+                                {
+                                    GameObject _settlementTiles = new GameObject();
+                                    _settlementTiles.name = "Viking_Tiles";
+                                    _settlementTiles.transform.SetParent(GameObject.Find("Viking").transform);
+                                }
+
+                                switch (_worldTypeTabIndex)
+                                {
+                                    case 0:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Viking_Buildings").transform);
+                                        break;
+                                    case 1:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Viking_Tiles").transform);
+                                        break;
+                                    case 2:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Viking_Perimeter").transform);
+                                        break;
+                                    case 3:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Viking_Props").transform);
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case 2:
+                                if (GameObject.Find("Graveyard") == null)
+                                {
+                                    GameObject _graveyard = new GameObject();
+                                    _graveyard.name = "Graveyard";
+                                    _graveyard.transform.SetParent(GameObject.Find("WORLD").transform);
+                                    _objectToAdd.transform.SetParent(GameObject.Find("Graveyard").transform);
+                                }
+                                break;
+                            case 3:
+
+                                if (GameObject.Find("Dungeon") == null)
+                                {
+                                    GameObject _dungeonParent = new GameObject();
+                                    _dungeonParent.name = "Dungeon";
+                                    _dungeonParent.transform.SetParent(GameObject.Find("WORLD").transform);
+                                }
+
+                                if (GameObject.Find("Dungeon_Buildings") == null)
+                                {
+                                    GameObject _buildingParent = new GameObject();
+                                    _buildingParent.name = "Dungeon_Buildings";
+                                    _buildingParent.transform.SetParent(GameObject.Find("Dungeon").transform);
+                                }
+
+                                if (GameObject.Find("Dungeon_Perimeter") == null)
+                                {
+                                    GameObject _perimeterParent = new GameObject();
+                                    _perimeterParent.name = "Dungeon_Perimeter";
+                                    _perimeterParent.transform.SetParent(GameObject.Find("Dungeon").transform);
+                                }
+
+                                if (GameObject.Find("Dungeon_Props") == null)
+                                {
+                                    GameObject _props = new GameObject();
+                                    _props.name = "Dungeon_Props";
+                                    _props.transform.SetParent(GameObject.Find("Dungeon").transform);
+                                }
+
+                                if (GameObject.Find("Dungeon_Tiles") == null)
+                                {
+                                    GameObject _tiles = new GameObject();
+                                    _tiles.name = "Dungeon_Tiles";
+                                    _tiles.transform.SetParent(GameObject.Find("Dungeon").transform);
+                                }
+
+                                switch (_worldTypeTabIndex)
+                                {
+                                    case 0:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Dungeon_Buildings").transform);
+                                        break;
+                                    case 1:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Dungeon_Tiles").transform);
+                                        break;
+                                    case 2:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Dungeon_Perimeter").transform);
+                                        break;
+                                    case 3:
+                                        _objectToAdd.transform.SetParent(GameObject.Find("Dungeon_Props").transform);
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                        #endregion
+                        
+                            // Set the Layer to 0 ( standard ) if it is not a gameplay trigger
+                            if (!_isAddingTriggers)
+                            {
+                                if (_childLayers.Length > 0)
+                                {
+                                    foreach (Transform child in _objectToAdd.transform)
+                                    {
+                                        child.gameObject.layer = _childLayers[counter];
+                                        counter++;
+                                    }
+                                }
+
+                                _objectToAdd.layer = _oldLayer;
+
+                            }
+                            if (_isAddingTriggers)
+                            {
+                                _objectToAdd.layer = 2;
                             }
 
-                            _objectToAdd.layer = _oldLayer;
-
-                        }
-                        if (_isAddingTriggers)
-                        {
-                            _objectToAdd.layer = 2;
-                        }
-
-                        if (_objectToAdd.GetComponent<ProceduralBuilding>() != null)
-                        {
-                            _objectToAdd.GetComponent<ProceduralBuilding>().CreateBuilding();
-                        }
-                        counter = 0;
+                            if (_objectToAdd.GetComponent<ProceduralBuilding>() != null)
+                            {
+                                _objectToAdd.GetComponent<ProceduralBuilding>().CreateBuilding();
+                            }
+                            counter = 0;
+                        
                         _isAddingToScene = false;
-
+                        
                     }
                     if (Event.current.button == 1 && Event.current.type == EventType.mouseDown)
                     {
-                        DestroyImmediate(_objectToAdd);
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
                         _isAddingToScene = false;
                     }
                 }
@@ -859,652 +641,212 @@ namespace LevelEditor
                     _objectToAdd.transform.localEulerAngles = new Vector3(_objectToAdd.transform.eulerAngles.x, _objectToAdd.transform.eulerAngles.y - 45, _objectToAdd.transform.eulerAngles.z);
                 }
             }
+            #endregion
 
+            if(!_isAddingToScene)
+            {
+               // Theme.Settlement.DeleteLoadedObject();
+            }
 
             Handles.EndGUI();
+            
         }
 
         void AddBuildings()
         {
-
-            GUILayout.Label("Add World Objects", EditorStyles.boldLabel);
-
-            _themeSelectionIndex = EditorGUILayout.Popup(_themeSelectionIndex, _themeSelection);
-
-            Rect[] _previewRect = new Rect[50];
-
-            int _yPos = 0;
-            int _xPos = 0;
-
-
-            #region SETTLEMENT
-
-            if (_themeSelection[_themeSelectionIndex] == "Settlement")
-            {
-
-                _themeSelectTypeIndex = EditorGUILayout.Popup(_themeSelectTypeIndex, _themeSelectType);
-
-                #region SETTLEMENT BUILDINGS
-
-                if (_themeSelectType[_themeSelectTypeIndex] == "Buildings")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    
-
-                    for (int i = 0; i < _settlementBuildingsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-                        
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Buildings/" + _settlementBuildingsIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_settlementBuildingsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                        
-                    }
-                    
-                }
-                #endregion
-
-                #region SETTLEMENT TILES
-                if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
-                {
-
-                    CheckFloors();
-
-                        _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                        for (int i = 0; i < _settlementTilesIcons.Count; i++)
-                        {
-                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-                            _xPos++;
-
-                            if (i > 0)
-                            {
-                                if (i % _numberOfRows == 0)
-                                {
-
-                                    _yPos++;
-                                    _xPos = 0;
-                                }
-                            }
-
-                            
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Tiles/" + _settlementTilesIcons[i]));
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                            if (_previewRect[i].Contains(Event.current.mousePosition))
-                            {
-
-                                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                                {
-                                    _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[i])) as GameObject;
-
-                                    Event.current.Use();
-                                }
-                            }
-                        }
-                    
-                }
-                #endregion
-
-                #region SETTLEMENT PERIMETER
-                if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _settlementPerimeterIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Perimeter/" + _settlementPerimeterIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_settlementPerimeterIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-                #region SETTLEMENT PROPS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Props")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _settlementPropsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Settlement/Props/" + _settlementPropsIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_settlementPropsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-            }
-            #endregion
-            #region VIKING
-            if (_themeSelection[_themeSelectionIndex] == "Viking")
-            {
-
-                _themeSelectTypeIndex = EditorGUILayout.Popup(_themeSelectTypeIndex, _themeSelectType);
-
-                #region VIKING BUILDINGS
-
-                if (_themeSelectType[_themeSelectTypeIndex] == "Buildings")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _vikingBuildingsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Buildings/" + _vikingBuildingsIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_vikingBuildingsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region VIKING TILES
-                if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
-                {
-                    _vikingTileSelectIndex = EditorGUILayout.Popup(_vikingTileSelectIndex, _vikingTileSelectType);
-
-
-                    CheckFloors();
-
-                    if (_vikingTileSelectType[_vikingTileSelectIndex] == "Surfaces")
-                    {
-
-
-                        for (int i = 0; i < _vikingSurfacesIcons.Count; i++)
-                        {
-
-                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-                            _xPos++;
-
-                            if (i > 0)
-                            {
-
-                                if (i % _numberOfRows == 0)
-                                {
-
-                                    _yPos++;
-                                    _xPos = 0;
-                                }
-                            }
-
-                            // GUILayout.BeginHorizontal();
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[i]));
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                            if (_previewRect[i].Contains(Event.current.mousePosition))
-                            {
-
-                                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                                {
-                                    _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[i])) as GameObject;
-
-                                    Event.current.Use();
-                                }
-                            }
-                        }
-                    }
-
-                    if (_vikingTileSelectType[_vikingTileSelectIndex] == "Edges")
-                    {
-
-                        for (int i = 0; i < _vikingEdgesIcons.Count; i++)
-                        {
-
-
-                            _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-                            _xPos++;
-
-                            if (i > 0)
-                            {
-                                if (i % _numberOfRows == 0)
-                                {
-
-                                    _yPos++;
-                                    _xPos = 0;
-                                }
-                            }
-
-                            //                                GUILayout.BeginHorizontal();
-                            _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Tiles/Edges/" + _vikingEdgesIcons[i]));
-                            _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-
-                            if (_previewRect[i].Contains(Event.current.mousePosition))
-                            {
-
-                                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                                {
-                                    _isAddingToScene = true;
-                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[i])) as GameObject;
-
-                                    Event.current.Use();
-                                }
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region VIKING PERIMETER
-                if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
-                {
-
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _vikingPerimeterIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % 3 == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Perimeter/" + _vikingPerimeterIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_vikingPerimeterIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region VIKING PROPS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Props" && _themeSelection[_themeSelectionIndex] == "Viking")
-                {
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _vikingPropsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-
-                        _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Viking/Props/" + _vikingPropsIcons[i]));
-
-                        _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                        //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_vikingPropsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                
-            }
-            #endregion
-            #region DUNGEON
-            if (_themeSelection[_themeSelectionIndex] == "Dungeon")
-            {
-
-                _themeSelectTypeIndex = EditorGUILayout.Popup(_themeSelectTypeIndex, _themeSelectType);
-
-
-                #region TILES
-                if (_themeSelectType[_themeSelectTypeIndex] == "Tiles")
-                {
-
-                    CheckFloors();
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _dungeonTilesIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewTilesOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-                        
-                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Tiles/" + _dungeonTilesIcons[i]) as Texture2D);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_dungeonTilesIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region PROPS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Props")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _dungeonPropsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-                                               
-                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Props/" + _dungeonPropsIcons[i]) as Texture2D);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_dungeonPropsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region WALLS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Perimeter")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _dungeonWallsIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Walls/" + _dungeonWallsIcons[i]) as Texture2D);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_dungeonWallsIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-                #region BORDERS
-                if (_themeSelectType[_themeSelectTypeIndex] == "Borders")
-                {
-
-                    _snapAmount = EditorGUILayout.IntSlider("Snap: ", _snapAmount, 1, 10);
-
-                    for (int i = 0; i < _dungeonBordersIcons.Count; i++)
-                    {
-                        _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, 100);
-
-
-                        _xPos++;
-
-                        if (i > 0)
-                        {
-                            if ((i + 1) % _numberOfRows == 0)
-                            {
-
-                                _yPos++;
-                                _xPos = 0;
-                            }
-                        }
-
-                        EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Dungeon/Borders/" + _dungeonBordersIcons[i]) as Texture2D);
-
-                        if (_previewRect[i].Contains(Event.current.mousePosition))
-                        {
-                            EditorGUILayout.HelpBox(_dungeonBordersIcons[i].ToString(), MessageType.Info);
-                            if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                            {
-                                _isAddingToScene = true;
-                                _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[i])) as GameObject;
-
-                                Event.current.Use();
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-            }
-            #endregion
-            #region GRAVEYARD
-            if (_themeSelection[_themeSelectionIndex] == "Graveyard")
-            {
-                for (int i = 0; i < _graveyardIcons.Count; i++)
-                {
-                    _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
-                    _xPos++;
-
-                    if (i > 0)
-                    {
-                        if ((i + 1) % _numberOfRows == 0)
-                        {
-
-                            _yPos++;
-                            _xPos = 0;
-                        }
-                    }
-
-
-                    _gameObjectEditor = Editor.CreateEditor(Resources.Load("World_Building/ICONS/Graveyard/" + _graveyardIcons[i]));
-
-                    _gameObjectEditor.OnPreviewGUI(_previewRect[i], _skin.GetStyle("PreviewWindow"));
-                    //EditorGUILayout.LabelField("test", _nameRect[i]);
-
-                    if (_previewRect[i].Contains(Event.current.mousePosition))
-                    {
-                        EditorGUILayout.HelpBox(_graveyardIcons[i].ToString(), MessageType.Info);
-                        if (Event.current.button == 0 && Event.current.type == EventType.mouseUp)
-                        {
-                            _isAddingToScene = true;
-                            _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardIcons[i])) as GameObject;
-
-                            Event.current.Use();
-                        }
-                    }
-                }
-            }
-            #endregion
-
-            if (GUILayout.Button("BACK"))
-            {
-                _addBuildings = false;
-            }
             
+            _worldTabIndex = GUILayout.Toolbar(_worldTabIndex, new string[] { "Settlement", "Viking", "Graveyard", "Dungeon" });
+            if (_worldTabIndex != -1)
+            {
+                switch (_worldTabIndex)
+                {
+                    case 0:
+                        GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                        ShowSettlementTheme();
+                        break;
+                    case 1:
+                        GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                        ShowVikingTheme();
+                        break;
+                    case 2:
+                        GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                        ShowGraveyardTheme();
+                        break;
+                    case 3:
+                        GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                        ShowDungeonTheme();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
+        void ShowSettlementTheme()
+        {
+            _worldTypeTabIndex = GUILayout.Toolbar(_worldTypeTabIndex, new string[] { "Buildings", "Tiles", "Perimeter", "Props" });
+
+            if (_worldTypeTabIndex != -1)
+            {
+
+                switch (_worldTypeTabIndex)
+                {
+                    case 0:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Settlement.ReturnHasLoadedObjects())
+                        {
+                            Theme.Settlement.LoadAll();
+                        }
+                        Theme.Settlement.ShowAddBuildings(5);
+                        break;
+                    case 1:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Settlement.ReturnHasLoadedObjects())
+                        {
+                            Theme.Settlement.LoadAll();
+                        }
+                        CheckFloors();
+                        Theme.Settlement.ShowAddTiles(5);
+                        break;
+                    case 2:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Settlement.ReturnHasLoadedObjects())
+                        {
+                            Theme.Settlement.LoadAll();
+                        }
+                        Theme.Settlement.ShowAddPerimeter(5);
+                        break;
+                    case 3:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Settlement.ReturnHasLoadedObjects())
+                        {
+                            Theme.Settlement.LoadAll();
+                        }
+                        Theme.Settlement.ShowAddProps(5);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        void ShowVikingTheme()
+        {
+            _worldTypeTabIndex = GUILayout.Toolbar(_worldTypeTabIndex, new string[] { "Buildings", "Tiles", "Perimeter", "Props" });
+
+            if (_worldTypeTabIndex != -1)
+            {
+                switch (_worldTypeTabIndex)
+                {
+                    case 0:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Viking.ReturnHasLoadedObjects())
+                        {
+                            Theme.Viking.LoadAll();
+                        }
+                        Theme.Viking.ShowAddBuildings(5);
+                        break;
+                    case 1:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Viking.ReturnHasLoadedObjects())
+                        {
+                            Theme.Viking.LoadAll();
+                        }
+                        CheckFloors();
+                        //Viking.ShowAddTiles(5);
+                        _vikingTileTabIndex = GUILayout.Toolbar(_vikingTileTabIndex, new string[] { "Surfaces", "Edges" });
+                        switch (_vikingTileTabIndex)
+                        {
+                            case 0:
+                                Theme.Viking.ShowAddSurfaces(5);
+                                break;
+                            case 1:
+                                Theme.Viking.ShowAddEdges(5);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Viking.ReturnHasLoadedObjects())
+                        {
+                            Theme.Viking.LoadAll();
+                        }
+                        Theme.Viking.ShowAddPerimeter(5);
+                        break;
+                    case 3:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        if (!Theme.Viking.ReturnHasLoadedObjects())
+                        {
+                            Theme.Viking.LoadAll();
+                        }
+                        Theme.Viking.ShowAddProps(5);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        void ShowGraveyardTheme()
+        {
+            GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+            if (!Theme.Graveyard.ReturnHasLoadedObjects())
+            {
+                Theme.Graveyard.LoadAll();
+            }
+            Theme.Graveyard.ShowGraveyard(5);
+        }
+
+        void ShowDungeonTheme()
+        {
+            _worldTypeTabIndex = GUILayout.Toolbar(_worldTypeTabIndex, new string[] { "Buildings", "Tiles", "Perimeter", "Props", "Borders" });
+            switch (_worldTypeTabIndex)
+            {
+                case 0:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Dungeon.ReturnHasLoadedObjects())
+                    {
+                        Theme.Dungeon.LoadAll();
+                    }
+                    Theme.Dungeon.ShowAddBuildings(5);
+                    break;
+                case 1:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    CheckFloors();
+                    if (!Theme.Dungeon.ReturnHasLoadedObjects())
+                    {
+                        Theme.Dungeon.LoadAll();
+                    }
+                    Theme.Dungeon.ShowAddTiles(5);
+                    break;
+                case 2:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Dungeon.ReturnHasLoadedObjects())
+                    {
+                        Theme.Dungeon.LoadAll();
+                    }
+                    Theme.Dungeon.ShowAddPerimeter(5);
+                    break;
+                case 3:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Dungeon.ReturnHasLoadedObjects())
+                    {
+                        Theme.Dungeon.LoadAll();
+                    }
+                    Theme.Dungeon.ShowAddProps(5);
+                    break;
+                case 4:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Dungeon.ReturnHasLoadedObjects())
+                    {
+                        Theme.Dungeon.LoadAll();
+                    }
+                    Theme.Dungeon.ShowAddBorders(5);
+                    break;
+                default:
+                    break;
+            }
         }
 
         void AddLoadLevel()
@@ -1521,13 +863,6 @@ namespace LevelEditor
                 _objectToAdd.GetComponentInChildren<LevelTrigger>().SetLevel(_loadLevelNames[_loadLevelIndex], _loadingScreenNames[_loadScreenIndex]);
 
             }
-
-            if (GUILayout.Button("BACK"))
-            {
-                _addLoadLevels = false;
-                
-            }
-
         }
 
         void AddGameplay()
@@ -1535,104 +870,44 @@ namespace LevelEditor
   
             if (!_addLoadLevels && !_addTriggers)
             {
-                _gameplaySelectIndex = EditorGUILayout.Popup(_gameplaySelectIndex, _gameplaySelectType);
+                _gameplayTabIndex = GUILayout.Toolbar(_gameplayTabIndex, new string[] { "Switch Scene Trigger", "Triggers", "Events" });
+                switch (_gameplayTabIndex)
+                {
+                    case 0:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        AddLoadLevel();
+                        break;
+                    case 1:
+                        GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                        AddTriggers();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        break;
+                }
 
-                if (_addGameplay)
-                {
-                    if (GUILayout.Button("BACK"))
-                    {
-                        _addGameplay = false;
-                    }
-                }
-                if (_gameplaySelectType[_gameplaySelectIndex] == "Switch Scene Trigger")
-                {
-                    if (GUILayout.Button("Add Trigger to load scene"))
-                    {
-                        _addLoadLevels = true;
-                    }
-                }
-                if (_gameplaySelectType[_gameplaySelectIndex] == "Triggers")
-                {
-                    _addTriggers = true;
-
-                }
-                if (_gameplaySelectType[_gameplaySelectIndex] == "Events")
-                {
-
-                }
             }
         }
 
         void AddTriggers()
         {
-            GUILayout.Label("Add a Trigger Event", EditorStyles.boldLabel);
-
-            _triggerSelectIndex = EditorGUILayout.Popup(_triggerSelectIndex, _triggerSelectType);
-
-            if (_triggerSelectType[_triggerSelectIndex] == "Audio Trigger")
+            _triggerTabIndex = GUILayout.Toolbar(_triggerTabIndex, new string[] { "Audio Trigger", "Animation Trigger", "Gameplay" });
+            switch (_triggerTabIndex)
             {
-                CombatSystem.SoundSystem.GetAllFoliage();
-                List<string> _sounds = CombatSystem.SoundSystem.ReturnAllFoliage();
-
-                GUILayout.Label("Which Sound");
-                _soundSelectIndex = EditorGUILayout.Popup(_soundSelectIndex, _sounds.ToArray());
-
-                _playSoundOnce = EditorGUILayout.Toggle("Play Once?: ", _playSoundOnce);
-                _soundVolume = EditorGUILayout.FloatField("Volume: ", _soundVolume);
-
-                _soundTriggerSize = EditorGUILayout.IntField("Size of Trigger: ", _soundTriggerSize);
-
-                if (GUILayout.Button("Add Sound Trigger"))
-                {
-                    _isAddingToScene = true;
-                    _objectToAdd = Instantiate(Resources.Load("World_Building/GamePlay/SoundTrigger")) as GameObject;
-                    _objectToAdd.GetComponent<Transform>().localScale = new Vector3(_soundTriggerSize, _soundTriggerSize, _soundTriggerSize);
-                    _objectToAdd.GetComponentInChildren<SoundTrigger>().SetData(_sounds[_soundSelectIndex], _playSoundOnce, _soundVolume);
-                    _objectToAdd.name = "SoundTrigger-" + _sounds[_soundSelectIndex];
-
-                    _isAddingTriggers = true;
-
-                    if (GameObject.Find("AUDIO") != null)
-                    {
-                        _objectToAdd.transform.SetParent(GameObject.FindGameObjectWithTag("Audio").transform);
-                    }
-                    else
-                    {
-                        GameObject _obj = new GameObject();
-                        _obj.name = "AUDIO";
-                        _obj.tag = "Audio";
-
-                        _objectToAdd.transform.SetParent(_obj.transform);
-                    }
-                }
-
+                case 0:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    AudioTrigger();
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    GameplayTrigger();
+                    break;
+                default:
+                    break;
             }
-
-            if (_triggerSelectType[_triggerSelectIndex] == "Animation Trigger")
-            {
-
-            }
-
-            if (_triggerSelectType[_triggerSelectIndex] == "GamePlay")
-            {
-                _gameplayTriggerIndex = EditorGUILayout.Popup(_gameplayTriggerIndex, _gameplayTriggerSelectType);
-
-                if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Instant Death")
-                {
-                    // add cube that kills the player
-                }
-                if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Level Up")
-                {
-
-                }
-            }
-
-            if (GUILayout.Button("BACK"))
-            {                
-                _addTriggers = false;
-                _gameplaySelectIndex = 0;
-            }
-
         }
 
         void AddStaticProps()
@@ -1641,12 +916,10 @@ namespace LevelEditor
 
             int _yPos = 0;
             int _xPos = 0;
-
-            GUILayout.Button("Add Environmental Props", EditorStyles.boldLabel);
-            
+                          
             for (int i = 0; i < _environmentIcons.Count; i++)
             {
-                _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 150 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
+                _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), 50 + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
                 _xPos++;
 
                 if (i > 0)
@@ -1675,22 +948,18 @@ namespace LevelEditor
                     }
                 }
             }
-
-            if (GUILayout.Button("BACK"))
-            {
-                _addStaticProps = false;
-            }
         }
 
         void AddItems()
         {
-            if (GUILayout.Button("Add Potions"))
+            _itemTabIndex = GUILayout.Toolbar(_itemTabIndex, new string[] { "Add Potions" });
+            switch (_itemTabIndex)
             {
-                _addPotions = true;
-            }
-            if (GUILayout.Button("BACK"))
-            {
-                _addItems = false;
+                case 0:
+                    AddPotions();
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -1754,11 +1023,6 @@ namespace LevelEditor
                         Event.current.Use();
                     }
                 }
-            }
-
-            if (GUILayout.Button("BACK"))
-            {
-                _addPotions = false;
             }
         }
 
@@ -1964,6 +1228,72 @@ namespace LevelEditor
 
             }
         }
+
+        #region TRIGGERS
+
+        void AudioTrigger()
+        {
+            
+            CombatSystem.SoundManager.GetAllFoliage();
+
+            List<string> _sounds = CombatSystem.SoundManager.ReturnAllFoliage();
+
+            GUILayout.Label("Which Sound");
+            _soundSelectIndex = EditorGUILayout.Popup(_soundSelectIndex, _sounds.ToArray());
+
+            _playSoundOnce = EditorGUILayout.Toggle("Play Once?: ", _playSoundOnce);
+            _soundVolume = EditorGUILayout.FloatField("Volume: ", _soundVolume);
+
+            _soundTriggerSize = EditorGUILayout.IntField("Size of Trigger: ", _soundTriggerSize);
+
+            if (GUILayout.Button("Add Sound Trigger"))
+            {
+                _isAddingToScene = true;
+                _objectToAdd = Instantiate(Resources.Load("World_Building/GamePlay/SoundTrigger")) as GameObject;
+                _objectToAdd.GetComponent<Transform>().localScale = new Vector3(_soundTriggerSize, _soundTriggerSize, _soundTriggerSize);
+                _objectToAdd.GetComponentInChildren<SoundTrigger>().SetData(_sounds[_soundSelectIndex], _playSoundOnce, _soundVolume);
+                _objectToAdd.name = "SoundTrigger-" + _sounds[_soundSelectIndex];
+
+                _isAddingTriggers = true;
+
+                if (GameObject.Find("AUDIO") != null)
+                {
+                    _objectToAdd.transform.SetParent(GameObject.FindGameObjectWithTag("Audio").transform);
+                }
+                else
+                {
+                    GameObject _obj = new GameObject();
+                    _obj.name = "AUDIO";
+                    _obj.tag = "Audio";
+
+                    _objectToAdd.transform.SetParent(_obj.transform);
+                }
+            }
+        }
+
+        void GameplayTrigger()
+        {
+            _gameplayTriggerIndex = EditorGUILayout.Popup(_gameplayTriggerIndex, _gameplayTriggerSelectType);
+
+            if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Instant Death")
+            {
+                // add cube that kills the player
+            }
+            if (_gameplayTriggerSelectType[_gameplayTriggerIndex] == "Level Up")
+            {
+
+            }
+        }
+
+        #endregion
+
+        public static void SetAddingToScene()
+        {
+            _isAddingToScene = true;
+        }
+
+
     }
+
 }
 #endif

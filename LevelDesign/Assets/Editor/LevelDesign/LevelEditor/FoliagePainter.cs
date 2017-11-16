@@ -54,9 +54,11 @@ namespace LevelEditor
         private GameObject _objectToAdd;
         private bool _isAddingToScene;
 
+        private int _tabIndex = -1;
+        private int _foliageTabIndex = -1;
+
         private Vector2 _scrollPos;
 
-        [MenuItem("Level Design/World Builder/Object Painter")]
         static void ShowWindow()
         {
             FoliagePainter _fp = EditorWindow.GetWindow<FoliagePainter>();
@@ -133,44 +135,19 @@ namespace LevelEditor
 
         void OnGUI()
         {
-            GUI.skin = _skin;
-            if (!_addFoliage && !_addGrass && !_addTrees && !_addDecals)
+            _tabIndex = GUILayout.Toolbar(_tabIndex, new string[] { "Add Foliage", "Add Decals" });
+            switch (_tabIndex)
             {
-                if (GUILayout.Button("Add Foliage"))
-                {
-                    _addFoliage = true;
-                }
-                if(GUILayout.Button("Paint Decals"))
-                {
-                    _addDecals = true;
-                }
+                case 0:
+                    ShowAddFoliage();
+                    break;
+                case 1:
+                    AddDecals();
+                    break;
+                default:
+                    break;
             }
-
-
-            if (_addFoliage)
-            {
-                if (GUILayout.Button("Paint Small Foliage"))
-                {
-                    _addGrass = true;
-                }
-                if(GUILayout.Button("Paint Trees"))
-                {
-                    _addTrees = true;
-                }
-            }
-
-            if (_addGrass)
-            {
-                AddGrass();                
-            }
-            if(_addTrees)
-            {
-                AddTrees();
-            }
-            if(_addDecals)
-            {
-                AddDecals();
-            }
+           
         }
 
         void OnSceneGUI(SceneView _sceneView)
@@ -412,6 +389,22 @@ namespace LevelEditor
             #endregion
             EditorGUILayout.EndScrollView();
             Handles.EndGUI();
+        }
+
+        void ShowAddFoliage()
+        {
+            _foliageTabIndex = GUILayout.Toolbar(_foliageTabIndex, new string[] { "Small Foliage", "Trees" });
+            switch (_foliageTabIndex)
+            {
+                case 0:
+                    AddGrass();
+                    break;
+                case 1:
+                    AddTrees();
+                    break;
+                default:
+                    break;
+            }
         }
 
         void AddGrass()
