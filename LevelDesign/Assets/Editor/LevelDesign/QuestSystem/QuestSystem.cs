@@ -28,71 +28,71 @@ namespace Quest
         private bool _resetQuest = false;
 
         // quest type select index
-        private QuestType _questType;
-        private int _questItemIndex;
+        private static QuestType _questType;
+        private static int _questItemIndex;
 
-        private QuestItemAmount _qItemAmount;
-        private int _questItemCollectAmount;
+        private static QuestItemAmount _qItemAmount;
+        private static int _questItemCollectAmount;
 
-        private int _oldNpcID;
+        private static int _oldNpcID;
 
         // Quest rewards
-        private QuestReward _questReward;
-        private int _goldAmount;
-        private int _expAmount;
+        private static QuestReward _questReward;
+        private static int _goldAmount;
+        private static int _expAmount;
 
-        private QuestChain _chain;
-        private QuestChainType _chainType;
-        private int _questChainSelectIndex;
+        private static QuestChain _chain;
+        private static QuestChainType _chainType;
+        private static int _questChainSelectIndex;
 
-        private int _actorSelectionIndex;
-        private int _selectedActiveQuestIndex;
-        private bool[] _activeQuestActive;
+        private static int _actorSelectionIndex;
+        private static int _selectedActiveQuestIndex;
+        private static bool[] _activeQuestActive;
 
-        private bool[] _questChainFoldout;
+        private static bool[] _questChainFoldout;
 
-        private string _questTitle;
-        private string _questText;
-        private string _questComplete;
-        private string _questZone;
+        private static string _questTitle;
+        private static string _questText;
+        private static string _questComplete;
+        private static string _questZone;
 
-        private bool _questEnabled = false;
-        private bool _questGameStart = false;
+        private static bool _questEnabled = false;
+        private static bool _questGameStart = false;
 
-        private Vector2 _scrollPos;
+        private static Vector2 _scrollPos;
 
         // fetch all quests
-        private int _selectedQuestIndex;
-        private bool _retrievedAllQuests = false;
-        private string[] _allItemNames;
-        private string[] _allNpcNames;
+        private static int _selectedQuestIndex;
+        private static bool _retrievedAllQuests = false;
+        private static string[] _allItemNames;
+        private static string[] _allNpcNames;
 
-        private List<int> _activeID = new List<int>();
+        private static List<int> _activeID = new List<int>();
 
-        private bool _noObjectsFound = false;
+        private static bool _noObjectsFound = false;
 
-        private List<GameObject> _createdQuestItems = new List<GameObject>();
+        private static List<GameObject> _createdQuestItems = new List<GameObject>();
 
         // Explore Quests
 
-        private GameObject[] _allZones;
-        private string[] _zoneNames;
-        private int _zoneSelectedIndex;
-        private bool _questAutoComplete;
+        private static GameObject[] _allZones;
+        private static string[] _zoneNames;
+        private static int _zoneSelectedIndex;
+        private static bool _questAutoComplete;
 
-        private GameObject QuestObject;
+        private static GameObject QuestObject;
 
         // kill quests
 
-        private KillQuestSelection _killSelect;
-        private int _killSelectIndex;
-        private GameObject[] _killAllEnemies;
-        private List<string> _killAllEnemiesName = new List<string>();
-        private int _killAmount;
+        private static KillQuestSelection _killSelect;
+        private static int _killSelectIndex;
+        private static GameObject[] _killAllEnemies;
+        private static List<string> _killAllEnemiesName = new List<string>();
+        private static int _killAmount;
 
         private GUISkin _skin;
 
-        [MenuItem("Level Design/Quest System/Quest Manager")]
+        
         static void ShowEditor()
         {
             QuestSystem _qSystem = EditorWindow.GetWindow<QuestSystem>();
@@ -106,7 +106,7 @@ namespace Quest
 
             _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
         }
-
+        /*
         void OnGUI()
         {
             GUI.skin = _skin;
@@ -188,7 +188,7 @@ namespace Quest
 
             EditorGUILayout.EndScrollView();
         }
-
+        */
         //////////////////////////////////////////////////////////////////////////////////////
         //                                                                                  //
         // Add Quest Item void                                                              //
@@ -199,7 +199,7 @@ namespace Quest
         //                                                                                  //
         //////////////////////////////////////////////////////////////////////////////////////
 
-        void AddQuestItems(string _obj, int _amount, bool _edit, int _questID)
+        static void AddQuestItems(string _obj, int _amount, bool _edit, int _questID)
         {
             for (int i = 0; i < _amount; i++)
             {
@@ -240,8 +240,9 @@ namespace Quest
             }
         }
 
-        void AddQuest()
+        public static void ShowAddQuest()
         {
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
             _questType = (QuestType)EditorGUILayout.EnumPopup("Type of quest:", _questType);
 
             if (_questType != QuestType.None)
@@ -276,13 +277,11 @@ namespace Quest
                 }
 
             }
-            if (GUILayout.Button("BACK"))
-            {
-                _addingQuest = false;
-            }
+            EditorGUILayout.EndScrollView();
+            
         }
 
-        void CollectQuest()
+        static void CollectQuest()
         {
             // Query the Database to get all QuestItems
             Quest.QuestDatabase.GetQuestItems();
@@ -480,17 +479,12 @@ namespace Quest
 
 
                         ClearAll();
-                        _addingQuest = false;
-                        _questEnabled = false;
-
-
-
                     }
                 }
             }
         }
 
-        void KillQuest()
+        static void KillQuest()
         {
 
             // _tmpID = temp int to store the QuestID
@@ -685,20 +679,19 @@ namespace Quest
                             }
 
                             ClearAll();
-                            _addingQuest = false;
-                            _questEnabled = false;
-
-
-
+ 
                         }
                     }
                 }
             }
         }
 
-        void EditQuest()
+        public static void ShowEditQuest()
         {
             int _tmpID = 0;
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+
+
 
             if (!_retrievedAllQuests)
             {
@@ -1034,22 +1027,17 @@ namespace Quest
                             }
                         }
 
-                        _editQuest = false;
+         
                         _retrievedAllQuests = false;
                         ClearAll();
                     }
                 }
             }
-                if (GUILayout.Button("BACK"))
-                {
-                    _editQuest = false;
-                    _retrievedAllQuests = false;
-                    ClearAll();
-                }
+            EditorGUILayout.EndScrollView();
             
         }
 
-        void ViewActiveQuests()
+        public static void ShowActiveQuests()
         {
             if (!_retrievedAllQuests)
             {
@@ -1094,12 +1082,11 @@ namespace Quest
 
             if(GUILayout.Button("BACK"))
             {
-                _activeQuests = false;
                 _retrievedAllQuests = false;
             }
         }
 
-        void DeleteQuests()
+        public static void ShowDeleteQuests()
         {
             
             if (!_retrievedAllQuests)
@@ -1114,36 +1101,31 @@ namespace Quest
                 }   
                 _retrievedAllQuests = true;
             }
-
-            for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
+            if (Quest.QuestDatabase.ReturnQuestTitles().Count > 0)
             {
-                GUILayout.BeginHorizontal(GUILayout.Width(550));
+                for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
+                {
+                    GUILayout.BeginHorizontal(GUILayout.Width(550));
                     GUILayout.Label("Quest ID: " + Quest.QuestDatabase.GetQuestID(i), GUILayout.Width(150));
                     GUILayout.Label("Quest Title: " + Quest.QuestDatabase.GetQuestTitle(i), GUILayout.Width(200));
                     GUILayout.Label("Select: ");
                     _activeQuestActive[i] = EditorGUILayout.Toggle(_activeQuestActive[i]);
-                GUILayout.EndHorizontal();
-             
-            }
-            
-            if (GUILayout.Button("DELETE SELECTED"))
-            {
-                for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
-                {
-                    Quest.QuestDatabase.DeleteQuests(_activeID[i], _activeQuestActive[i]);
-                    _deleteQuests = false;
-                    _retrievedAllQuests = false;
-                }
-            }
+                    GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("BACK"))
-            {
-                _retrievedAllQuests = false;
-                _deleteQuests = false;
+                }
+
+                if (GUILayout.Button("DELETE SELECTED"))
+                {
+                    for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
+                    {
+                        Quest.QuestDatabase.DeleteQuests(_activeID[i], _activeQuestActive[i]);
+                        _retrievedAllQuests = false;
+                    }
+                }
             }
         }
 
-        void ExploreQuest()
+        static void ExploreQuest()
         {
             int _tmpID = 0;
 
@@ -1293,38 +1275,47 @@ namespace Quest
                         Quest.QuestDatabase.UpdateQuestZone(_allZones[_zoneSelectedIndex], Quest.QuestDatabase.ReturnLastQuestID());
                     }
                     ClearAll();
-                    _questEnabled = false;
-                    _addingQuest = false;
+                   
+                    
                 }
             }
 
         }
 
-        void ViewQuestChains()
+        public static void ShowQuestChains()
         {
             _questChainFoldout = new bool[100];
-            if(!_retrievedAllQuests)
+            if (!_retrievedAllQuests)
             {
                 Quest.QuestDatabase.ClearAll();
                 QuestDatabase.GetAllQuests();
-
-                for (int i = 0; i < QuestDatabase.ReturnAllQuestsCount(); i++)
+               _retrievedAllQuests = true;
+            }
+            for (int i = 0; i < QuestDatabase.ReturnAllQuestsCount(); i++)
+            {
+                if(QuestDatabase.GetQuestChain(i) == QuestChain.Chain)
                 {
-                    if(QuestDatabase.GetQuestChain(i) == QuestChain.Chain)
+                    if(QuestDatabase.GetQuestChainType(i) == QuestChainType.Start)
                     {
-                        if(QuestDatabase.GetQuestChainType(i) == QuestChainType.Start)
+                        if(GUILayout.Button("RESET [ " + QuestDatabase.GetQuestTitle(i) + " ]"))
                         {
-                            if(GUILayout.Button("RESET [ " + QuestDatabase.GetQuestTitle(i) + " ]"))
-                            {
                                 QuestDatabase.ResetQuestChain(Quest.QuestDatabase.GetQuestID(i));
-                            }
                         }
                     }
                 }
+                else
+                {
+                    GUILayout.Label("None of the Quests are part of a chain");
+                }
+            }
+
+            if (QuestDatabase.ReturnAllQuestsCount() < 1)
+            {
+                GUILayout.Label("No quest chains found");
             }
         }
 
-        void ResetQuest()
+        public static void ShowResetQuest()
         {
 
             if (!_retrievedAllQuests)
@@ -1356,18 +1347,15 @@ namespace Quest
                 for (int i = 0; i < Quest.QuestDatabase.ReturnQuestTitles().Count; i++)
                 {
                     Quest.QuestDatabase.ResetQuest(_activeID[i], _activeQuestActive[i], Quest.QuestDatabase.GetNpcIdFromQuest(i));
-                    _resetQuest = false;
+                
                     _retrievedAllQuests = false;
                 }
             }
 
-            if (GUILayout.Button("BACK"))
-            {
-                _resetQuest = false;
-            }
+          
         }
 
-        void ClearAll()
+        static void ClearAll()
         {
             _questTitle = "";
             _questText = "";
@@ -1386,6 +1374,11 @@ namespace Quest
             _chainType = QuestChainType.Start;
             _questChainSelectIndex = 0;
             _questGameStart = false;
+        }
+
+        public static void SetRetrievedQuests(bool _set)
+        {
+            _retrievedAllQuests = _set;
         }
 
         

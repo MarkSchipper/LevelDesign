@@ -28,8 +28,11 @@ namespace CombatSystem
                         this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
                         this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetLeashStart(transform.position);
 
+                        CombatSystem.SoundManager.instance.PlaySound(SOUNDS.INCOMBAT, Vector3.forward, true);
+
                     }
                 }
+                
             }
         }
 
@@ -48,6 +51,8 @@ namespace CombatSystem
                             InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
                             coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
                             coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
+
+                            CombatSystem.SoundManager.instance.PlaySound(SOUNDS.INCOMBAT, Vector3.forward, true);
                             _setOnce = true;
                         }
                         if (!this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().MaxLeashDistanceMet())

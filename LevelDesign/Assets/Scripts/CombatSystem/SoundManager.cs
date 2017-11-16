@@ -18,6 +18,7 @@ namespace CombatSystem
         ENEMYCHARGE,
         ENEMYDEATH,
         ENEMYSPAWN,
+        ENEMYHIT,
         HEALING,
         LEVELUP,
         RAIN,
@@ -50,6 +51,9 @@ namespace CombatSystem
 
         [FMODUnity.EventRef]
         public string _enemyCharge;
+
+        [FMODUnity.EventRef]
+        public string _enemyHit;
 
         [FMODUnity.EventRef]
         public string _inCombatSwoosh;
@@ -159,6 +163,9 @@ namespace CombatSystem
                     break;
                 case SOUNDS.THUNDER:
                     PlayThunder();
+                    break;
+                case SOUNDS.ENEMYHIT:
+                    PlayEnemyHit(_playerPos);
                     break;
                 default:
                     break;
@@ -282,6 +289,15 @@ namespace CombatSystem
             e.release();
         }
 
+        void PlayEnemyHit(Vector3 _playerPos)
+        {
+                FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyHit);
+                e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+                e.start();
+                e.release();
+        }
+
         void PlayEnemyDeath(Vector3 _playerPos)
         {
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyDeath);
@@ -342,11 +358,11 @@ namespace CombatSystem
         {
             FMOD.Studio.ParameterInstance parameter;
             e.getParameter(name, out parameter);
-          
+            
             parameter.setValue(value);
         }
 
-        public void GetAllFoliage()
+        public static void GetAllFoliage()
         {
             _foliageSounds.Clear();
             _allFoliageSounds = Resources.LoadAll("Audio/Foliage/");
@@ -367,7 +383,7 @@ namespace CombatSystem
 
         }
 
-        public List<string> ReturnAllFoliage()
+        public static List<string> ReturnAllFoliage()
         {
             return _foliageSounds;
         }

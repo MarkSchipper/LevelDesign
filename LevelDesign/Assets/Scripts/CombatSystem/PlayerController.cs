@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using FMODUnity;
 
 namespace CombatSystem
 {
     public class PlayerController : MonoBehaviour
     {
         // Booleans
-        private bool _isWalking         = false;
-        private bool _isRunning         = false;
-        private bool _isIdle            = false;
-        private bool _isInCombat        = false;
-        private bool _isJumping         = false;
+        private bool STATE_WALKING      = false;
+        private bool STATE_RUNNING      = false;
+        private bool STATE_BACKWARDS    = false;
+        private bool STATE_IDLE         = false;
+        private bool STATE_INCOMBAT     = false;
+        private bool STATE_JUMPING      = false;
+
+        private bool _jumpOnce          = false;
         private bool _hasTakenDamage    = false;
         private bool _isCastingSpell    = false;
         private bool _spellcastComplete = false;
@@ -21,6 +24,7 @@ namespace CombatSystem
         private bool _isBlink           = false;
         private bool _isOverUI          = false;
         private bool _isFirstPerson     = false;
+        private bool INPUT_BLOCK        = false;
 
         // Movement Floats
         private float _runSpeed = 0.3f;
@@ -28,6 +32,7 @@ namespace CombatSystem
         private float _rotateAngle = 0f;
         private float _rotatedAngle = 0f;
         private float _playerDistanceTraveled = 0.0f;
+        private float _playerFallingDistance = 0.0f;
         private float _blinkMaxDistance;
 
         // Player stats
@@ -56,7 +61,11 @@ namespace CombatSystem
         private GameObject _selectedActor;
         private GameObject _blinkMarker;
 
+        private GameObject _playerMesh;
+
         private Ray _ray;
+
+        private List<Animator> _animators = new List<Animator>();
 
         // Singleton
         public static PlayerController instance = null;
@@ -87,16 +96,38 @@ namespace CombatSystem
         void OnEnable()
         {
             LoadPlayerData();
-        }
+
+            foreach (Animator anim in GetComponentsInChildren<Animator>()) 
+            {
+
+                if(anim.runtimeAnimatorController.ToString() == "PlayerController (UnityEngine.AnimatorController)")
+                {
+                    CombatSystem.AnimationSystem.SetController(anim);
+                }
+                if(anim.runtimeAnimatorController.ToString() == "StaffController (UnityEngine.AnimatorController)")
+                {
+                    CombatSystem.AnimationSystem.SetStaffController(anim);
+
+                }
+
+                if(anim.name == "PlayerMesh")
+                {
+                    _playerMesh = anim.gameObject;
+                }
+            }
+
+            
+        }  
 
         // Use this for initialization
         void Start()
         {
             _charController = this.GetComponent<CharacterController>();
-            CombatSystem.AnimationSystem.SetController(this.GetComponentInChildren<Animator>());
 
             InteractionManager.instance.SetPlayerMaxHealth(_playerHealth);
             InteractionManager.instance.SetPlayerMaxMana(_playerMana);
+
+          //  SoundSystem.SetSpellCastingSound();
 
             if(CombatSystem.CameraController.ReturnFirstPerson())
             {
@@ -109,10 +140,23 @@ namespace CombatSystem
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        void Update()
         {
-            CheckInputs();
-            CheckMouseOver();
+            if (!INPUT_BLOCK)
+            {
+                CheckInputs();
+                CheckMouseOver();
+            }
+
+            if (INPUT_BLOCK)
+            {
+                STATE_IDLE = true;
+                STATE_RUNNING = false;
+
+                STATE_INCOMBAT = false;
+                _moveDirection = new Vector3(0, 0, 0);
+                _selectedNPC = null;
+            }
            
             //////////////////////////////////////////////////////////////////////////
             //                                                                      //
@@ -120,21 +164,38 @@ namespace CombatSystem
             //                                                                      //
             //////////////////////////////////////////////////////////////////////////
 
-            if (_isIdle)
+            if (STATE_IDLE && !STATE_INCOMBAT)
             {
                 PlayerIdle();
             }
-            if (_isWalking)
+            if (STATE_WALKING)
             {
                 PlayerWalking();
             }
-            if (_isRunning)
+            if (STATE_RUNNING)
             {
                 PlayerRunning();
             }
-            if (!_isRunning || !_isWalking || _isInCombat)
+            if (STATE_JUMPING)
             {
-                _isIdle = true;
+                if (!_jumpOnce)
+                {
+                    PlayerJump();
+                    _jumpOnce = true;
+                }
+                if(_jumpOnce)
+                {
+                    if(CombatSystem.AnimationSystem.ReturnJumpingFinished())
+                    {
+                        CombatSystem.AnimationSystem.StopPlayerJumping();
+                        _jumpOnce = false;
+                    }
+                }
+            }
+
+            if (!STATE_RUNNING || !STATE_WALKING || !STATE_INCOMBAT || STATE_JUMPING)
+            {
+                STATE_IDLE = true;
             }
 
             Immunity();
@@ -144,70 +205,153 @@ namespace CombatSystem
                 SetBlinkTarget();
             }
         }
+
+       
         #region MOVEMENT
 
-        //////////////////////////////////////////////////////////////////////////
-        //                                                                      //
-        //                              CHECK INPUTS                            //
-        //                                                                      //
-        //  If the player is grounded                                           //
-        //  Check if the player pressed WASD, if so change the _moveDirection   //
-        //                                                                      //
-        //  If the player is not grounded                                       //
-        //      Apply gravity                                                   //
-        //                                                                      //
-        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                                                                          //
+        //                                                  CHECK INPUTS                                            //
+        //                                                                                                          //
+        //  If the player is grounded                                                                               //
+        //  Check if the player pressed WASD, if so change the _moveDirection                                       //
+        //                                                                                                          //
+        //  If the player is not grounded                                                                           //
+        //      Apply gravity                                                                                       //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         void CheckInputs()
-        {            
+        {
+            #region MOVING THE CHARACTER       
             if (_charController.isGrounded)
             {
                 _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 
+                // If we pressed the Left Shift we multiply the movedirection with the walking speed
+                // Else by the run speed
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     _moveDirection *= _walkSpeed;
+                    STATE_IDLE = false;
                 }
                 else
                 {
                     _moveDirection *= _runSpeed;
                 }
-                if (_moveDirection.z != 0)
+
+                // If _moveDirection.z is not 0
+                // If we are moving FORWARD
+                if (_moveDirection.z != 0 )
                 {
-                    if (Input.GetKey(KeyCode.LeftShift))
+
+                    // If the z direction is negative we are walking backwards
+                    if(_moveDirection.z < 0)
                     {
-                        _isWalking = true;
-                        _isRunning = false;
+                        STATE_BACKWARDS = true;
                     }
                     else
                     {
-                        _isRunning = true;
-                        _isWalking = false;
+                        STATE_BACKWARDS = false;
                     }
-                }
-                else
-                {
-                    _isRunning = false;
-                    _isWalking = false;
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        STATE_WALKING = true;
+                        STATE_RUNNING = false;
+                        CombatSystem.AnimationSystem.SetSkipIdle(true);
+                    }
+                    else
+                    {
+                        STATE_RUNNING = true;
+                        STATE_WALKING = false;
+                    }
+
+                    // If we are moving FORWARD and have pressed the A or D key we rotate the player 45 degrees to simulate strafing
+                    // If we are NOT moving sideways rotate the player to 0,0,0 again
+                    // NOTE: We are rotating the player mesh which is a CHILD of the PlayerController object since we don't want to rotate the parent object
+                    if (_moveDirection.x > 0 && _moveDirection.z != 0)
+                    {
+                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 45, 0)), Time.deltaTime * 20f);
+                        STATE_IDLE = false;
+                    }
+                    if (_moveDirection.x < 0 && _moveDirection.z != 0)
+                    {
+                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, -45, 0)), Time.deltaTime * 20f);
+                        STATE_IDLE = false;
+                    }
+                    if (_moveDirection.x == 0)
+                    {
+                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * 20f);
+                        STATE_IDLE = false;
+                    }
+
+                    STATE_IDLE = false;
                 }
 
+                // If we are NOT moving forward but have pressed A or D
+                // Rotate the player by 90 degrees so it runs sideways
+                if(_moveDirection.x != 0 && _moveDirection.z == 0)
+                {
+                    if (_moveDirection.x > 0 )
+                    {
+                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 90, 0)), Time.deltaTime * 20f);
+                    }
+                    if (_moveDirection.x < 0 )
+                    {
+                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, -90, 0)), Time.deltaTime * 20f);
+                        
+                    }
+                    STATE_RUNNING = true;
+                    STATE_IDLE = false;
+                }
+
+                // If we havent pressed anything
+                // Rotate the player to 0,0,0 
+                if(_moveDirection.z == 0 && _moveDirection.x == 0)
+                {
+                     _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * 20f);
+                                       
+
+                    STATE_RUNNING = false;
+                    STATE_WALKING = false;
+
+                    if (!STATE_INCOMBAT)
+                    {
+                        STATE_IDLE = true;
+                        CombatSystem.AnimationSystem.SetPlayerIdle();
+                    }
+
+                }
                 if(Input.GetKey(KeyCode.Space))
                 {
-                    _moveDirection.y = 0.6f;
+                    _moveDirection.y = 0.4f;
+                    STATE_JUMPING = true;
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERJUMP, transform.position, true);
                 }
+
+                // Convert the _moveDirection to world space
                 _moveDirection = transform.TransformDirection(_moveDirection);
+
             }
             else
             {
+                Vector3 _oldPosition = transform.position;
+                _playerFallingDistance += (transform.position - _oldPosition).magnitude;
+
+                Debug.Log(_playerFallingDistance);
                 _moveDirection.y -= 1 * Time.deltaTime;
+
+                
+
                 _charController.Move(_moveDirection * Time.deltaTime);
-    
             }
+            #endregion
         }
 
         // If the Player is idle, stop playing the running and/or walking animations
         void PlayerIdle()
         {
+
             CombatSystem.AnimationSystem.StopPlayerRunning();
             CombatSystem.AnimationSystem.StopPlayerWalking();
 
@@ -218,9 +362,20 @@ namespace CombatSystem
         // If the player is walking, move the player and play the walking animation
         void PlayerWalking()
         {
+            CombatSystem.AnimationSystem.StopPlayerIdle();
+            CombatSystem.AnimationSystem.SetSkipIdle(true);
+
             Vector3 _oldPosition = this.transform.position;
-            _charController.Move(_moveDirection * _walkSpeed);
-            CombatSystem.AnimationSystem.SetPlayerWalking();
+
+            if (!STATE_BACKWARDS)
+            {
+                _charController.Move(_moveDirection * _walkSpeed);
+            }
+            if(STATE_BACKWARDS)
+            {
+                _charController.Move(_moveDirection * (_walkSpeed * 0.5f));
+            }
+            CombatSystem.AnimationSystem.SetPlayerWalking(STATE_BACKWARDS);
 
             _playerDistanceTraveled += (transform.position - _oldPosition).magnitude;
 
@@ -228,58 +383,80 @@ namespace CombatSystem
             {
                 if (_charController.isGrounded)
                 {
+                    SoundManager.instance.PlaySound(SOUNDS.FOOTSTEPS, transform.position, true);
                     _playerDistanceTraveled = 0.0f;
                 }
             }
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        //                                  PlayerRunning()                                         //
-        // If the player is running, move the player and play the running animation                 //
-        //  Check the distance the player has traveled, if it is greater than 1.75f                 //
-        //      1.75f is an estimation of the distance between footsteps                            //
-        //  Call the SoundSystem and play the Footstep sounds                                       //
-        //                                                                                          //
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                  PlayerRunning()                                         //
+        // If the player is running, move the player and play the running animation                                 //
+        //  Check the distance the player has traveled, if it is greater than 1.75f                                 //
+        //      1.75f is an estimation of the distance between footsteps                                            //
+        //  Call the SoundSystem and play the Footstep sounds                                                       //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         void PlayerRunning()
         {
+
+            CombatSystem.AnimationSystem.StopPlayerIdle();
+
             Vector3 _oldPosition = this.transform.position;
-            _charController.Move(_moveDirection * _runSpeed);
-            CombatSystem.AnimationSystem.SetPlayerRunning();
+            if (!STATE_BACKWARDS)
+            {
+                _charController.Move(_moveDirection * _runSpeed);
+            }
+            if (STATE_BACKWARDS)
+            {
+                _charController.Move(_moveDirection * (_runSpeed * 0.5f));
+            }
+            CombatSystem.AnimationSystem.SetPlayerRunning(STATE_BACKWARDS);
 
             _playerDistanceTraveled += (transform.position - _oldPosition).magnitude;
 
-            if(_playerDistanceTraveled > 1.75f)
+            if(_playerDistanceTraveled > 2.25f)
             {
                 if (_charController.isGrounded)
                 {
+                    CombatSystem.SoundManager.instance.PlaySound(SOUNDS.FOOTSTEPS, transform.position, true);
                     _playerDistanceTraveled = 0.0f;
                 }
             }
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////
-        //                                       RotatePlayer()                                     //
-        //                                                                                          //
-        //  Rotate the player based on the amount parsed to the function                            //
-        //  _rotateAngel + the amount                                                               //
-        //  Convert a new Vector3 to Quaternion, transform.rotation uses Quaternions                //
-        //  Rotate the player character                                                             //  
-        //                                                                                          //
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                                  RotatePlayer()                                          //
+        //                                                                                                          //
+        //  Rotate the player based on the amount parsed to the function                                            //
+        //  _rotateAngel + the amount                                                                               //
+        //  Convert a new Vector3 to Quaternion, transform.rotation uses Quaternions                                //
+        //  Rotate the player character                                                                             //  
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void RotatePlayer(float _amount)
         {
-            
+              
             _rotateAngle += _amount;
             // We use Euler in this case, dirty but works
             transform.rotation = Quaternion.Euler(new Vector3(0, _rotateAngle, 0));
             //transform.rotation = Quaternion.Slerp(transform.rotation, turnAngle, Time.deltaTime * 100f);
         }
 
+        public void PlayerJump()
+        {
+            
+            CombatSystem.AnimationSystem.SetPlayerJumping();
+            if(CombatSystem.AnimationSystem.ReturnJumpingFinished())
+            {
+                CombatSystem.AnimationSystem.StopPlayerJumping();
+                STATE_JUMPING = false;
+            }
+        }
+
         #endregion
-               
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                          CheckMouseOver()                                                //
@@ -336,8 +513,15 @@ namespace CombatSystem
                     // If the mouse is over an Enemy
                     if (_hit.collider.tag == "EnemyRanged" || _hit.collider.tag == "EnemyMelee")
                     {
-                        // Set the Combat cursor
-                        InteractionManager.instance.SetCombatCursor();
+                        if (!_hit.collider.gameObject.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLootable())
+                        {
+                            // Set the Combat cursor
+                            InteractionManager.instance.SetCombatCursor();
+                        }
+                        else
+                        {
+                            InteractionManager.instance.SetNpcCursor();
+                        }
                     }
 
                     // If the mouse is NOT over an NPC or enemy
@@ -357,62 +541,90 @@ namespace CombatSystem
                         }
                     }
 
-                    // If we pressed the Right Mouse Button
-                    if (Input.GetMouseButtonDown(1))
+                    // If we pressed the Left Mouse Button
+                    if (Input.GetMouseButtonDown(0))
                     {
                         if (!_isCameraDragging)
                         {
-                            if (_hit.collider.tag == "NPC")
+                            if (!InteractionManager.instance.ReturnHoveringOverUI())
                             {
-                                if(_previousNPC != null)
+                                if (_hit.collider.tag == "NPC")
                                 {
-                                    _previousNPC.GetComponent<NPC.NpcSystem>().IsSelected(false);
-                                    _previousNPC = null;
+                                    if (_previousNPC != null)
+                                    {
+                                        _previousNPC.GetComponent<NPC.NpcSystem>().IsSelected(false);
+                                        _previousNPC = null;
+                                    }
+                                    _selectedNPC = _hit.collider.gameObject;
+
+                                    // Set the NPC selected to "Selected" in its NPC Class
+                                    _selectedNPC.GetComponentInChildren<NPC.NpcSystem>().IsSelected(true);
+                                    _selectedNPC.gameObject.GetComponentInChildren<NPC.NpcSystem>().SetInteraction(true);
+
+                                    InteractionManager.instance.SetSelected(_selectedNPC);
+
+                                    _previousNPC = _selectedNPC;
+
                                 }
-                                _selectedNPC = _hit.collider.gameObject;
+                                if (_hit.collider.tag == "EnemyMelee")
+                                {
+                                    if (!_hit.collider.gameObject.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLootable())
+                                    {
+                                        _selectedActor = _hit.collider.gameObject;
+                                        InteractionManager.instance.SetSelected(_selectedActor);
+                                        _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(true);
+                                    }
+                                    else
+                                    {
+                                        _selectedActor = _hit.collider.gameObject;
+                                        if (_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable() != string.Empty)
+                                        {
+                                            Inventory.instance.ShowLootWindow(_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>());
+                                        }
+                                    }
+                                }
 
-                                // Set the NPC selected to "Selected" in its NPC Class
-                                _selectedNPC.GetComponentInChildren<NPC.NpcSystem>().IsSelected(true);
-                                _selectedNPC.gameObject.GetComponentInChildren<NPC.NpcSystem>().SetInteraction(true);
 
-                                InteractionManager.instance.SetSelected(_selectedNPC);
+                                if (!Inventory.instance.ReturnShowLootWindow())
+                                {
+                                    if (_hit.collider.tag != "NPC" && _hit.collider.tag != "EnemyMelee")
+                                    {
+                                        InteractionManager.instance.SetSelected(null);
+                                        if (_selectedActor != null)
+                                        {
 
-                                _previousNPC = _selectedNPC;
+                                            if (_selectedActor.tag == "EnemyMelee")
+                                            {
+                                                _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(false);
+                                            }
+                                        }
 
-                            }
-                            if (_hit.collider.tag == "EnemyMelee")
-                            {
-                                _selectedActor = _hit.collider.gameObject;
-                                InteractionManager.instance.SetSelected(_selectedActor);
-                                _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(true);
+                                        if (_selectedNPC != null)
+                                        {
+                                            _selectedNPC.GetComponent<NPC.NpcSystem>().IsSelected(false);
+                                        }
+
+                                        _selectedActor = null;
+                                        _selectedNPC = null;
+                                    }
+                                }
                             }
                         }
                     }
 
                     if (Input.GetMouseButtonDown(0))
                     {
-
-                        if (_hit.collider.tag != "NPC" && _hit.collider.tag != "EnemyMelee")
+                        
+                    }
+                    if(Input.GetMouseButtonDown(1))
+                    {
+                        if (_isBlink)
                         {
-                            InteractionManager.instance.SetSelected(null);
-                            if (_selectedActor != null)
+                            _isBlink = !_isBlink;
+                            if (_blinkMarker != null)
                             {
-                                if (_selectedActor.tag == "EnemyMelee")
-                                {
-                                    _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(false);
-                                }
-
+                                DestroyImmediate(_blinkMarker);
                             }
-
-                            if (_selectedNPC != null)
-                            {
-                                _selectedNPC.GetComponent<NPC.NpcSystem>().IsSelected(false);
-                            }
-
-                            _selectedActor = null;
-                            _selectedNPC = null;
-
-
                         }
                     }
                 }
@@ -478,15 +690,16 @@ namespace CombatSystem
                             // Destroy the spell gameobject
                             Destroy(coll.gameObject);
 
-  
+                            // Play a sound
+                            SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
 
                             // Set _hasTakeDamage = true 
                             _hasTakenDamage = true;
 
                             // If the player is not in Combat, set the player in combat
-                            if(!_isInCombat)
+                            if(!STATE_INCOMBAT)
                             {
-                                _isInCombat = true;
+                                STATE_INCOMBAT = true;
                                 Combat.InitiateCombat();
                             }
 
@@ -504,8 +717,9 @@ namespace CombatSystem
             {
                 if (!_hasTakenDamage)
                 {
-                    _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyCombatSystem>().ReturnEnemyDamage();
+                    _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage();
                     InteractionManager.instance.SetPlayerHealth(_playerHealth);
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
 
                     // Set _takeDamage to true so the player is immune for <seconds>
 
@@ -649,12 +863,8 @@ namespace CombatSystem
 
         public void PlayerSpellCast()
         {
-            Combat.CastSpell(this.transform.position);
-            _isCastingSpell = false;
-            _spellcastComplete = false;
-
-            InteractionManager.instance.SetPlayerMana(_playerMana);
-
+            StartCoroutine(WaitForSpellAnimation(0.7f));
+            
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -691,6 +901,7 @@ namespace CombatSystem
             }
 
             InteractionManager.instance.SetPlayerMana(_playerMana);
+            SoundManager.instance.PlaySound(SOUNDS.HEALING, transform.position, true);
         }
         
         // Return the players GameObject
@@ -736,15 +947,23 @@ namespace CombatSystem
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                  SetPlayerInCombat(bool _set)                                            //
         //                                                                                                          //
-        //  Set _isInCombat to _set                                                                                 //
+        //  Set STATE_INCOMBAT to _set                                                                                 //
         //      Call the InteractionManager and display the Player in Combat                                        //
         //                                                                                                          //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void SetPlayerInCombat(bool _set)
         {
-            _isInCombat = _set;
-            InteractionManager.instance.DisplayPlayerInCombat(_set, _playerHealth);
+            STATE_INCOMBAT = _set;
+            
+            if(_set)
+            {
+                STATE_IDLE = false;
+                CombatSystem.AnimationSystem.StopPlayerIdle();
+                CombatSystem.AnimationSystem.SetCombatIdle();
+                InteractionManager.instance.DisplayPlayerInCombat(_set, _playerHealth);
+            }
+            
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -879,8 +1098,10 @@ namespace CombatSystem
 
                         GameObject _blinkedParticles = Instantiate(Resources.Load("PlayerSpells/Ability/PlayerBlinked_Sparkles"), _hit.point, Quaternion.identity) as GameObject;
                         _blinkedParticles.GetComponent<ParticleSystem>().Play();
-                        transform.position = new Vector3(_hit.point.x, _hit.point.y + 1, _hit.point.z);
+                        transform.position = new Vector3(_hit.point.x, _hit.point.y, _hit.point.z);
                         _isBlink = false;
+
+                        SoundManager.instance.PlaySound(SOUNDS.PLAYERBLINK, transform.position, true);
                         
                         CombatSystem.CameraController.CameraShake(2, 0.5f);
 
@@ -899,26 +1120,26 @@ namespace CombatSystem
             }
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////
-        //                                      CompletedQuest                              //
-        //                                                                                  //
-        //  If the player has finished a quest                                              //
-        //  If the current exp + the exp reward is less than the exp required               //
-        //          Simply add the exp reward to the current player exp                     //
-        //                                                                                  //
-        //  if the current exp + the exp reward is greater or equal than the exp required   //
-        //          The new exp is the exp required - current exp - quest exp reward        //
-        //          If the new exp is less than 0 simply invert it                          //
-        //          Add 1 to the _playerLevel ( current Level of the player )               //
-        //          Level up to the database to save the data                               //
-        //          Tell the InteractionManager that there is a level up                    //
-        //                  Visual Feedback ( particles )                                   //
-        //          Tell the SoundSystem that there is a level up                           //
-        //                  Auditory Feedback                                               //
-        //                                                                                  //
-        //  Regardless of Level up or not, fill the exp bar                                 //
-        //                                                                                  //
-        //////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                              CompletedQuest                                              //
+        //                                                                                                          //
+        //  If the player has finished a quest                                                                      //
+        //  If the current exp + the exp reward is less than the exp required                                       //
+        //          Simply add the exp reward to the current player exp                                             //
+        //                                                                                                          //
+        //  if the current exp + the exp reward is greater or equal than the exp required                           //
+        //          The new exp is the exp required - current exp - quest exp reward                                //
+        //          If the new exp is less than 0 simply invert it                                                  //
+        //          Add 1 to the _playerLevel ( current Level of the player )                                       //
+        //          Level up to the database to save the data                                                       //
+        //          Tell the InteractionManager that there is a level up                                            //
+        //                  Visual Feedback ( particles )                                                           //
+        //          Tell the SoundSystem that there is a level up                                                   //
+        //                  Auditory Feedback                                                                       //
+        //                                                                                                          //
+        //  Regardless of Level up or not, fill the exp bar                                                         //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void CompletedQuest()
         {
@@ -942,26 +1163,82 @@ namespace CombatSystem
                 _experienceRequired *= _expMultiplier;
 
                 InteractionManager.instance.LevelUp(transform.position, this.gameObject);
+                SoundManager.instance.PlaySound(SOUNDS.LEVELUP, transform.position, true);
 
             }
 
             InteractionManager.instance.FillExperienceBar();
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                       ReturnPlayerPosition()                                             //
+        //                                                                                                          //
+        //  Return the player position ( Vector 3 )                                                                 //
+        //      For example for the VFX of spells                                                                   //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////s
+
         public Vector3 ReturnPlayerPosition()
         {
             return transform.position;
-        }
-        
-        public Quaternion ReturnRotation()
-        {
-            return transform.localRotation;
         }
 
         public void HoverOverUI(bool _set)
         {
             _isOverUI = _set;
         }
+
+        IEnumerator WaitForSpellAnimation(float _time)
+        {
+            yield return new WaitForSeconds(_time);
+            Combat.CastSpell(this.transform.position);
+            _isCastingSpell = false;
+            _spellcastComplete = false;
+
+            InteractionManager.instance.SetPlayerMana(_playerMana);
+            SoundManager.instance.PlaySound(SOUNDS.PLAYERSPELLCAST, transform.position, true);
+            
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                              Conversation Mode                                           //
+        //                                                                                                          //
+        //  When talkin to an NPC we go in to Conversation Mode                                                     //
+        //  Every NPC has his own camera which will be turned on to create a more storytelling POV                  //
+        //                                                                                                          //
+        //      SwitchOnPlayerCamera(bool _set)                                                                     //
+        //          Turn off the Player Camera                                                                      //
+        //                                                                                                          //
+        //      SetInputBlock(bool _set)                                                                            //
+        //          Turn off the Player Input so the player cant accidentally move the player character             //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public void SwitchOnPlayerCamera(bool _set)
+        {
+            GetComponentInChildren<Camera>().enabled = _set;
+
+        }
         
+        public void SetInputBlock(bool set)
+        {
+            INPUT_BLOCK = set;
+        }
+
+        public void SetHandSpellCastinVFX(bool _set)
+        {
+            if(_set)
+            {
+                GetComponentInChildren<ParticleSystem>().Play();
+            }
+            if(!_set)
+            {
+                if(GetComponentInChildren<ParticleSystem>().isPlaying)
+                {
+                    GetComponentInChildren<ParticleSystem>().Stop();
+                }
+            }
+        }
+
     }
 }

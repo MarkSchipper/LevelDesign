@@ -14,14 +14,9 @@ namespace NPC
     public class NpcSystem : MonoBehaviour
     {
 
-        // Singleton
-        public static NpcSystem instance;
 
         [SerializeField] private int _npcID;
         [SerializeField] private string _npcName;
-        [SerializeField] private string _initialDialogue;
-        [SerializeField] private string _returnDialogue;
-        [SerializeField] private bool _isQuestGiver;
         [SerializeField] private bool _hasMetPlayer;
         [SerializeField] private float _patrolSpeed;
         [SerializeField] private bool STATE_IDLE;
@@ -48,20 +43,7 @@ namespace NPC
 
         private int _nodeID;
 
-        void OnAwake()
-        {
-            if(instance == null)
-            {
-                instance = this;
-            }
-
-            if(instance != null)
-            {
-                Destroy(this.gameObject);
-            }
-
-            DontDestroyOnLoad(this.gameObject);
-        }
+  
 
         // Use this for initialization
         void Start()
@@ -70,6 +52,8 @@ namespace NPC
             _characterController = GetComponent<CharacterController>();
 
             CheckForQuest();
+
+            SwitchOnNpcCamera(false);
 
         }
 
@@ -99,12 +83,11 @@ namespace NPC
             }
         }
 
-        public void SetData(int id, string name, string text1, string text2, ActorBehaviour behaviour, float patrol, string prefab)
+        public void SetData(int id, string name, ActorBehaviour behaviour, float patrol, string prefab)
         {
             _npcID = id;
             _npcName = name;
-            _initialDialogue = text1;
-            _returnDialogue = text2;
+            
 
             if (behaviour == ActorBehaviour.Idle)
             {
@@ -172,6 +155,7 @@ namespace NPC
                 if (_distanceTraveled >= 2f)
                 {
                     // Call the PlayFootstepSound in the SoundSystem Class
+                    NpcSoundSystem.PlayFootSteps(this.transform.position);
                     _distanceTraveled = 0.0f;
                 }
             }
@@ -276,7 +260,7 @@ namespace NPC
 
         public void UpdateQuestNPC(bool _set)
         {
-            _isQuestGiver = _set;
+
         }
 
         void CheckDistance()
@@ -292,6 +276,7 @@ namespace NPC
             }
             else
             {
+                
                 if (_initialBehaviour == ActorBehaviour.Idle)
                 {
                     STATE_IDLE = true;
@@ -314,49 +299,11 @@ namespace NPC
             {
                 if (_setInteraction)
                 {
-                    if (!_hasMetPlayer)
-                    {
-                        if (!_isQuestGiver)
-                        {
-                            Dialogue.DialogueManager.SetDialogue("", DialogueSystem.DialogueDatabase.GetInitialQuestionFromNPC(_npcID), false, _npcID, 0, this.gameObject);
-                            _nodeID = DialogueSystem.DialogueDatabase.GetNodeID(_npcID, 0);
 
-                            DialogueSystem.DialogueDatabase.GetAnswersByNode(_nodeID);
-                            Dialogue.DialogueManager.SetAnswers(DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[0], DialogueSystem.DialogueDatabase.ReturnAnswersByNode()[1]);
-
-
-                           // Dialogue.DialogueManager.SetDialogue("", _initialDialogue, false, _npcID, 0, this.gameObject);
-                        }
-                        if (_isQuestGiver)
-                        {
-                            Quest.QuestDatabase.GetQuestFromNpc(_npcID);
-                            
-                           // Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npcID, Quest.QuestDatabase.ReturnQuestID(), this.gameObject);
-                        }
-
-                        _setInteraction = false;
-
-                    }
-                    if (_hasMetPlayer)
-                    {
-                        if (!_isQuestGiver)
-                        {
-                            Dialogue.DialogueManager.SetDialogue("", _returnDialogue, false, _npcID, 0, this.gameObject);
-                        }
-                        if(_isQuestGiver)
-                        {
-                            if(Quest.QuestDatabase.CheckQuestCompleteNpc(_npcID))
-                            {
-                                Quest.QuestDatabase.GetQuestFromNpc(_npcID);
-                                Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestCompleteText(), true, _npcID, Quest.QuestDatabase.ReturnQuestID(), this.gameObject);
-                            }
-                            if(!Quest.QuestDatabase.CheckQuestCompleteNpc(_npcID))
-                            {
-                                Quest.QuestDatabase.GetQuestFromNpc(_npcID);
-                                Dialogue.DialogueManager.SetDialogue(Quest.QuestDatabase.ReturnQuestTitle(), Quest.QuestDatabase.ReturnQuestText(), true, _npcID, Quest.QuestDatabase.ReturnQuestID(), this.gameObject);
-                            }
-                        }
-                    }
+                    Dialogue.DialogueManager.InitiateDialogue(_npcID, false, this.gameObject);
+                    _setInteraction = false;
+                    IsSelected(false);
+                    
                 }
             }
         }
@@ -378,6 +325,23 @@ namespace NPC
                     Destroy(_hasQuestVFX);
                 }
             }
+        }
+
+        public void SwitchOnNpcCamera(bool set)
+        {
+            GetComponentInChildren<Camera>().enabled = set;
+            if (transform.parent.gameObject.GetComponentInChildren<Light>() != null)
+            {
+                transform.parent.gameObject.GetComponentInChildren<Light>().enabled = set;
+            }
+        }
+
+        IEnumerator StopConversation()
+        {
+            yield return new WaitForSeconds(4);
+            Dialogue.DialogueManager.CancelDialogue();
+            SwitchOnNpcCamera(false);
+            CombatSystem.PlayerController.instance.SetInputBlock(false);
         }
 
     }

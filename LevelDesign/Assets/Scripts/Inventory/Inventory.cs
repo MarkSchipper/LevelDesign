@@ -15,7 +15,12 @@ public class Inventory : MonoBehaviour {
     [SerializeField]
     public Texture2D _background;
 
+    private List<Item> _loot = new List<Item>();
+    private List<Item> _lootSlots = new List<Item>();
+
     private bool _showInventory;
+    private bool _showLootWindow;
+    private bool _loadedItemDatabase;
 
     private bool _showTooltip;
     private string _toolTip;
@@ -24,12 +29,16 @@ public class Inventory : MonoBehaviour {
     private Item _draggedItem;
 
     private bool _draggingInventory;
+    private bool _draggingLootWindow;
 
     private int _prevIndex;
 
     public GUISkin _skin;
 
-    
+    private string _enemyLootTable;
+    private EnemyCombat.EnemyBehaviour _enemyToLoot;
+
+    private bool _mouseOverLootWindow;
 
     // inventory positions
 
@@ -39,6 +48,22 @@ public class Inventory : MonoBehaviour {
     // Create a new Vector2 for the position
     private Vector2 _inventoryPos = new Vector2(600, 600);
 
+    private Vector2 _lootPos = new Vector2(214, 346);
+
+    public static Inventory instance;
+
+    void Awake()
+    {
+        if(instance != null)
+        {
+            Destroy(instance);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
     
     void Start()
     {
@@ -69,8 +94,15 @@ public class Inventory : MonoBehaviour {
             if(_showInventory)
             {                
                 LoadInventory();
+                if (CombatSystem.CameraController.ReturnFirstPerson())
+                {
+                    Cursor.visible = true;
+                }
             }
-            
+            else
+            {
+                SaveInventory();
+            }
         }
     }
 
@@ -103,9 +135,21 @@ public class Inventory : MonoBehaviour {
                 PlayerPrefs.SetFloat("InventoryPosY", _inventoryPos.y);
 
             }
+        }
+        if(_showLootWindow)
+        {
+            DrawLootWindow();
+
+            if (_draggingLootWindow)
+            {
+                _lootPos.x = Event.current.mousePosition.x;
+                _lootPos.y = Event.current.mousePosition.y;
+
+                PlayerPrefs.SetFloat("LootWindowPosX", _lootPos.x);
+                PlayerPrefs.SetFloat("LootWindowPosY", _lootPos.y);
+            }
 
         }
-        
     }
 
     void DrawInventory()
@@ -277,11 +321,11 @@ public class Inventory : MonoBehaviour {
         {
             if (_inventory[i]._itemName == null)
             {
-                for (int j = 0; j < _itemDB._itemList.Count; j++)
+                for (int j = 0; j < _itemDB.ReturnItemList().Count; j++)
                 {
-                    if(_itemDB._itemList[j]._itemID == _id)
+                    if(_itemDB.ReturnItemList()[j]._itemID == _id)
                     {
-                        _inventory[i] = _itemDB._itemList[j];
+                        _inventory[i] = _itemDB.ReturnItemList()[j];
                     }
                 }
 
@@ -320,11 +364,143 @@ public class Inventory : MonoBehaviour {
         {
             if (PlayerPrefs.GetInt("Inventory " + i) >= 0)
             {
-                if (PlayerPrefs.GetInt("Inventory " + i) == _itemDB._itemList[PlayerPrefs.GetInt("Inventory " + i)]._itemID)
+                if (PlayerPrefs.GetInt("Inventory " + i) == _itemDB.ReturnItemList()[PlayerPrefs.GetInt("Inventory " + i)]._itemID)
                 {
-                    _inventory[i] = _itemDB._itemList[PlayerPrefs.GetInt("Inventory " + i)];
+                    _inventory[i] = _itemDB.ReturnItemList()[PlayerPrefs.GetInt("Inventory " + i)];
                 }
             }
         }
+    }
+
+    public void DrawLootWindow()
+    {
+
+        if (_enemyToLoot.ReturnLootTypes().Count > 0)
+        {
+
+            Rect _lootRect = new Rect(_lootPos.x - 50, _lootPos.y - 100, 214, 346);
+            GUI.Box(_lootRect, "", _skin.GetStyle("LootWindow"));
+
+            if (!_loadedItemDatabase)
+            {
+                LootDatabase.GetLootTable(_enemyLootTable);
+                ItemDatabase.GetAllItems();
+                _loadedItemDatabase = true;
+            }
+
+            Rect _inventoryClose = new Rect(_lootPos.x + 105, _lootPos.y - 23, 16, 16);
+
+            
+
+            // If the Close button is pressed
+            // Close the Inventory and save the current inventory in the PlayerPrefs
+            if (GUI.Button(_inventoryClose, "", _skin.GetStyle("CloseInventory")))
+            {
+                _showLootWindow = !_showLootWindow;
+
+            }
+
+            for (int i = 0; i < _enemyToLoot.ReturnLootTypes().Count; i++)
+            {
+
+                Rect _slot = new Rect(_lootPos.x + 5, _lootPos.y - 15 + (i * 40), 110, 50);
+                Rect _lootSlot = new Rect(_lootPos.x + 20, _lootPos.y - 8 + (i * 40), 32, 32);
+                Rect _lootSlotText = new Rect(_lootPos.x + 50, _lootPos.y + (i * 50), 25, 25);
+
+                GUI.Box(_slot, "", _skin.GetStyle("LootSlot"));
+                if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Gold)
+                {
+                    GUI.Box(_lootSlotText, _enemyToLoot.ReturnLootValues()[i].ToString());
+                    GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/Gold") as Texture2D);
+                }
+
+
+
+                if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Items)
+                {
+
+                    if (Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.ReturnLootItemID()[i])) != null)
+                    {
+                        GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.ReturnLootItemID()[i])) as Texture2D);
+                    }
+                    else
+                    {
+                        GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/Quest Item") as Texture2D);
+                    }
+                }
+
+                if (_slot.Contains(Event.current.mousePosition))
+                {
+                    if (Event.current.isMouse && Event.current.type == EventType.mouseDown)
+                    {
+                        if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Gold)
+                        {
+                            CombatSystem.CombatDatabase.AddGold(CombatSystem.CombatDatabase.ReturnPlayerGold() + _enemyToLoot.ReturnLootValues()[i]);
+                            _enemyToLoot.RemoveFromLoot(LootTypes.Gold);
+
+                        }
+                        else
+                        {
+                            AddItem(ItemDatabase.ReturnItemID(_enemyToLoot.ReturnLootItemID()[i]));
+                            _enemyToLoot.RemoveFromLoot(LootTypes.Items, i);
+                        }
+                    }
+                }
+                else
+                {
+                }
+
+            }
+
+            if (_lootRect.Contains(Event.current.mousePosition))
+            {
+                _mouseOverLootWindow = true;
+
+                if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !_draggingLootWindow)
+                {
+                    _draggingLootWindow = true;
+                    // CombatSystem.PlayerMovement.SetDraggingUI(true);
+
+                }
+                if (Event.current.button == 0 && Event.current.type == EventType.mouseUp && _draggingLootWindow)
+                {
+                    _draggingLootWindow = false;
+                    //CombatSystem.PlayerMovement.SetDraggingUI(false);
+                }
+
+            }
+            else
+            {
+                _mouseOverLootWindow = false;
+            }
+        }
+        else
+        {
+            if(_enemyToLoot != null)
+            {
+                _enemyToLoot.DestroyEnemy();
+            }
+            _showLootWindow = false;
+        }
+    }
+
+    public void ShowLootWindow(EnemyCombat.EnemyBehaviour _enemy)
+    {
+        _showLootWindow = !_showLootWindow;
+       if(_showLootWindow)
+        {
+            _enemyToLoot = _enemy;
+        }
+       else
+        {
+            _loadedItemDatabase = false;
+            _enemyToLoot = null;
+        }
+        
+    }
+
+    public bool ReturnShowLootWindow()
+    {
+        return _showLootWindow;
     }
 }

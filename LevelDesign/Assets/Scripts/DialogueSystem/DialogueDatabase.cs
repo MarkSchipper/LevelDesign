@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 
 
-namespace DialogueSystem
+namespace Dialogue
 {
 
     public class DialogueDatabase : MonoBehaviour
@@ -28,6 +28,7 @@ namespace DialogueSystem
 
         private static string _question;
         private static List<string> _answers = new List<string>();
+        private static List<string> _titles = new List<string>();
         private static List<int> _previousNode = new List<int>();
         private static List<int> _nodeID = new List<int>();
 
@@ -59,14 +60,6 @@ namespace DialogueSystem
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            if (!_deletedDialogue)
-            {
-                string deleteQuery = String.Format("DELETE FROM Dialogue WHERE ConversationID = '" + _conversID + "'");
-                dbcmd.CommandText = deleteQuery;
-                dbcmd.ExecuteScalar();
-                _deletedDialogue = true;
-            }
-
             string sqlQuery = String.Format("INSERT INTO Dialogue (ConversationID, NodeID, NpcID, PreviousNode, Question, Answer, CorrectAnswer, Title, CanvasPosition, QuestID) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\")", _conversID, _nodeID, _npc, _node, _question, _answer, _type.ToString(), _title, pos.ToString(), _qID);
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
@@ -76,6 +69,26 @@ namespace DialogueSystem
             dbconn.Close();
             dbconn = null;
 
+
+
+        }
+
+        public static void DeletePreviousDialogue(int _conversID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string deleteQuery = String.Format("DELETE  FROM Dialogue WHERE ConversationID = '" + _conversID + "'");
+            dbcmd.CommandText = deleteQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
         }
 
         public static void GetDialogueByNPC(int _id)
@@ -107,7 +120,7 @@ namespace DialogueSystem
 
                 }
             }
-            
+
             reader.Close();
             reader = null;
             dbcmd.Dispose();
@@ -116,7 +129,7 @@ namespace DialogueSystem
             dbconn = null;
         }
 
-       
+
 
         public static string GetInitialQuestionFromNPC(int _id)
         {
@@ -133,7 +146,7 @@ namespace DialogueSystem
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
-            
+
             if (_tmp != null)
             {
                 return _tmp.ToString();
@@ -142,17 +155,17 @@ namespace DialogueSystem
             {
                 return string.Empty;
             }
-            
+
         }
 
-        public static int GetNodeID(int _id, int _node)
+        public static int GetNextNodeID(int _id, int _node)
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
             dbconn.Open(); //Open connection to the database.
             IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "SELECT NodeID FROM Dialogue WHERE NpcID = '" + _id + "' AND PreviousNode = '" + _node + "' AND Title = ''" ;
+            string sqlQuery = "SELECT NodeID FROM Dialogue WHERE NpcID = '" + _id + "' AND PreviousNode = '" + _node + "'";
             dbcmd.CommandText = sqlQuery;
             System.Object _tmp = dbcmd.ExecuteScalar();
 
@@ -161,7 +174,7 @@ namespace DialogueSystem
             dbconn.Close();
             dbconn = null;
 
-            if(_tmp != null)
+            if (_tmp != null)
             {
                 return int.Parse(_tmp.ToString());
             }
@@ -169,22 +182,24 @@ namespace DialogueSystem
             {
                 return -1;
             }
-
         }
 
-        public static void GetAnswersByNode(int _node)
+        public static List<int> ReturnNodeIDList()
         {
-            if(_answers.Count > 0)
-            {
-                _answers.Clear();
-            }
+            return _nodeID;
+        }
+
+        public static List<string> GetAnswersForQuestion(int _npcID, int _nodeID)
+        {
+            _answers.Clear();
+
 
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
             dbconn.Open(); //Open connection to the database.
             IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "SELECT Answer, NodeID FROM Dialogue WHERE PreviousNode = '" + _node + "'";
+            string sqlQuery = "SELECT Answer FROM Dialogue WHERE PreviousNode = '" + _nodeID + "' AND NpcID = '" + _npcID + "'";
             dbcmd.CommandText = sqlQuery;
             IDataReader reader = dbcmd.ExecuteReader();
 
@@ -193,10 +208,9 @@ namespace DialogueSystem
                 while (reader.Read())
                 {
                     _answers.Add(reader.GetString(0));
-                    _nodeID.Add(reader.GetInt32(1));
                 }
             }
-            
+
             reader.Close();
             reader = null;
             dbcmd.Dispose();
@@ -204,7 +218,78 @@ namespace DialogueSystem
             dbconn.Close();
             dbconn = null;
 
+            return _answers;
         }
+
+        public static List<int> GetNodeIDFromAnswer(int _npcID, int _node)
+        {
+            if (_nodeID.Count > 0)
+            {
+                _nodeID.Clear();
+            }
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT NodeID FROM Dialogue WHERE PreviousNode = '" + _node + "' AND NpcID = '" + _npcID + "'";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    _nodeID.Add(reader.GetInt32(0));
+                }
+            }
+
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+            return _nodeID;
+
+        }
+
+
+        public static List<string> GetTitleByNode(int _npcID, int _node)
+        {
+            if (_titles.Count > 0)
+            {
+                _titles.Clear();
+            }
+
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT Title FROM Dialogue WHERE PreviousNode = '" + _node + "' AND NpcID = '" + _npcID + "'";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+
+            if (reader != null)
+            {
+                while (reader.Read())
+                {
+                    _titles.Add(reader.GetString(0));
+                }
+            }
+
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+            return _titles;
+        }
+
+
 
         public static string GetFollowupQuestion(int _npc, int _node)
         {
@@ -214,7 +299,7 @@ namespace DialogueSystem
             dbconn = (IDbConnection)new SqliteConnection(conn);
             dbconn.Open(); //Open connection to the database.
             IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "SELECT Question FROM Dialogue WHERE NpcID = '" + _npc + "' AND Question != '' AND NodeID = '" + _node + "' AND Title != 'End'";
+            string sqlQuery = "SELECT Question FROM Dialogue WHERE NpcID = '" + _npc + "'  AND PreviousNode = '" + _node + "'";
             dbcmd.CommandText = sqlQuery;
             System.Object _tmp = dbcmd.ExecuteScalar();
 
@@ -231,17 +316,7 @@ namespace DialogueSystem
             {
                 return string.Empty;
             }
-        }
 
-
-        public static List<string> ReturnAnswersByNode()
-        {
-            return _answers;
-        }
-
-        public static List<int> ReturnNodeIdByNode()
-        {
-            return _nodeID;
         }
 
         public static void ResetDeletedDialogue()
@@ -263,11 +338,11 @@ namespace DialogueSystem
         {
             return _conversationIDList[_id];
         }
-         
+
         public static int ReturnPreviousNode(int _id)
         {
             return _previousNodeList[_id];
-        }    
+        }
 
         public static string ReturnQuestion(int _id)
         {
@@ -276,10 +351,10 @@ namespace DialogueSystem
 
         public static string ReturnSingleQuestion()
         {
-            
+
             return _question;
         }
-                
+
         public static string ReturnResponse(int _id)
         {
             return _answerList[_id];
@@ -293,6 +368,11 @@ namespace DialogueSystem
         public static string ReturnTitle(int _id)
         {
             return _titleList[_id];
+        }
+
+        public static string ReturnAnswer(int _id)
+        {
+            return _answerList[_id];
         }
 
         public static Vector2 ReturnCanvasPosition(int _id)
@@ -310,6 +390,7 @@ namespace DialogueSystem
             _answerList.Clear();
             _typeList.Clear();
             _titleList.Clear();
+            _nodeID.Clear();
         }
     }
 }

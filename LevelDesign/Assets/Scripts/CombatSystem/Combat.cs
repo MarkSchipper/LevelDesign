@@ -141,11 +141,11 @@ namespace CombatSystem
         {
             if (_selectedTarget != null)
             {
-                    Vector3 _playerAimVector = _selectedTarget.transform.position - _playerPos;
-                    _projectile = Instantiate(_spellPrefab, _playerPos, Quaternion.identity) as GameObject;
+                    Vector3 _playerAimVector = new Vector3(_selectedTarget.transform.position.x, _selectedTarget.transform.position.y+ 1f, _selectedTarget.transform.position.z) - new Vector3(_playerPos.x, _playerPos.y + 1f, _playerPos.z);
+                    _projectile = Instantiate(_spellPrefab, new Vector3(_playerPos.x, _playerPos.y + 2f, _playerPos.z), Quaternion.identity) as GameObject;
 
                     _projectile.transform.LookAt(_selectedTarget.transform);
-                    _projectile.GetComponent<Rigidbody>().AddForce(_playerAimVector * 0.7f);
+                    _projectile.GetComponent<Rigidbody>().AddForce(new Vector3(_playerAimVector.x, _playerAimVector.y, _playerAimVector.z) * 1f);
                     _projectile.AddComponent<SpellObject>();
                     _projectile.GetComponent<SpellObject>().SetFromPlayer(true);
                     _projectile.GetComponent<SpellObject>().SetDamage(_spellValue);

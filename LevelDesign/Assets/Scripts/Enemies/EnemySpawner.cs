@@ -51,7 +51,8 @@ namespace EnemyCombat
         private GameObject _deathParticles;
         private GameObject _hitParticles;
         private GameObject _specialAttack;
-        
+
+        private string _lootTable;
 
 
         void OnEnable()
@@ -72,7 +73,7 @@ namespace EnemyCombat
 
         }
 
-        public void SetData(int _gameID, int _id, string _name, int _health, int _mana, float _dmg, float _attackRange, EnemyType _type, float _cooldown, string _death, string _hit, string _rangedSpell, string _prefab, float _range, EnemyMovement _movement)
+        public void SetData(int _gameID, int _id, string _name, int _health, int _mana, float _dmg, float _attackRange, EnemyType _type, float _cooldown, string _death, string _hit, string _rangedSpell, string _prefab, float _range, EnemyMovement _movement, string _table)
         {
             _enemyGameID = _gameID;
             _enemyID = _id;
@@ -89,6 +90,7 @@ namespace EnemyCombat
             _enemyPrefab = _prefab;
             _enemyAggroRange = _range;
             _enemyMovement = _movement;
+            _lootTable = _table;
         }
 
         void OnTriggerEnter(Collider coll)
@@ -148,36 +150,10 @@ namespace EnemyCombat
                 _enemy.GetComponent<CharacterController>().center = new Vector3(0, 2, 0);
 
                 // Add the EnemyCombatSystem class to the enemy
-                _enemy.AddComponent<EnemyCombat.EnemyCombatSystem>();
-                EnemyCombat.EnemyCombatSystem _ecs = _enemy.GetComponent<EnemyCombat.EnemyCombatSystem>();
+                _enemy.AddComponent<EnemyCombat.EnemyBehaviour>();
+                EnemyCombat.EnemyBehaviour _ecs = _enemy.GetComponent<EnemyCombat.EnemyBehaviour>();
 
-                // Set the GameID 
-                _ecs.SetGameID(_enemyGameID);
-
-                // Set the ID from the Database so we can fetch all the data
-                _ecs.SetEnemyID(_enemyID);
-
-                // Set the Name
-                _ecs.SetEnemyName(_enemyName);
-
-                // Set the Health and mana
-                _ecs.SetEnemyStats(_enemyHealth, _enemyMana, _enemyDamage, _enemyAttackRange, _enemyType);
-
-                _ecs.SetCooldown(_enemyCooldown);
-
-                _ecs.SetFeedback(_enemyDeathFeedback, _enemyHitFeedback);
-
-                if (_enemyType == EnemyType.Ranged)
-                {
-                    _ecs.SetRangedSpell(_enemyRangedSpell);
-                    //_enemy.GetComponent<EnemyCombat.EnemyCombatSystem>().SetSpecialAttack(EnemyDatabase.ReturnRangedSpecial(_editSelectIndex).ToString());
-                }
-
-                if (_enemyType == EnemyType.Melee)
-                {
-                    //_enemy.GetComponent<EnemyCombat.EnemyCombatSystem>().SetSpecialAttack(EnemyDatabase.ReturnMeleeSpecial(_editSelectIndex).ToString());
-                }
-
+                _ecs.SetEnemyStats(_enemyGameID, _enemyID, _enemyName, _enemyHealth, _enemyMana, _enemyDamage, _enemyAttackRange, _enemyType, _enemyDeathFeedback, _enemyHitFeedback, _enemyMovement, _enemyRangedSpell, _enemyCooldown, _lootTable);
 
                 // Create a seperate GameObject for the AggroRange
                 GameObject _enemyAggro = new GameObject();
@@ -228,6 +204,7 @@ namespace EnemyCombat
         IEnumerator EnemySpawnDelay()
         {
             yield return new WaitForSeconds(0.66f);
+            CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYSPAWN, this.transform.position, true);
             CombatSystem.CameraController.CameraShake(8, 1.5f);
             SpawnEnemy();
         }

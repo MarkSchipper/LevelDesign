@@ -21,10 +21,11 @@ namespace EnemyCombat
         // Singleton
         public static EnemyBehaviour instance = null;
 
-        
-        private bool _isPatrol      = false;
-        private bool _isIdle        = false;
-        private bool _isAttacking   = false;
+        private bool STATE_PATROL   = false;
+        private bool STATE_IDLE     = false;
+        private bool STATE_ATTACK   = false;
+        private bool STATE_ALIVE    = true;
+        private bool STATE_LOOTABLE = false;
         private bool _isSelected    = false;
         private bool _isInRange     = false;
         private bool _isChargeSound = false;
@@ -33,7 +34,6 @@ namespace EnemyCombat
         private bool _spawnOnce     = false;
         
 
-        [SerializeField] private bool _isAlive       = true;
         [SerializeField] private int _gameID;
         [SerializeField] private int _enemyID;
         [SerializeField] private string _enemyName;
@@ -50,6 +50,7 @@ namespace EnemyCombat
         [SerializeField] private string _enemyRangedSpell;
         [SerializeField] private EnemyMovement _enemyMovement;
         [SerializeField] private float _maxLeashDistance;
+        [SerializeField] private string _lootTable;
 
         private EnemyAnimationSystem _animationSystem;
         private CharacterController _characterController;
@@ -73,20 +74,15 @@ namespace EnemyCombat
         private GameObject _deathParticles;
         private GameObject _hitParticles;
         private GameObject _enemySelected;
+        private GameObject _lootVFX;
+
+        private LootGenerator _lootGenerator;
 
         private float _cooldownTimer;
 
         void OnAwake()
         {
-            if(instance == null)
-            {
-                instance = this;
-            }
-            if(instance != null)
-            {
-                Destroy(gameObject);
-            }
-            DontDestroyOnLoad(gameObject);
+           
         }
 
         // Use this for initialization
@@ -102,9 +98,9 @@ namespace EnemyCombat
             //                                  ENEMY MOVEMENT                              //
             //                                                                              //
             // Check the movement of the enemy:                                             //
-            // If the movement is 'Idle' set _isIdle to true which triggers the idle anim   //
+            // If the movement is 'Idle' set STATE_IDLE to true which triggers the idle anim   //
             // If the movement is 'Patrol'                                                  //
-            //      _isPatrol is true                                                       //
+            //      STATE_PATROL is true                                                       //
             //      Find all the "waypoints" associated with the enemy name                 //
             //      Add it to the _waypoints List<>                                         //
             //                                                                              //
@@ -112,7 +108,7 @@ namespace EnemyCombat
 
             if (_enemyMovement == EnemyMovement.Patrol)
             {
-                _isPatrol = true;
+                STATE_PATROL = true;
                 for (int i = 0; i < EnemyDatabase.ReturnWaypoints(_enemyID); i++)
                 {
                     _waypoints.Add(GameObject.Find(_enemyName + "_" + _gameID + "_WAYPOINT_" + i));
@@ -121,7 +117,7 @@ namespace EnemyCombat
             }
             if (EnemyDatabase.ReturnMovement(_enemyID) == EnemyMovement.Idle)
             {
-                _isIdle = true;
+                STATE_IDLE = true;
             }
 
             #region RESOURCE LOADING
@@ -152,7 +148,7 @@ namespace EnemyCombat
             //////////////////////////////////////////////////////////////////////////////////////
             //                                      STATE MACHINE                               //
             //                                                                                  //
-            //  First check to see if the enemy is alive ( _isAlive )                           //
+            //  First check to see if the enemy is alive ( STATE_ALIVE )                           //
             //  Check to see if the enemy is NOT attacking                                      //
             //  Check the movement and fire the corresponding function                          //
             //                                                                                  //
@@ -164,15 +160,15 @@ namespace EnemyCombat
             //                                                                                  //
             //////////////////////////////////////////////////////////////////////////////////////
 
-            if (_isAlive)
+            if (STATE_ALIVE)
             {
-                if (!_isAttacking)
+                if (!STATE_ATTACK)
                 {
-                    if (_isPatrol)
+                    if (STATE_PATROL)
                     {
                         Patrol();
                     }
-                    if (_isIdle)
+                    if (STATE_IDLE)
                     {
                         Idle();
                     }
@@ -181,10 +177,10 @@ namespace EnemyCombat
                         MoveEnemyBack();
                     }
                 }
-                if (_isAttacking)
+                if (STATE_ATTACK)
                 {
 
-                    EnemyLeash(_targetToAttack);
+                    //EnemyLeash(_targetToAttack);
 
                     if(_isInRange)
                     {
@@ -193,15 +189,16 @@ namespace EnemyCombat
                     if(!_isInRange)
                     {
                         MoveToAttack(_targetToAttack.transform.position);
+                        
                     }
                 }
             }
             if(_enemyHealth < 1)
             {
-                _isAlive = false;
-                _isAttacking = false;
-                _isPatrol = false;
-                _isIdle = false;
+                STATE_ALIVE = false;
+                STATE_ATTACK = false;
+                STATE_PATROL = false;
+                STATE_IDLE = false;
                 _isSelected = false;
                 _animationSystem.SetEnemyDeath();
                 EnemyDeath();
@@ -212,13 +209,13 @@ namespace EnemyCombat
         {
             if (coll.tag == "PlayerRangedSpell")
             {
-                if (_isAlive)
+                if (STATE_ALIVE)
                 {
                     _enemyHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
                     CombatSystem.InteractionManager.instance.SetEnemyHealth(_enemyHealth);
                     CombatSystem.InteractionManager.instance.DisplayDamageDoneToEnemy((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
 
-                    GameObject _tmp = Instantiate(_hitParticles, transform.position, Quaternion.identity);
+                    GameObject _tmp = Instantiate(_hitParticles, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z), Quaternion.identity);
 
                     _targetToAttack = coll.GetComponent<SpellObject>().ReturnSpellCaster();
 
@@ -227,10 +224,11 @@ namespace EnemyCombat
                     Destroy(_tmp, 1f);
                     Destroy(coll.gameObject);
                     
-                    _isAttacking = true;
+                    STATE_ATTACK = true;
 
-
-                    _targetToAttack.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                    CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT);
+                    CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYHIT, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), true);
+                    CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
                     CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
                 }
             }
@@ -293,7 +291,7 @@ namespace EnemyCombat
         //                                                                                                      //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void SetEnemyStats(int _ingameID, int _id, int _health, int _mana, float _damage, float _range, EnemyType _type, string _death, string _hit, EnemyMovement _movement, string _spell)
+        public void SetEnemyStats(int _ingameID, int _id, int _health, int _mana, float _damage, float _range, EnemyType _type, string _death, string _hit, EnemyMovement _movement, string _spell, string _table)
         {
             _gameID = _ingameID;
             _enemyID = _id;
@@ -307,7 +305,27 @@ namespace EnemyCombat
             _hitFeedback = _hit;
             _enemyMovement = _movement;
             _enemyRangedSpell = _spell;
+            _lootTable = _table;
+        }
 
+        // Overloading the SetEnemyStats with the EnemyName
+        public void SetEnemyStats(int _ingameID, int _id, string _name, int _health, int _mana, float _damage, float _range, EnemyType _type, string _death, string _hit, EnemyMovement _movement, string _spell, float _cd, string _table)
+        {
+            _gameID = _ingameID;
+            _enemyID = _id;
+            _enemyName = _name;
+            _enemyHealth = _health;
+            _enemyMana = _mana;
+            _enemyDamage = _damage;
+            _enemyMaxHealth = _health;
+            _attackRange = _range;
+            _enemyType = _type;
+            _deathFeedback = _death;
+            _hitFeedback = _hit;
+            _enemyMovement = _movement;
+            _enemyRangedSpell = _spell;
+            _cooldown = _cd;
+            _lootTable = _table;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -414,7 +432,7 @@ namespace EnemyCombat
                     _animationSystem.SetEnemyRunning();
                     if (!_isChargeSound)
                     {
-
+                        CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYCHARGE, transform.position, true);
                         _isChargeSound = true;
                     }
 
@@ -483,7 +501,6 @@ namespace EnemyCombat
                     if (_enemyType == EnemyType.Ranged)
                     {
                         _animationSystem.SetRangedAttackPlayer();
-                        _animationSystem.SetEnemyCombatIdle();
 
                         StartCoroutine(WaitToFireRangedSpell());
 
@@ -552,9 +569,9 @@ namespace EnemyCombat
 
         public void SetAttack(bool _set, GameObject _target)
         {
-            _isAttacking = _set;
+            STATE_ATTACK = _set;
             _targetToAttack = _target;
-            _isPatrol = !_set;
+            STATE_PATROL = !_set;
 
         }
 
@@ -566,7 +583,7 @@ namespace EnemyCombat
         //  If the Distance between the starting position ( _leashStart ) and its current position is greater   //
         //  _leashStart is defined by the EnemyTrigger script, when the player enters the aggro range           //
         //      than the maximum distance allowed( _maxLeashDistance )                                          //
-        //  Set the enemy out of combat _isAttacking = false                                                    //
+        //  Set the enemy out of combat STATE_ATTACK = false                                                    //
         //  Set _leashingBack to true, to prevent retriggering the enemy                                        //
         //  Set the _currentWaypoint to 0, the first waypoint in the list                                       //
         //                                                                                                      //
@@ -576,7 +593,7 @@ namespace EnemyCombat
         {
             if(Vector3.Distance(transform.position, _leashStart) > _maxLeashDistance)
             {
-                _isAttacking = false;
+                STATE_ATTACK = false;
                 _leashingBack = true;
                 _currentWayPoint = 0;
             }
@@ -589,7 +606,7 @@ namespace EnemyCombat
         //      Move the enemy back to the first waypoint in the list                                           //
         //  If the distance between the enemy and the waypoint is smaller than 0.5f                             //
         //      Set _leashingBack to false to stop the enemy from moving back                                   //
-        //      Set _isPatrol to true to force the patrol behaviour                                             //
+        //      Set STATE_PATROL to true to force the patrol behaviour                                             //
         //      Stop the Enemy Running animation                                                                //
         //      Play the Walking animation                                                                      //
         //      Update the _currentWaypoint                                                                     //
@@ -616,7 +633,7 @@ namespace EnemyCombat
             if (_dir.magnitude <= 0.5f)
             {
                 _leashingBack = false;
-                _isPatrol = true;
+                STATE_PATROL = true;
                 _animationSystem.StopEnemyRunning();
                 _animationSystem.SetEnemyWalking(true);
                 _currentWayPoint++;
@@ -679,7 +696,7 @@ namespace EnemyCombat
 
         public bool ReturnIsAlive()
         {
-            return _isAlive;
+            return STATE_ALIVE;
         }
 
         public float ReturnHealth()
@@ -695,6 +712,78 @@ namespace EnemyCombat
         public float ReturnMana()
         {
             return _enemyMana;
+        }
+
+        public float ReturnDamage()
+        {
+            return _enemyDamage;
+        }
+
+        public string ReturnName()
+        {
+            return _enemyName;
+        }
+
+        public float ReturnCooldown()
+        {
+            return _cooldown;
+        }
+
+        public float ReturnAttackRange()
+        {
+            return _attackRange;
+        }
+
+        public EnemyType ReturnType()
+        {
+            return _enemyType;
+        }
+
+        public EnemyMovement ReturnMovement()
+        {
+            return _enemyMovement;
+        }
+
+        public int ReturnWayPointAmount()
+        {
+            return _waypoints.Count;
+        }
+
+        public string ReturnDeathFeedback()
+        {
+            return _deathFeedback;
+        }
+
+        public string ReturnHitFeedback()
+        {
+            return _hitFeedback;
+        }
+
+        public int ReturnGameID()
+        {
+            return _gameID;
+        }
+
+        public int ReturnEnemyID()
+        {
+            return _enemyID;
+        }
+
+        public string ReturnEnemySpell()
+        {
+            return _enemyRangedSpell;
+        }
+
+        public string ReturnEnemyLootTable()
+        {
+
+            return _lootTable;
+            
+        }
+
+        public int ReturnWayPoints()
+        {
+            return EnemyDatabase.ReturnWaypoints(_enemyID);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -721,7 +810,7 @@ namespace EnemyCombat
 
         void EnemyDeath()
         {
-            Destroy(this.gameObject, 5f);
+            Destroy(this.gameObject, 120f);
             Destroy(_enemySelected, 5f);
 
             if (!_spawnOnce)
@@ -729,10 +818,20 @@ namespace EnemyCombat
                 GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
                 _tmp.GetComponent<ParticleSystem>().Play();
                 Destroy(_tmp, 5f);
+
+                _lootVFX = Instantiate(Resources.Load("VFX/Loot_VFX"), transform.position, Quaternion.identity) as GameObject;
+                _lootVFX.transform.Rotate(new Vector3(-90, 0, 0));
+                _lootVFX.GetComponent<ParticleSystem>().Play();
+
+                STATE_LOOTABLE = true;
+
+                _lootGenerator = new LootGenerator(_lootTable);
+
+                CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYDEATH, _targetToAttack.transform.position, true);
                 _spawnOnce = true;
             }
-            
 
+            
             CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
 
             Quest.QuestDatabase.GetAllQuests();
@@ -745,6 +844,12 @@ namespace EnemyCombat
                 Quest.QuestLog.UpdateLog();
             }
             
+        }
+
+        public void DestroyEnemy()
+        {
+            Destroy(_lootVFX);
+            Destroy(this.gameObject);
         }
 
         IEnumerator WaitToFireRangedSpell()
@@ -760,6 +865,36 @@ namespace EnemyCombat
             yield return new WaitForSeconds(0.5f);
             _animationSystem.CancelAttackBool();
 
+        }
+
+        public bool ReturnLootable()
+        {
+            return STATE_LOOTABLE;
+        }
+      
+        public List<LootTypes> ReturnLootTypes()
+        {
+            return _lootGenerator.ReturnLootType();
+        }
+
+        public List<int> ReturnLootValues()
+        {
+            return _lootGenerator.ReturnValueList();
+        }
+
+        public List<int> ReturnLootItemID()
+        {
+            return _lootGenerator.ReturnItemIDList();
+        }
+
+        public void RemoveFromLoot(LootTypes _gold)
+        {
+            _lootGenerator.DeleteEntry(LootTypes.Gold, _lootTable);
+        }
+
+        public void RemoveFromLoot(LootTypes _item, int _id)
+        {
+            _lootGenerator.DeleteEntry(LootTypes.Items, _id, _lootTable);
         }
 
     }

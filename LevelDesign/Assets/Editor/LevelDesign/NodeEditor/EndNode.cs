@@ -77,7 +77,9 @@ public class EndNode : BaseInputNode
 
     public override void SetPreviousNode(int _id)
     {
+        
         _previousNode = _id;
+        Debug.Log(_previousNode);
     }
 
     public override int ReturnPreviousNode()

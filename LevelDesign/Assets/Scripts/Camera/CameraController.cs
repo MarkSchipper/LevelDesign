@@ -77,13 +77,13 @@ namespace CombatSystem
 
         private bool _orbitCamera = false;
 
-        private float _startDot;
-
         private float vOrbitInput, hOrbitInput, zoomInput, hOrbitSnapInput;
 
-        private static bool _firstPerson = true;
+        private static bool _firstPerson = false;
         private float _rotateAngleX = 0f;
         private float _rotateAngleY = 0f;
+
+
 
         void Start()
         {
@@ -94,7 +94,6 @@ namespace CombatSystem
             collision.Initialize(Camera.main);
             collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
             collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
-            _startDot = Vector3.Dot(transform.position.normalized, PlayerController.instance.ReturnPlayerPosition().normalized);
         }
 
         void SetCameraTarget(Transform t)
@@ -114,7 +113,7 @@ namespace CombatSystem
                     hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
                     hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
                     Cursor.lockState = CursorLockMode.Locked;
-                    PlayerController.instance.RotatePlayer(hOrbitInput);
+                    PlayerController.instance.RotatePlayer(-hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime);
 
                 }
                 if (Input.GetMouseButtonUp(1))
@@ -129,8 +128,8 @@ namespace CombatSystem
             {
                 vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
                 hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
-                PlayerController.instance.RotatePlayer(hOrbitInput);
-                RotateCamera(vOrbitInput * -1, hOrbitInput);
+                PlayerController.instance.RotatePlayer(-hOrbitInput);
+                RotateCamera(vOrbitInput, -hOrbitInput);
                 Cursor.visible = false;
             }
         }
@@ -285,13 +284,14 @@ namespace CombatSystem
         {
             if (_orbitCamera)
             {
+                /*
                 if (hOrbitSnapInput > 0)
                 {
                     orbit.yRotation = -180;
                 }
-
+                */
                 orbit.xRotation += -vOrbitInput * orbit.vOrbitSmooth * Time.deltaTime;
-                orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
+                //orbit.yRotation += -hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime;
 
                 if (orbit.xRotation > orbit.maxXRotation)
                 {

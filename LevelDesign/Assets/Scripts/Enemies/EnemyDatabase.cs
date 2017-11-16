@@ -66,6 +66,7 @@ namespace EnemyCombat
         private static List<float> _enemyAttackRange = new List<float>();
         private static List<string> _enemyRangedSpell = new List<string>();
         private static List<EnemySpawn> _enemySpawn = new List<EnemySpawn>();
+        private static List<string> _enemyLootTable = new List<string>();
 
         public static void GetAllEnemies()
         {
@@ -169,7 +170,7 @@ namespace EnemyCombat
                 {
                     _enemySpawn.Add(EnemySpawn.Placement);
                 }
-
+                _enemyLootTable.Add(reader.GetString(17));
 
             }
             reader.Close();
@@ -180,7 +181,7 @@ namespace EnemyCombat
             dbconn = null;
         } 
 
-        public static void AddEnemy(string _name, int _health, int _mana, EnemyType _type, float _enemyDamage, float _cooldown ,string _special, string _prefab, EnemyMovement _enemyMovement, int _waypoints, int _aggroRange, string _death, string _hit, float _range, string _spell, EnemySpawn _spawn)
+        public static void AddEnemy(string _name, int _health, int _mana, EnemyType _type, float _enemyDamage, float _cooldown ,string _special, string _prefab, EnemyMovement _enemyMovement, int _waypoints, int _aggroRange, string _death, string _hit, float _range, string _spell, EnemySpawn _spawn, string _lootTable)
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/EnemyDB.db"; //Path to database.
             IDbConnection dbconn;
@@ -189,7 +190,7 @@ namespace EnemyCombat
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("INSERT INTO Enemies (EnemyName, EnemyType, EnemyDamage, EnemySpecial, EnemyHealth, EnemyMana, EnemyPrefab, EnemyBehaviour, EnemyWaypointsAmount, EnemyCooldown, EnemyAggroRange, EnemyDeathFeedback, EnemyHitFeedback, EnemyAttackRange, EnemyRangedSpell, EnemySpawn) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\", \"{10}\", \"{11}\", \"{12}\", \"{13}\", \"{14}\", \"{15}\")", _name, _type.ToString(), _enemyDamage, _special, _health, _mana, _prefab, _enemyMovement.ToString(), _waypoints, _cooldown, _aggroRange,_death, _hit, _range, _spell, _spawn.ToString());
+            string sqlQuery = String.Format("INSERT INTO Enemies (EnemyName, EnemyType, EnemyDamage, EnemySpecial, EnemyHealth, EnemyMana, EnemyPrefab, EnemyBehaviour, EnemyWaypointsAmount, EnemyCooldown, EnemyAggroRange, EnemyDeathFeedback, EnemyHitFeedback, EnemyAttackRange, EnemyRangedSpell, EnemySpawn, LootTable) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\", \"{10}\", \"{11}\", \"{12}\", \"{13}\", \"{14}\", \"{15}\", \"{16}\")", _name, _type.ToString(), _enemyDamage, _special, _health, _mana, _prefab, _enemyMovement.ToString(), _waypoints, _cooldown, _aggroRange,_death, _hit, _range, _spell, _spawn.ToString(), _lootTable);
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
 
@@ -300,9 +301,14 @@ namespace EnemyCombat
             return _enemySpawn[_id];
         }
 
+        public static string ReturnEnemyLootTable(int _id)
+        {
+            return _enemyLootTable[_id];
+        }
+
         // update
 
-        public static void UpdateEnemy(int _id, string _name, int _health, int _mana, EnemyType _type, float _enemyDamage, float _cooldown, string _special, string _prefab, EnemyMovement _enemyMovement, int _waypoints, string _death, string _hit, float _range, string _spell, EnemySpawn _spawn)
+        public static void UpdateEnemy(int _id, string _name, int _health, int _mana, EnemyType _type, float _enemyDamage, float _cooldown, string _special, string _prefab, EnemyMovement _enemyMovement, int _waypoints, string _death, string _hit, float _range, string _spell, EnemySpawn _spawn, string _lootTable)
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/EnemyDB.db"; //Path to database.
             IDbConnection dbconn;
@@ -311,7 +317,7 @@ namespace EnemyCombat
 
             IDbCommand dbcmd = dbconn.CreateCommand();
 
-            string sqlQuery = String.Format("UPDATE Enemies SET EnemyName = '" + _name + "', EnemyType = '" + _type.ToString() + "', EnemyDamage = '" + _enemyDamage + "', EnemySpecial = '" + _special + "', EnemyHealth = '" + _health + "', EnemyMana = '" + _mana + "', EnemyPrefab = '" + _prefab + "', EnemyBehaviour = '" + _enemyMovement + "', EnemyWaypointsAmount = '" + _waypoints + "', EnemyCooldown = '" + _cooldown + "', EnemyDeathFeedback = '" + _death + "', EnemyHitFeedback = '" + _hit + "', EnemyAttackRange = '" + _range + "', EnemyRangedSpell = '" + _spell + "', EnemySpawn = '" + _spawn + "' WHERE EnemyID = '" + _id + "'");
+            string sqlQuery = String.Format("UPDATE Enemies SET EnemyName = '" + _name + "', EnemyType = '" + _type.ToString() + "', EnemyDamage = '" + _enemyDamage + "', EnemySpecial = '" + _special + "', EnemyHealth = '" + _health + "', EnemyMana = '" + _mana + "', EnemyPrefab = '" + _prefab + "', EnemyBehaviour = '" + _enemyMovement + "', EnemyWaypointsAmount = '" + _waypoints + "', EnemyCooldown = '" + _cooldown + "', EnemyDeathFeedback = '" + _death + "', EnemyHitFeedback = '" + _hit + "', EnemyAttackRange = '" + _range + "', EnemyRangedSpell = '" + _spell + "', EnemySpawn = '" + _spawn + "', LootTable = '" + _lootTable + "' WHERE EnemyID = '" + _id + "'");
             dbcmd.CommandText = sqlQuery;
             dbcmd.ExecuteScalar();
 
@@ -385,6 +391,7 @@ namespace EnemyCombat
 
         public static void DeleteEnemy(int _id)
         {
+            Debug.Log("deleting " + _id);
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/EnemyDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);

@@ -284,6 +284,72 @@ namespace CombatSystem
             dbconn = null;
         }
 
+        public static void SavePlayerSettings(int _health, int _mana, float _run, float _walk, float _ranged, float _melee)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "UPDATE PlayerSettings SET PlayerHealth = '" + _health + "', PlayerMana = '" + _mana + "', RunSpeed = '" + _run + "', WalkSpeed = '" + _walk + "', RangedDistance = '" + _ranged + "', MeleeRange = '" + _melee + "' WHERE PlayerID = '1'";
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
+        public static void GetPlayerData()
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT * FROM PlayerStats WHERE PlayerID = '1'";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+            while (reader.Read())
+            {
+                _playerLevel = reader.GetInt32(1);
+                _playerExp = reader.GetInt32(2);
+                _playerGold = reader.GetInt32(3);
+                _expMultiplier = reader.GetInt32(4);
+                _dmgMultiplier = reader.GetInt32(5);
+                _healthMultiplier = reader.GetInt32(6);
+                _manaMultiplier = reader.GetInt32(7);
+                _healingMultiplier = reader.GetInt32(8);
+            }
+
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
+        public static void UpdatePlayerData(int _level, int _exp, int _gold, float _expM, float _dmgM, float _healthM, float _manaM, float _healingM)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("UPDATE PlayerStats SET PlayerLevel = '" + _level + "', PlayerExp = '" + _exp + "', PlayerGold = '" + _gold + "', ExpMultiplier = '" + _expM + "', DamageMultiplier = '" + _dmgM + "', HealthMultiplier = '" + _healthM + "', ManaMultiplier = '" + _manaM + "', HealingMultiplier = '" + _healingM + "' WHERE PlayerID = '1'");
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
+
         public static int ReturnPlayerHealth()
         {
             return _playerHealth;
@@ -437,5 +503,21 @@ namespace CombatSystem
             _ability.Clear();
             _spellCooldown.Clear();
     }
+
+        public static void AddGold(int _gold)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "UPDATE PlayerStats SET PlayerGold = '" + _gold + "' WHERE PlayerID = '1'";
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+        }
     }
 }
