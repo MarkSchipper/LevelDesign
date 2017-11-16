@@ -16,7 +16,7 @@ namespace Quest
         [SerializeField]
         private string _zoneDescription;
 
-        [HideInInspector]
+        //[HideInInspector]
         [SerializeField]
         private int _questID;
 
@@ -75,6 +75,7 @@ namespace Quest
         public void SetQuestID(int _id)
         {
             _questID = _id;
+
         }
     }
 }

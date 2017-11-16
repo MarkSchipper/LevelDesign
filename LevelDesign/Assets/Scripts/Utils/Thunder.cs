@@ -21,6 +21,8 @@ public class Thunder : MonoBehaviour {
         StartCoroutine(SetThunder(Random.Range(2, 10)));
 
         // Call the SoundSystem to start playing the Rain
+        CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.RAIN, Vector3.forward, true);
+        
 	}
 	
 	// Update is called once per frame
@@ -66,6 +68,9 @@ public class Thunder : MonoBehaviour {
         _setOnce = false;
 
         // Play the thunder sound
+        CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.THUNDER, Vector3.forward, true);
+        
+
         // _isThunder is true ( see Update )
         _isThunder = true;
     }

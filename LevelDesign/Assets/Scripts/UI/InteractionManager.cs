@@ -19,6 +19,7 @@ namespace CombatSystem
         private bool _showTooltip = false;
         private bool _isSpellCasting = false;
         private bool _showActorHUD = false;
+        private bool _hoveringOverUI = false;
 
         private float _spellCastTimer;
         private int _spellID;
@@ -59,6 +60,9 @@ namespace CombatSystem
 
         private bool _playSoundOnce = false;
 
+        private GameObject _spawnVFX;
+        private GameObject _spellCastVFX;
+
         private GUISkin _skin;
 
         void Awake()
@@ -84,7 +88,7 @@ namespace CombatSystem
             _cursorCombat = Resources.Load("Icons/Cursor/Cursor_Combat") as Texture2D;
             _cursorNPC = Resources.Load("Icons/Cursor/Cursor_NPC") as Texture2D;
             _icons = Resources.LoadAll<Texture2D>("PlayerSpells/SpellIcons");
-
+            _spawnVFX = Resources.Load("VFX/SpellCasting_VFX") as GameObject;
 
             // Call the Database to get all the spells and store them in their respective variables in the CombatDatabase Class for future use
             CombatSystem.CombatDatabase.GetAllSpells();
@@ -180,6 +184,9 @@ namespace CombatSystem
             {
                 if(!_playSoundOnce)
                 {
+                    
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERSPELLWARMUP, PlayerController.instance.ReturnPlayerPosition(), true);
+                    CombatSystem.AnimationSystem.SetRangedSpell();
                     _playSoundOnce = true;
                 }
                 if (_spellCastTimer < CombatDatabase.ReturnCastTime(_spellID))
@@ -187,17 +194,32 @@ namespace CombatSystem
                     DisplayCastBar(true);
                     FillCastBar(_spellCastTimer / CombatDatabase.ReturnCastTime(_spellID));
                     _spellCastTimer += Time.deltaTime;
+
+                    
+
                 }
                 if (_spellCastTimer >= CombatDatabase.ReturnCastTime(_spellID))
                 {
                     if (CombatDatabase.ReturnSpellType(_spellID) == SpellTypes.Damage)
                     {
                         PlayerController.instance.PlayerSpellCast();
+                        CombatSystem.AnimationSystem.CastRangedSpell();
+                        CombatSystem.AnimationSystem.SetCombatIdle();
+                        //CombatSystem.AnimationSystem.StopRangedSpell();
+                        if (_spellCastVFX != null)
+                        {
+                            Destroy(_spellCastVFX, 0.7f);
+                        }
+                        CombatSystem.PlayerController.instance.SetHandSpellCastinVFX(false);
+                        
                     }
                     else if (CombatDatabase.ReturnSpellType(_spellID) == SpellTypes.Healing)
                     {
                         PlayerController.instance.PlayerHealingSpellCast(CombatDatabase.ReturnSpellValue(_spellID));
+                        CombatSystem.AnimationSystem.CastHealingSpell();
+                        CombatSystem.AnimationSystem.SetCombatIdle();
                     }
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERSPELLWARMUP, PlayerController.instance.ReturnPlayerPosition(), false);
 
                     DisplayCastBar(false);
                     _isSpellCasting = false;
@@ -206,6 +228,16 @@ namespace CombatSystem
                 }
 
             }
+            if (CombatSystem.AnimationSystem.RangedSpellFinished())
+            {
+                CombatSystem.AnimationSystem.StopRangedSpell();
+            }
+
+            if(CombatSystem.AnimationSystem.HealingSpellFinished())
+            {
+                CombatSystem.AnimationSystem.StopHealingSpell();
+            }
+
             #endregion
 
 
@@ -217,7 +249,7 @@ namespace CombatSystem
             // If greater than or equal to the full CD, set the cooldownComplete to true                        //
             //                                                                                                  //
             //////////////////////////////////////////////////////////////////////////////////////////////////////
-            
+
             #region COOLDOWN CHECK
             for (int i = 0; i < _allCooldowns.Count; i++)
             {
@@ -269,6 +301,10 @@ namespace CombatSystem
                             {
                                 if (PlayerController.instance.IsPlayerFacingEnemy())
                                 {
+                                    _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
+                                    _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));
+
+                                    CombatSystem.PlayerController.instance.SetHandSpellCastinVFX(true);
                                     Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerController.instance.ReturnPlayerGameObject());
 
                                     _spellCastTimer = 0.0f;
@@ -319,12 +355,9 @@ namespace CombatSystem
                                 PlayerController.instance.Blink(CombatDatabase.ReturnBlinkRange(i));
                                 _spellCastTimer = 0.0f;
                                 _spellTimer[i] = 0.0f;
-                                _isSpellCasting = true;
                                 _spellID = i;
                                 _cooldownComplete[i] = false;
                             }
-
-                            break;
                         }
 
                         if (CombatDatabase.ReturnAbility(i) == Abilities.Disengage)
@@ -424,8 +457,13 @@ namespace CombatSystem
             int[] _uiCooldown = new int[_guiIcons.Count];
 
             // We create a MainRect to 'catch' the mouse and prevent moving the character when pressing a spell
-            Rect _mainRect = new Rect(Screen.width / 2 - (218 * (Screen.width / _devScreenSize.x)), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 500, 70);
+            Rect _mainRect = new Rect(Screen.width / 2 - (288 * (Screen.width / _devScreenSize.x)), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 500, 70);
             GUI.Box(_mainRect, "", _skin.GetStyle("SpellBox"));
+
+            if(_mainRect.Contains(Event.current.mousePosition))
+            {
+                _hoveringOverUI = true;
+            }
 
             for (int i = 0; i < _guiIcons.Count; i++)
             {
@@ -451,10 +489,10 @@ namespace CombatSystem
                 // 218 * 0.95 + 77 * 0.95 * 1
                 // The 77 is an Offset between each button over horizontal space
 
-                _spellRect[i] = new Rect(Screen.width / 2 - (218 * (Screen.width / _devScreenSize.x)) + ((77 * (Screen.width / _devScreenSize.x)) * i), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 58 * (Screen.width / _devScreenSize.x), 58 * (Screen.height / _devScreenSize.y));
+                _spellRect[i] = new Rect(Screen.width / 2 - (288 * (Screen.width / _devScreenSize.x)) + ((74.5f * (Screen.width / _devScreenSize.x)) * i), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 58 * (Screen.width / _devScreenSize.x), 58 * (Screen.height / _devScreenSize.y));
                 GUI.Box(_spellRect[i], _guiIcons[i], _skin.GetStyle("SpellBox"));
 
-                _cooldownRect[i] = new Rect(Screen.width / 2 - (218 * (Screen.width / _devScreenSize.x)) + ((77 * (Screen.width / _devScreenSize.x)) * i), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 58 * (Screen.width / _devScreenSize.x), 58 * (Screen.height / _devScreenSize.y));
+                _cooldownRect[i] = new Rect(Screen.width / 2 - (288 * (Screen.width / _devScreenSize.x)) + ((74.5f * (Screen.width / _devScreenSize.x)) * i), Screen.height - (154 * (Screen.height / _devScreenSize.y)), 58 * (Screen.width / _devScreenSize.x), 58 * (Screen.height / _devScreenSize.y));
 
                 if (_uiCooldown[i] > 0)
                 {
@@ -465,7 +503,6 @@ namespace CombatSystem
                 // If the mouse is in one of the rectangles
                 if (_spellRect[i].Contains(Event.current.mousePosition))
                 {
-                    
                     _toolTip = CreateToolTip(CombatDatabase.ReturnSpellDesc(i));
                     _showTooltip = true;
 
@@ -480,13 +517,14 @@ namespace CombatSystem
                                 // if its a damage spell
                                 if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Damage)
                                 {
-
-                                    // If the player can cast the spell == If the player has enough Mana
                                     if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
                                     {
-
                                         if (PlayerController.instance.IsPlayerFacingEnemy())
                                         {
+                                            _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
+                                            _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));
+
+                                            CombatSystem.PlayerController.instance.SetHandSpellCastinVFX(true);
                                             Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerController.instance.ReturnPlayerGameObject());
 
                                             _spellCastTimer = 0.0f;
@@ -499,42 +537,29 @@ namespace CombatSystem
                                         {
                                             Dialogue.DialogueManager.ShowMessage("YOU ARE NOT FACING YOUR TARGET", true);
                                         }
-
                                     }
-                                    /*
-                                    PlayerMovement.CastSpell(CombatDatabase.ReturnCastTime(i), _selectedActor, CombatDatabase.ReturnSpellManaCost(i));
-                                    _spellCastTimer = 0.0f;
-                                    _isSpellCasting = true;
-                                    _spellID = i;
-                                    if (PlayerMovement.ReturnCastSpell())
-                                    {
-                                        Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerMovement.ReturnPlayerGameObject());
-                                        _spellTimer[i] = 0.0f;
-                                        _cooldownComplete[i] = false;
-                                        break;
-                                    }
-                                    */
                                 }
                                 if (CombatDatabase.ReturnSpellType(i) == SpellTypes.AOE)
                                 {
                                     //PlayerMovement.ToggleAoE();
-                                    Combat.SetAOE(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellPrefab(i));
+                                    //Combat.SetAOE(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellPrefab(i));
                                     //PlayerMovement.CastAOE(CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellManaCost(i));
                                     break;
                                 }
 
-
-
                                 if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Healing)
                                 {
+
                                     if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
                                     {
                                         Combat.SetHealingSpell(CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i));
                                         _spellCastTimer = 0.0f;
+                                        _spellTimer[i] = 0.0f;
                                         _isSpellCasting = true;
                                         _spellID = i;
                                         _cooldownComplete[i] = false;
                                     }
+
                                 }
                                 if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Buff)
                                 {
@@ -550,12 +575,9 @@ namespace CombatSystem
                                         PlayerController.instance.Blink(CombatDatabase.ReturnBlinkRange(i));
                                         _spellCastTimer = 0.0f;
                                         _spellTimer[i] = 0.0f;
-                                        _isSpellCasting = true;
                                         _spellID = i;
                                         _cooldownComplete[i] = false;
                                     }
-
-                                    break;
                                 }
 
                                 if (CombatDatabase.ReturnAbility(i) == Abilities.Disengage)
@@ -742,6 +764,12 @@ namespace CombatSystem
             _tmp.transform.SetParent(_player.transform);
 
             Destroy(_tmp, 3f);
+        }
+
+
+        public bool ReturnHoveringOverUI()
+        {
+            return _hoveringOverUI;
         }
     }
 

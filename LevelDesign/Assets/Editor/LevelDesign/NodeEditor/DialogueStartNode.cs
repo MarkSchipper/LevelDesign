@@ -8,7 +8,7 @@ public class DialogueStartNode : BaseInputNode {
 
     private string _message = " Select In Game NPC here";
     private string _title = "";
-
+    private int _previousNode = -1;
     private int _conversationID;
 
     public DialogueStartNode()
@@ -17,7 +17,7 @@ public class DialogueStartNode : BaseInputNode {
         hasInputs = false;
         hasOutputs = true;
 
-        _conversationID = 1;
+        //_conversationID = 1;
     }
 
     public override void DrawWindow()
@@ -38,6 +38,11 @@ public class DialogueStartNode : BaseInputNode {
     public override void Tick(float deltaTime)
     {
         
+    }
+
+    public override void SetConversationID(int _id)
+    {
+        _conversationID = _id;
     }
 
     public override bool ReturnHasInputs()
@@ -70,5 +75,12 @@ public class DialogueStartNode : BaseInputNode {
     {
         return -1;
     }
+
+    public override int ReturnPreviousNode()
+    {
+        return _previousNode;
+    }
+
+
 
 }

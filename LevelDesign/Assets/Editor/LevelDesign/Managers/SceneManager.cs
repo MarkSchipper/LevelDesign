@@ -7,43 +7,65 @@ using UnityEditor;
 
 public class SceneManager : EditorWindow {
 
-    private GameObject _player;
-    private GameObject _sceneCanvas;
-    private GameObject _camSetup;
-    private GameObject _gameManager;
+    private static GameObject _player;
+    private static GameObject _sceneCanvas;
+    private static GameObject _camSetup;
+    private static GameObject _gameManager;
 
-    private GUISkin _skin;
+    private static GameObject[] _allEnemies;
+    private static GameObject[] _allNPC;
+    private static int _missingComponents = 0;
+    private static int _oldComponents = 0;
 
-    [MenuItem("Level Design/Managers/Scene Mananger")]
-      
-    static void ShowEditor()
+    private static List<string> _objectNames = new List<string>();
+
+    private static bool _checkedEverything;
+
+    public static void ShowNewScene()
     {
-        SceneManager _sceneManager = EditorWindow.GetWindow<SceneManager>();
-    }
-
-    void OnEnable()
-    {
-        _skin = Resources.Load("Skins/LevelDesign") as GUISkin;
-    }
-
-    void OnGUI()
-    {
-        GUI.skin = _skin;
-
-        GUILayout.Label("Welcome to the Scene Manager", EditorStyles.boldLabel);
-
         if(GUILayout.Button("Set up new Scene"))
         {
             NewScene();
         }
+        _checkedEverything = false;
     }
 
-    void NewScene()
+    public static void ShowUpdateScene()
+    {
+        if (!_checkedEverything)
+        {
+            CheckEverything();
+            _checkedEverything = true;
+        }
+        if(_missingComponents > 0)
+        {
+            GUILayout.Label(_missingComponents + " objects have an empty component");
+        }   
+        if(_oldComponents > 0)
+        {
+            GUILayout.Label(_oldComponents + " objects are outdated");
+        }
+
+        if(_missingComponents > 0 || _oldComponents > 0)
+        {
+            GUILayout.Space(10);
+            GUILayout.Label("Please check the following GameObjects - If it is an Enemy, re add it to the game", EditorStyles.boldLabel);
+            GUILayout.Space(15);
+            for (int i = 0; i < _objectNames.Count; i++)
+            {
+                GUILayout.Label(_objectNames[i]);
+
+            }
+        }
+        
+    }
+
+    static void NewScene()
     {
         DestroyImmediate(GameObject.FindGameObjectWithTag("MainCamera"));
 
-        _player = Instantiate(Resources.Load("Characters/PlayerCharacter") as GameObject);
-            _player.name = "PlayerCharacter";
+        _player = Instantiate(Resources.Load("Characters/FirstPerson") as GameObject);
+            _player.name = "FirstPerson";
         _sceneCanvas = Instantiate(Resources.Load("SceneEditor/Canvas") as GameObject);
             _sceneCanvas.name = "Canvas";
         _camSetup = Instantiate(Resources.Load("SceneEditor/Camera_Target") as GameObject);
@@ -51,5 +73,55 @@ public class SceneManager : EditorWindow {
         _gameManager = Instantiate(Resources.Load("SceneEditor/GameManager") as GameObject);
             _gameManager.name = "GameManager";
     }
+
+    static void CheckEverything()
+    {
+
+        _allEnemies = GameObject.FindGameObjectsWithTag("EnemyMelee");
+        _allNPC = GameObject.FindGameObjectsWithTag("NPC");
+
+        for (int i = 0; i < _allEnemies.Length; i++)
+        {
+            Component[] components = _allEnemies[i].GetComponents<Component>();
+            for (int j = 0; j < components.Length; j++)
+            {
+                if(components[j] == null)
+                {
+                    _missingComponents++;
+                    _objectNames.Add(_allEnemies[i].gameObject.name);
+                }
+            }
+           
+        }
+
+        for (int k = 0; k < _allNPC.Length; k++)
+        {
+            Component[] components = _allNPC[k].GetComponents<Component>();
+            for (int l = 0; l < components.Length; l++)
+            {
+                if(components[l] == null)
+                {
+                    _objectNames.Add(_allNPC[l].gameObject.name);
+                    _missingComponents++;
+                }
+            }
+        }
+
+        if(GameObject.FindGameObjectWithTag("Player").GetComponent<Component>() == null)
+        {
+            _missingComponents++;
+        }
+    }
+
+   
+   
+    public static void ResetCounters()
+    {
+        _oldComponents = 0;
+        _missingComponents = 0;
+        _objectNames.Clear();
+        _checkedEverything = false;
+    }
+
 }
 #endif
