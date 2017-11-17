@@ -50,7 +50,8 @@ namespace CombatSystem
             
             _playerAnimator.SetBool("isRunning", true);
             _staffAnimator.SetBool("isRunning", true);
-
+            _staffAnimator.SetBool("isCombatIdle", false);
+            _playerAnimator.SetBool("isCombatIdle", false);
         }
 
         public static void SetPlayerWalking(bool _backwards)

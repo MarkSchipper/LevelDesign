@@ -23,6 +23,8 @@ namespace CombatSystem
 
                         InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
                         coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                        coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID());
+
                         coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
 
                         this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
@@ -50,6 +52,7 @@ namespace CombatSystem
                         {
                             InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
                             coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                            //coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID());
                             coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
 
                             CombatSystem.SoundManager.instance.PlaySound(SOUNDS.INCOMBAT, Vector3.forward, true);

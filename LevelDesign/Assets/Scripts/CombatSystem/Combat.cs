@@ -113,6 +113,9 @@ namespace CombatSystem
         public static void SetHealingSpell(float _value, float _manaCost, float _castTime, string _prefab)
         {
             _spellPrefab = Resources.Load("PlayerSpells/Healing/" + _prefab) as GameObject;
+            _spellValue = _value;
+            _spellMana = _manaCost;
+            _spellCastTime = _castTime;
         }
 
         public static void SetAOE(float _value, string _prefab)

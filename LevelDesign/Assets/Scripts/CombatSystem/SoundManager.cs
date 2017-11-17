@@ -358,7 +358,7 @@ namespace CombatSystem
         {
             FMOD.Studio.ParameterInstance parameter;
             e.getParameter(name, out parameter);
-            
+
             parameter.setValue(value);
         }
 

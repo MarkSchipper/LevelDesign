@@ -229,6 +229,10 @@ namespace EnemyCombat
                     CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT);
                     CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYHIT, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), true);
                     CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
+                    if (!CombatSystem.PlayerController.instance.ReturnInCombat())
+                    {
+                        CombatSystem.PlayerController.instance.AddEnemyList(_gameID);
+                    }
                     CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
                 }
             }
@@ -813,6 +817,8 @@ namespace EnemyCombat
             Destroy(this.gameObject, 120f);
             Destroy(_enemySelected, 5f);
 
+            STATE_ALIVE = false;
+
             if (!_spawnOnce)
             {
                 GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
@@ -827,12 +833,18 @@ namespace EnemyCombat
 
                 _lootGenerator = new LootGenerator(_lootTable);
 
+                CombatSystem.PlayerController.instance.DeleteEnemyListEntry(_gameID);
+
                 CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYDEATH, _targetToAttack.transform.position, true);
                 _spawnOnce = true;
             }
 
-            
-            CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
+
+
+            if (CombatSystem.PlayerController.instance.ReturnEnemyList().Count == 0)
+            {
+                CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
+            }
 
             Quest.QuestDatabase.GetAllQuests();
             string[] _splitArray = this.transform.parent.name.Split(char.Parse("_"));
@@ -890,6 +902,7 @@ namespace EnemyCombat
         public void RemoveFromLoot(LootTypes _gold)
         {
             _lootGenerator.DeleteEntry(LootTypes.Gold, _lootTable);
+            Debug.Log("" + _gameID + " LOOTED");
         }
 
         public void RemoveFromLoot(LootTypes _item, int _id)

@@ -14,6 +14,8 @@ namespace CombatSystem
         private bool STATE_IDLE         = false;
         private bool STATE_INCOMBAT     = false;
         private bool STATE_JUMPING      = false;
+        private bool STATE_DEAD         = false;
+        private bool STATE_REGENERATE   = false;
 
         private bool _jumpOnce          = false;
         private bool _hasTakenDamage    = false;
@@ -26,6 +28,9 @@ namespace CombatSystem
         private bool _isFirstPerson     = false;
         private bool INPUT_BLOCK        = false;
 
+        private bool _setOnce           = false;
+        private bool _regen             = false;
+
         // Movement Floats
         private float _runSpeed = 0.3f;
         private float _walkSpeed = 0.15f;
@@ -34,6 +39,9 @@ namespace CombatSystem
         private float _playerDistanceTraveled = 0.0f;
         private float _playerFallingDistance = 0.0f;
         private float _blinkMaxDistance;
+
+        // out of combat timer
+        private float _oocTimer;
 
         // Player stats
         private float _playerHealth;
@@ -62,6 +70,8 @@ namespace CombatSystem
         private GameObject _blinkMarker;
 
         private GameObject _playerMesh;
+
+        private List<int> _enemyList = new List<int>();
 
         private Ray _ray;
 
@@ -193,6 +203,11 @@ namespace CombatSystem
                 }
             }
 
+            if (STATE_INCOMBAT)
+            {
+                PlayerCombatIdle();
+            }
+
             if (!STATE_RUNNING || !STATE_WALKING || !STATE_INCOMBAT || STATE_JUMPING)
             {
                 STATE_IDLE = true;
@@ -203,6 +218,15 @@ namespace CombatSystem
             if(_isBlink)
             {
                 SetBlinkTarget();
+            }
+
+            if(!STATE_INCOMBAT)
+            {
+                _oocTimer += Time.deltaTime;
+                if(_oocTimer > 5)
+                {
+                    PlayerRegenerate();
+                }
             }
         }
 
@@ -227,7 +251,7 @@ namespace CombatSystem
             if (_charController.isGrounded)
             {
                 _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                
+                _playerFallingDistance = 0;
                 // If we pressed the Left Shift we multiply the movedirection with the walking speed
                 // Else by the run speed
                 if (Input.GetKey(KeyCode.LeftShift))
@@ -264,6 +288,7 @@ namespace CombatSystem
                     {
                         STATE_RUNNING = true;
                         STATE_WALKING = false;
+                        STATE_INCOMBAT = false;
                     }
 
                     // If we are moving FORWARD and have pressed the A or D key we rotate the player 45 degrees to simulate strafing
@@ -303,6 +328,7 @@ namespace CombatSystem
                     }
                     STATE_RUNNING = true;
                     STATE_IDLE = false;
+                    STATE_INCOMBAT = false;
                 }
 
                 // If we havent pressed anything
@@ -333,15 +359,16 @@ namespace CombatSystem
                 _moveDirection = transform.TransformDirection(_moveDirection);
 
             }
-            else
+            if(!_charController.isGrounded)
             {
-                Vector3 _oldPosition = transform.position;
-                _playerFallingDistance += (transform.position - _oldPosition).magnitude;
+                _playerFallingDistance += Time.deltaTime;
 
-                Debug.Log(_playerFallingDistance);
                 _moveDirection.y -= 1 * Time.deltaTime;
 
-                
+                if(_playerFallingDistance > 1.5f)
+                {
+                    STATE_DEAD = true;
+                }
 
                 _charController.Move(_moveDirection * Time.deltaTime);
             }
@@ -358,6 +385,11 @@ namespace CombatSystem
             // Start the Idle animation
             CombatSystem.AnimationSystem.SetPlayerIdle();
         } 
+
+        void PlayerCombatIdle()
+        {
+            CombatSystem.AnimationSystem.SetCombatIdle();
+        }
 
         // If the player is walking, move the player and play the walking animation
         void PlayerWalking()
@@ -612,10 +644,6 @@ namespace CombatSystem
                         }
                     }
 
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        
-                    }
                     if(Input.GetMouseButtonDown(1))
                     {
                         if (_isBlink)
@@ -713,14 +741,14 @@ namespace CombatSystem
                     }
                 }
             }
-            if (coll.name == "Enemy_MELEE_TRIGGER")
+            if (coll.name == "Enemy_MELEE_TRIGGER" && coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnIsAlive())
             {
                 if (!_hasTakenDamage)
                 {
                     _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage();
                     InteractionManager.instance.SetPlayerHealth(_playerHealth);
                     SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
-
+                    SetPlayerInCombat(true);
                     // Set _takeDamage to true so the player is immune for <seconds>
 
                     _hasTakenDamage = true;
@@ -768,7 +796,7 @@ namespace CombatSystem
 
         void PlayerDeath()
         {
-
+            Debug.Log("DEATH");
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -787,6 +815,15 @@ namespace CombatSystem
             {
                 StartCoroutine(ImmunityTimer());
                 _hasTakenDamage = false;
+            }
+        }
+
+        void PlayerRegenerate()
+        {
+            if (!_regen)
+            {
+                StartCoroutine(Regenerate());
+                _regen = true;
             }
         }
 
@@ -900,6 +937,8 @@ namespace CombatSystem
                 _playerHealth += _amount;
             }
 
+            
+
             InteractionManager.instance.SetPlayerMana(_playerMana);
             SoundManager.instance.PlaySound(SOUNDS.HEALING, transform.position, true);
         }
@@ -962,8 +1001,39 @@ namespace CombatSystem
                 CombatSystem.AnimationSystem.StopPlayerIdle();
                 CombatSystem.AnimationSystem.SetCombatIdle();
                 InteractionManager.instance.DisplayPlayerInCombat(_set, _playerHealth);
+                _setOnce = false;
             }
-            
+            if(!_set)
+            {
+                InteractionManager.instance.DisplayPlayerInCombat(_set, _playerHealth);
+                if (!_setOnce)
+                {
+                    _oocTimer = 0;
+                    _setOnce = true;
+                }
+            }
+        }
+
+        public bool ReturnInCombat()
+        {
+            return STATE_INCOMBAT;
+        }
+
+        public void AddEnemyList(int _id)
+        {
+            if (!_enemyList.Contains(_id)) { 
+                _enemyList.Add(_id);
+            }
+        }
+
+        public void DeleteEnemyListEntry(int _id)
+        {
+            _enemyList.Remove(_id);
+        }
+
+        public List<int> ReturnEnemyList()
+        {
+            return _enemyList;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -978,11 +1048,7 @@ namespace CombatSystem
             _selectedActor = _target;
         }
 
-        IEnumerator ImmunityTimer()
-        {
-            yield return new WaitForSeconds(2);
-            
-        }
+      
 
         public void CameraDragging(bool _set)
         {
@@ -1200,6 +1266,27 @@ namespace CombatSystem
             
         }
 
+        IEnumerator ImmunityTimer()
+        {
+            yield return new WaitForSeconds(2);
+
+        }
+
+        IEnumerator Regenerate()
+        {
+            yield return new WaitForSeconds(2);
+            if (_playerHealth < CombatSystem.InteractionManager.instance.ReturnPlayerMaxHealth())
+            {
+                _playerHealth += CombatSystem.InteractionManager.instance.ReturnPlayerMaxHealth() / 100;
+                CombatSystem.InteractionManager.instance.SetPlayerHealth(_playerHealth);
+            }
+            if (_playerMana < CombatSystem.InteractionManager.instance.ReturnPlayerMaxMana())
+            {
+                _playerMana += CombatSystem.InteractionManager.instance.ReturnPlayerMaxMana() / 100;
+                CombatSystem.InteractionManager.instance.SetPlayerMana(_playerMana);
+            }
+            _regen = false;
+        }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                              Conversation Mode                                           //
         //                                                                                                          //
@@ -1239,6 +1326,8 @@ namespace CombatSystem
                 }
             }
         }
+
+
 
     }
 }
