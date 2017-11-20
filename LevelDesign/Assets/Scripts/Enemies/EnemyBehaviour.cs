@@ -148,7 +148,7 @@ namespace EnemyCombat
             //////////////////////////////////////////////////////////////////////////////////////
             //                                      STATE MACHINE                               //
             //                                                                                  //
-            //  First check to see if the enemy is alive ( STATE_ALIVE )                           //
+            //  First check to see if the enemy is alive ( STATE_ALIVE )                        //
             //  Check to see if the enemy is NOT attacking                                      //
             //  Check the movement and fire the corresponding function                          //
             //                                                                                  //
@@ -781,8 +781,7 @@ namespace EnemyCombat
         public string ReturnEnemyLootTable()
         {
 
-            return _lootTable;
-            
+            return _lootGenerator.ReturnLootTable();
         }
 
         public int ReturnWayPoints()
@@ -831,7 +830,7 @@ namespace EnemyCombat
 
                 STATE_LOOTABLE = true;
 
-                _lootGenerator = new LootGenerator(_lootTable);
+                _lootGenerator = new LootGenerator(_lootTable, _gameID);
 
                 CombatSystem.PlayerController.instance.DeleteEnemyListEntry(_gameID);
 

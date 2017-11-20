@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class LootGenerator : MonoBehaviour {
 
-    private static string _lootTable;
-    private static List<LootTypes> _lootTypeList = new List<LootTypes>();
-    private static List<int> _lootValueList = new List<int>();
-    private static List<int> _lootItemID = new List<int>();
+    private  string _lootTable;
+    private  List<LootTypes> _lootTypeList = new List<LootTypes>();
+    private  List<int> _lootValueList = new List<int>();
+    private  List<int> _lootItemID = new List<int>();
 
-    private static List<float> _chance = new List<float>();
+    private  List<float> _chance = new List<float>();
 
-    public LootGenerator(string _table)
+    public LootGenerator(string _table, int _gameID)
     {
         ClearAll();
-        _lootTable = _table;
+        _lootTable = _table + _gameID.ToString();
+        
         LootDatabase.GetLootTable(_table);
 
         for (int i = 0; i < LootDatabase.ReturnLootIdByTable().Count; i++)
@@ -39,6 +40,7 @@ public class LootGenerator : MonoBehaviour {
                 }
             }
         }
+        Debug.Log("Created table " + _lootTable);
     }
 
     public void DeleteEntry(LootTypes _gold, string _table)

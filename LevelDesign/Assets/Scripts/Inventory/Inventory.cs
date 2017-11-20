@@ -478,7 +478,7 @@ public class Inventory : MonoBehaviour {
         {
             if(_enemyToLoot != null)
             {
-                //_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().DestroyEnemy();
+                _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().DestroyEnemy();
             }
             _showLootWindow = false;
         }
