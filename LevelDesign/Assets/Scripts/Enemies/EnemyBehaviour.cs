@@ -902,7 +902,7 @@ namespace EnemyCombat
         public void RemoveFromLoot(LootTypes _gold)
         {
             _lootGenerator.DeleteEntry(LootTypes.Gold, _lootTable);
-            Debug.Log("" + _gameID + " LOOTED");
+
         }
 
         public void RemoveFromLoot(LootTypes _item, int _id)

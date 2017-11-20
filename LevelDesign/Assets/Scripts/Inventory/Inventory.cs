@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour {
     public GUISkin _skin;
 
     private string _enemyLootTable;
-    private EnemyCombat.EnemyBehaviour _enemyToLoot;
+    private GameObject _enemyToLoot;
 
     private bool _mouseOverLootWindow;
 
@@ -375,7 +375,7 @@ public class Inventory : MonoBehaviour {
     public void DrawLootWindow()
     {
 
-        if (_enemyToLoot.ReturnLootTypes().Count > 0)
+        if (_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootTypes().Count > 0)
         {
 
             Rect _lootRect = new Rect(_lootPos.x - 50, _lootPos.y - 100, 214, 346);
@@ -400,7 +400,7 @@ public class Inventory : MonoBehaviour {
 
             }
 
-            for (int i = 0; i < _enemyToLoot.ReturnLootTypes().Count; i++)
+            for (int i = 0; i < _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootTypes().Count; i++)
             {
 
                 Rect _slot = new Rect(_lootPos.x + 5, _lootPos.y - 15 + (i * 40), 110, 50);
@@ -408,20 +408,20 @@ public class Inventory : MonoBehaviour {
                 Rect _lootSlotText = new Rect(_lootPos.x + 50, _lootPos.y + (i * 50), 25, 25);
 
                 GUI.Box(_slot, "", _skin.GetStyle("LootSlot"));
-                if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Gold)
+                if (_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootTypes()[i] == LootTypes.Gold)
                 {
-                    GUI.Box(_lootSlotText, _enemyToLoot.ReturnLootValues()[i].ToString());
+                    GUI.Box(_lootSlotText, _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootValues()[i].ToString());
                     GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/Gold") as Texture2D);
                 }
 
 
 
-                if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Items)
+                if (_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootTypes()[i] == LootTypes.Items)
                 {
 
-                    if (Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.ReturnLootItemID()[i])) != null)
+                    if (Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootItemID()[i])) != null)
                     {
-                        GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.ReturnLootItemID()[i])) as Texture2D);
+                        GUI.DrawTexture(_lootSlot, Resources.Load("ItemIcons/" + ItemDatabase.ReturnItemName(_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootItemID()[i])) as Texture2D);
                     }
                     else
                     {
@@ -433,16 +433,16 @@ public class Inventory : MonoBehaviour {
                 {
                     if (Event.current.isMouse && Event.current.type == EventType.mouseDown)
                     {
-                        if (_enemyToLoot.ReturnLootTypes()[i] == LootTypes.Gold)
+                        if (_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootTypes()[i] == LootTypes.Gold)
                         {
-                            CombatSystem.CombatDatabase.AddGold(CombatSystem.CombatDatabase.ReturnPlayerGold() + _enemyToLoot.ReturnLootValues()[i]);
-                            _enemyToLoot.RemoveFromLoot(LootTypes.Gold);
+                            CombatSystem.CombatDatabase.AddGold(CombatSystem.CombatDatabase.ReturnPlayerGold() + _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootValues()[i]);
+                            _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().RemoveFromLoot(LootTypes.Gold);
 
                         }
                         else
                         {
-                            AddItem(ItemDatabase.ReturnItemID(_enemyToLoot.ReturnLootItemID()[i]));
-                            _enemyToLoot.RemoveFromLoot(LootTypes.Items, i);
+                            AddItem(ItemDatabase.ReturnItemID(_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnLootItemID()[i]));
+                            _enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().RemoveFromLoot(LootTypes.Items, i);
                         }
                     }
                 }
@@ -478,13 +478,13 @@ public class Inventory : MonoBehaviour {
         {
             if(_enemyToLoot != null)
             {
-                _enemyToLoot.DestroyEnemy();
+                //_enemyToLoot.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().DestroyEnemy();
             }
             _showLootWindow = false;
         }
     }
 
-    public void ShowLootWindow(EnemyCombat.EnemyBehaviour _enemy)
+    public void ShowLootWindow(GameObject _enemy)
     {
         _showLootWindow = !_showLootWindow;
        if(_showLootWindow)

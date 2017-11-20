@@ -608,10 +608,11 @@ namespace CombatSystem
                                     }
                                     else
                                     {
-                                        _selectedActor = _hit.collider.gameObject;
+                                        _selectedActor = _hit.collider.transform.parent.gameObject;
+                                        Debug.Log(_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable());
                                         if (_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable() != string.Empty)
                                         {
-                                            Inventory.instance.ShowLootWindow(_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>());
+                                            Inventory.instance.ShowLootWindow(_selectedActor);
                                         }
                                     }
                                 }
