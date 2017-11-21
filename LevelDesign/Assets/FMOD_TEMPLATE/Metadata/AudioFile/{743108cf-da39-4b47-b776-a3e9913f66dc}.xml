@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.08.00">
+    <object class="AudioFile" id="{743108cf-da39-4b47-b776-a3e9913f66dc}">
+        <property name="assetPath">
+            <value>Ambience/MorningLoop.ogg</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>6</value>
+        </property>
+        <property name="length">
+            <value>97.77491666666667</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{215e1db7-855a-460c-b344-bba38bdff580}</destination>
+        </relationship>
+    </object>
+</objects>

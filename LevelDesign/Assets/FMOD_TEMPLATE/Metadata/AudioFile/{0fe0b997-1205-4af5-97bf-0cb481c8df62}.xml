@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.08.00">
+    <object class="AudioFile" id="{0fe0b997-1205-4af5-97bf-0cb481c8df62}">
+        <property name="assetPath">
+            <value>MADS Spell Medium Positive-1.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>96</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>9.5021041666666672</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{215e1db7-855a-460c-b344-bba38bdff580}</destination>
+        </relationship>
+    </object>
+</objects>

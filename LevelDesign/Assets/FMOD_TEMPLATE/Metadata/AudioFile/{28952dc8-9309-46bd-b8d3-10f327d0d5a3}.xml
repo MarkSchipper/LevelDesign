@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.08.00">
+    <object class="AudioFile" id="{28952dc8-9309-46bd-b8d3-10f327d0d5a3}">
+        <property name="assetPath">
+            <value>dark_ambience2b.wav</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>21.333333333333332</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{215e1db7-855a-460c-b344-bba38bdff580}</destination>
+        </relationship>
+    </object>
+</objects>
