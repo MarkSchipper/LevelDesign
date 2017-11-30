@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{3927be6d-b733-0127-0980-a2f066636ee5}">
+        <property name="name">
+            <value>wood</value>
+        </property>
+        <relationship name="folder">
+            <destination>{d07fb94a-dbd0-456d-91e6-7019c6ead1c9}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{792378cd-3fb9-4220-be23-614a94e8ad44}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{792378cd-3fb9-4220-be23-614a94e8ad44}">
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{d7bcfbfb-7e8a-48a7-a38f-6e406db0ed11}">
         <property name="name">
             <value>Sea of Doom</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>1</value>
         </property>
+        <relationship name="folder">
+            <destination>{a63689a4-7c40-464a-bd68-5311eb6eb517}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{405f48e4-b43a-487d-b769-89b43fab508a}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{a63689a4-7c40-464a-bd68-5311eb6eb517}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{405f48e4-b43a-487d-b769-89b43fab508a}">
@@ -89,11 +89,11 @@
     </object>
     <object class="MixerBusPanner" id="{ea463c05-df20-449c-b853-8236218102ff}"/>
     <object class="SingleSound" id="{2cd5c241-dc0a-4673-b1f9-c7f60ba9939e}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>90.226938775510206</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{92d35702-8d00-44c4-b9af-e4b36e4af895}</destination>

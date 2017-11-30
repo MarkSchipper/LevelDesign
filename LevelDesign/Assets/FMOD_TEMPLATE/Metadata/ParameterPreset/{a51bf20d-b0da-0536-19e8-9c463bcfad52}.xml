@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{a51bf20d-b0da-0536-19e8-9c463bcfad52}">
+        <property name="name">
+            <value>snow</value>
+        </property>
+        <relationship name="folder">
+            <destination>{d07fb94a-dbd0-456d-91e6-7019c6ead1c9}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{e51f34ad-3850-4631-ae4b-5ffcc9446ef3}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{e51f34ad-3850-4631-ae4b-5ffcc9446ef3}">
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

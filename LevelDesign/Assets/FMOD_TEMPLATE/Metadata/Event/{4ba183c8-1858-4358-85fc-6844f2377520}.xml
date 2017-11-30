@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{4ba183c8-1858-4358-85fc-6844f2377520}">
         <property name="name">
             <value>winter_wind_medium</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>1</value>
         </property>
+        <relationship name="folder">
+            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{1e5ae651-aa18-47fb-931b-a005a0c672c7}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{1e5ae651-aa18-47fb-931b-a005a0c672c7}">
@@ -92,11 +92,11 @@
     </object>
     <object class="MixerBusPanner" id="{aaa2e640-6452-4cbb-b2e9-07250c28b9a4}"/>
     <object class="SingleSound" id="{440414b0-396a-4cf9-b108-53a0d90739ba}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>224.47425000000001</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{a7a14990-cc66-47b2-9c4e-dbd630c62cd4}</destination>

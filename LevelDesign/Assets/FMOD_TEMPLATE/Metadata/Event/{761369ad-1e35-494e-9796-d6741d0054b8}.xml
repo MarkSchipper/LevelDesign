@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{761369ad-1e35-494e-9796-d6741d0054b8}">
         <property name="name">
             <value>ice_ball_hit</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{a35e2183-db63-4b02-8d19-0d43ed31e6f6}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{a35e2183-db63-4b02-8d19-0d43ed31e6f6}">
@@ -89,15 +89,15 @@
     </object>
     <object class="MixerBusPanner" id="{a41a8d4a-ef18-43f6-993a-1310026d2754}"/>
     <object class="MultiSound" id="{6560f720-1380-4f3e-97ce-c6d2fb282a9d}">
-        <property name="start">
-            <value>0</value>
+        <property name="isAsync">
+            <value>true</value>
         </property>
         <property name="length">
             <value>2</value>
         </property>
         <relationship name="modulators">
-            <destination>{353917b1-8501-4dad-87b0-ff89dfcdd3e1}</destination>
             <destination>{153a23c2-31c4-48e2-853a-84ffd335be84}</destination>
+            <destination>{353917b1-8501-4dad-87b0-ff89dfcdd3e1}</destination>
         </relationship>
         <relationship name="sounds">
             <destination>{48146251-658b-4e49-aa9b-bf082859ddea}</destination>
@@ -128,20 +128,20 @@
     </object>
     <object class="MixerBusPanner" id="{4ba47da3-7c9a-4030-aab5-c65469c37e8a}"/>
     <object class="MixerBusFader" id="{71da21a9-db53-4449-9fe7-f19af3c383a5}"/>
-    <object class="RandomizerModulator" id="{353917b1-8501-4dad-87b0-ff89dfcdd3e1}">
-        <property name="nameOfPropertyBeingModulated">
-            <value>volume</value>
-        </property>
-        <property name="amount">
-            <value>0.399999976</value>
-        </property>
-    </object>
     <object class="RandomizerModulator" id="{153a23c2-31c4-48e2-853a-84ffd335be84}">
         <property name="nameOfPropertyBeingModulated">
             <value>pitch</value>
         </property>
         <property name="amount">
             <value>2.5</value>
+        </property>
+    </object>
+    <object class="RandomizerModulator" id="{353917b1-8501-4dad-87b0-ff89dfcdd3e1}">
+        <property name="nameOfPropertyBeingModulated">
+            <value>volume</value>
+        </property>
+        <property name="amount">
+            <value>0.399999976</value>
         </property>
     </object>
     <object class="SingleSound" id="{48146251-658b-4e49-aa9b-bf082859ddea}">
@@ -171,6 +171,13 @@
     </object>
     <object class="MixerBusPanner" id="{96e613b8-8362-41ea-bb34-6b694626df27}"/>
     <object class="MixerBusFader" id="{26122abf-a6a4-47c3-8dd4-6c29cb82b31e}"/>
-    <object class="SpatialiserEffect" id="{e28d1431-f858-4bc0-a524-0a753134d5cd}"/>
+    <object class="ProxyEffect" id="{e28d1431-f858-4bc0-a524-0a753134d5cd}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{a7874567-ef09-4334-bbad-cd3a2dad7cca}"/>
 </objects>

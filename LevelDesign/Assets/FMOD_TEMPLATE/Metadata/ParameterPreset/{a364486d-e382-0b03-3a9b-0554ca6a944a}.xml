@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{a364486d-e382-0b03-3a9b-0554ca6a944a}">
+        <property name="name">
+            <value>grass</value>
+        </property>
+        <relationship name="folder">
+            <destination>{d07fb94a-dbd0-456d-91e6-7019c6ead1c9}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{e3608ecd-6b08-4804-8d38-c6ee38e157eb}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{e3608ecd-6b08-4804-8d38-c6ee38e157eb}">
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

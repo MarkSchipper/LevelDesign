@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPresetFolder" id="{dc2a0721-8ec5-4d43-a9cf-c0f943a4ad0a}">
+        <property name="name">
+            <value>dark_ambience</value>
+        </property>
+        <relationship name="folder">
+            <destination>{3bd23c23-46e3-4ec0-89a0-0345a6468926}</destination>
+        </relationship>
+    </object>
+</objects>

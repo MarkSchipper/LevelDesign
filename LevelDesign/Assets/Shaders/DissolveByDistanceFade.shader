@@ -1,7 +1,9 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Custom/Dissolve/Opaque" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
-		_MainTex("Albedo (RGB)", 2D) = "white" {}
+		_MainTex("Albedo (RGBA)", 2D) = "white" {}
 		_Glossiness("Smoothness", Range(0,1)) = 0.5
 
 		[NoScaleOffset] _MetallicGlossMap("Metallic", 2D) = "white" {}
@@ -27,9 +29,9 @@ Shader "Custom/Dissolve/Opaque" {
 
 
 		SubShader{
-		Tags{ "RenderType" = "Opaque" }
+		Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
 		LOD 200
-
+		Blend SrcAlpha OneMinusSrcAlpha
 		// Extracts information for lightmapping, GI (emission, albedo, ...)
 		// This pass is not used during regular rendering.
 		Pass
@@ -54,7 +56,7 @@ Shader "Custom/Dissolve/Opaque" {
 
 		#include "UnityPBSLighting.cginc"
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard addshadow
+		#pragma surface surf Standard fullforwardshadows alpha:fade
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -91,9 +93,10 @@ Shader "Custom/Dissolve/Opaque" {
 
 		void surf(Input IN, inout SurfaceOutputStandard o) {
 
+			float x = unity_ObjectToWorld;
 			float l = length(_Center.xyz - IN.worldPos.xyz);
 
-			clip(saturate(_Distance - l + (tex2D(_DissTexture, IN.uv_DissTexture) * _Interpolation * saturate(_Distance))) - 0.5);
+			clip(saturate(_Distance - (x * 5) + (tex2D(_DissTexture, IN.uv_DissTexture) * _Interpolation * saturate(_Distance))) - 0.5);
 
 
 			fixed4 c = tex2D(_MetallicGlossMap, IN.uv_MainTex);
@@ -103,12 +106,12 @@ Shader "Custom/Dissolve/Opaque" {
 
 			c = tex2D(_MainTex, IN.uv_MainTex);
 			o.Albedo = c.rgb * _Color.rgb;
-
+			o.Alpha = tex2D(_MainTex, IN.uv_MainTex).a;
 			o.Normal = normalize(UnpackScaleNormal(tex2D(_BumpMap, IN.uv_BumpMap) , _BumpScale));
 
-			o.Emission = tex2D(_EmissionMap, IN.uv_MainTex) * _EmissionColor + saturate(1 - (_Distance - l + 0.5)) *_DissolveColor.rgb * tex2D(_DissTexture, IN.uv_DissTexture);
+			o.Emission = tex2D(_EmissionMap, IN.uv_MainTex) * _EmissionColor + saturate(1 - (_Distance - x + 0.5)) *_DissolveColor.rgb * tex2D(_DissTexture, IN.uv_DissTexture);
 
-			o.Alpha = c.a;
+			//o.Alpha = c.a;
 		}
 		ENDCG
 		}

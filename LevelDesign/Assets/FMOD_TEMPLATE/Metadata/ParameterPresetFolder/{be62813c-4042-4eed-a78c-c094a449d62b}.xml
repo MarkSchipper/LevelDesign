@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPresetFolder" id="{be62813c-4042-4eed-a78c-c094a449d62b}">
+        <property name="name">
+            <value>daynight_cycle</value>
+        </property>
+        <relationship name="folder">
+            <destination>{dddb189b-39d2-46c5-acc5-20846062f0a5}</destination>
+        </relationship>
+    </object>
+</objects>

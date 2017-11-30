@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{64d956be-160d-460c-a463-81a055942144}">
         <property name="name">
             <value>daynight_cycle</value>
@@ -16,8 +16,11 @@ Notice also that all four loops have an AHDSR modulation on volume, which allows
 Recordings by David at Track Time Audio.</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>5</value>
         </property>
+        <relationship name="folder">
+            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{224521d6-7a82-40d0-9bb3-0a1f1c201846}</destination>
         </relationship>
@@ -44,7 +47,7 @@ Recordings by David at Track Time Audio.</value>
             <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
         </relationship>
         <relationship name="parameters">
-            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
+            <destination>{38c424bd-a01b-0602-0e06-2b57e38ab447}</destination>
         </relationship>
         <relationship name="userProperties">
             <destination>{6db37f2b-afe5-451c-bcd0-76b66d3fdebe}</destination>
@@ -54,9 +57,6 @@ Recordings by David at Track Time Audio.</value>
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{224521d6-7a82-40d0-9bb3-0a1f1c201846}">
@@ -115,29 +115,29 @@ Recordings by David at Track Time Audio.</value>
             <destination>{e57eeb8a-1c3f-4051-8246-111a33f8c56c}</destination>
         </relationship>
         <relationship name="markers">
+            <destination>{06823539-02f9-4d5d-a688-48e61127a82b}</destination>
+            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
             <destination>{ce026206-0f9e-43bd-b86b-c698ec96aa68}</destination>
+            <destination>{97163de2-cdb2-4859-8206-1ed3c8b0d34b}</destination>
+            <destination>{9d43afc2-c82e-4723-8b3f-92bc5855e38f}</destination>
+            <destination>{6d662b0e-1019-4e30-9781-0eb8200068b8}</destination>
+            <destination>{88b1ff69-3d2a-4aec-a0c3-78a26c8c21b2}</destination>
+            <destination>{f3680e11-6bc3-4bd7-b17b-1efddbfd739c}</destination>
+            <destination>{0b919626-eae6-47ed-9ca1-09c0e8a4b919}</destination>
             <destination>{69cf154b-74d5-4262-a08c-1757f3d5615f}</destination>
             <destination>{b489b924-ac26-4762-94ea-955b08ba304d}</destination>
             <destination>{b80df22e-417b-4745-8a44-4c12b125cb8c}</destination>
-            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
-            <destination>{06823539-02f9-4d5d-a688-48e61127a82b}</destination>
-            <destination>{0b919626-eae6-47ed-9ca1-09c0e8a4b919}</destination>
-            <destination>{9d43afc2-c82e-4723-8b3f-92bc5855e38f}</destination>
             <destination>{d9085e60-c587-47df-b351-7e3e08d71869}</destination>
-            <destination>{97163de2-cdb2-4859-8206-1ed3c8b0d34b}</destination>
             <destination>{fa85fe65-6959-4747-b974-c3634cd64684}</destination>
             <destination>{402ff8b3-b26f-4d53-8b7f-7087b681f91c}</destination>
-            <destination>{6d662b0e-1019-4e30-9781-0eb8200068b8}</destination>
-            <destination>{88b1ff69-3d2a-4aec-a0c3-78a26c8c21b2}</destination>
             <destination>{9ca8d290-7f5f-4ed8-bd84-b18f5a0b6112}</destination>
             <destination>{f54cac29-36a9-4565-8e3f-81622c054d1d}</destination>
-            <destination>{f3680e11-6bc3-4bd7-b17b-1efddbfd739c}</destination>
         </relationship>
     </object>
-    <object class="GameParameter" id="{50697726-5acd-4a25-95fa-bfce38d08800}">
-        <property name="name">
-            <value>time</value>
-        </property>
+    <object class="ParameterProxy" id="{38c424bd-a01b-0602-0e06-2b57e38ab447}">
+        <relationship name="preset">
+            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
+        </relationship>
     </object>
     <object class="UserProperty" id="{6db37f2b-afe5-451c-bcd0-76b66d3fdebe}">
         <property name="key">
@@ -192,6 +192,12 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
+        <property name="isAsync">
+            <value>true</value>
+        </property>
+        <property name="isCutoff">
+            <value>true</value>
+        </property>
         <property name="start">
             <value>16</value>
         </property>
@@ -202,7 +208,7 @@ Recordings by David at Track Time Audio.</value>
             <value>3</value>
         </property>
         <property name="volume">
-            <value>4</value>
+            <value>8</value>
         </property>
         <property name="looping">
             <value>true</value>
@@ -218,6 +224,12 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
+        <property name="isAsync">
+            <value>true</value>
+        </property>
+        <property name="isCutoff">
+            <value>true</value>
+        </property>
         <property name="start">
             <value>32</value>
         </property>
@@ -228,7 +240,7 @@ Recordings by David at Track Time Audio.</value>
             <value>3</value>
         </property>
         <property name="volume">
-            <value>4</value>
+            <value>8</value>
         </property>
         <property name="looping">
             <value>true</value>
@@ -244,8 +256,11 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
+        <property name="isAsync">
+            <value>true</value>
+        </property>
+        <property name="isCutoff">
+            <value>true</value>
         </property>
         <property name="length">
             <value>8</value>
@@ -254,7 +269,7 @@ Recordings by David at Track Time Audio.</value>
             <value>3</value>
         </property>
         <property name="volume">
-            <value>2</value>
+            <value>4</value>
         </property>
         <property name="pitch">
             <value>-0.25</value>
@@ -273,6 +288,12 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
+        <property name="isAsync">
+            <value>true</value>
+        </property>
+        <property name="isCutoff">
+            <value>true</value>
+        </property>
         <property name="start">
             <value>48</value>
         </property>
@@ -283,7 +304,7 @@ Recordings by David at Track Time Audio.</value>
             <value>3</value>
         </property>
         <property name="volume">
-            <value>2</value>
+            <value>4</value>
         </property>
         <property name="looping">
             <value>true</value>
@@ -312,6 +333,43 @@ Recordings by David at Track Time Audio.</value>
             <destination>{7dbfda02-c506-46a4-b21b-139d86ea21b2}</destination>
         </relationship>
     </object>
+    <object class="TransitionRegion" id="{06823539-02f9-4d5d-a688-48e61127a82b}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>0</value>
+        </property>
+        <property name="length">
+            <value>8</value>
+        </property>
+        <relationship name="triggerConditions">
+            <destination>{f76b9460-7614-4917-a4a6-b4612a034778}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{ce026206-0f9e-43bd-b86b-c698ec96aa68}</destination>
+        </relationship>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
+        </relationship>
+    </object>
+    <object class="NamedMarker" id="{69439503-5f2e-49a0-9711-41e13ea7c0a8}">
+        <property name="position">
+            <value>0</value>
+        </property>
+        <property name="name">
+            <value>Morning</value>
+        </property>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{4f3f4e52-075a-4ce2-b4ac-e6ebfd45e870}</destination>
+        </relationship>
+    </object>
     <object class="NamedMarker" id="{ce026206-0f9e-43bd-b86b-c698ec96aa68}">
         <property name="position">
             <value>48</value>
@@ -324,6 +382,132 @@ Recordings by David at Track Time Audio.</value>
         </relationship>
         <relationship name="markerTrack">
             <destination>{4f3f4e52-075a-4ce2-b4ac-e6ebfd45e870}</destination>
+        </relationship>
+    </object>
+    <object class="TransitionRegion" id="{97163de2-cdb2-4859-8206-1ed3c8b0d34b}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>48</value>
+        </property>
+        <property name="length">
+            <value>8</value>
+        </property>
+        <relationship name="triggerConditions">
+            <destination>{84dcbcb2-d05b-4b59-8379-36fbcea001e5}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
+        </relationship>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{c3c58601-4cd5-43d7-b4fe-89e53cce67d5}</destination>
+        </relationship>
+    </object>
+    <object class="TransitionRegion" id="{9d43afc2-c82e-4723-8b3f-92bc5855e38f}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>32</value>
+        </property>
+        <property name="length">
+            <value>8</value>
+        </property>
+        <relationship name="triggerConditions">
+            <destination>{a0b12f1f-2b15-4554-8646-90a2a4c4971a}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{b489b924-ac26-4762-94ea-955b08ba304d}</destination>
+        </relationship>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
+        </relationship>
+    </object>
+    <object class="TransitionRegion" id="{6d662b0e-1019-4e30-9781-0eb8200068b8}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>16</value>
+        </property>
+        <property name="length">
+            <value>8</value>
+        </property>
+        <relationship name="triggerConditions">
+            <destination>{54c4a716-10a1-46d0-b950-1c88d031bc60}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
+        </relationship>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
+        </relationship>
+    </object>
+    <object class="LoopRegion" id="{88b1ff69-3d2a-4aec-a0c3-78a26c8c21b2}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>34</value>
+        </property>
+        <property name="length">
+            <value>6</value>
+        </property>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{779fa340-0c1b-4d51-ab62-3e66076bd06b}</destination>
+        </relationship>
+    </object>
+    <object class="LoopRegion" id="{f3680e11-6bc3-4bd7-b17b-1efddbfd739c}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>6</value>
+        </property>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{779fa340-0c1b-4d51-ab62-3e66076bd06b}</destination>
+        </relationship>
+    </object>
+    <object class="TransitionRegion" id="{0b919626-eae6-47ed-9ca1-09c0e8a4b919}">
+        <property name="triggerProbabilityEnabled">
+            <value>true</value>
+        </property>
+        <property name="position">
+            <value>0</value>
+        </property>
+        <property name="length">
+            <value>8</value>
+        </property>
+        <relationship name="triggerConditions">
+            <destination>{09909ebf-eb84-4b51-84ab-1f7fd729f32c}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{b489b924-ac26-4762-94ea-955b08ba304d}</destination>
+        </relationship>
+        <relationship name="timeline">
+            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
+        </relationship>
+        <relationship name="markerTrack">
+            <destination>{c3c58601-4cd5-43d7-b4fe-89e53cce67d5}</destination>
         </relationship>
     </object>
     <object class="NamedMarker" id="{69cf154b-74d5-4262-a08c-1757f3d5615f}">
@@ -365,89 +549,6 @@ Recordings by David at Track Time Audio.</value>
             <destination>{8496a1e1-69ce-41a1-86f2-3f89c579332a}</destination>
         </relationship>
     </object>
-    <object class="NamedMarker" id="{69439503-5f2e-49a0-9711-41e13ea7c0a8}">
-        <property name="position">
-            <value>0</value>
-        </property>
-        <property name="name">
-            <value>Morning</value>
-        </property>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{4f3f4e52-075a-4ce2-b4ac-e6ebfd45e870}</destination>
-        </relationship>
-    </object>
-    <object class="TransitionRegion" id="{06823539-02f9-4d5d-a688-48e61127a82b}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>0</value>
-        </property>
-        <property name="length">
-            <value>8</value>
-        </property>
-        <relationship name="destination">
-            <destination>{ce026206-0f9e-43bd-b86b-c698ec96aa68}</destination>
-        </relationship>
-        <relationship name="triggerConditions">
-            <destination>{f76b9460-7614-4917-a4a6-b4612a034778}</destination>
-        </relationship>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
-        </relationship>
-    </object>
-    <object class="TransitionRegion" id="{0b919626-eae6-47ed-9ca1-09c0e8a4b919}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>0</value>
-        </property>
-        <property name="length">
-            <value>8</value>
-        </property>
-        <relationship name="destination">
-            <destination>{b489b924-ac26-4762-94ea-955b08ba304d}</destination>
-        </relationship>
-        <relationship name="triggerConditions">
-            <destination>{09909ebf-eb84-4b51-84ab-1f7fd729f32c}</destination>
-        </relationship>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{c3c58601-4cd5-43d7-b4fe-89e53cce67d5}</destination>
-        </relationship>
-    </object>
-    <object class="TransitionRegion" id="{9d43afc2-c82e-4723-8b3f-92bc5855e38f}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>32</value>
-        </property>
-        <property name="length">
-            <value>8</value>
-        </property>
-        <relationship name="destination">
-            <destination>{b489b924-ac26-4762-94ea-955b08ba304d}</destination>
-        </relationship>
-        <relationship name="triggerConditions">
-            <destination>{a0b12f1f-2b15-4554-8646-90a2a4c4971a}</destination>
-        </relationship>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
-        </relationship>
-    </object>
     <object class="TransitionRegion" id="{d9085e60-c587-47df-b351-7e3e08d71869}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
@@ -458,34 +559,11 @@ Recordings by David at Track Time Audio.</value>
         <property name="length">
             <value>8</value>
         </property>
-        <relationship name="destination">
-            <destination>{ce026206-0f9e-43bd-b86b-c698ec96aa68}</destination>
-        </relationship>
         <relationship name="triggerConditions">
             <destination>{f9246da0-5c78-4989-a96f-674ffb2f740d}</destination>
         </relationship>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{c3c58601-4cd5-43d7-b4fe-89e53cce67d5}</destination>
-        </relationship>
-    </object>
-    <object class="TransitionRegion" id="{97163de2-cdb2-4859-8206-1ed3c8b0d34b}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>48</value>
-        </property>
-        <property name="length">
-            <value>8</value>
-        </property>
         <relationship name="destination">
-            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
-        </relationship>
-        <relationship name="triggerConditions">
-            <destination>{84dcbcb2-d05b-4b59-8379-36fbcea001e5}</destination>
+            <destination>{ce026206-0f9e-43bd-b86b-c698ec96aa68}</destination>
         </relationship>
         <relationship name="timeline">
             <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
@@ -504,11 +582,11 @@ Recordings by David at Track Time Audio.</value>
         <property name="length">
             <value>8</value>
         </property>
-        <relationship name="destination">
-            <destination>{69cf154b-74d5-4262-a08c-1757f3d5615f}</destination>
-        </relationship>
         <relationship name="triggerConditions">
             <destination>{462de8cb-0410-4b00-9c88-0a8f51422c44}</destination>
+        </relationship>
+        <relationship name="destination">
+            <destination>{69cf154b-74d5-4262-a08c-1757f3d5615f}</destination>
         </relationship>
         <relationship name="timeline">
             <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
@@ -527,57 +605,17 @@ Recordings by David at Track Time Audio.</value>
         <property name="length">
             <value>8</value>
         </property>
-        <relationship name="destination">
-            <destination>{69cf154b-74d5-4262-a08c-1757f3d5615f}</destination>
-        </relationship>
         <relationship name="triggerConditions">
             <destination>{c662f2ff-e4f7-414d-b9ea-a2f0140bf7a8}</destination>
         </relationship>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
-        </relationship>
-    </object>
-    <object class="TransitionRegion" id="{6d662b0e-1019-4e30-9781-0eb8200068b8}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>16</value>
-        </property>
-        <property name="length">
-            <value>8</value>
-        </property>
         <relationship name="destination">
-            <destination>{69439503-5f2e-49a0-9711-41e13ea7c0a8}</destination>
-        </relationship>
-        <relationship name="triggerConditions">
-            <destination>{54c4a716-10a1-46d0-b950-1c88d031bc60}</destination>
+            <destination>{69cf154b-74d5-4262-a08c-1757f3d5615f}</destination>
         </relationship>
         <relationship name="timeline">
             <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
         </relationship>
         <relationship name="markerTrack">
             <destination>{aece1558-ccdb-46d2-bca7-4ce106b75c29}</destination>
-        </relationship>
-    </object>
-    <object class="LoopRegion" id="{88b1ff69-3d2a-4aec-a0c3-78a26c8c21b2}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>34</value>
-        </property>
-        <property name="length">
-            <value>6</value>
-        </property>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{779fa340-0c1b-4d51-ab62-3e66076bd06b}</destination>
         </relationship>
     </object>
     <object class="LoopRegion" id="{9ca8d290-7f5f-4ed8-bd84-b18f5a0b6112}">
@@ -603,23 +641,6 @@ Recordings by David at Track Time Audio.</value>
         </property>
         <property name="position">
             <value>50</value>
-        </property>
-        <property name="length">
-            <value>6</value>
-        </property>
-        <relationship name="timeline">
-            <destination>{ca4dd7f8-9852-4d15-8819-2e1eed5e7bf8}</destination>
-        </relationship>
-        <relationship name="markerTrack">
-            <destination>{779fa340-0c1b-4d51-ab62-3e66076bd06b}</destination>
-        </relationship>
-    </object>
-    <object class="LoopRegion" id="{f3680e11-6bc3-4bd7-b17b-1efddbfd739c}">
-        <property name="triggerProbabilityEnabled">
-            <value>true</value>
-        </property>
-        <property name="position">
-            <value>2</value>
         </property>
         <property name="length">
             <value>6</value>
@@ -723,12 +744,12 @@ Recordings by David at Track Time Audio.</value>
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
         </relationship>
     </object>
-    <object class="ParameterCondition" id="{09909ebf-eb84-4b51-84ab-1f7fd729f32c}">
+    <object class="ParameterCondition" id="{84dcbcb2-d05b-4b59-8379-36fbcea001e5}">
         <property name="minimum">
-            <value>0.25</value>
+            <value>0</value>
         </property>
         <property name="maximum">
-            <value>0.48999999999999999</value>
+            <value>0.23999999999999999</value>
         </property>
         <relationship name="parameter">
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
@@ -745,23 +766,34 @@ Recordings by David at Track Time Audio.</value>
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
         </relationship>
     </object>
+    <object class="ParameterCondition" id="{54c4a716-10a1-46d0-b950-1c88d031bc60}">
+        <property name="minimum">
+            <value>0</value>
+        </property>
+        <property name="maximum">
+            <value>0.23999999999999999</value>
+        </property>
+        <relationship name="parameter">
+            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
+        </relationship>
+    </object>
+    <object class="ParameterCondition" id="{09909ebf-eb84-4b51-84ab-1f7fd729f32c}">
+        <property name="minimum">
+            <value>0.25</value>
+        </property>
+        <property name="maximum">
+            <value>0.48999999999999999</value>
+        </property>
+        <relationship name="parameter">
+            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
+        </relationship>
+    </object>
     <object class="ParameterCondition" id="{f9246da0-5c78-4989-a96f-674ffb2f740d}">
         <property name="minimum">
             <value>0.75</value>
         </property>
         <property name="maximum">
             <value>1</value>
-        </property>
-        <relationship name="parameter">
-            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
-        </relationship>
-    </object>
-    <object class="ParameterCondition" id="{84dcbcb2-d05b-4b59-8379-36fbcea001e5}">
-        <property name="minimum">
-            <value>0</value>
-        </property>
-        <property name="maximum">
-            <value>0.23999999999999999</value>
         </property>
         <relationship name="parameter">
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
@@ -784,17 +816,6 @@ Recordings by David at Track Time Audio.</value>
         </property>
         <property name="maximum">
             <value>0.73999999999999999</value>
-        </property>
-        <relationship name="parameter">
-            <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>
-        </relationship>
-    </object>
-    <object class="ParameterCondition" id="{54c4a716-10a1-46d0-b950-1c88d031bc60}">
-        <property name="minimum">
-            <value>0</value>
-        </property>
-        <property name="maximum">
-            <value>0.23999999999999999</value>
         </property>
         <relationship name="parameter">
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>

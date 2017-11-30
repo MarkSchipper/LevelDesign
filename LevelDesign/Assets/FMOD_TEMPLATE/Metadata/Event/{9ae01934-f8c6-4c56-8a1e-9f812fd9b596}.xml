@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{9ae01934-f8c6-4c56-8a1e-9f812fd9b596}">
         <property name="name">
             <value>choir</value>
@@ -10,6 +10,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{a45eeca8-063a-4da1-a604-670ae6e2d62e}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{769e0ec5-909e-45c8-bed3-ddbc031a6a48}</destination>
         </relationship>
@@ -32,13 +35,10 @@
             <destination>{0c4bdad0-37bb-427a-b434-7f66ea896813}</destination>
         </relationship>
         <relationship name="parameters">
-            <destination>{90701814-c562-4848-b361-d773eba02dd0}</destination>
+            <destination>{f8dd4b8f-3fb4-046f-289d-43ea30fa1197}</destination>
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{a45eeca8-063a-4da1-a604-670ae6e2d62e}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{769e0ec5-909e-45c8-bed3-ddbc031a6a48}">
@@ -80,10 +80,10 @@
             <destination>{ef3f8d83-f1f4-4da1-ae0e-d3d815e50462}</destination>
         </relationship>
     </object>
-    <object class="DistanceParameter" id="{90701814-c562-4848-b361-d773eba02dd0}">
-        <property name="maximum">
-            <value>200</value>
-        </property>
+    <object class="ParameterProxy" id="{f8dd4b8f-3fb4-046f-289d-43ea30fa1197}">
+        <relationship name="preset">
+            <destination>{90701814-c562-4848-b361-d773eba02dd0}</destination>
+        </relationship>
     </object>
     <object class="EventMixerMaster" id="{f1aa31fa-a369-46bd-b8aa-bbe69bfc79e3}">
         <relationship name="effectChain">
@@ -103,11 +103,11 @@
     </object>
     <object class="MixerBusPanner" id="{e0da62fd-759b-4daa-9119-c0123e8cc1a9}"/>
     <object class="SingleSound" id="{3ef3e057-6dde-4beb-813c-8c9b082eb0ed}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>159.45764172335601</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{a8170fbf-c411-4d05-8ad3-0e174fef3b42}</destination>

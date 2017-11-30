@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{ca02c7a2-0d89-0d14-2b3b-cc221c1dd70e}">
+        <property name="name">
+            <value>heartbeat</value>
+        </property>
+        <relationship name="folder">
+            <destination>{73753b74-861a-478c-b849-7aa6328b93a2}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{8a060102-8503-4e13-9c98-0f98ee9614af}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{8a060102-8503-4e13-9c98-0f98ee9614af}">
+        <property name="minimum">
+            <value>1</value>
+        </property>
+        <property name="maximum">
+            <value>6</value>
+        </property>
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

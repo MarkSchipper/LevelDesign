@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{c56a4ebb-92bb-0fca-01de-401e3913e56e}">
+        <property name="name">
+            <value>dirt</value>
+        </property>
+        <relationship name="folder">
+            <destination>{d07fb94a-dbd0-456d-91e6-7019c6ead1c9}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{856e881b-1a31-4ccd-b67d-83a4cb9826cf}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{856e881b-1a31-4ccd-b67d-83a4cb9826cf}">
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

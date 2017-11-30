@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{4b0134d9-d7e4-0c7e-230d-a67428557335}">
+        <property name="name">
+            <value>birds</value>
+        </property>
+        <relationship name="folder">
+            <destination>{0bb45cfe-374f-4df6-953c-ca8bf7b668fe}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{0b05f279-5f6e-4f79-94ae-65cedadeb094}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{0b05f279-5f6e-4f79-94ae-65cedadeb094}">
+        <property name="seekSpeed">
+            <value>0.50000005960464478</value>
+        </property>
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

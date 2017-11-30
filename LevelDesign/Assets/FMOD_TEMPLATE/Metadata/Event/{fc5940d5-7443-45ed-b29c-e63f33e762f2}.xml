@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{fc5940d5-7443-45ed-b29c-e63f33e762f2}">
         <property name="name">
             <value>water</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{454af638-b577-49bb-846b-16a945690e58}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{be68e04b-a4b9-4787-b63c-2fe4b4235250}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{454af638-b577-49bb-846b-16a945690e58}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{be68e04b-a4b9-4787-b63c-2fe4b4235250}">
@@ -95,11 +95,11 @@
     </object>
     <object class="MixerBusPanner" id="{e13bbfd8-2a8b-4fc3-b1d4-1a880ab880ea}"/>
     <object class="SingleSound" id="{e8491ec6-ce95-4c59-b3fe-5c6326da57e9}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>106.5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{48a8df5f-212e-4dc0-84f3-162984662df0}</destination>

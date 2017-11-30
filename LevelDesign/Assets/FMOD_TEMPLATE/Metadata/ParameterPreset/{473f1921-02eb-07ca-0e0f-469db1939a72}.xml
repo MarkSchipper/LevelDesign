@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPreset" id="{473f1921-02eb-07ca-0e0f-469db1939a72}">
+        <property name="name">
+            <value>surface</value>
+        </property>
+        <relationship name="folder">
+            <destination>{557fd065-84d7-4a05-9d49-b5283a7aea08}</destination>
+        </relationship>
+        <relationship name="parameter">
+            <destination>{073bdf81-8a61-44cd-b9ac-8527431859d3}</destination>
+        </relationship>
+    </object>
+    <object class="GameParameter" id="{073bdf81-8a61-44cd-b9ac-8527431859d3}">
+        <property name="minimum">
+            <value>1</value>
+        </property>
+        <property name="maximum">
+            <value>8</value>
+        </property>
+        <property name="isExposedRecursively">
+            <value>false</value>
+        </property>
+    </object>
+</objects>

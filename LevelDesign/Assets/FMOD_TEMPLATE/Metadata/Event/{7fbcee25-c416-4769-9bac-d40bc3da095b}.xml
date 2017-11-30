@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{7fbcee25-c416-4769-9bac-d40bc3da095b}">
         <property name="name">
             <value>Enemy_Infected_Grunt</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{40e919b9-caef-4a08-b057-6853ff7facec}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{7cbd07bd-1992-4f47-95fb-0bed137a6407}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{40e919b9-caef-4a08-b057-6853ff7facec}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{7cbd07bd-1992-4f47-95fb-0bed137a6407}">
@@ -98,6 +98,9 @@
         <property name="length">
             <value>2.7740362811791384</value>
         </property>
+        <property name="looping">
+            <value>true</value>
+        </property>
         <relationship name="audioFile">
             <destination>{c9efc496-8ae8-4fb3-9991-50e4b42f830a}</destination>
         </relationship>
@@ -131,6 +134,13 @@
     </object>
     <object class="MixerBusPanner" id="{ec4524e1-31c4-4390-8ad2-f5b2453bd0d2}"/>
     <object class="MixerBusFader" id="{991b429c-b685-462a-9ba4-c9edccaedffb}"/>
-    <object class="SpatialiserEffect" id="{efe23528-905e-4796-a30b-410d1cbe424b}"/>
+    <object class="ProxyEffect" id="{efe23528-905e-4796-a30b-410d1cbe424b}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{3371da85-ac2e-4d40-9caf-6b1c3850404f}"/>
 </objects>
