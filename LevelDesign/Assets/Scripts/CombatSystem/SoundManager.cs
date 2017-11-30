@@ -14,6 +14,9 @@ namespace CombatSystem
         PLAYERSPELLCAST,
         PLAYERBLINK,
         PLAYERJUMP,
+        PLAYERBARRIER,
+        PLAYERBARRIERDECAY,
+        PLAYERICETHRONE,
         INCOMBAT,
         ENEMYCHARGE,
         ENEMYDEATH,
@@ -42,6 +45,15 @@ namespace CombatSystem
 
         [FMODUnity.EventRef]
         public string _playerBlink;
+
+        [FMODUnity.EventRef]
+        public string _barrierRise;
+
+        [FMODUnity.EventRef]
+        public string _barrierDecay;
+
+        [FMODUnity.EventRef]
+        public string _iceThrone;
 
         [FMODUnity.EventRef]
         public string _playerJump;
@@ -167,9 +179,23 @@ namespace CombatSystem
                 case SOUNDS.ENEMYHIT:
                     PlayEnemyHit(_playerPos);
                     break;
+                case SOUNDS.PLAYERBARRIER:
+                    PlayPlayerBarrier(_playerPos);
+                    break;
+                case SOUNDS.PLAYERBARRIERDECAY:
+                    PlayPlayerBarrierDecay(_playerPos);
+                    break;
+                case SOUNDS.PLAYERICETHRONE:
+                    PlayPlayerIceThrone(_playerPos);
+                    break;
                 default:
                     break;
             }
+        }
+
+        public void StopSound(SOUNDS _sound)
+        {
+
         }
 
         void PlayFootsteps(Vector3 _playerPos)
@@ -271,6 +297,34 @@ namespace CombatSystem
             e.start();
             e.release();
         }
+
+        void PlayPlayerBarrier(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_barrierRise);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
+        void PlayPlayerBarrierDecay(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_barrierDecay);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
+        void PlayPlayerIceThrone(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_iceThrone);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
 
         void PlayInCombat()
         {

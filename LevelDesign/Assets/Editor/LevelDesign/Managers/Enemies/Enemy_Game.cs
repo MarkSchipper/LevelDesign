@@ -127,7 +127,7 @@ public class Enemy_Game : MonoBehaviour {
                 _enemyAggro.AddComponent<SphereCollider>();
                 _enemyAggro.GetComponent<SphereCollider>().isTrigger = true;
                 _enemyAggro.GetComponent<SphereCollider>().radius = EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex);
-                _enemyAggro.AddComponent<CombatSystem.EnemyTrigger>();
+                _enemyAggro.AddComponent<EnemyCombat.EnemyTrigger>();
 
                 //GameObject _death = Instantiate(Resources.Load("Characters/Enemies/Feedback/Death/" + EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex)) as GameObject );
 

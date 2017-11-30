@@ -27,6 +27,7 @@ namespace CombatSystem
         private bool _isOverUI          = false;
         private bool _isFirstPerson     = false;
         private bool INPUT_BLOCK        = false;
+        private bool _hasBarrier        = false;
 
         private bool _setOnce           = false;
         private bool _regen             = false;
@@ -64,10 +65,13 @@ namespace CombatSystem
 
         private CharacterController _charController;
         private CameraController _camController;
+
         private GameObject _selectedNPC;
         private GameObject _previousNPC;
         private GameObject _selectedActor;
         private GameObject _blinkMarker;
+        private GameObject _barrierGameObject;
+        private GameObject _debuffGameObject;
 
         private GameObject _playerMesh;
 
@@ -137,9 +141,7 @@ namespace CombatSystem
             InteractionManager.instance.SetPlayerMaxHealth(_playerHealth);
             InteractionManager.instance.SetPlayerMaxMana(_playerMana);
 
-          //  SoundSystem.SetSpellCastingSound();
-
-            if(CombatSystem.CameraController.ReturnFirstPerson())
+            if (CombatSystem.CameraController.ReturnFirstPerson())
             {
                 foreach (SkinnedMeshRenderer skin in GetComponentsInChildren<SkinnedMeshRenderer>())
                 {
@@ -220,6 +222,14 @@ namespace CombatSystem
                 SetBlinkTarget();
             }
 
+            if(_hasBarrier)
+            {
+                if (_barrierGameObject != null)
+                {
+                    _barrierGameObject.transform.position = transform.position;
+                }
+            }
+
             if(!STATE_INCOMBAT)
             {
                 _oocTimer += Time.deltaTime;
@@ -262,6 +272,14 @@ namespace CombatSystem
                 else
                 {
                     _moveDirection *= _runSpeed;
+                }
+
+                if(_moveDirection != Vector3.zero)
+                {
+                    if(InteractionManager.instance.ReturnIsSpellCasting())
+                    {
+                        InteractionManager.instance.CancelSpellCasting();
+                    }
                 }
 
                 // If _moveDirection.z is not 0
@@ -533,13 +551,15 @@ namespace CombatSystem
                     // If the mouse is over an NPC
                     if (_hit.collider.tag == "NPC")
                     {
-                        // Set the NPC cursor
-                        InteractionManager.instance.SetNpcCursor();
+                        if (_hit.collider.gameObject.GetComponent<NPC.NpcSystem>().ReturnHasConversation())
+                        {
+                            // Set the NPC cursor
+                            InteractionManager.instance.SetNpcCursor();
 
-                        // Highlight the specific NPC ( _hit.collider.gameObject )
-                        _hit.collider.gameObject.GetComponent<NPC.NpcSystem>().HighlightNPC(true, _hit.collider.gameObject);
-                        _selectedNPC = _hit.collider.gameObject;
-
+                            // Highlight the specific NPC ( _hit.collider.gameObject )
+                            _hit.collider.gameObject.GetComponent<NPC.NpcSystem>().HighlightNPC(true, _hit.collider.gameObject);
+                            _selectedNPC = _hit.collider.gameObject;
+                        }
                     }
 
                     // If the mouse is over an Enemy
@@ -576,6 +596,7 @@ namespace CombatSystem
                     // If we pressed the Left Mouse Button
                     if (Input.GetMouseButtonDown(0))
                     {
+
                         if (!_isCameraDragging)
                         {
                             if (!InteractionManager.instance.ReturnHoveringOverUI())
@@ -590,11 +611,13 @@ namespace CombatSystem
                                     _selectedNPC = _hit.collider.gameObject;
 
                                     // Set the NPC selected to "Selected" in its NPC Class
-                                    _selectedNPC.GetComponentInChildren<NPC.NpcSystem>().IsSelected(true);
-                                    _selectedNPC.gameObject.GetComponentInChildren<NPC.NpcSystem>().SetInteraction(true);
+                                    if (_hit.collider.gameObject.GetComponent<NPC.NpcSystem>().ReturnHasConversation())
+                                    {
+                                        _selectedNPC.GetComponentInChildren<NPC.NpcSystem>().IsSelected(true);
+                                        _selectedNPC.gameObject.GetComponentInChildren<NPC.NpcSystem>().SetInteraction(true);
 
-                                    InteractionManager.instance.SetSelected(_selectedNPC);
-
+                                        InteractionManager.instance.SetSelected(_selectedNPC);
+                                    }
                                     _previousNPC = _selectedNPC;
 
                                 }
@@ -603,13 +626,14 @@ namespace CombatSystem
                                     if (!_hit.collider.gameObject.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLootable())
                                     {
                                         _selectedActor = _hit.collider.gameObject;
+
                                         InteractionManager.instance.SetSelected(_selectedActor);
                                         _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(true);
                                     }
                                     else
                                     {
                                         _selectedActor = _hit.collider.transform.parent.gameObject;
-                                        Debug.Log(_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable());
+                                        
                                         if (_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable() != string.Empty)
                                         {
                                             Inventory.instance.ShowLootWindow(_selectedActor);
@@ -642,6 +666,10 @@ namespace CombatSystem
                                     }
                                 }
                             }
+                        }
+                        else
+                        {
+                            Debug.Log("Camera dragging");
                         }
                     }
 
@@ -707,8 +735,15 @@ namespace CombatSystem
                         // If the players health minus the damage from the spell is greater than 0
                         if(_playerHealth - coll.GetComponent<SpellObject>().ReturnDamage() > 0)
                         {
-                            // Reduce the players health with the damage from the spell
-                            _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
+                            if(_hasBarrier)
+                            {
+                                _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage() / 4;
+                            }
+                            if (!_hasBarrier)
+                            {
+                                // Reduce the players health with the damage from the spell
+                                _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
+                            }
 
                             // Update the UI
                             InteractionManager.instance.SetPlayerHealth(_playerHealth);
@@ -950,6 +985,11 @@ namespace CombatSystem
             return this.gameObject;
         }
 
+        public int ReturnPlayerLevel()
+        {
+            return _playerLevel;
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                              IsPlayerFacingEnemy                                         //
         //                                                                                                          //
@@ -1048,8 +1088,6 @@ namespace CombatSystem
         {
             _selectedActor = _target;
         }
-
-      
 
         public void CameraDragging(bool _set)
         {
@@ -1187,6 +1225,51 @@ namespace CombatSystem
             }
         }
 
+        public void CreateBarrier(float _time)
+        {
+            _barrierGameObject = Instantiate(Resources.Load("PlayerSpells/Ability/Barrier_Spell"), transform.position, Quaternion.identity) as GameObject;
+            _hasBarrier = true;
+            StartCoroutine(BarrierRise(_time));
+
+            SoundManager.instance.PlaySound(SOUNDS.PLAYERBARRIER, transform.position, true);
+
+        }
+
+        public void CastDebuff(float _time, string _prefab, DebuffAbility _debuff)
+        {
+            if(_selectedActor != null)
+            {
+                _debuffGameObject = Instantiate(Resources.Load("PlayerSpells/Debuff/" + _prefab), _selectedActor.transform.position, Quaternion.identity) as GameObject;
+                _debuffGameObject.AddComponent<DebuffSpell>();
+                _debuffGameObject.GetComponent<DebuffSpell>().SetDebuff(_debuff.ToString(), _time, this.gameObject);
+                StartCoroutine(DebuffRise(_time));
+
+                SoundManager.instance.PlaySound(SOUNDS.PLAYERICETHRONE, transform.position, true);
+
+            }
+            else
+            {
+                Dialogue.DialogueManager.ShowMessage("No Enemy Selected", true);
+            }
+        }
+
+        public GameObject ReturnSelectedActor()
+        {
+            return _selectedActor;
+        }
+
+        public bool ReturnPlayerIsInRange()
+        {
+            if (Vector3.Distance(transform.position, _selectedActor.transform.position) <= _playerAttackRange)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                              CompletedQuest                                              //
         //                                                                                                          //
@@ -1243,7 +1326,7 @@ namespace CombatSystem
         //  Return the player position ( Vector 3 )                                                                 //
         //      For example for the VFX of spells                                                                   //
         //                                                                                                          //
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////s
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public Vector3 ReturnPlayerPosition()
         {
@@ -1288,6 +1371,98 @@ namespace CombatSystem
             }
             _regen = false;
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                          Barrier IENumerators                                            //
+        //                                                                                                          //
+        //  When the barrier spell is cast it starts the coroutine BarrierRise with the duration time               //
+        //                                                                                                          //
+        //  In 1 second the barrier dissolve goes from 1 ( fully dissolved ) to 0 to create a growing effect        //
+        //      We set the float _SliceAmount defined in the shader using the _timer ( 1 - Time.deltaTime )         //
+        //          If the timer is ~0                                                                              //
+        //              We wait for the duration time                                                               //
+        //              Play the Barrier dissolve sound                                                             //
+        //                  Start the coroutine BarrierDecay which is the same but inverted                         //
+        //                      Break the coroutine ( stop it )                                                     //
+        //                  The 'inverted coroutine' does the same but when the _timer > 1 we destroy the object    //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        IEnumerator BarrierRise(float _waitTime)
+        {
+            float _timer = 1f;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                _timer -= Time.deltaTime;
+                _barrierGameObject.GetComponentInChildren<Renderer>().material.SetFloat("_SliceAmount", _timer);
+
+                if (_timer <= 0)
+                {
+                    yield return new WaitForSeconds(_waitTime);
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERBARRIERDECAY, transform.position, true);
+                    StartCoroutine(BarrierDecay());
+                    yield break;
+                }
+            }
+        }
+
+        IEnumerator BarrierDecay()
+        {
+            float _timer = 0f;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                _timer += Time.deltaTime;
+                if (_barrierGameObject != null)
+                {
+                    _barrierGameObject.GetComponentInChildren<Renderer>().material.SetFloat("_SliceAmount", _timer);
+                }
+                if (_timer >= 1)
+                {
+                    Destroy(_barrierGameObject);
+                    _hasBarrier = false;
+                    yield break;
+                }
+            }
+        }
+
+        IEnumerator DebuffRise(float _waitTime)
+        {
+            float _timer = 1f;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                _timer -= Time.deltaTime;
+                _debuffGameObject.GetComponentInChildren<Renderer>().material.SetFloat("_SliceAmount", _timer);
+
+                if (_timer <= 0)
+                {
+                    yield return new WaitForSeconds(_waitTime);
+                    SoundManager.instance.PlaySound(SOUNDS.PLAYERBARRIERDECAY, transform.position, true);
+                    StartCoroutine(DebuffDecay());
+                    yield break;
+                }
+            }
+        }
+
+        IEnumerator DebuffDecay()
+        {
+            float _timer = 0f;
+            while (true)
+            {
+                yield return new WaitForEndOfFrame();
+                _timer += Time.deltaTime;
+                _debuffGameObject.GetComponentInChildren<Renderer>().material.SetFloat("_SliceAmount", _timer);
+
+                if (_timer >= 1)
+                {
+                    Destroy(_debuffGameObject);
+                    yield break;
+                }
+            }
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                              Conversation Mode                                           //
         //                                                                                                          //

@@ -25,6 +25,8 @@ namespace EnemyCombat
         public void SetEnemyIdle()
         {
             _animator.SetBool("isIdle", true);
+            _animator.SetBool("isWalk", false);
+            _animator.SetBool("isRun", false);
         }
 
         public void SetEnemyCombatIdle()

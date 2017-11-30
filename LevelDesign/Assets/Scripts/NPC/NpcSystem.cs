@@ -43,7 +43,7 @@ namespace NPC
 
         private int _nodeID;
 
-  
+
 
         // Use this for initialization
         void Start()
@@ -60,24 +60,24 @@ namespace NPC
         // Update is called once per frame
         void FixedUpdate()
         {
-            if(STATE_IDLE)
+            if (STATE_IDLE)
             {
                 Idle();
             }
-            if(STATE_PATROL)
+            if (STATE_PATROL)
             {
                 Patrol();
             }
-            if(STATE_CONVERSATION)
+            if (STATE_CONVERSATION)
             {
             }
-            if(_isSelected)
+            if (_isSelected)
             {
                 HighlightNPC(true, this.gameObject);
                 CheckDistance();
 
             }
-            if(!_isSelected)
+            if (!_isSelected)
             {
                 HighlightNPC(false, null);
             }
@@ -87,7 +87,7 @@ namespace NPC
         {
             _npcID = id;
             _npcName = name;
-            
+
 
             if (behaviour == ActorBehaviour.Idle)
             {
@@ -183,7 +183,7 @@ namespace NPC
 
         public void HighlightNPC(bool _set, GameObject _sel)
         {
-            if(_set)
+            if (_set)
             {
                 for (int i = 0; i < _sel.GetComponentsInChildren<SkinnedMeshRenderer>().Length; i++)
                 {
@@ -194,9 +194,9 @@ namespace NPC
                     }
                 }
             }
-            if(!_set)
+            if (!_set)
             {
-                if(_prevHighlighted != null)
+                if (_prevHighlighted != null)
                 {
                     for (int i = 0; i < _prevHighlighted.GetComponentsInChildren<SkinnedMeshRenderer>().Length; i++)
                     {
@@ -219,7 +219,7 @@ namespace NPC
 
         public ActorBehaviour ReturnNpcBehaviour()
         {
-            if(STATE_PATROL)
+            if (STATE_PATROL)
             {
                 return ActorBehaviour.Patrol;
             }
@@ -265,7 +265,7 @@ namespace NPC
 
         void CheckDistance()
         {
-            if(Vector3.Distance(transform.position, CombatSystem.PlayerController.instance.ReturnPlayerPosition()) < 5f)
+            if (Vector3.Distance(transform.position, CombatSystem.PlayerController.instance.ReturnPlayerPosition()) < 5f)
             {
                 STATE_PATROL = false;
                 STATE_IDLE = true;
@@ -276,14 +276,14 @@ namespace NPC
             }
             else
             {
-                
+
                 if (_initialBehaviour == ActorBehaviour.Idle)
                 {
                     STATE_IDLE = true;
                     STATE_CONVERSATION = false;
                     _npcAnimator.SetIdle();
                 }
-                if(_initialBehaviour == ActorBehaviour.Patrol)
+                if (_initialBehaviour == ActorBehaviour.Patrol)
                 {
                     STATE_IDLE = false;
                     STATE_PATROL = true;
@@ -295,7 +295,7 @@ namespace NPC
 
         void CreateDialogue()
         {
-            if(STATE_CONVERSATION)
+            if (STATE_CONVERSATION)
             {
                 if (_setInteraction)
                 {
@@ -303,11 +303,21 @@ namespace NPC
                     Dialogue.DialogueManager.InitiateDialogue(_npcID, false, this.gameObject);
                     _setInteraction = false;
                     IsSelected(false);
-                    
+
                 }
             }
         }
 
+        public bool ReturnHasConversation()
+        {
+            if (Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_npcID) != string.Empty)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         public void CheckForQuest()
         {
             if(Quest.QuestDatabase.NPCHasNewQuest(_npcID))

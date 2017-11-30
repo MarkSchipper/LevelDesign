@@ -31,10 +31,12 @@ public class FloorObject : MonoBehaviour {
         if(!_set)
         {
             this.gameObject.layer = 2;
+            this.GetComponent<MeshRenderer>().enabled = false;
         }
         else
         {
             this.gameObject.layer = 0;
+            this.GetComponent<MeshRenderer>().enabled = true;
         }
 
     }

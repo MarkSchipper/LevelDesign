@@ -163,7 +163,7 @@ namespace EnemyCombat
                 _enemyAggro.AddComponent<SphereCollider>();
                 _enemyAggro.GetComponent<SphereCollider>().isTrigger = true;
                 _enemyAggro.GetComponent<SphereCollider>().radius = _enemyAggroRange;
-                _enemyAggro.AddComponent<CombatSystem.EnemyTrigger>();
+                _enemyAggro.AddComponent<EnemyCombat.EnemyTrigger>();
 
                 //GameObject _death = Instantiate(Resources.Load("Characters/Enemies/Feedback/Death/" + EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex)) as GameObject );
 

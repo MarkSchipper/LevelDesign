@@ -66,7 +66,7 @@ namespace Dialogue
 
         private static bool _playerFinishedQuest;
 
-        private static int _nodeID;
+        private static int _nodeID = 0;
 
         void OnEnable()
         {
@@ -164,7 +164,6 @@ namespace Dialogue
         {
             _dialogueAnswers[0] = _answers[0];
             _dialogueAnswers[1] = _answers[1];
-            Debug.Log(_dialogueAnswers[0]);
         }
 
         static void ShowDialogueWheel(bool _set)
@@ -174,13 +173,15 @@ namespace Dialogue
 
         public static void InitiateDialogue(int _id, bool _questGiver, GameObject _npcObject)
         {
-            if (Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_id) != string.Empty)
+            
+            if(Dialogue.Game.DialogueGameDatabase.GetInitialQuestionFromNPC(_id) != string.Empty)
             {
                 SetDialogue("", Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_id), false, _id, 0, _npcObject);
 
-                // Get the followup NodeID
-                _nodeID = Dialogue.DialogueDatabase.GetNextNodeID(_id, 0);
-                SetAnswers(Dialogue.DialogueDatabase.GetAnswersForQuestion(_npcID, _nodeID));
+                // Set NodeID to the next NodeID in line
+                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_id, 0);
+
+                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_id, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_id, 0)));
 
                 _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(true);
                 CombatSystem.PlayerController.instance.SetInputBlock(true);
@@ -192,7 +193,6 @@ namespace Dialogue
                         Cursor.visible = true;
                     }
                 }
-
             }
         }
 
@@ -219,11 +219,11 @@ namespace Dialogue
             //GUI.Box(_dialogueBox, "");
             GUI.Label(_dialogueTextBox, _questText, _dialogueSkin.GetStyle("DialogueQuestion"));
 
-            _dialogueAnswersBox[0] = new Rect(Screen.width / 2 - 300, Screen.height - 350, 200, 50);
-            _dialogueAnswersBox[1] = new Rect(Screen.width / 2 + 100, Screen.height - 350, 200, 50);
+            _dialogueAnswersBox[0] = new Rect(Screen.width / 2 + 100, Screen.height - 350, 200, 50);
+            _dialogueAnswersBox[1] = new Rect(Screen.width / 2 - 300, Screen.height - 350, 200, 50);
 
-            _dialogueAnswersRect[0] = new Rect(Screen.width / 2 - 300, Screen.height - 350, 200, 50);
-            _dialogueAnswersRect[1] = new Rect(Screen.width / 2 + 100, Screen.height - 350, 200, 50);
+            _dialogueAnswersRect[0] = new Rect(Screen.width / 2 + 100, Screen.height - 350, 200, 50);
+            _dialogueAnswersRect[1] = new Rect(Screen.width / 2 - 300, Screen.height - 350, 200, 50);
 
             GUI.Label(_dialogueAnswersRect[0], _dialogueAnswers[0], _styleLeft);
 
@@ -232,6 +232,9 @@ namespace Dialogue
             // If the cursor is hovering over the left answer
             if (_dialogueAnswersBox[0].Contains(Event.current.mousePosition))
             {
+                // we use [0] for the LEFT answer
+
+
                 // Change the style to create the hover effect
                 _styleLeft = _dialogueSkin.GetStyle("DialogueAnswerLeftHover");
                 _dialogueAnswerLeft.enabled = true;
@@ -239,65 +242,186 @@ namespace Dialogue
                 // If we have pressed the left mouse button
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDown)
                 {
-                    // Check if there are 2 answers - to catch the argument exception
-                    if (Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID).Count > 1)
+
+                    // if question
+                    if(Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]) != string.Empty)
                     {
-                        // If the question is not empty
-                        if (Dialogue.DialogueDatabase.GetFollowupQuestion(_npcID, Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[0]) != string.Empty)
+                        if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]) != "End")
                         {
-                            // Set the new question from the NPC
-                            _questText = Dialogue.DialogueDatabase.GetFollowupQuestion(_npcID, Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[0]);
-
-                            // Set the NodeID to the NodeID of the question
-                            // This is done because of the following:
-                            // Every question has a NodeID
-                            //      Every answer has a 'previousNode' to refers to the question
-                            // If we dont update the NodeID to the current question it will bug out
-                            _nodeID = Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[0];
-
-                            // If the title of the nodes is not "End" - meaning the end of the conversation
-                            if (Dialogue.DialogueDatabase.GetTitleByNode(_npcID, Dialogue.DialogueDatabase.GetNextNodeID(_npcID, _nodeID))[0] != "End")
+                            _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
+                            _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
+                            SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID)));
+                            _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
+                        }
+                    }
+                    // if condition
+                    else
+                    {
+                        if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]) != "End")
+                        {
+                            // If the title is NOT "End" it is a condition
+                            switch (Dialogue.Game.DialogueGameDatabase.GetCondition(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]))
                             {
-                                // Set the Answers with the new replies
-                                SetAnswers(Dialogue.DialogueDatabase.GetAnswersForQuestion(_npcID, Dialogue.DialogueDatabase.GetNextNodeID(_npcID, _nodeID)));
-
-                            }
-
-                            // If the title is "End" - cancel the dialogue window
-                            else
-                            {
-                                _showDialogue = false;
-                                ShowDialogueWheel(false);
-                                _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
-                                CombatSystem.PlayerController.instance.SetInputBlock(false);
-
-                                if (CombatSystem.CameraController.ReturnFirstPerson())
-                                {
-                                    if (Cursor.visible)
+                                case "If":
+                                    switch (Dialogue.Game.DialogueGameDatabase.GetConditionStatement(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]))
                                     {
-                                        Cursor.visible = false;
+                                        case "QuestActive":
+
+                                            Quest.QuestDatabase.GetAllQuests();
+
+                                            // check if quest is active
+                                            if (Quest.QuestDatabase.ReturnQuestActive(Quest.QuestDatabase.GetQuestID(int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])))))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+                                            break;
+                                        case "QuestCompleted":
+
+
+                                            Quest.QuestDatabase.GetAllQuests();
+                                            // check if quest is active
+                                            if (Quest.QuestDatabase.CheckQuestComplete(Quest.QuestDatabase.GetQuestID(int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])))))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+
+                                            break;
+                                        case "PlayerLevel":
+
+                                            if(CombatSystem.PlayerController.instance.ReturnPlayerLevel() == int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+                                            break;
+                                        case "ZoneVisited":
+
+                                            if (GameObject.Find("Zone_" + Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])) != null)
+                                            {
+                                                if (GameObject.Find("Zone_" + Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])).GetComponent<Quest.Zone>().ReturnPlayerVisited())
+                                                {
+                                                    // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                    // Set the Question
+                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                    // Fetch the corresponding answers
+                                                    SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                                }
+                                                else
+                                                {
+                                                    // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                    // Set the Question
+                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                    // Fetch the corresponding answers
+                                                    //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                    SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Debug.Log("Zone does not exist");
+                                            }
+
+
+                                            break;
+                                        default:
+                                            break;
                                     }
+                                    break;
+                                case "IfNot":
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        // The title equals "End"
+
+                        else
+                        {
+                            _showDialogue = false;
+                            ShowDialogueWheel(false);
+                            _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
+                            CombatSystem.PlayerController.instance.SetInputBlock(false);
+
+                            if (CombatSystem.CameraController.ReturnFirstPerson())
+                            {
+                                if (Cursor.visible)
+                                {
+                                    Cursor.visible = false;
                                 }
                             }
                         }
                     }
-                    // If there are less than 2 answers - cancel everything
-                    else
-                    {
-                        _showDialogue = false;
-                        ShowDialogueWheel(false);
-                        _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
-                        CombatSystem.PlayerController.instance.SetInputBlock(false);
-
-                        if (CombatSystem.CameraController.ReturnFirstPerson())
-                        {
-                            if (Cursor.visible)
-                            {
-                                Cursor.visible = false;
-                            }
-                        }
-                    }
-
                 }
             }
 
@@ -315,46 +439,177 @@ namespace Dialogue
 
                 if (Event.current.button == 0 && Event.current.type == EventType.mouseDown)
                 {
-                    if (Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID).Count > 1)
+
+                    // if question
+                    if (Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]) != string.Empty)
                     {
-                        if (Dialogue.DialogueDatabase.GetFollowupQuestion(_npcID, Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[1]) != string.Empty)
+                        if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]) != "End")
                         {
-                            _questText = Dialogue.DialogueDatabase.GetFollowupQuestion(_npcID, Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[1]);
-                            _nodeID = Dialogue.DialogueDatabase.GetNodeIDFromAnswer(_npcID, _nodeID)[1];
-
-                            if (Dialogue.DialogueDatabase.GetTitleByNode(_npcID, Dialogue.DialogueDatabase.GetNextNodeID(_npcID, _nodeID))[1] != "End")
-                            {
-                                SetAnswers(Dialogue.DialogueDatabase.GetAnswersForQuestion(_npcID, Dialogue.DialogueDatabase.GetNextNodeID(_npcID, _nodeID)));
-                            }
-                            else
-                            {
-                                _showDialogue = false;
-                                ShowDialogueWheel(false);
-                                _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
-                                CombatSystem.PlayerController.instance.SetInputBlock(false);
-
-                                if (CombatSystem.CameraController.ReturnFirstPerson())
-                                {
-                                    if (Cursor.visible)
-                                    {
-                                        Cursor.visible = false;
-                                    }
-                                }
-                            }
+                            _nodeID = Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1];
+                            _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
+                            SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID)));
+                            _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
                         }
                     }
+                    // if condition
                     else
                     {
-                        _showDialogue = false;
-                        ShowDialogueWheel(false);
-                        _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
-                        CombatSystem.PlayerController.instance.SetInputBlock(false);
-
-                        if (CombatSystem.CameraController.ReturnFirstPerson())
+                        if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]) != "End")
                         {
-                            if (Cursor.visible)
+                            // If the title is NOT "End" it is a condition
+                            switch (Dialogue.Game.DialogueGameDatabase.GetCondition(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]))
                             {
-                                Cursor.visible = false;
+                                case "If":
+                                    switch (Dialogue.Game.DialogueGameDatabase.GetConditionStatement(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]))
+                                    {
+                                        case "QuestActive":
+
+                                            // check if quest is active
+                                            if (Quest.QuestDatabase.ReturnQuestActive(Quest.QuestDatabase.GetQuestID(int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0])))))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+                                            break;
+                                        case "QuestCompleted":
+
+                                            Quest.QuestDatabase.GetAllQuests();
+                                            // check if quest is active
+                                            if (Quest.QuestDatabase.CheckQuestComplete(Quest.QuestDatabase.GetQuestID(int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1])))))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+                                            break;
+                                        case "PlayerLevel":
+
+
+                                            if (CombatSystem.PlayerController.instance.ReturnPlayerLevel() == int.Parse(Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1])))
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                // Fetch the corresponding answers
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                            }
+                                            else
+                                            {
+                                                // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+                                                // Set the Question
+                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                // Fetch the corresponding answers
+                                                //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                            }
+
+                                            break;
+                                        case "ZoneVisited":
+                                            if(GameObject.Find("Zone_" + Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1])) != null)
+                                            {
+                                                if(GameObject.Find("Zone_" + Dialogue.Game.DialogueGameDatabase.GetConditionValue(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1])).GetComponent<Quest.Zone>().ReturnPlayerVisited())
+                                                {
+                                                    // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) Correct answer
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+
+                                                    // Set the Question
+                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+
+                                                    // Fetch the corresponding answers
+                                                    SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True");
+                                                }
+                                                else
+                                                {
+                                                    // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
+
+                                                    // Set the Question
+                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+
+                                                    // Fetch the corresponding answers
+                                                    //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
+                                                    SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
+                                                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Debug.Log("Zone does not exist");
+                                            }
+
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "IfNot":
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        // The title equals "End"
+
+                        else
+                        {
+                            _showDialogue = false;
+                            ShowDialogueWheel(false);
+                            _selectedNPC.GetComponent<NPC.NpcSystem>().SwitchOnNpcCamera(false);
+                            CombatSystem.PlayerController.instance.SetInputBlock(false);
+
+                            if (CombatSystem.CameraController.ReturnFirstPerson())
+                            {
+                                if (Cursor.visible)
+                                {
+                                    Cursor.visible = false;
+                                }
                             }
                         }
                     }

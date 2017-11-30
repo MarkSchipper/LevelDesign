@@ -34,6 +34,7 @@ namespace CombatSystem
         private static List<float> _blinkRange = new List<float>();
         private static List<float> _spellMana = new List<float>();
         private static List<Abilities> _ability = new List<Abilities>();
+        private static List<DebuffAbility> _debuffAbility = new List<DebuffAbility>();
         private static List<float> _spellCooldown = new List<float>();
 
         private static int _playerLevel;
@@ -47,6 +48,28 @@ namespace CombatSystem
 
 
         public static void AddSpell(string _name, string _desc, SpellTypes _type, float _value, float _manaCost, float _casttime, string _prefab, string _icon, float _chargeRange, float _disDistance, float _blinkRange, Abilities _ability, float _cooldown)
+        {
+
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerSpellsDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+
+            IDbCommand dbcmd = dbconn.CreateCommand();
+
+            string sqlQuery = String.Format("INSERT INTO PlayerSpells (SpellName, SpellDesc, SpellType, SpellValue, SpellCasttime, SpellPrefab, SpellIcon, ChargeRange, DisEngageDistance, BlinkRange, SpellManaCost, Ability, SpellCooldown) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\", \"{7}\", \"{8}\", \"{9}\", \"{10}\", \"{11}\", \"{12}\")", _name, _desc, _type.ToString(), _value, _casttime, _prefab, _icon, _chargeRange, _disDistance, _blinkRange, _manaCost, _ability.ToString(), _cooldown);
+            dbcmd.CommandText = sqlQuery;
+            dbcmd.ExecuteScalar();
+
+            dbcmd.Dispose();
+            dbcmd = null;
+
+            dbconn.Close();
+            dbconn = null;
+
+        }
+
+        public static void AddSpell(string _name, string _desc, SpellTypes _type, float _value, float _manaCost, float _casttime, string _prefab, string _icon, float _chargeRange, float _disDistance, float _blinkRange, DebuffAbility _ability, float _cooldown)
         {
 
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerSpellsDB.db"; //Path to database.
@@ -129,6 +152,10 @@ namespace CombatSystem
                 {
                     _spellTypes.Add(SpellTypes.Ability);
                 }
+                if(reader.GetString(3) == "Debuff")
+                {
+                    _spellTypes.Add(SpellTypes.Debuff);
+                }
 
                 _spellValues.Add(reader.GetFloat(4));
                 _spellCastTimes.Add(reader.GetFloat(5));
@@ -142,20 +169,42 @@ namespace CombatSystem
                 if (reader.GetString(12) == "Disengage")
                 {
                     _ability.Add(Abilities.Disengage);
+                    _debuffAbility.Add(DebuffAbility.None);
                 }
-                if (reader.GetString(12) == "Charge")
+                else if (reader.GetString(12) == "Charge")
                 {
                     _ability.Add(Abilities.Charge);
+                    _debuffAbility.Add(DebuffAbility.None);
                 }
-                if (reader.GetString(12) == "Blink")
+                else if (reader.GetString(12) == "Blink")
                 {
                     _ability.Add(Abilities.Blink);
+                    _debuffAbility.Add(DebuffAbility.None);
+                }
+                else if (reader.GetString(12) == "Barrier")
+                {
+                    _ability.Add(Abilities.Barrier);
+                    _debuffAbility.Add(DebuffAbility.None);
+                }
+
+                else if (reader.GetString(12) == "Freeze")
+                {
+                    _debuffAbility.Add(DebuffAbility.Freeze);
+                    _ability.Add(Abilities.None);
+                }
+                else if (reader.GetString(12) == "Slow")
+                {
+                    _debuffAbility.Add(DebuffAbility.Slow);
+                    _ability.Add(Abilities.None);
                 }
                 else
                 {
                     _ability.Add(Abilities.None);
+                    _debuffAbility.Add(DebuffAbility.None);
                 }
                 _spellCooldown.Add(reader.GetFloat(13));
+
+                
 
             }
             reader.Close();
@@ -164,6 +213,7 @@ namespace CombatSystem
             dbcmd = null;
             dbconn.Close();
             dbconn = null;
+            
         }
 
         public static List<int> ReturnAllSpellID()
@@ -244,6 +294,11 @@ namespace CombatSystem
         public static Abilities ReturnAbility(int _id)
         {
             return _ability[_id];
+        }
+
+        public static DebuffAbility ReturnDebuffAbility(int _id)
+        {
+            return _debuffAbility[_id];
         }
 
         public static float ReturnSpellCooldown(int _id)

@@ -4,6 +4,8 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Linq;
+using Mono.Data.Sqlite;
+using System.Data;
 
 namespace DialogueSystem
 {
@@ -53,15 +55,15 @@ namespace DialogueSystem
 
 
         // Floats to change the size of our node windows
-        private float _windowWidth = 250f;
-        private float _windowHeight = 120f;
+        private float _windowWidth = 200;
+        private float _windowHeight = 125;
 
         // Vars to create the dirty canvas moving
         private Vector2 _initialPos;
         private bool _setPosition;
 
-        private GameObject[] _allNPCs;
-        private List<string> _allNames = new List<string>();
+        private List<string> _allNpcNames = new List<string>();
+        private List<int> _allNpcID = new List<int>();
         private int _selectIndex = 0;
         private int _npcID;
         private int _oldNpcID;
@@ -80,6 +82,8 @@ namespace DialogueSystem
         private bool _canvasChange = false;
         private bool _loadedNPC;
         private bool _loadedResources;
+
+        private List<Vector2> _nodePositions = new List<Vector2>();
 
         private Matrix4x4 _prevGuiMatrix;
         private Matrix4x4 guiScale;
@@ -137,18 +141,18 @@ namespace DialogueSystem
 
             EditorGUILayout.BeginHorizontal();
 
-            _selectIndex = EditorGUILayout.Popup(_selectIndex, _allNames.ToArray(), GUILayout.Width(150));
+            _selectIndex = EditorGUILayout.Popup(_selectIndex, _allNpcNames.ToArray(), GUILayout.Width(150));
             
             if(GUI.changed)
             {
                 ClearWindows();
                 _loadedNodes = false;
             }
-            _npcID = _allNPCs[_selectIndex].GetComponent<NPC.NpcSystem>().ReturnID();
 
+            _npcID = _allNpcID[_selectIndex];
             #region BUTTONS
 
-            if(GUILayout.Button("LOAD"))
+            if(GUILayout.Button("Load"))
             {
                 Dialogue.DialogueDatabase.ClearAll();
                 Dialogue.DialogueDatabase.GetDialogueByNPC(_npcID);
@@ -161,12 +165,12 @@ namespace DialogueSystem
                 
             }
 
-            if (GUILayout.Button("CLEAR"))
+            if (GUILayout.Button("Clear"))
             {
                 ClearWindows();
             }
 
-            if (GUILayout.Button("SAVE"))
+            if (GUILayout.Button("Save"))
             {
                
                 if (Dialogue.DialogueDatabase.ReturnCount() > 0)
@@ -180,26 +184,39 @@ namespace DialogueSystem
                     Debug.Log(windows.Count);
                     for (int i = 0; i < windows.Count; i++)
                     {
-                        Dialogue.DialogueDatabase.AddDialogue(random, i, _npcID, windows[i].ReturnPreviousNode(), windows[i].ReturnQuestion(), windows[i].ReturnResponse(), windows[i].ReturnCorrectAnswer(), windows[i].ReturnTitle(), windows[i].windowRect.position, windows[i].ReturnQuestID());
-                        Debug.Log("SAVE");
-                         
+                        Dialogue.DialogueDatabase.AddDialogue(random, i, _npcID, windows[i].ReturnPreviousNode(), windows[i].ReturnQuestion(), windows[i].ReturnResponse(), windows[i].ReturnCorrectAnswer(), windows[i].ReturnTitle(), windows[i].windowRect.position, windows[i].ReturnQuestID(), windows[i].ReturnCondition(), windows[i].ReturnConditionStatement(), windows[i].ReturnConditionTerm(), windows[i].ReturnConditionValue());
                     }
                     
                 }
                 if(_loadedNodes)
                 {
-
-                    Dialogue.DialogueDatabase.DeletePreviousDialogue(windows[1].ReturnConversationID());
-
-
-                    for (int i = 0; i < windows.Count; i++)
+                    if (windows.Count > 0)
                     {
-                        Dialogue.DialogueDatabase.UpdateDialogue(windows[i].ReturnConversationID(), i, _npcID, windows[i].ReturnPreviousNode(), windows[i].ReturnQuestion(), windows[i].ReturnResponse(), windows[i].ReturnCorrectAnswer(), windows[i].ReturnTitle(), windows[i].windowRect.position, windows[i].ReturnQuestID());
-                        Debug.Log("UPDATING");
+                        Dialogue.DialogueDatabase.DeletePreviousDialogue(windows[1].ReturnConversationID());
+
+
+                        for (int i = 0; i < windows.Count; i++)
+                        {
+                            Dialogue.DialogueDatabase.UpdateDialogue(windows[i].ReturnConversationID(), i, _npcID, windows[i].ReturnPreviousNode(), windows[i].ReturnQuestion(), windows[i].ReturnResponse(), windows[i].ReturnCorrectAnswer(), windows[i].ReturnTitle(), windows[i].windowRect.position, windows[i].ReturnQuestID(), windows[i].ReturnCondition(), windows[i].ReturnConditionStatement(), windows[i].ReturnConditionTerm(), windows[i].ReturnConditionValue());
+                        }
+
+                        Dialogue.DialogueDatabase.ResetDeletedDialogue();
                     }
-                    Dialogue.DialogueDatabase.ResetDeletedDialogue();
+                    else
+                    {
+                        if (GUILayout.Button("This will delete all dialogue!"))
+                        {
+
+                            Dialogue.DialogueDatabase.DeleteByNPC(_npcID);
+                        }
+                    }
                 }
                 
+            }
+
+            if(GUILayout.Button("Reset"))
+            {
+                ResetNodes();
             }
 
             EditorGUILayout.EndHorizontal();
@@ -240,6 +257,8 @@ namespace DialogueSystem
                         menu.AddItem(new GUIContent("Dialogue/Response Node"), false, ContextCallback, "responseNode");
                         menu.AddItem(new GUIContent("Dialogue/Quest Node"), false, ContextCallback, "questNode");
                         menu.AddItem(new GUIContent("Dialogue/End Node"), false, ContextCallback, "endNode");
+                        menu.AddDisabledItem(new GUIContent("-------"));
+                        menu.AddItem(new GUIContent("Conditions/Add Condition Node"), false, ContextCallback, "conditionNode");
                         _addedData = false;
 
                         menu.ShowAsContext();
@@ -294,6 +313,16 @@ namespace DialogueSystem
                         windows[selectIndex].SetPreviousNode(_previousNode);
                         windows[selectIndex].SetNpcID(windows[_previousNode].ReturnNpcID());
 
+                        if(selectedInputNode.GetType().ToString() == "NoOutputKnob")
+                        {
+                            windows[selectIndex].SetAnswer(false);
+                        }
+
+                        if (selectedInputNode.GetType().ToString() == "YesOutputKnob")
+                        {
+                            windows[selectIndex].SetAnswer(false);
+                        }
+
                     }
 
                     if (selectedOutputNode.GetType().ToString() == "NoOutputKnob")
@@ -336,10 +365,9 @@ namespace DialogueSystem
                 bool clickedOnWindow = false;
                 int selectIndex = -1;
 
-
-
                 for (int i = 0; i < windowOutputKnob.Count; i++)
                 {
+
                     if (windowOutputKnob[i].windowRect.Contains(mousePos))
                     {
                         selectedOutputNode = windowOutputKnob[i];
@@ -347,6 +375,7 @@ namespace DialogueSystem
                         selectIndex = i;
                         clickedOnWindow = true;
                         _previousNode = selectIndex;
+                        
                         break;
                     }
                 }
@@ -406,7 +435,7 @@ namespace DialogueSystem
 
             if(e.type == EventType.scrollWheel)
             {
-
+                
                 _zoomDelta += new Vector2(e.delta.y / 10, e.delta.y / 10);
                 _pivotPoint = mousePos;
                 
@@ -429,9 +458,9 @@ namespace DialogueSystem
             
             
 
-            GUI.EndGroup();
-            DrawGrid(25, 0.1f, Color.black);
-            BeginZoomArea(new Rect(10, 10, Screen.width * 4, Screen.height * 4));
+           // GUI.EndGroup();
+            DrawGrid(25, 0.1f, Color.black, new Rect(0,50, Screen.width * 4, Screen.height * 4));
+            BeginZoomArea(new Rect(0, 0, Screen.width * 10, Screen.height * 10));
 
             foreach (BaseNode n in windows)
             {
@@ -448,8 +477,8 @@ namespace DialogueSystem
             
             if(e.isKey && e.keyCode == KeyCode.F)
             {
-                ClearWindows();
-                LoadNodes();
+                //ClearWindows();
+                //LoadNodes();
             }
 
             if (windows.Count > 0)
@@ -503,7 +532,6 @@ namespace DialogueSystem
                     }
 
                     _offSet = _initialPos - e.mousePosition;
-                    Debug.Log(_offSet);
 
 
                     for (int i = 0; i < windows.Count; i++)
@@ -617,13 +645,13 @@ namespace DialogueSystem
                 if (_addedData)
                 {
                     dialogueStart.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
-                    dialogueStart.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight);
-                    output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 20, 20);
+                    dialogueStart.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight / 2 + 5);
+                    output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 12, 12);
                 }
                 else
                 {
-                    dialogueStart.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight);
-                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 20, 20);
+                    dialogueStart.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight / 2 + 5);
+                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
                 }
                 YesOutputKnob yesOutput = new YesOutputKnob();
                 NoOutputKnob noOutput = new NoOutputKnob();
@@ -663,16 +691,16 @@ namespace DialogueSystem
                 {
                     convers.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
                     convers.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 20, 20);
-                    yesOutput = new YesOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 20, 20);
-                    noOutput = new NoOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 20, 20);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    yesOutput = new YesOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 12, 12);
+                    noOutput = new NoOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 12, 12);
                 }
                 else
                 {
                     convers.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 20, 20);
-                    yesOutput = new YesOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 20, 20);
-                    noOutput = new NoOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 20, 20);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
+                    yesOutput = new YesOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 12, 12);
+                    noOutput = new NoOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 12, 12);
                 }
 
                 
@@ -709,14 +737,14 @@ namespace DialogueSystem
                 if(_addedData)
                 {
                     response.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 20, 20);
-                    output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 20, 20);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 12, 12);
                 }
                 else
                 {
                     response.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 20, 20);
-                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 20, 20);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
+                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
                 }
 
                 YesOutputKnob yesOutput = new YesOutputKnob();
@@ -759,14 +787,14 @@ namespace DialogueSystem
                 {
                     questNode.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
                     questNode.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight * 3);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 20, 20);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
                     output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 20, 20);
                 }
                 else
                 {
                     questNode.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight * 3);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 20, 20);
-                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 20, 20);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
+                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
                 }
 
                 windows.Add(questNode);
@@ -794,13 +822,13 @@ namespace DialogueSystem
                     endNode.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
                     endNode.SetPreviousNode(Dialogue.DialogueDatabase.ReturnPreviousNode(_loadCounter));
                     endNode.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, 50);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 20, 20);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
                     output = new OutputKnob();
                 }
                 else
                 {
                     endNode.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, 50);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 20, 20);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
                     output = new OutputKnob();
                 }
 
@@ -813,6 +841,61 @@ namespace DialogueSystem
                 
                 nodeID.Add(nodeCounter);
                 nodeCounter++;
+            }
+
+            else if(clb.Equals("conditionNode"))
+            {
+                ConditionNode conditionNode = new ConditionNode();
+
+                InputKnob input;
+                OutputKnob output;
+                NoOutputKnob noOutput = new NoOutputKnob();
+                YesOutputKnob yesOutput = new YesOutputKnob();
+                
+
+                if (_addedData)
+                {
+                    conditionNode.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, 150);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    output = new OutputKnob();
+                    yesOutput = new YesOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 12, 12);
+                    noOutput = new NoOutputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + (_windowHeight / 2), 12, 12);
+                }
+                else
+                {
+                    conditionNode.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, 150);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
+                    output = new OutputKnob();
+                    yesOutput = new YesOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 12, 12);
+                    noOutput = new NoOutputKnob(mousePos.x, mousePos.y + (_windowHeight / 2), 12, 12);
+                }
+
+                windows.Add(conditionNode);
+                windowInputKnob.Add(input);
+                windowOutputKnob.Add(output);
+                windowYesKnob.Add(yesOutput);
+                windowNoKnob.Add(noOutput);
+                conditionNode.SetID(nodeCounter);
+
+                if (_addedData)
+                {
+                    conditionNode.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
+                    conditionNode.SetNpcID(_npcID);
+                    conditionNode.SetPreviousNode(Dialogue.DialogueDatabase.ReturnPreviousNode(_loadCounter));
+                    conditionNode.SetCondition(Dialogue.DialogueDatabase.ReturnCondition(_loadCounter));
+                    conditionNode.SetConditionStatement(Dialogue.DialogueDatabase.ReturnConditionStatement(_loadCounter));
+                    conditionNode.SetConditionTerm(Dialogue.DialogueDatabase.ReturnConditionTerms(_loadCounter));
+                    conditionNode.SetConditionValue(Dialogue.DialogueDatabase.ReturnConditionValue(_loadCounter));
+                    conditionNode.SetAnswer(Dialogue.DialogueDatabase.ReturnType(_loadCounter));
+                    conditionNode.SetTitle(Dialogue.DialogueDatabase.ReturnTitle(_loadCounter));
+
+                    _addedData = false;
+                }
+
+                nodeID.Add(nodeCounter);
+                nodeCounter++;
+
+
             }
 
             else if (clb.Equals("deleteNode"))
@@ -876,27 +959,47 @@ namespace DialogueSystem
 
         void GetAllNPCs()
         {
-            _allNPCs = GameObject.FindGameObjectsWithTag("NPC");
 
-            for (int i = 0; i < _allNPCs.Length; i++)
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/ActorDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT * " + "FROM Actors";
+            dbcmd.CommandText = sqlQuery;
+            IDataReader reader = dbcmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                _allNames.Add(_allNPCs[i].transform.parent.name);
+                _allNpcID.Add(reader.GetInt32(0));
+                _allNpcNames.Add(reader.GetString(1));
             }
+            reader.Close();
+            reader = null;
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
         }
 
         void LoadNodes()
         {
+            if(_nodePositions.Count > 0)
+            {
+                _nodePositions.Clear();
+            }
+
             
+
             for (int i = 0; i < Dialogue.DialogueDatabase.ReturnCount(); i++)
             {
-
+                
                 if (Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End")
                 {
-                    
                     _addedData = true;
                     _loadCounter = i;
                     ContextCallback("dialogueStartNode");
-                   
                 }
                 if(Dialogue.DialogueDatabase.ReturnTitle(i) == "End")
                 {
@@ -916,12 +1019,27 @@ namespace DialogueSystem
                     _addedData = true;
                     _loadCounter = i;
                     ContextCallback("responseNode");
-
                 }
 
+                if(Dialogue.DialogueDatabase.ReturnCondition(i) != "")
+                {
+                    _addedData = true;
+                    _loadCounter = i;
+                    ContextCallback("conditionNode");
+                }
+
+                _nodePositions.Add(Dialogue.DialogueDatabase.ReturnCanvasPosition(i));
                 
             }
             RedrawInputs();
+        }
+
+        void ResetNodes ()
+        {
+            for (int i = 0; i < windows.Count; i++)
+            {
+                windows[i].windowRect.position = _nodePositions[i];
+            }
         }
 
         void RedrawInputs()
@@ -929,24 +1047,40 @@ namespace DialogueSystem
 
             for (int i = 0; i < Dialogue.DialogueDatabase.ReturnCount(); i++)
             {
-                if(Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End")
+                if(Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End" && Dialogue.DialogueDatabase.ReturnTitle(i) != "ConditionNode")
                 {
 
                 }
 
-               
-
                 if (Dialogue.DialogueDatabase.ReturnQuestion(i) != "")
                 {
-                    selectedInputNode = windowInputKnob[i];
-                    
-                    selectedOutputNode = windowOutputKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
-                    windowInputKnob[i].SetInput((InputKnob)selectedInputNode, (OutputKnob)selectedOutputNode, mousePos);
+                    if (Dialogue.DialogueDatabase.ReturnCondition(Dialogue.DialogueDatabase.ReturnPreviousNode(i)) == "")
+                    {
+                        selectedInputNode = windowInputKnob[i];
 
-                    selectedInputNode = null;
-                    selectedOutputNode = null;
+                        selectedOutputNode = windowOutputKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                        windowInputKnob[i].SetInput((InputKnob)selectedInputNode, (OutputKnob)selectedOutputNode, mousePos);
 
-                    
+                        selectedInputNode = null;
+                        selectedOutputNode = null;
+                    }
+                    else if (Dialogue.DialogueDatabase.ReturnCondition(Dialogue.DialogueDatabase.ReturnPreviousNode(i)) != "")
+                    {
+                        if (Dialogue.DialogueDatabase.ReturnType(i))
+                        {
+                            selectedInputNode = windowInputKnob[i];
+                            selectedOutputNode = windowYesKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                            windowInputKnob[i].SetYesInput((InputKnob)selectedInputNode, (YesOutputKnob)selectedOutputNode, mousePos);
+                        }
+                        if (!Dialogue.DialogueDatabase.ReturnType(i))
+                        {
+                            selectedInputNode = windowInputKnob[i];
+                            selectedOutputNode = windowNoKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                            windowInputKnob[i].SetNoInput((InputKnob)selectedInputNode, (NoOutputKnob)selectedOutputNode, mousePos);
+                        }
+                    }
+
+
                 }
 
                 if(Dialogue.DialogueDatabase.ReturnResponse(i) != "")
@@ -963,8 +1097,21 @@ namespace DialogueSystem
                         selectedOutputNode = windowNoKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
                         windowInputKnob[i].SetNoInput((InputKnob)selectedInputNode, (NoOutputKnob)selectedOutputNode, mousePos);
                     }
+                    selectedInputNode = null;
+                    selectedOutputNode = null;
                 }
-             
+                
+                if (Dialogue.DialogueDatabase.ReturnCondition(i) != "")
+                {
+                    selectedInputNode = windowInputKnob[i];
+                    selectedOutputNode = windowOutputKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                    windowInputKnob[i].SetInput((InputKnob)selectedInputNode, (OutputKnob)selectedOutputNode, mousePos);
+
+                    selectedInputNode = null;
+                    selectedOutputNode = null;
+                }
+                
+
                 if (Dialogue.DialogueDatabase.ReturnTitle(i) == "End")
                 {
                     
@@ -1002,23 +1149,25 @@ namespace DialogueSystem
 
             //GUI.matrix = Translation * _prevGuiMatrix;
             //GUI.matrix = Translation * Scale * Translation.inverse;
-            GUIUtility.ScaleAroundPivot(_zoomDelta, new Vector2(0,0) );
-         
-
+            GUIUtility.ScaleAroundPivot(_zoomDelta, _pivotPoint );
+        
             return new Rect();
+            //Event.current.Use();
         }
 
         void EndZoomArea()
         {
             GUI.EndGroup();
 
-            GUI.BeginGroup(new Rect(0.0f, 20, Screen.width, Screen.height - (20 + 3)));
+           // GUI.BeginGroup(new Rect(0.0f, 20, Screen.width, Screen.height - (20 + 3)));
         }
 
-        private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
+        private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor, Rect rect)
         {
+
             int widthDivs = Mathf.CeilToInt(position.width / gridSpacing);
             int heightDivs = Mathf.CeilToInt(position.height / gridSpacing);
+            GUI.BeginGroup(rect);
 
             Handles.BeginGUI();
             Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
@@ -1038,6 +1187,7 @@ namespace DialogueSystem
 
             Handles.color = Color.white;
             Handles.EndGUI();
+            GUI.EndGroup();
         }
 
     }

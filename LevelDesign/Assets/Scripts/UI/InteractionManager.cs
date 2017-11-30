@@ -219,6 +219,13 @@ namespace CombatSystem
                         CombatSystem.AnimationSystem.CastHealingSpell();
                         CombatSystem.AnimationSystem.SetCombatIdle();
                     }
+                    else if (CombatDatabase.ReturnSpellType(_spellID) == SpellTypes.Debuff)
+                    {
+                        PlayerController.instance.CastDebuff(CombatDatabase.ReturnSpellValue(_spellID), CombatDatabase.ReturnSpellPrefab(_spellID), CombatDatabase.ReturnDebuffAbility(_spellID));
+                        CombatSystem.AnimationSystem.CastRangedSpell();
+                        CombatSystem.AnimationSystem.SetCombatIdle();
+
+                    }
                     SoundManager.instance.PlaySound(SOUNDS.PLAYERSPELLWARMUP, PlayerController.instance.ReturnPlayerPosition(), false);
 
                     DisplayCastBar(false);
@@ -345,6 +352,33 @@ namespace CombatSystem
                         {
                             // buff
                         }
+                        if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Debuff)
+                        {
+                            if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
+                            {
+                                if (PlayerController.instance.ReturnSelectedActor() != null)
+                                {
+                                    if (PlayerController.instance.ReturnPlayerIsInRange())
+                                    {
+
+                                        _spellCastTimer = 0.0f;
+                                        _spellTimer[i] = 0.0f;
+                                        _isSpellCasting = true;
+                                        _spellID = i;
+                                        _cooldownComplete[i] = false;
+                                    }
+                                    else
+                                    {
+                                        Dialogue.DialogueManager.ShowMessage("You are to far away", true);
+                                    }
+                                }
+                                else
+                                {
+                                    Dialogue.DialogueManager.ShowMessage("Nothing selected", true);
+                                }
+                            }
+                        }
+
                     }
                     if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Ability)
                     {
@@ -368,6 +402,19 @@ namespace CombatSystem
                         if (CombatDatabase.ReturnAbility(i) == Abilities.Charge)
                         {
                             // charge
+                        }
+
+                        if (CombatDatabase.ReturnAbility(i) == Abilities.Barrier)
+                        {
+
+                            if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
+                            {
+                                PlayerController.instance.CreateBarrier(CombatDatabase.ReturnSpellValue(i));
+                                _spellCastTimer = 0.0f;
+                                _spellTimer[i] = 0.0f;
+                                _spellID = i;
+                                _cooldownComplete[i] = false;
+                            }
                         }
                     }
                 }
@@ -464,6 +511,10 @@ namespace CombatSystem
             {
                 _hoveringOverUI = true;
             }
+            else
+            {
+                _hoveringOverUI = false;
+            }
 
             for (int i = 0; i < _guiIcons.Count; i++)
             {
@@ -499,6 +550,7 @@ namespace CombatSystem
                     GUI.Box(_cooldownRect[i], _uiCooldown[i].ToString(), _skin.GetStyle("Cooldown"));
                     _cooldownComplete[i] = false;
                 }
+                
                 //GUI.Box(_spellRect[i],)
                 // If the mouse is in one of the rectangles
                 if (_spellRect[i].Contains(Event.current.mousePosition))
@@ -561,13 +613,41 @@ namespace CombatSystem
                                     }
 
                                 }
-                                if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Buff)
+                                if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Buff) 
                                 {
                                     // buff
                                 }
+                                if(CombatDatabase.ReturnSpellType(i) == SpellTypes.Debuff)
+                                {
+                                    if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
+                                    {
+                                        if (PlayerController.instance.ReturnSelectedActor() != null)
+                                        {
+                                            if (PlayerController.instance.ReturnPlayerIsInRange())
+                                            {
+                                                
+                                                _spellCastTimer = 0.0f;
+                                                _spellTimer[i] = 0.0f;
+                                                _isSpellCasting = true;
+                                                _spellID = i;
+                                                _cooldownComplete[i] = false;
+                                            }
+                                            else
+                                            {
+                                                Dialogue.DialogueManager.ShowMessage("You are to far away", true);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Dialogue.DialogueManager.ShowMessage("Nothing selected", true);
+                                        }
+                                    }
+                                }
                             }
+                            
                             if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Ability)
                             {
+
                                 if (CombatDatabase.ReturnAbility(i) == Abilities.Blink)
                                 {
                                     if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
@@ -589,6 +669,20 @@ namespace CombatSystem
                                 {
                                     // charge
                                 }
+
+                                if (CombatDatabase.ReturnAbility(i) == Abilities.Barrier)
+                                {
+                                    
+                                    if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
+                                    {
+                                        PlayerController.instance.CreateBarrier(CombatDatabase.ReturnSpellValue(i));
+                                        _spellCastTimer = 0.0f;
+                                        _spellTimer[i] = 0.0f;
+                                        _spellID = i;
+                                        _cooldownComplete[i] = false;
+                                    }
+                                }
+
                             }
                         }
                     }
@@ -766,10 +860,25 @@ namespace CombatSystem
             Destroy(_tmp, 3f);
         }
 
-
         public bool ReturnHoveringOverUI()
         {
             return _hoveringOverUI;
+        }
+
+        public bool ReturnIsSpellCasting()
+        {
+            return _isSpellCasting;
+        }
+        
+        public void CancelSpellCasting()
+        {
+            _isSpellCasting = false;
+            CombatSystem.AnimationSystem.StopHealingSpell();
+            CombatSystem.AnimationSystem.StopRangedSpell();
+            DisplayCastBar(false);
+            CombatSystem.SoundManager.instance.PlaySound(SOUNDS.PLAYERSPELLWARMUP, Vector3.zero, false);
+            CombatSystem.AnimationSystem.StopRangedSpell();
+            CombatSystem.AnimationSystem.StopCombatIdle();
         }
     }
 

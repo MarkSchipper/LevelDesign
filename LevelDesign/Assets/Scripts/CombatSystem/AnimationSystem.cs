@@ -188,9 +188,10 @@ namespace CombatSystem
 
         public static void StopRangedSpell()
         {
-
-                _playerAnimator.SetBool("isSpellCast", false);
-                _staffAnimator.SetBool("isSpellCast", false);
+            _playerAnimator.SetBool("isRanged", false);
+            _staffAnimator.SetBool("isRanged", false);
+            _playerAnimator.SetBool("isSpellCast", false);
+            _staffAnimator.SetBool("isSpellCast", false);
         }
 
         public static void CastHealingSpell()

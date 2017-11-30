@@ -207,7 +207,8 @@ namespace EnemyCombat
 
         void OnTriggerEnter(Collider coll)
         {
-            if (coll.tag == "PlayerRangedSpell")
+
+            if (coll.tag == "PlayerRangedSpell" && coll.GetComponent<SpellObject>() != null)
             {
                 if (STATE_ALIVE)
                 {
@@ -234,6 +235,24 @@ namespace EnemyCombat
                         CombatSystem.PlayerController.instance.AddEnemyList(_gameID);
                     }
                     CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
+                }
+            }
+            else if (coll.tag == "PlayerRangedSpell" && coll.GetComponent<DebuffSpell>() != null)
+            {
+                if(coll.GetComponent<DebuffSpell>().ReturnDebuff() ==  "Freeze")
+                {
+                    GetComponentInChildren<EnemyCombat.EnemyTrigger>().SetFrozen(true);
+                    STATE_IDLE = true;
+                    if (STATE_PATROL)
+                    {
+                        STATE_PATROL = false;
+                    }
+                    STATE_ATTACK = false;
+
+                    _targetToAttack = coll.GetComponent<DebuffSpell>().ReturnSpellCaster();
+                    Debug.Log(_targetToAttack);
+
+                    StartCoroutine(UnfreezeEnemy(coll.GetComponent<DebuffSpell>().ReturnDuration()));
                 }
             }
         }
@@ -863,21 +882,6 @@ namespace EnemyCombat
             Destroy(this.gameObject);
         }
 
-        IEnumerator WaitToFireRangedSpell()
-        {
-            yield return new WaitForSeconds(1.6f);
-            EnemyCastSpell(_targetToAttack);
-
-        }
-
-        IEnumerator CancelAttackAnimations()
-        {
-
-            yield return new WaitForSeconds(0.5f);
-            _animationSystem.CancelAttackBool();
-
-        }
-
         public bool ReturnLootable()
         {
             return STATE_LOOTABLE;
@@ -907,6 +911,40 @@ namespace EnemyCombat
         public void RemoveFromLoot(LootTypes _item, int _id)
         {
             _lootGenerator.DeleteEntry(LootTypes.Items, _id, _lootTable);
+        }
+
+        IEnumerator WaitToFireRangedSpell()
+        {
+            yield return new WaitForSeconds(1.6f);
+            EnemyCastSpell(_targetToAttack);
+
+        }
+
+        IEnumerator CancelAttackAnimations()
+        {
+
+            yield return new WaitForSeconds(0.5f);
+            _animationSystem.CancelAttackBool();
+
+        }
+
+        IEnumerator UnfreezeEnemy(float _time)
+        {
+
+            yield return new WaitForSeconds(_time);
+            STATE_IDLE = false;
+            STATE_ATTACK = true;
+            GetComponentInChildren<EnemyCombat.EnemyTrigger>().SetFrozen(false);
+
+            CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT);
+            CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYHIT, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), true);
+            CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
+            if (!CombatSystem.PlayerController.instance.ReturnInCombat())
+            {
+                CombatSystem.PlayerController.instance.AddEnemyList(_gameID);
+            }
+            CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
+
         }
 
     }

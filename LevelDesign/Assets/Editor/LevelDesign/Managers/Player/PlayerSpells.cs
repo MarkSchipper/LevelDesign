@@ -3,26 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-
-public enum SpellTypes
-{
-    None,
-    Buff,
-    Damage,
-    AOE,
-    Healing,
-    Ability,
-    Melee,
-}
-
-public enum Abilities
-{
-    None,
-    Blink,
-    Charge,
-    Disengage,
-}
-
 namespace CombatSystem
 {
 
@@ -47,6 +27,7 @@ namespace CombatSystem
         private static List<string> _damageSpellNames = new List<string>();
         private static List<string> _healingSpellNames = new List<string>();
         private static List<string> _buffSpellNames = new List<string>();
+        private static List<string> _debuffSpellNames = new List<string>();
         private static List<string> _abilitySpellNames = new List<string>();
         private static List<string> _allSpellIconNames = new List<string>();
         private static string _spellPrefabName;
@@ -55,11 +36,12 @@ namespace CombatSystem
         private static UnityEngine.Object[] _damageSpellPrefabs;
         private static UnityEngine.Object[] _healingSpellPrefabs;
         private static UnityEngine.Object[] _buffSpellPrefabs;
+        private static UnityEngine.Object[] _debuffSpellPrefabs;
         private static UnityEngine.Object[] _abilitySpellPrefabs;
         private static UnityEngine.Object[] _allSpellIcons;
 
         private static Abilities _abilities;
-
+        private static DebuffAbility _debuffAbilities;
 
         private static int _spellIndex;
         private static int _spellIconIndex;
@@ -68,6 +50,7 @@ namespace CombatSystem
         private static float _chargeRange;
         private static float _disengageDistance;
         private static float _blinkRange;
+        private static float _barrierSize;
 
         private static bool _loadedSpells = false;
 
@@ -82,6 +65,7 @@ namespace CombatSystem
             _damageSpellPrefabs = Resources.LoadAll("PlayerSpells/Damage");
             _healingSpellPrefabs = Resources.LoadAll("PlayerSpells/Healing");
             _buffSpellPrefabs = Resources.LoadAll("PlayerSpells/Buff");
+            _debuffSpellPrefabs = Resources.LoadAll("PlayerSpells/Debuff");
             _abilitySpellPrefabs = Resources.LoadAll("PlayerSpells/Ability");
 
             _allSpellIcons = Resources.LoadAll("PlayerSpells/SpellIcons");
@@ -119,6 +103,17 @@ namespace CombatSystem
                 }
             }
 
+            for (int i = 0; i < _debuffSpellPrefabs.Length; i++)
+            {
+                // Create a filter so we only add the GameObjects to the loadPotionsName List
+                if (_debuffSpellPrefabs[i].GetType().ToString() == "UnityEngine.GameObject")
+                {
+
+                    _debuffSpellNames.Add(_debuffSpellPrefabs[i].ToString().Remove(_debuffSpellPrefabs[i].ToString().Length - 25));
+
+                }
+            }
+
             for (int i = 0; i < _abilitySpellPrefabs.Length; i++)
             {
                 // Create a filter so we only add the GameObjects to the loadPotionsName List
@@ -145,9 +140,10 @@ namespace CombatSystem
 
         public static void ShowAddPlayerSpells()
         {
-            ClearAll();
+           // ClearAll();
             if(_savedSpell)
             {
+                ClearAll();
                 _savedSpell = false;
             }
             if (!_savedSpell)
@@ -160,6 +156,8 @@ namespace CombatSystem
                 GUILayout.Label("Spell Description:");
                 _spellDesc = EditorGUILayout.TextArea(_spellDesc, GUILayout.Height(50));
 
+                EditorGUIUtility.labelWidth = 200;
+
                 _spellType = (SpellTypes)EditorGUILayout.EnumPopup("Type of Spell:", _spellType);
 
                 if (_spellType != SpellTypes.None)
@@ -167,7 +165,7 @@ namespace CombatSystem
 
                     if (_spellType != SpellTypes.Ability)
                     {
-                        _spellValue = EditorGUILayout.FloatField("Spell Value: ", _spellValue);
+                        _spellValue = EditorGUILayout.FloatField("Spell Value: (dmg / duration) ", _spellValue);
                         _spellManaCost = EditorGUILayout.FloatField("Mana Cost: ", _spellManaCost);
                         _spellCooldown = EditorGUILayout.FloatField("Cooldown: ", _spellCooldown);
                         _spellCasttime = EditorGUILayout.FloatField("Cast Time: ", _spellCasttime);
@@ -182,6 +180,13 @@ namespace CombatSystem
                         if (_spellType == SpellTypes.Buff)
                         {
                             _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _buffSpellNames.ToArray());
+                        }
+                        if(_spellType == SpellTypes.Debuff)
+                        {
+                            GUILayout.Space(10);
+                            _debuffAbilities = (DebuffAbility)EditorGUILayout.EnumPopup("Typ of Debuff: ", _debuffAbilities);
+                            GUILayout.Space(10);
+                            _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _debuffSpellNames.ToArray());
                         }
 
                     }
@@ -221,7 +226,16 @@ namespace CombatSystem
                             _spellValue = _blinkRange;
                         }
 
+                        if(_abilities == Abilities.Barrier)
+                        {
+                            _barrierSize = EditorGUILayout.FloatField("Barrier Duration: ", _barrierSize);
+                            _spellValue = _barrierSize;
+
+                            _spellManaCost = EditorGUILayout.FloatField("Mana Cost: ", _spellManaCost);
+                        }
+
                     }
+
 
                     GUILayout.Space(20);
 
@@ -248,7 +262,10 @@ namespace CombatSystem
                         {
                             CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _abilitySpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _abilities, _spellCooldown);
                         }
-
+                        if(_spellType == SpellTypes.Debuff)
+                        {
+                            CombatSystem.CombatDatabase.AddSpell(_spellName, _spellDesc, _spellType, _spellValue, _spellManaCost, _spellCasttime, _debuffSpellNames[_spellIndex], _allSpellIconNames[_spellIconIndex], _chargeRange, _disengageDistance, _blinkRange, _debuffAbilities, _spellCooldown);
+                        }
 
                         _spellName = "";
                         _spellDesc = "";
@@ -305,7 +322,9 @@ namespace CombatSystem
                     _disengageDistance = CombatDatabase.ReturnDisengageDistance(_editSpellIndex);
                     _spellManaCost = CombatDatabase.ReturnSpellManaCost(_editSpellIndex);
                     _abilities = CombatDatabase.ReturnAbility(_editSpellIndex);
+                    _debuffAbilities = CombatDatabase.ReturnDebuffAbility(_editSpellIndex);
                     _spellCooldown = CombatDatabase.ReturnSpellCooldown(_editSpellIndex);
+                    _barrierSize = CombatDatabase.ReturnSpellValue(_editSpellIndex);
 
                     for (int i = 0; i < _damageSpellNames.Count; i++)
                     {
@@ -362,6 +381,13 @@ namespace CombatSystem
                         {
                             _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _buffSpellNames.ToArray());
                         }
+                        if(_spellType == SpellTypes.Debuff)
+                        {
+                            GUILayout.Space(10);
+                            _debuffAbilities = (DebuffAbility)EditorGUILayout.EnumPopup("Typ of Debuff: ", _debuffAbilities);
+                            GUILayout.Space(10);
+                            _spellIndex = EditorGUILayout.Popup("Which Spell Prefab: ", _spellIndex, _debuffSpellNames.ToArray());
+                        }
                     }
 
                     if (_spellType == SpellTypes.Ability)
@@ -397,6 +423,11 @@ namespace CombatSystem
                             _blinkRange = EditorGUILayout.FloatField("Blink Range: ", _blinkRange);
 
                         }
+                        if(_abilities == Abilities.Barrier)
+                        {
+                            _barrierSize = EditorGUILayout.FloatField("Barrier Duration: ", _barrierSize);
+                        }
+
                         _spellManaCost = EditorGUILayout.FloatField("Mana Cost: ", _spellManaCost);
                         _spellCooldown = EditorGUILayout.FloatField("Cooldown: ", _spellCooldown);
 

@@ -1103,7 +1103,8 @@ namespace LevelEditor
                     }
 
                     GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.GetComponent<MeshRenderer>().material = Resources.Load("SceneEditor/LevelEditorMaterial") as Material;
+                    _plane.GetComponent<MeshRenderer>().enabled = true;
                     _plane.AddComponent<BoxCollider>();
 
                     _plane.transform.localScale = new Vector3(1000, 0, 1000);
@@ -1124,7 +1125,8 @@ namespace LevelEditor
                 if (GUILayout.Button("Add Level Beneath"))
                 {
                     GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.GetComponent<MeshRenderer>().material = Resources.Load("SceneEditor/LevelEditorMaterial") as Material;
+                    _plane.GetComponent<MeshRenderer>().enabled = true;
                     _plane.AddComponent<BoxCollider>();
 
                     _plane.transform.localScale = new Vector3(1000, 0, 1000);
@@ -1149,7 +1151,8 @@ namespace LevelEditor
                 if (GUILayout.Button("Add Level Above"))
                 {
                     GameObject _plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    _plane.GetComponent<MeshRenderer>().enabled = false;
+                    _plane.GetComponent<MeshRenderer>().material = Resources.Load("SceneEditor/LevelEditorMaterial") as Material;
+                    _plane.GetComponent<MeshRenderer>().enabled = true;
                     _plane.AddComponent<BoxCollider>();
 
                     _plane.transform.localScale = new Vector3(1000, 0, 1000);
@@ -1177,10 +1180,8 @@ namespace LevelEditor
 
                 if(GameObject.Find(_allFloors[_floorObjectIndex]) != _current)
                 {
-                    Debug.Log("OLD FLOOR " + _current.name);
                     _current.GetComponent<FloorObject>().SetObjectActive(false);
                     _current = GameObject.Find(_allFloors[_floorObjectIndex]);
-                    Debug.Log("NEW FLOOR " + _current.name);
                     _current.GetComponent<FloorObject>().SetObjectActive(true);
 
                 } 

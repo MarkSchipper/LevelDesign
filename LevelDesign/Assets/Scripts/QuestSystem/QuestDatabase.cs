@@ -1232,6 +1232,33 @@ namespace Quest
             }
         }
 
+        public static bool CheckQuestComplete(int _questID)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT QuestComplete FROM Quests WHERE QuestID = '" + _questID + "'";
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+            if (_tmp != null)
+            {
+
+                return bool.Parse(_tmp.ToString());
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static int GetQuestItemsCollected(int _id)
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.

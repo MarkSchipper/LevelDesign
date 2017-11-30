@@ -8,7 +8,7 @@ namespace Quest
     public class Zone : MonoBehaviour
     {
 
-        [HideInInspector]
+       // [HideInInspector]
         [SerializeField]
         private string _zoneName;
 
@@ -20,7 +20,8 @@ namespace Quest
         [SerializeField]
         private int _questID;
 
-        
+        [SerializeField]
+        private bool _playerVisited;
 
         void OnEnable()
         {
@@ -49,6 +50,8 @@ namespace Quest
             {
                 Dialogue.DialogueManager.SetShowZone(true, _zoneName, _zoneDescription);
 
+                _playerVisited = true;
+
                 if (_questID > 0)
                 {
                     if (Quest.QuestDatabase.ReturnQuestActive(_questID))
@@ -68,7 +71,6 @@ namespace Quest
                         }
                     }
                 }
-
             }
         }
 
@@ -76,6 +78,11 @@ namespace Quest
         {
             _questID = _id;
 
+        }
+
+        public bool ReturnPlayerVisited()
+        {
+            return _playerVisited;
         }
     }
 }

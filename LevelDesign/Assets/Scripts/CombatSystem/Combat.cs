@@ -14,7 +14,7 @@ namespace CombatSystem
         AOE,
         Healing,
         Ability,
-        Melee,
+        Debuff,
     }
 
     public enum Abilities
@@ -23,6 +23,14 @@ namespace CombatSystem
         Blink,
         Charge,
         Disengage,
+        Barrier,
+    }
+
+    public enum DebuffAbility
+    {
+        None,
+        Freeze,
+        Slow,
     }
 
     public class Combat : MonoBehaviour
