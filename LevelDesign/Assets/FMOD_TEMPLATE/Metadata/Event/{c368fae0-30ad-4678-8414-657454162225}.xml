@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.10.00">
+<objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{c368fae0-30ad-4678-8414-657454162225}">
         <property name="name">
             <value>human_grunts</value>
@@ -7,9 +7,6 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
-        <relationship name="folder">
-            <destination>{40e919b9-caef-4a08-b057-6853ff7facec}</destination>
-        </relationship>
         <relationship name="mixer">
             <destination>{d3491abf-d09f-4046-998a-83540d21ee99}</destination>
         </relationship>
@@ -33,6 +30,9 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
+        </relationship>
+        <relationship name="folder">
+            <destination>{40e919b9-caef-4a08-b057-6853ff7facec}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{d3491abf-d09f-4046-998a-83540d21ee99}">
@@ -89,8 +89,8 @@
     </object>
     <object class="MixerBusPanner" id="{0157f48d-346d-45a8-b83a-7ed3514be221}"/>
     <object class="MultiSound" id="{2f69f6a7-79d1-4ab0-8839-91be52507806}">
-        <property name="isAsync">
-            <value>true</value>
+        <property name="start">
+            <value>0</value>
         </property>
         <property name="length">
             <value>2</value>
@@ -273,13 +273,6 @@
     </object>
     <object class="MixerBusPanner" id="{45d20600-8ca8-4dc9-b482-2c1a99aaa457}"/>
     <object class="MixerBusFader" id="{1df06c47-a344-41df-89c0-a768582cbb13}"/>
-    <object class="ProxyEffect" id="{ecd56fb8-b7a3-47f7-814d-daa472844ed1}">
-        <property name="inputFormat">
-            <value>0</value>
-        </property>
-        <relationship name="preset">
-            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
-        </relationship>
-    </object>
+    <object class="SpatialiserEffect" id="{ecd56fb8-b7a3-47f7-814d-daa472844ed1}"/>
     <object class="MixerBusFader" id="{17107e79-a3f7-404e-bfa4-bf4d0f9f6882}"/>
 </objects>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.10.00">
+<objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{a2f8ef59-a323-41f9-9118-7b25da702f35}">
         <property name="name">
             <value>BarrierDecay</value>
@@ -7,9 +7,6 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
-        <relationship name="folder">
-            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
-        </relationship>
         <relationship name="mixer">
             <destination>{e7586be1-37b0-4bd3-a50c-d80342336bda}</destination>
         </relationship>
@@ -33,6 +30,9 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
+        </relationship>
+        <relationship name="folder">
+            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{e7586be1-37b0-4bd3-a50c-d80342336bda}">
@@ -89,14 +89,14 @@
     </object>
     <object class="MixerBusPanner" id="{38fdc089-7203-4305-a285-f06a72f3b70a}"/>
     <object class="SingleSound" id="{4b4b5b55-0f48-49d9-9249-365a5b4e1a67}">
+        <property name="start">
+            <value>0</value>
+        </property>
         <property name="length">
             <value>1.1808125</value>
         </property>
         <property name="volume">
-            <value>-13</value>
-        </property>
-        <property name="looping">
-            <value>true</value>
+            <value>-6.5</value>
         </property>
         <relationship name="audioFile">
             <destination>{503aaf28-ebf0-45d9-94ee-3f1508c65b8d}</destination>
@@ -132,14 +132,7 @@
     </object>
     <object class="MixerBusPanner" id="{5e9c3787-6c97-412c-891e-ddd4427da529}"/>
     <object class="MixerBusFader" id="{ea3d81c8-21aa-447c-81f3-b22f27e1f43d}"/>
-    <object class="ProxyEffect" id="{13b55fcc-5bb6-4e88-82a2-d6c7be767b18}">
-        <property name="inputFormat">
-            <value>1</value>
-        </property>
-        <relationship name="preset">
-            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
-        </relationship>
-    </object>
+    <object class="SpatialiserEffect" id="{13b55fcc-5bb6-4e88-82a2-d6c7be767b18}"/>
     <object class="MixerBusFader" id="{6d400ae6-0622-4d51-865f-3bdd84b5420d}"/>
     <object class="SFXReverbEffect" id="{60f6fdf2-be47-4352-b784-b7862072bd47}">
         <property name="decayTime">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.10.00">
+<objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{2403d85b-4531-447c-b9fa-3ad7bb718e4f}">
         <property name="name">
             <value>Hit</value>
@@ -7,9 +7,6 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
-        <relationship name="folder">
-            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
-        </relationship>
         <relationship name="mixer">
             <destination>{f216566a-a27f-4b85-a3a7-cbfc6e6e096a}</destination>
         </relationship>
@@ -33,6 +30,9 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
+        </relationship>
+        <relationship name="folder">
+            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{f216566a-a27f-4b85-a3a7-cbfc6e6e096a}">
@@ -89,8 +89,8 @@
     </object>
     <object class="MixerBusPanner" id="{19d2fd25-5515-4bf6-8af0-36e239a1dd0f}"/>
     <object class="MultiSound" id="{d67a5de7-67ca-417f-9c09-96f765f479c7}">
-        <property name="isAsync">
-            <value>true</value>
+        <property name="start">
+            <value>0</value>
         </property>
         <property name="length">
             <value>2</value>
@@ -186,13 +186,6 @@
     </object>
     <object class="MixerBusPanner" id="{d92da1e6-d559-4c06-bbba-b68880217d4c}"/>
     <object class="MixerBusFader" id="{241b196c-da3e-417f-80a6-b7c81f8c8a7e}"/>
-    <object class="ProxyEffect" id="{9f8058d9-bc2e-425b-9fd1-777c06674c1b}">
-        <property name="inputFormat">
-            <value>0</value>
-        </property>
-        <relationship name="preset">
-            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
-        </relationship>
-    </object>
+    <object class="SpatialiserEffect" id="{9f8058d9-bc2e-425b-9fd1-777c06674c1b}"/>
     <object class="MixerBusFader" id="{e34d2f2b-2dfa-4e82-af35-f3f09ac9941b}"/>
 </objects>

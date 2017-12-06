@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.10.00">
+<objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{01143d08-09bc-46c3-baf1-5ff4b8c7a104}">
         <property name="name">
             <value>metal_squeaky_gate</value>
@@ -7,9 +7,6 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
-        <relationship name="folder">
-            <destination>{4cf53fab-faa7-4f3b-b52b-1bee6b0e6105}</destination>
-        </relationship>
         <relationship name="mixer">
             <destination>{03757417-3caa-4576-a1fb-a82a04bec2e1}</destination>
         </relationship>
@@ -33,6 +30,9 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
+        </relationship>
+        <relationship name="folder">
+            <destination>{4cf53fab-faa7-4f3b-b52b-1bee6b0e6105}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{03757417-3caa-4576-a1fb-a82a04bec2e1}">
@@ -89,8 +89,8 @@
     </object>
     <object class="MixerBusPanner" id="{0cff6c9d-5643-4549-b0ac-ea82bf1518b0}"/>
     <object class="MultiSound" id="{52885660-18f7-42de-a693-292e67742b87}">
-        <property name="isAsync">
-            <value>true</value>
+        <property name="start">
+            <value>0</value>
         </property>
         <property name="length">
             <value>2</value>
@@ -125,7 +125,7 @@
     <object class="MixerBusEffectChain" id="{71c4c5f4-0fb0-4056-941c-de16b08b683a}">
         <relationship name="effects">
             <destination>{e0327b14-6199-419a-b941-d5cb793f5002}</destination>
-            <destination>{260cffff-95a5-0664-173a-49693498fba2}</destination>
+            <destination>{6608395f-1d2f-4563-a099-8ad3c6133803}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{02883129-2dfa-4c7e-a039-d319e1be4748}"/>
@@ -183,13 +183,6 @@
     </object>
     <object class="MixerBusPanner" id="{b0522512-ae78-4715-867a-148f657f2294}"/>
     <object class="MixerBusFader" id="{e0327b14-6199-419a-b941-d5cb793f5002}"/>
-    <object class="ProxyEffect" id="{260cffff-95a5-0664-173a-49693498fba2}">
-        <property name="inputFormat">
-            <value>1</value>
-        </property>
-        <relationship name="preset">
-            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
-        </relationship>
-    </object>
+    <object class="SpatialiserEffect" id="{6608395f-1d2f-4563-a099-8ad3c6133803}"/>
     <object class="MixerBusFader" id="{10c74042-7f85-49be-b33e-9103d692cdda}"/>
 </objects>

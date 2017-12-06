@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.10.00">
+<objects serializationModel="Studio.01.08.00">
     <object class="Event" id="{0cf4873b-e6ed-45a4-94f8-a1f769679124}">
         <property name="name">
             <value>spell_casting</value>
@@ -7,9 +7,6 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
-        <relationship name="folder">
-            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
-        </relationship>
         <relationship name="mixer">
             <destination>{6ffefe1c-6204-496f-9cd5-811f328931c4}</destination>
         </relationship>
@@ -33,6 +30,9 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
+        </relationship>
+        <relationship name="folder">
+            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{6ffefe1c-6204-496f-9cd5-811f328931c4}">
@@ -95,11 +95,11 @@
     </object>
     <object class="MixerBusPanner" id="{b0286038-b0e9-4d66-a4f5-83bec32841f1}"/>
     <object class="SingleSound" id="{78deceea-d799-4459-be8d-63c29e5f6eff}">
+        <property name="start">
+            <value>0</value>
+        </property>
         <property name="length">
             <value>18.153854875283447</value>
-        </property>
-        <property name="looping">
-            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{90498805-3266-4f60-aecc-16badbcc3a11}</destination>
@@ -148,13 +148,6 @@
     </object>
     <object class="MixerBusPanner" id="{07d9aea6-76ce-45e0-a255-ec52c3b18d33}"/>
     <object class="MixerBusFader" id="{a7a2fcae-dbea-439b-b370-bdf30ea61578}"/>
-    <object class="ProxyEffect" id="{44d9f49f-dff7-4f97-994b-6ee48785acb0}">
-        <property name="inputFormat">
-            <value>1</value>
-        </property>
-        <relationship name="preset">
-            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
-        </relationship>
-    </object>
+    <object class="SpatialiserEffect" id="{44d9f49f-dff7-4f97-994b-6ee48785acb0}"/>
     <object class="MixerBusFader" id="{7e5f2461-44ae-4200-93dc-bed6c8b46ed8}"/>
 </objects>
