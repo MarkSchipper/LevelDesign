@@ -20,20 +20,22 @@ namespace EnemyCombat
                     {
                         if (coll.tag == "Player")
                         {
-                            // If the enemy engages the player, the player get set in Combat
-                            // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
+                            if (!coll.GetComponent<CombatSystem.PlayerController>().ReturnPlayerDead())
+                            {
+                                // If the enemy engages the player, the player get set in Combat
+                                // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
 
-                            CombatSystem.InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
-                            coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
-                            coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID());
+                                CombatSystem.InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
+                                coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                                coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID(), transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>());
 
-                            coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
+                                coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
 
-                            this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
-                            this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetLeashStart(transform.position);
+                                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
+                                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetLeashStart(transform.position);
 
-                            CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT, Vector3.forward, true);
-
+                                CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT, Vector3.forward, true);
+                            }
                         }
                     }
                 }
@@ -55,21 +57,24 @@ namespace EnemyCombat
                     {
                         if (coll.tag == "Player")
                         {
-                            // If the enemy engages the player, the player get set in Combat
-                            // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
-                            if (!_setOnce)
+                            if (!coll.GetComponent<CombatSystem.PlayerController>().ReturnPlayerDead())
                             {
-                                CombatSystem.InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
-                                coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
-                                //coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID());
-                                coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
+                                // If the enemy engages the player, the player get set in Combat
+                                // we pass the parent gameobject to the player class so we can set the target in the interface to this enemy
+                                if (!_setOnce)
+                                {
+                                    CombatSystem.InteractionManager.instance.SetSelected(this.transform.parent.gameObject);
+                                    coll.GetComponent<CombatSystem.PlayerController>().SetPlayerInCombat(true);
+                                    //coll.GetComponent<CombatSystem.PlayerController>().AddEnemyList(transform.parent.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnGameID());
+                                    coll.GetComponent<CombatSystem.PlayerController>().SetEnemy(this.transform.parent.gameObject);
 
-                                CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT, Vector3.forward, true);
-                                _setOnce = true;
-                            }
-                            if (!this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().MaxLeashDistanceMet())
-                            {
-                                this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
+                                    CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.INCOMBAT, Vector3.forward, true);
+                                    _setOnce = true;
+                                }
+                                if (!this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().MaxLeashDistanceMet())
+                                {
+                                    this.transform.parent.transform.parent.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetAttack(true, coll.gameObject);
+                                }
                             }
                         }
                     }

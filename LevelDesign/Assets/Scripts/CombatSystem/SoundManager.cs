@@ -9,7 +9,9 @@ namespace CombatSystem
     public enum SOUNDS
     {
         FOOTSTEPS,
+        PLAYERSPAWN,
         PLAYERHIT,
+        PLAYERDEATH,
         PLAYERSPELLWARMUP,
         PLAYERSPELLCAST,
         PLAYERBLINK,
@@ -26,6 +28,8 @@ namespace CombatSystem
         LEVELUP,
         RAIN,
         THUNDER,
+        CRATE_BRAKE,
+        UICLICK,
         
     }
 
@@ -34,6 +38,9 @@ namespace CombatSystem
 
         [FMODUnity.EventRef]
         public string _playerGrunt;
+
+        [FMODUnity.EventRef]
+        public string _playerDeath;
 
         [FMODUnity.EventRef]
         public string _playerSpells;
@@ -91,6 +98,18 @@ namespace CombatSystem
         [FMODUnity.EventRef]
         public string _dungeonAmbience;
 
+        [Header("Sound Effects")]
+
+        [FMODUnity.EventRef]
+        public string _crateBrake;
+
+        [FMODUnity.EventRef]
+        public string _playerSpawn;
+
+        [FMODUnity.EventRef]
+        public string _uiClick;
+
+
         private static UnityEngine.Object[] _allFoliageSounds;
         private static List<string> _foliageSounds = new List<string>();
 
@@ -136,6 +155,12 @@ namespace CombatSystem
                 case SOUNDS.FOOTSTEPS:
                     PlayFootsteps(_playerPos);
                     break;
+                case SOUNDS.PLAYERSPAWN:
+                    PlayPlayerSpawn(_playerPos);
+                    break;
+                case SOUNDS.PLAYERDEATH:
+                    PlayPlayerDeath(_playerPos);
+                    break;
                 case SOUNDS.PLAYERHIT:
                     PlayPlayerHit(_playerPos);
                     break;
@@ -148,7 +173,6 @@ namespace CombatSystem
                 case SOUNDS.PLAYERBLINK:
                     PlayPlayerBlink(_playerPos);
                     break;
-
                 case SOUNDS.PLAYERJUMP:
                     PlayPlayerJump(_playerPos);
                     break;
@@ -187,6 +211,12 @@ namespace CombatSystem
                     break;
                 case SOUNDS.PLAYERICETHRONE:
                     PlayPlayerIceThrone(_playerPos);
+                    break;
+                case SOUNDS.CRATE_BRAKE:
+                    PlayCrateBrake(_playerPos);
+                    break;
+                case SOUNDS.UICLICK:
+                    PlayUIClick();
                     break;
                 default:
                     break;
@@ -247,6 +277,24 @@ namespace CombatSystem
                 e.release();//Release each event instance immediately, there are fire and forget, one-shot instances. 
             }
     }
+
+        void PlayPlayerSpawn(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_playerSpawn);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
+        void PlayPlayerDeath(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_playerDeath);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
 
         void PlayPlayerHit(Vector3 _playerPos)
         {
@@ -388,6 +436,15 @@ namespace CombatSystem
             e.release();
         }
 
+        void PlayCrateBrake(Vector3 _playerPos)
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_crateBrake);
+            e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
+
+            e.start();
+            e.release();
+        }
+
         void PlayThunder()
         {
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_thunder);
@@ -440,6 +497,16 @@ namespace CombatSystem
         public static List<string> ReturnAllFoliage()
         {
             return _foliageSounds;
+        }
+
+        // UI
+
+        void PlayUIClick()
+        {
+            FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_uiClick);
+
+            e.start();
+            e.release();
         }
 
     }

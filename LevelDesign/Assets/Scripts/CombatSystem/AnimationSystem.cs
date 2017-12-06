@@ -254,5 +254,36 @@ namespace CombatSystem
             _playerAnimator.SetBool("skipIdle", _set);
             _staffAnimator.SetBool("skipIdle", _set);
         }
+
+        public static void PlayerDeath()
+        {
+            _playerAnimator.SetBool("isDeath", true);
+            _staffAnimator.SetBool("isDeath", true);
+
+            
+            
+        }
+
+        public static void PlayerInstantDeath()
+        {
+            _playerAnimator.SetBool("isInstantDeath", true);
+            _staffAnimator.SetBool("isInstantDeath", true);
+        }
+
+        public static void PlayerAlive()
+        {
+            _playerAnimator.SetBool("isInstantDeath", false);
+            _staffAnimator.SetBool("isInstantDeath", false);
+
+            _playerAnimator.SetBool("isDeath", false);
+            _staffAnimator.SetBool("isDeath", false);
+        }
+
+        public static  IEnumerator StopPlayerDeath()
+        {
+            yield return null;
+            _playerAnimator.SetBool("isDeath", false);
+            _staffAnimator.SetBool("isDeath", false);
+        }
     }
 }

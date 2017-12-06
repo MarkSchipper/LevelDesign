@@ -176,7 +176,7 @@ namespace Dialogue
             
             if(Dialogue.Game.DialogueGameDatabase.GetInitialQuestionFromNPC(_id) != string.Empty)
             {
-                SetDialogue("", Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_id), false, _id, 0, _npcObject);
+                SetDialogue("", _npcObject.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " +  Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_id), false, _id, 0, _npcObject);
 
                 // Set NodeID to the next NodeID in line
                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_id, 0);
@@ -249,7 +249,7 @@ namespace Dialogue
                         if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]) != "End")
                         {
                             _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
-                            _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
+                            _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
                             SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID)));
                             _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
                         }
@@ -276,7 +276,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -287,7 +287,7 @@ namespace Dialogue
                                                 // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -307,7 +307,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -318,7 +318,7 @@ namespace Dialogue
                                                 // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -336,7 +336,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -348,7 +348,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -367,7 +367,7 @@ namespace Dialogue
                                                     _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                     // Set the Question
-                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                     // Fetch the corresponding answers
                                                     SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -378,7 +378,7 @@ namespace Dialogue
                                                     // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                     _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
                                                     // Set the Question
-                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                     // Fetch the corresponding answers
                                                     //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -446,7 +446,7 @@ namespace Dialogue
                         if (Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]) != "End")
                         {
                             _nodeID = Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1];
-                            _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
+                            _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
                             SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID)));
                             _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
                         }
@@ -471,7 +471,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -482,7 +482,7 @@ namespace Dialogue
                                                 // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "False")));
@@ -500,7 +500,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -511,7 +511,7 @@ namespace Dialogue
                                                 // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -529,7 +529,7 @@ namespace Dialogue
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
 
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                 // Fetch the corresponding answers
                                                 SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -540,7 +540,7 @@ namespace Dialogue
                                                 // Set the _nodeID to the NodeID of the Condition to get the ( in this case ) False answer
                                                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
                                                 // Set the Question
-                                                _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                 // Fetch the corresponding answers
                                                 //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);
@@ -558,7 +558,7 @@ namespace Dialogue
                                                     _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
 
                                                     // Set the Question
-                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
+                                                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "True");
 
                                                     // Fetch the corresponding answers
                                                     SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID, "True")));
@@ -570,7 +570,7 @@ namespace Dialogue
                                                     _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[1]);
 
                                                     // Set the Question
-                                                    _questText = Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
+                                                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID, "False");
 
                                                     // Fetch the corresponding answers
                                                     //_nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, Dialogue.Game.DialogueGameDatabase.GetNodeIDsByAnswer(_npcID, _nodeID)[0]);

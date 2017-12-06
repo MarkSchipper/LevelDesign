@@ -5,6 +5,7 @@ using FMODUnity;
 
 namespace CombatSystem
 {
+    
     public class PlayerController : MonoBehaviour
     {
         // Booleans
@@ -76,10 +77,13 @@ namespace CombatSystem
         private GameObject _playerMesh;
 
         private List<int> _enemyList = new List<int>();
+        private List<EnemyCombat.EnemyBehaviour> _enemyGameObjectList = new List<EnemyCombat.EnemyBehaviour>();
 
         private Ray _ray;
 
         private List<Animator> _animators = new List<Animator>();
+
+        private CombatSystem.PlayerMovement PLAYER_MOVEMENT;
 
         // Singleton
         public static PlayerController instance = null;
@@ -93,6 +97,8 @@ namespace CombatSystem
         //                                                                                                          //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+         
+
         void Awake()
         {
             if(instance == null)
@@ -105,6 +111,7 @@ namespace CombatSystem
             }
 
             DontDestroyOnLoad(gameObject);
+            
         }
 
         void OnEnable()
@@ -130,7 +137,16 @@ namespace CombatSystem
                 }
             }
 
-            
+            if (GetComponent<CombatSystem.PlayerMovement>() == null)
+            {
+                this.gameObject.AddComponent<CombatSystem.PlayerMovement>();  
+            }
+            else
+            {
+                PLAYER_MOVEMENT = GetComponent<CombatSystem.PlayerMovement>();
+                PLAYER_MOVEMENT.SetValues(_playerRunSpeed, _playerWalkSpeed);
+            }
+           
         }  
 
         // Use this for initialization
@@ -149,99 +165,135 @@ namespace CombatSystem
                 }
                 
             }
+
+            
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!INPUT_BLOCK)
+            if (!STATE_DEAD)
             {
-                CheckInputs();
-                CheckMouseOver();
-            }
-
-            if (INPUT_BLOCK)
-            {
-                STATE_IDLE = true;
-                STATE_RUNNING = false;
-
-                STATE_INCOMBAT = false;
-                _moveDirection = new Vector3(0, 0, 0);
-                _selectedNPC = null;
-            }
-           
-            //////////////////////////////////////////////////////////////////////////
-            //                                                                      //
-            //                          STATE MACHINE                               //
-            //                                                                      //
-            //////////////////////////////////////////////////////////////////////////
-
-            if (STATE_IDLE && !STATE_INCOMBAT)
-            {
-                PlayerIdle();
-            }
-            if (STATE_WALKING)
-            {
-                PlayerWalking();
-            }
-            if (STATE_RUNNING)
-            {
-                PlayerRunning();
-            }
-            if (STATE_JUMPING)
-            {
-                if (!_jumpOnce)
+                if (!INPUT_BLOCK)
                 {
-                    PlayerJump();
-                    _jumpOnce = true;
+                    PLAYER_MOVEMENT.CheckInputs();
+                    CheckMouseOver();
                 }
-                if(_jumpOnce)
+
+                if (INPUT_BLOCK)
                 {
-                    if(CombatSystem.AnimationSystem.ReturnJumpingFinished())
+
+                    STATE_IDLE = true;
+                    STATE_RUNNING = false;
+
+                    STATE_INCOMBAT = false;
+                    _moveDirection = new Vector3(0, 0, 0);
+                    _selectedNPC = null;
+                }
+
+                //////////////////////////////////////////////////////////////////////////
+                //                                                                      //
+                //                          STATE MACHINE                               //
+                //                                                                      //
+                //////////////////////////////////////////////////////////////////////////
+
+                if (STATE_IDLE && !STATE_INCOMBAT)
+                {
+                    PlayerIdle();
+                }
+                if (STATE_WALKING)
+                {
+                    PLAYER_MOVEMENT.PlayerWalking();
+                }
+                if (STATE_RUNNING)
+                {
+                    PLAYER_MOVEMENT.PlayerRunning();
+                }
+                if (STATE_JUMPING)
+                {
+                    if (!_jumpOnce)
                     {
-                        CombatSystem.AnimationSystem.StopPlayerJumping();
-                        _jumpOnce = false;
+                        PLAYER_MOVEMENT.PlayerJump();
+                        _jumpOnce = true;
+                    }
+                    if (_jumpOnce)
+                    {
+                        if (CombatSystem.AnimationSystem.ReturnJumpingFinished())
+                        {
+                            CombatSystem.AnimationSystem.StopPlayerJumping();
+                            _jumpOnce = false;
+                        }
+                    }
+                }
+
+                if (STATE_INCOMBAT)
+                {
+                    PlayerCombatIdle();
+                }
+
+                if (!STATE_RUNNING || !STATE_WALKING || !STATE_INCOMBAT || STATE_JUMPING)
+                {
+                    STATE_IDLE = true;
+                }
+
+                Immunity();
+
+                if (_isBlink)
+                {
+                    SetBlinkTarget();
+                }
+
+                if (_hasBarrier)
+                {
+                    if (_barrierGameObject != null)
+                    {
+                        _barrierGameObject.transform.position = transform.position;
+                    }
+                }
+
+                if (!STATE_INCOMBAT)
+                {
+                    _oocTimer += Time.deltaTime;
+                    if (_oocTimer > 5)
+                    {
+                        PlayerRegenerate();
                     }
                 }
             }
-
-            if (STATE_INCOMBAT)
+        }
+       
+        public void SetPlayerState(string _state, bool _set)
+        {
+            switch (_state)
             {
-                PlayerCombatIdle();
-            }
-
-            if (!STATE_RUNNING || !STATE_WALKING || !STATE_INCOMBAT || STATE_JUMPING)
-            {
-                STATE_IDLE = true;
-            }
-
-            Immunity();
-
-            if(_isBlink)
-            {
-                SetBlinkTarget();
-            }
-
-            if(_hasBarrier)
-            {
-                if (_barrierGameObject != null)
-                {
-                    _barrierGameObject.transform.position = transform.position;
-                }
-            }
-
-            if(!STATE_INCOMBAT)
-            {
-                _oocTimer += Time.deltaTime;
-                if(_oocTimer > 5)
-                {
-                    PlayerRegenerate();
-                }
+                case "STATE_WALKING":
+                    STATE_WALKING = _set;
+                    break;
+                case "STATE_RUNNING":
+                    STATE_RUNNING = _set;
+                    break;
+                case "STATE_BACKWARDS":
+                    STATE_BACKWARDS = _set;
+                    break;
+                case "STATE_IDLE":
+                    STATE_IDLE = _set;
+                    break;
+                case "STATE_INCOMBAT":
+                    STATE_INCOMBAT = _set;
+                    break;
+                case "STATE_JUMPING":
+                    STATE_JUMPING = _set;
+                    break;
+                case "STATE_DEAD":
+                    STATE_DEAD = _set;
+                    break;
+                case "STATE_REGENERATE":
+                    STATE_REGENERATE = _set;
+                    break;
+                default:
+                    break;
             }
         }
-
-       
-        #region MOVEMENT
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                                                                                          //
@@ -255,143 +307,6 @@ namespace CombatSystem
         //                                                                                                          //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void CheckInputs()
-        {
-            #region MOVING THE CHARACTER       
-            if (_charController.isGrounded)
-            {
-                _moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                _playerFallingDistance = 0;
-                // If we pressed the Left Shift we multiply the movedirection with the walking speed
-                // Else by the run speed
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    _moveDirection *= _walkSpeed;
-                    STATE_IDLE = false;
-                }
-                else
-                {
-                    _moveDirection *= _runSpeed;
-                }
-
-                if(_moveDirection != Vector3.zero)
-                {
-                    if(InteractionManager.instance.ReturnIsSpellCasting())
-                    {
-                        InteractionManager.instance.CancelSpellCasting();
-                    }
-                }
-
-                // If _moveDirection.z is not 0
-                // If we are moving FORWARD
-                if (_moveDirection.z != 0 )
-                {
-
-                    // If the z direction is negative we are walking backwards
-                    if(_moveDirection.z < 0)
-                    {
-                        STATE_BACKWARDS = true;
-                    }
-                    else
-                    {
-                        STATE_BACKWARDS = false;
-                    }
-                    if (Input.GetKey(KeyCode.LeftShift))
-                    {
-                        STATE_WALKING = true;
-                        STATE_RUNNING = false;
-                        CombatSystem.AnimationSystem.SetSkipIdle(true);
-                    }
-                    else
-                    {
-                        STATE_RUNNING = true;
-                        STATE_WALKING = false;
-                        STATE_INCOMBAT = false;
-                    }
-
-                    // If we are moving FORWARD and have pressed the A or D key we rotate the player 45 degrees to simulate strafing
-                    // If we are NOT moving sideways rotate the player to 0,0,0 again
-                    // NOTE: We are rotating the player mesh which is a CHILD of the PlayerController object since we don't want to rotate the parent object
-                    if (_moveDirection.x > 0 && _moveDirection.z != 0)
-                    {
-                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 45, 0)), Time.deltaTime * 20f);
-                        STATE_IDLE = false;
-                    }
-                    if (_moveDirection.x < 0 && _moveDirection.z != 0)
-                    {
-                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, -45, 0)), Time.deltaTime * 20f);
-                        STATE_IDLE = false;
-                    }
-                    if (_moveDirection.x == 0)
-                    {
-                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * 20f);
-                        STATE_IDLE = false;
-                    }
-
-                    STATE_IDLE = false;
-                }
-
-                // If we are NOT moving forward but have pressed A or D
-                // Rotate the player by 90 degrees so it runs sideways
-                if(_moveDirection.x != 0 && _moveDirection.z == 0)
-                {
-                    if (_moveDirection.x > 0 )
-                    {
-                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 90, 0)), Time.deltaTime * 20f);
-                    }
-                    if (_moveDirection.x < 0 )
-                    {
-                        _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, -90, 0)), Time.deltaTime * 20f);
-                        
-                    }
-                    STATE_RUNNING = true;
-                    STATE_IDLE = false;
-                    STATE_INCOMBAT = false;
-                }
-
-                // If we havent pressed anything
-                // Rotate the player to 0,0,0 
-                if(_moveDirection.z == 0 && _moveDirection.x == 0)
-                {
-                     _playerMesh.transform.localRotation = Quaternion.Slerp(_playerMesh.transform.localRotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * 20f);
-                                       
-
-                    STATE_RUNNING = false;
-                    STATE_WALKING = false;
-
-                    if (!STATE_INCOMBAT)
-                    {
-                        STATE_IDLE = true;
-                        CombatSystem.AnimationSystem.SetPlayerIdle();
-                    }
-
-                }
-                if(Input.GetKey(KeyCode.Space))
-                {
-                    _moveDirection.y = 0.4f;
-                    STATE_JUMPING = true;
-                    SoundManager.instance.PlaySound(SOUNDS.PLAYERJUMP, transform.position, true);
-                }
-
-                // Convert the _moveDirection to world space
-                _moveDirection = transform.TransformDirection(_moveDirection);
-
-            }
-            if(!_charController.isGrounded)
-            {
-                _playerFallingDistance += Time.deltaTime;
-
-                _moveDirection.y -= 1 * Time.deltaTime;
-
-                if(_playerFallingDistance > 1.5f)
-                {
-                    STATE_DEAD = true;
-                }
-
-                _charController.Move(_moveDirection * Time.deltaTime);
-            }
-            #endregion
-        }
 
         // If the Player is idle, stop playing the running and/or walking animations
         void PlayerIdle()
@@ -407,73 +322,6 @@ namespace CombatSystem
         void PlayerCombatIdle()
         {
             CombatSystem.AnimationSystem.SetCombatIdle();
-        }
-
-        // If the player is walking, move the player and play the walking animation
-        void PlayerWalking()
-        {
-            CombatSystem.AnimationSystem.StopPlayerIdle();
-            CombatSystem.AnimationSystem.SetSkipIdle(true);
-
-            Vector3 _oldPosition = this.transform.position;
-
-            if (!STATE_BACKWARDS)
-            {
-                _charController.Move(_moveDirection * _walkSpeed);
-            }
-            if(STATE_BACKWARDS)
-            {
-                _charController.Move(_moveDirection * (_walkSpeed * 0.5f));
-            }
-            CombatSystem.AnimationSystem.SetPlayerWalking(STATE_BACKWARDS);
-
-            _playerDistanceTraveled += (transform.position - _oldPosition).magnitude;
-
-            if(_playerDistanceTraveled > 0.5f)
-            {
-                if (_charController.isGrounded)
-                {
-                    SoundManager.instance.PlaySound(SOUNDS.FOOTSTEPS, transform.position, true);
-                    _playerDistanceTraveled = 0.0f;
-                }
-            }
-        }
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //                                                  PlayerRunning()                                         //
-        // If the player is running, move the player and play the running animation                                 //
-        //  Check the distance the player has traveled, if it is greater than 1.75f                                 //
-        //      1.75f is an estimation of the distance between footsteps                                            //
-        //  Call the SoundSystem and play the Footstep sounds                                                       //
-        //                                                                                                          //
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        void PlayerRunning()
-        {
-
-            CombatSystem.AnimationSystem.StopPlayerIdle();
-
-            Vector3 _oldPosition = this.transform.position;
-            if (!STATE_BACKWARDS)
-            {
-                _charController.Move(_moveDirection * _runSpeed);
-            }
-            if (STATE_BACKWARDS)
-            {
-                _charController.Move(_moveDirection * (_runSpeed * 0.5f));
-            }
-            CombatSystem.AnimationSystem.SetPlayerRunning(STATE_BACKWARDS);
-
-            _playerDistanceTraveled += (transform.position - _oldPosition).magnitude;
-
-            if(_playerDistanceTraveled > 2.25f)
-            {
-                if (_charController.isGrounded)
-                {
-                    CombatSystem.SoundManager.instance.PlaySound(SOUNDS.FOOTSTEPS, transform.position, true);
-                    _playerDistanceTraveled = 0.0f;
-                }
-            }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,19 +342,6 @@ namespace CombatSystem
             transform.rotation = Quaternion.Euler(new Vector3(0, _rotateAngle, 0));
             //transform.rotation = Quaternion.Slerp(transform.rotation, turnAngle, Time.deltaTime * 100f);
         }
-
-        public void PlayerJump()
-        {
-            
-            CombatSystem.AnimationSystem.SetPlayerJumping();
-            if(CombatSystem.AnimationSystem.ReturnJumpingFinished())
-            {
-                CombatSystem.AnimationSystem.StopPlayerJumping();
-                STATE_JUMPING = false;
-            }
-        }
-
-        #endregion
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                          CheckMouseOver()                                                //
@@ -534,7 +369,7 @@ namespace CombatSystem
         void CheckMouseOver()
         {
         
-            if (!_isOverUI) {
+            if (!InteractionManager.instance.ReturnHoveringOverUI()) {
 
                 if (!CombatSystem.CameraController.ReturnFirstPerson())
                 {
@@ -621,8 +456,14 @@ namespace CombatSystem
                                     _previousNPC = _selectedNPC;
 
                                 }
-                                if (_hit.collider.tag == "EnemyMelee")
+                                else if (_hit.collider.tag == "EnemyMelee")
                                 {
+                                    
+                                    if(_selectedActor != _hit.collider.gameObject && _selectedActor != null)
+                                    {
+                                        _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(false);
+                                    }
+
                                     if (!_hit.collider.gameObject.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLootable())
                                     {
                                         _selectedActor = _hit.collider.gameObject;
@@ -640,7 +481,12 @@ namespace CombatSystem
                                         }
                                     }
                                 }
-
+                                else
+                                {
+                                    
+                                    _selectedActor = null;
+                                    InteractionManager.instance.SetSelected(null);
+                                }
 
                                 if (!Inventory.instance.ReturnShowLootWindow())
                                 {
@@ -723,73 +569,111 @@ namespace CombatSystem
 
         void OnTriggerEnter(Collider coll)
         {
-            // If it is spell cast from something
-            if(coll.GetComponent<SpellObject>() != null)
+            if (!STATE_DEAD)
             {
-                // If the spell is not from the Player
-                if(!coll.GetComponent<SpellObject>().ReturnFromPlayer())
+                // If it is spell cast from something
+                if (coll.GetComponent<SpellObject>() != null)
                 {
-                    // If the player has not taken damage
-                    if(!_hasTakenDamage)
+                    // If the spell is not from the Player
+                    if (!coll.GetComponent<SpellObject>().ReturnFromPlayer())
                     {
-                        // If the players health minus the damage from the spell is greater than 0
-                        if(_playerHealth - coll.GetComponent<SpellObject>().ReturnDamage() > 0)
+                        // If the player has not taken damage
+                        if (!_hasTakenDamage)
                         {
-                            if(_hasBarrier)
+                            // If the players health minus the damage from the spell is greater than 0
+                            if (_playerHealth - coll.GetComponent<SpellObject>().ReturnDamage() > 0)
                             {
-                                _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage() / 4;
+                                if (_hasBarrier)
+                                {
+                                    _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage() / 4;
+                                }
+                                if (!_hasBarrier)
+                                {
+                                    // Reduce the players health with the damage from the spell
+                                    _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
+                                }
+
+                                // Update the UI
+                                InteractionManager.instance.SetPlayerHealth(_playerHealth);
+
+                                // Display the damage done in the game ( damage number flying up )
+                                InteractionManager.instance.DisplayDamageDoneToPlayer((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
+
+                                // Destroy the spell gameobject
+                                Destroy(coll.gameObject);
+
+                                // Play a sound
+                                SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
+
+                                // Set _hasTakeDamage = true 
+                                _hasTakenDamage = true;
+
+                                // If the player is not in Combat, set the player in combat
+                                if (!STATE_INCOMBAT)
+                                {
+                                    STATE_INCOMBAT = true;
+                                    Combat.InitiateCombat();
+                                }
+
+                            }
+
+                            // If the players health minus the damage from the spell is less than 0
+                            else
+                            {
+                                PlayerDeath(false);
+                                STATE_DEAD = true;
+
+                                for (int i = 0; i < _enemyList.Count; i++)
+                                {
+                                    _enemyGameObjectList[i].ResetEnemy();
+                                }
+
+                            }
+                        }
+                    }
+                }
+                if (coll.name == "Enemy_MELEE_TRIGGER" && coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnIsAlive())
+                {
+                    if (!_hasTakenDamage)
+                    {
+                        if (_playerHealth - (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage() > 0)
+                        {
+                            if (_hasBarrier)
+                            {
+                                _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage();
                             }
                             if (!_hasBarrier)
                             {
                                 // Reduce the players health with the damage from the spell
-                                _playerHealth -= coll.GetComponent<SpellObject>().ReturnDamage();
+                                _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage();
                             }
 
-                            // Update the UI
+
                             InteractionManager.instance.SetPlayerHealth(_playerHealth);
-
-                            // Display the damage done in the game ( damage number flying up )
-                            InteractionManager.instance.DisplayDamageDoneToPlayer((int)coll.GetComponent<SpellObject>().ReturnDamage(), transform.position);
-
-                            // Destroy the spell gameobject
-                            Destroy(coll.gameObject);
-
-                            // Play a sound
                             SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
+                            SetPlayerInCombat(true);
+                            // Set _takeDamage to true so the player is immune for <seconds>
 
-                            // Set _hasTakeDamage = true 
                             _hasTakenDamage = true;
-
-                            // If the player is not in Combat, set the player in combat
-                            if(!STATE_INCOMBAT)
-                            {
-                                STATE_INCOMBAT = true;
-                                Combat.InitiateCombat();
-                            }
-
                         }
-
-                        // If the players health minus the damage from the spell is less than 0
                         else
                         {
-                            PlayerDeath();
+                            PlayerDeath(false);
+                            STATE_DEAD = true;
+
+                            for (int i = 0; i < _enemyList.Count; i++)
+                            {
+                                _enemyGameObjectList[i].ResetEnemy();
+                            }
                         }
+
+
                     }
                 }
-            }
-            if (coll.name == "Enemy_MELEE_TRIGGER" && coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnIsAlive())
-            {
-                if (!_hasTakenDamage)
+                else if (coll.tag == "InstantDeath")
                 {
-                    _playerHealth -= (int)coll.GetComponentInParent<EnemyCombat.EnemyBehaviour>().ReturnDamage();
-                    InteractionManager.instance.SetPlayerHealth(_playerHealth);
-                    SoundManager.instance.PlaySound(SOUNDS.PLAYERHIT, transform.position, true);
-                    SetPlayerInCombat(true);
-                    // Set _takeDamage to true so the player is immune for <seconds>
-
-                    _hasTakenDamage = true;
-
-
+                    STATE_DEAD = true;
+                    PlayerDeath(true);
                 }
             }
         }
@@ -830,9 +714,34 @@ namespace CombatSystem
 
         }
 
-        void PlayerDeath()
+        public void RespawnPlayer(Vector3 _spawnPos)
         {
-            Debug.Log("DEATH");
+            transform.position = _spawnPos;
+            STATE_DEAD = false;
+            AnimationSystem.PlayerAlive();
+            InteractionManager.instance.ShowUI(true);
+            _playerHealth = InteractionManager.instance.ReturnPlayerMaxHealth();
+            _playerMana = InteractionManager.instance.ReturnPlayerMaxMana();
+            _setOnce = false;
+            StartCoroutine(CharacterSpawnVFX(false));
+        }
+
+        public void PlayerDeath(bool _set)
+        {
+            INPUT_BLOCK = true;
+            InteractionManager.instance.ShowUI(false);
+            if(_set)
+            {
+               AnimationSystem.PlayerInstantDeath();
+            }
+            else
+            {
+                AnimationSystem.StopPlayerIdle();
+                AnimationSystem.PlayerDeath();
+                StartCoroutine(AnimationSystem.StopPlayerDeath());
+            }
+            SoundManager.instance.PlaySound(SOUNDS.PLAYERDEATH, transform.position, false);
+            StartCoroutine(CharacterSpawnVFX(true));
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -990,6 +899,11 @@ namespace CombatSystem
             return _playerLevel;
         }
 
+        public bool ReturnPlayerDead()
+        {
+            return STATE_DEAD;
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                              IsPlayerFacingEnemy                                         //
         //                                                                                                          //
@@ -1060,10 +974,11 @@ namespace CombatSystem
             return STATE_INCOMBAT;
         }
 
-        public void AddEnemyList(int _id)
+        public void AddEnemyList(int _id, EnemyCombat.EnemyBehaviour _enemy)
         {
             if (!_enemyList.Contains(_id)) { 
                 _enemyList.Add(_id);
+                _enemyGameObjectList.Add(_enemy);
             }
         }
 
@@ -1370,6 +1285,54 @@ namespace CombatSystem
                 CombatSystem.InteractionManager.instance.SetPlayerMana(_playerMana);
             }
             _regen = false;
+        }
+
+        IEnumerator CharacterSpawnVFX(bool _despawn)
+        {
+            
+            Renderer[] _allRenders = this.GetComponentsInChildren<Renderer>();
+            if (_despawn)
+            {
+                float _timer = 1f;
+                while (true)
+                {
+                    yield return new WaitForEndOfFrame();
+                    _timer -= Time.deltaTime;
+
+                    for (int i = 0; i < _allRenders.Length; i++)
+                    {
+                        _allRenders[i].material.color = new Color(1, 1, 1, _timer);
+                    }
+
+                    if (_timer <= 0)
+                    {
+
+                        yield break;
+                    }
+                }
+            }
+            else
+            {
+                float _timer = 0f;
+                yield return new WaitForSeconds(1);
+                while (true)
+                {
+                    
+                    yield return new WaitForEndOfFrame();
+                    _timer += Time.deltaTime / 2;
+
+                    for (int i = 0; i < _allRenders.Length; i++)
+                    {
+                        _allRenders[i].material.color = new Color(1, 1, 1, _timer);
+                    }
+
+                    if (_timer >= 1)
+                    {
+
+                        yield break;
+                    }
+                }
+            }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////

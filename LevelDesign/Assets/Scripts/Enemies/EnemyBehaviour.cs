@@ -207,7 +207,7 @@ namespace EnemyCombat
 
         void OnTriggerEnter(Collider coll)
         {
-
+           
             if (coll.tag == "PlayerRangedSpell" && coll.GetComponent<SpellObject>() != null)
             {
                 if (STATE_ALIVE)
@@ -232,7 +232,7 @@ namespace EnemyCombat
                     CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
                     if (!CombatSystem.PlayerController.instance.ReturnInCombat())
                     {
-                        CombatSystem.PlayerController.instance.AddEnemyList(_gameID);
+                        CombatSystem.PlayerController.instance.AddEnemyList(_gameID, this.GetComponent<EnemyBehaviour>());
                     }
                     CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
                 }
@@ -256,7 +256,6 @@ namespace EnemyCombat
                 }
             }
         }
-
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                      SetSelected(bool _set)                                          //
@@ -808,6 +807,25 @@ namespace EnemyCombat
             return EnemyDatabase.ReturnWaypoints(_enemyID);
         }
 
+        public void ResetEnemy()
+        {
+            Debug.Log("Reset!");
+            _enemyHealth = _enemyMaxHealth;
+            STATE_ATTACK = false;
+            _animationSystem.StopEnemyCombatIdle();
+            _animationSystem.StopEnemyRunning();
+
+            if(_enemyMovement == EnemyMovement.Patrol)
+            {
+                STATE_PATROL = true;
+            }
+            else
+            {
+                STATE_IDLE = true;
+            }
+            
+        }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                           EnemyDeath()                                               //
         //                                                                                                      //
@@ -941,7 +959,7 @@ namespace EnemyCombat
             CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
             if (!CombatSystem.PlayerController.instance.ReturnInCombat())
             {
-                CombatSystem.PlayerController.instance.AddEnemyList(_gameID);
+                CombatSystem.PlayerController.instance.AddEnemyList(_gameID, this.GetComponent<EnemyBehaviour>());
             }
             CombatSystem.PlayerController.instance.SetEnemy(this.transform.parent.gameObject);
 

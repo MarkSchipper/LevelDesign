@@ -3,7 +3,7 @@ guid: 052e418d49a2bee49b51a4f212a2e38c
 timeCreated: 1506448161
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: Belt
     100002: Belt_1
@@ -376,6 +376,7 @@ ModelImporter:
     7400016: Spell cast two
     7400018: Jumping
     7400020: Death
+    7400022: InstantDeath
     9500000: //RootNode
     13700000: Belt
     13700002: Feathers1
@@ -387,10 +388,47 @@ ModelImporter:
     13700014: Lashes
     13700016: R_Eye
     13700018: R_Hair
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes1
+    second: {fileID: 2100000, guid: 872cb69f535bd2643a492b669f648158, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Feathers
+    second: {fileID: 2100000, guid: 3bd758b3dd6155d45b640dd6d756cc66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HAIR
+    second: {fileID: 2100000, guid: 7f1e491f3644f0c40b29bbbae6b8634b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lashes1
+    second: {fileID: 2100000, guid: 8cea59deadaef1548a376e2a9a64b392, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainChar
+    second: {fileID: 2100000, guid: 7d072aa194b05a64eb795fd2af7e821c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shoulders
+    second: {fileID: 2100000, guid: cb10e6cc133390e4bb381dc7ef603971, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: defaultMat1
+    second: {fileID: 2100000, guid: 5ce9793a5a33fa54fb5bbfa133914138, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -403,6 +441,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -535,7 +574,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -704,6 +743,34 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: InstantDeath
+      takeName: Take 001
+      firstFrame: 1005
+      lastFrame: 1010
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0

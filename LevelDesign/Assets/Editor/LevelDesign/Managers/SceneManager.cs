@@ -64,8 +64,8 @@ public class SceneManager : EditorWindow {
     {
         DestroyImmediate(GameObject.FindGameObjectWithTag("MainCamera"));
 
-        _player = Instantiate(Resources.Load("Characters/FirstPerson") as GameObject);
-            _player.name = "FirstPerson";
+   //     _player = Instantiate(Resources.Load("Characters/FirstPerson") as GameObject);
+   //         _player.name = "FirstPerson";
         _sceneCanvas = Instantiate(Resources.Load("SceneEditor/Canvas") as GameObject);
             _sceneCanvas.name = "Canvas";
         _camSetup = Instantiate(Resources.Load("SceneEditor/Camera_Target") as GameObject);
