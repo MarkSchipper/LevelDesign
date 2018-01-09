@@ -56,7 +56,7 @@ Shader "Custom/Dissolve/Opaque" {
 
 		#include "UnityPBSLighting.cginc"
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard fullforwardshadows alpha:fade
+		#pragma surface surf Standard fullforwardshadows alpha:fade vertex vert
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -68,6 +68,20 @@ Shader "Custom/Dissolve/Opaque" {
 			float2 uv_BumpMap;
 			float2 uv_DissTexture;
 			float3 worldPos;
+			float3 objectPos;
+		};
+
+		struct appdata
+		{
+			float4 vertex : POSITION;
+			float2 uv : TEXCOORD0;
+			float3 normal : NORMAL;
+		};
+
+		struct v2f 
+		{
+			float3 objectPos : TEXCOORD3;
+			float4 vertex : SV_POSITION;
 		};
 
 		half _Metallic;
