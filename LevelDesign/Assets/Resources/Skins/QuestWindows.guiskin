@@ -2017,7 +2017,7 @@ MonoBehaviour:
     m_Normal:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.8308824, g: 0.6720372, b: 0.6720372, a: 1}
+      m_TextColor: {r: 1, g: 0.99264705, b: 0.7736808, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []

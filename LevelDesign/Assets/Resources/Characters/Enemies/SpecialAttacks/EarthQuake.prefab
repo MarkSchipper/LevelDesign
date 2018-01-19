@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4974164462283308}
   - component: {fileID: 198841723207591516}
   - component: {fileID: 199699951952129028}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4158905161887114}
   - component: {fileID: 198892077294312036}
   - component: {fileID: 199839455167847044}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DebryParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4111323620084810}
   - component: {fileID: 114956208589611504}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EarthQuake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 4535894164852870}
   - component: {fileID: 198645988599798248}
   - component: {fileID: 199876670587630718}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Dust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 33068879551988306}
   - component: {fileID: 136868421208435744}
   - component: {fileID: 95163239009898610}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShockWaveTrigger
   m_TagString: AOE_EarthQuake
   m_Icon: {fileID: 0}
@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2707ef075060a704d8da1144e6c5dbaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _type: 1
 --- !u!136 &136868421208435744
 CapsuleCollider:
   m_ObjectHideFlags: 1

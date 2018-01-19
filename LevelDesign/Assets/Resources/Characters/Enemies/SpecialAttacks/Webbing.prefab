@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4903830223468344}
   - component: {fileID: 198590553625861138}
   - component: {fileID: 199981276433929974}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 198928355433209006}
   - component: {fileID: 199505850360037540}
   - component: {fileID: 114814242128881522}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Webbing_particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4849415659359464}
   - component: {fileID: 114394517571786898}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Webbing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
