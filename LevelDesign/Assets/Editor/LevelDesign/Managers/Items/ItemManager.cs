@@ -18,6 +18,9 @@ public class ItemManager : EditorWindow {
     private static UnityEngine.Object[] _loadQuestItems;
     private static List<string> _loadQuestItemsName = new List<string>();
 
+    private static UnityEngine.Object[] _loadKeys;
+    private static List<string> _loadKeyNames = new List<string>();
+
     // Create Lists in which we store all values from the Database
     private static List<int> _itemID = new List<int>();
     private static List<string> _itemNameList = new List<string>();
@@ -26,6 +29,8 @@ public class ItemManager : EditorWindow {
     private static List<int> _itemStatsList = new List<int>();
     private static List<int> _itemObjectIDList = new List<int>();
     private static List<string> _itemObjectList = new List<string>();
+
+    private static List<string> _addGameList = new List<string>();
 
     private static string _itemObject;
     private static int _itemObjectID;
@@ -50,155 +55,7 @@ public class ItemManager : EditorWindow {
 
     private static int _selected;
  
-    /*
-    void OnGUI()
-    {
-
-
-        if (!_addItem && !_editItem && !_deleteItem && !_isDeletingItem) {
-            if (GUILayout.Button("Add Item"))
-            {
-                _addItem = !_addItem;
-            }
-
-            if (GUILayout.Button("Edit Items"))
-            {
-                _editItem = !_editItem;
-
-
-                _unfold = new bool[_itemID.Count];
-            }
-
-            if (GUILayout.Button("Delete an Item"))
-            {
-                _deleteItem = true;
-            }
-            
-        }
-        #region ADD ITEM
-        if (_addItem)
-        {
-
-            // Basic UI layout 
-            _itemName = EditorGUILayout.TextField("Item Name", _itemName);
-            GUILayout.Label("Item Description");
-            _itemDesc = EditorGUILayout.TextArea(_itemDesc, GUILayout.Height(100));
-            _itemType = (ItemType)EditorGUILayout.EnumPopup("Item Type", _itemType);
-            if(_itemType == ItemType.Health || _itemType == ItemType.Mana)
-            {
-                _selected = EditorGUILayout.Popup("Which Prefab: ", _selected, _loadPotionsName.ToArray());
-                
-            }
-
-            if(_itemType == ItemType.QuestItem)
-            {
-                _selected = EditorGUILayout.Popup("Which Prefab: ", _selected, _loadQuestItemsName.ToArray());
-            }
-
-            _itemStats = EditorGUILayout.IntField("Item Value: ", _itemStats);
-
-            if (GUILayout.Button("Save Item"))
-            {
-                if (_itemType == ItemType.Health || _itemType == ItemType.Mana)
-                {
-                    ItemDatabase.AddItem(_itemName, _itemDesc, _itemType, _itemStats, _selected, _loadPotionsName[_selected]);
-                }
-
-                if(_itemType == ItemType.QuestItem)
-                {
-                    ItemDatabase.AddItem(_itemName, _itemDesc, _itemType, _itemStats, _selected, _loadQuestItemsName[_selected]);
-                }
-                // Clear ALL lists so we can repopulate them 
-                ClearLists();
-                ItemDatabase.GetAllItems();
-            }
-            if(GUILayout.Button("BACK"))
-            {
-                _addItem = false;
-            }
-        }
-        #endregion
-        #region EDIT AN ITEM
-        if (_editItem && !_addItem)
-        {
-
-            for (int i = 0; i < _itemID.Count; i++)
-            {
-
-                _unfold[i] = EditorGUILayout.Foldout(_unfold[i], _itemNameList[i]);
-
-                if (_unfold[i])
-                {
-                    _itemNameList[i] = EditorGUILayout.TextField("Item Name: ", _itemNameList[i]);
-                    _itemDescList[i] = EditorGUILayout.TextArea(_itemDescList[i], GUILayout.Height(100));
-                    _itemTypeList[i] = (ItemType)EditorGUILayout.EnumPopup("Item Type: ", _itemTypeList[i]);
-
-                    if(_itemTypeList[i] == ItemType.Health || _itemTypeList[i] == ItemType.Mana)
-                    {
-                        _itemObjectIDList[i] = EditorGUILayout.Popup("Which Prefab: ", _itemObjectIDList[i], _loadPotionsName.ToArray());
-                    }
-                    if(GUILayout.Button("Save Changes"))
-                    {
-                        ItemDatabase.SaveItem(_itemID[i], _itemNameList[i], _itemDescList[i], _itemTypeList[i], _itemStatsList[i]);
-                        ItemDatabase.ClearLists();
-                        ItemDatabase.GetAllItems();
-                    }
-
-                    /*
-                    if(GUILayout.Button("Delete Item"))
-                    {
-                        DeleteItem(_itemID[i]);
-                        ClearLists();
-                        GetAllItems();
-                    }
-                 
-
-                }
-            }
-
-            if (GUILayout.Button("BACK"))
-            {
-                _editItem = false;
-            }
-
-        }
-        #endregion
-        #region DELETE ITEM
-        if(_deleteItem)
-        {
-            for (int i = 0; i < _itemID.Count; i++)
-            {
-                if(GUILayout.Button("Delete " + _itemNameList[i] + " from the database"))
-                {
-                    _isDeletingItem = true;
-                    _itemToDelete = i;
-                }
-            }
-            if(GUILayout.Button("BACK"))
-            {
-                _deleteItem = false;
-            }
-        }
-
-        if(_isDeletingItem)
-        {
-            GUILayout.Label("Are you sure you want to delete " + _itemNameList[_itemToDelete] + "?");
-            if(GUILayout.Button("YES"))
-            {
-                ItemDatabase.DeleteItem(_itemToDelete);
-                _isDeletingItem = false;
-                
-            }
-            if(GUILayout.Button("BACK"))
-            {
-                _isDeletingItem = false;
-                _deleteItem = false;
-            }
-        }
-        #endregion
-    
-    }
-    */
+   
     public static void ShowAddItem()
     {
         _isLoadedFromDatabase = false;
@@ -220,8 +77,14 @@ public class ItemManager : EditorWindow {
             _selected = EditorGUILayout.Popup("Which Prefab: ", _selected, _loadQuestItemsName.ToArray());
         }
 
-        _itemStats = EditorGUILayout.IntField("Item Value: ", _itemStats);
-
+        if(_itemType == ItemType.Keys)
+        {
+            _selected = EditorGUILayout.Popup("Which Prefab: ", _selected, _loadKeyNames.ToArray());
+        }
+        if (_itemType != ItemType.Keys)
+        {
+            _itemStats = EditorGUILayout.IntField("Item Value: ", _itemStats);
+        }
         if (GUILayout.Button("Save Item"))
         {
             if (_itemType == ItemType.Health || _itemType == ItemType.Mana)
@@ -233,6 +96,12 @@ public class ItemManager : EditorWindow {
             {
                 ItemDatabase.AddItem(_itemName, _itemDesc, _itemType, _itemStats, _selected, _loadQuestItemsName[_selected]);
             }
+
+            if(_itemType == ItemType.Keys)
+            {
+                ItemDatabase.AddItem(_itemName, _itemDesc, _itemType, 0, _selected, _loadKeyNames[_selected]);
+            }
+
             // Clear ALL lists so we can repopulate them 
             ClearLists();
             ItemDatabase.GetAllItems();
@@ -314,6 +183,42 @@ public class ItemManager : EditorWindow {
         }
     }
 
+    public static void ShowAddGame()
+    {
+        GUILayout.Space(20);
+        if (!_isLoadedFromDatabase)
+        {
+            ClearLists();
+            LoadFromDatabase();
+            Debug.Log("loaded");
+
+            for (int i = 0; i < _itemID.Count; i++)
+            {
+                _addGameList.Add("[ " + _itemTypeList[i] + " ] " + _itemNameList[i]);
+            }
+
+            _isLoadedFromDatabase = true;
+        }
+
+        _selected = EditorGUILayout.Popup("Which Item: ", _selected, _addGameList.ToArray());
+
+        if(GUILayout.Button("Add to Game"))
+        {
+            if (_itemTypeList[_selected] == ItemType.Keys)
+            {
+                Debug.Log(_itemObjectList[_selected]);
+                GameObject _obj = Instantiate(Resources.Load("Collectables/Keys/" + _itemObjectList[_selected]), new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                _obj.AddComponent<SphereCollider>();
+                _obj.GetComponent<SphereCollider>().isTrigger = true;
+                _obj.GetComponent<SphereCollider>().radius = 1.5f;
+
+                _obj.AddComponent<ItemCollectable>();
+                _obj.GetComponent<ItemCollectable>().SetValues(_itemID[_selected], _itemNameList[_selected], _itemTypeList[_selected].ToString(), _itemStatsList[_selected]);
+            }
+        }
+
+    }
+
     static void ClearLists()
     {
         _itemID.Clear();
@@ -321,6 +226,7 @@ public class ItemManager : EditorWindow {
         _itemDescList.Clear();
         _itemTypeList.Clear();
         _itemStatsList.Clear();
+        _addGameList.Clear();
     }
 
     public static void ClearValues()
@@ -329,6 +235,7 @@ public class ItemManager : EditorWindow {
         _itemDesc = "";
         _itemType = ItemType.Armour;
         _itemStats = 0;
+        
     }
 
     public static void LoadResources()
@@ -356,9 +263,19 @@ public class ItemManager : EditorWindow {
                 _loadQuestItemsName.Add(_loadQuestItems[i].ToString().Remove(_loadQuestItems[i].ToString().Length - 25));
             }
         }
+
+        _loadKeys = Resources.LoadAll("Collectables/Keys/");
+
+        for (int i = 0; i < _loadKeys.Length; i++)
+        {
+            if (_loadKeys[i].GetType().ToString() == "UnityEngine.GameObject")
+            {
+                _loadKeyNames.Add(_loadKeys[i].ToString().Remove(_loadKeys[i].ToString().Length - 25));
+            }
+        }
     }
 
-    static void LoadFromDatabase()
+    public static void LoadFromDatabase()
     {
         ItemDatabase.GetAllItems();
         _itemID = ItemDatabase.ReturnItemIDs();
@@ -368,8 +285,6 @@ public class ItemManager : EditorWindow {
         _itemStatsList = ItemDatabase.ReturnItemStats();
         _itemObjectIDList = ItemDatabase.ReturnItemIDs();
         _itemObjectList = ItemDatabase.ReturnItemObjects();
-
-        
     }
 
     

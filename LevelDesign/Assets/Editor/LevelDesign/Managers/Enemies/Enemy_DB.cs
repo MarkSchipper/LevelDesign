@@ -12,8 +12,7 @@ public class Enemy_DB : MonoBehaviour {
     private static float _enemyCooldown;
     private static int _enemyHealth;
     private static int _enemyMana;
-    private static EnemyCombat.EnemyMeleeSpecial _meleeSpecial;
-    private static EnemyCombat.EnemyRangedSpecial _rangedSpecial;
+    private static EnemyCombat.EnemySpecial _specialAttack;
     private static EnemyCombat.EnemyMovement _enemyMovement;
     private static EnemyCombat.EnemySpawn _enemySpawn;
     private static int _enemyWaypointAmount;
@@ -71,18 +70,8 @@ public class Enemy_DB : MonoBehaviour {
 
                 if (_enemyDamage > 0)
                 {
-                    if (_enemyType == EnemyCombat.EnemyType.Melee)
-                    {
-                        _meleeSpecial = (EnemyCombat.EnemyMeleeSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _meleeSpecial);
-                        _special = _meleeSpecial.ToString();
-
-
-                    }
-                    if (_enemyType == EnemyCombat.EnemyType.Ranged)
-                    {
-                        _rangedSpecial = (EnemyCombat.EnemyRangedSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _rangedSpecial);
-                        _special = _rangedSpecial.ToString();
-                    }
+                    _specialAttack = (EnemyCombat.EnemySpecial)EditorGUILayout.EnumPopup("Special Ability: ", _specialAttack);
+                    _special = _specialAttack.ToString();
                 }
 
                 GUILayout.Space(20);
@@ -171,8 +160,7 @@ public class Enemy_DB : MonoBehaviour {
             _enemyType = EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex);
             _enemyDamage = EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex);
             _enemyCooldown = EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex);
-            _meleeSpecial = EnemyCombat.EnemyDatabase.ReturnMeleeSpecial(_editSelectIndex);
-            _rangedSpecial = EnemyCombat.EnemyDatabase.ReturnRangedSpecial(_editSelectIndex);
+            _specialAttack = EnemyCombat.EnemyDatabase.ReturnSpecial(_editSelectIndex);
             _enemyMovement = EnemyCombat.EnemyDatabase.ReturnEnemyMovement(_editSelectIndex);
             _enemyWaypointAmount = EnemyCombat.EnemyDatabase.ReturnEnemyWaypoint(_editSelectIndex);
             _enemyAggroRange = EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex);
@@ -201,18 +189,8 @@ public class Enemy_DB : MonoBehaviour {
 
             if (_enemyDamage > 0)
             {
-                if (_enemyType == EnemyCombat.EnemyType.Melee)
-                {
-                    _meleeSpecial = (EnemyCombat.EnemyMeleeSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _meleeSpecial);
-                    _special = _meleeSpecial.ToString();
-
-
-                }
-                if (_enemyType == EnemyCombat.EnemyType.Ranged)
-                {
-                    _rangedSpecial = (EnemyCombat.EnemyRangedSpecial)EditorGUILayout.EnumPopup("Special Ability: ", _rangedSpecial);
-                    _special = _rangedSpecial.ToString();
-                }
+                _specialAttack = (EnemyCombat.EnemySpecial)EditorGUILayout.EnumPopup("Special Ability: ", _specialAttack);
+                _special = _specialAttack.ToString();
             }
 
             GUILayout.Space(20);
@@ -393,8 +371,7 @@ public class Enemy_DB : MonoBehaviour {
         _enemyCooldown = 0.0f;
         _enemyHealth = 0;
         _enemyMana = 0;
-        _meleeSpecial = EnemyCombat.EnemyMeleeSpecial.None;
-        _rangedSpecial = EnemyCombat.EnemyRangedSpecial.None;
+        _specialAttack = EnemyCombat.EnemySpecial.None;
         _enemyMovement = EnemyCombat.EnemyMovement.None;
         _enemyWaypointAmount = 0;
         _enemyAggroRange = 0;

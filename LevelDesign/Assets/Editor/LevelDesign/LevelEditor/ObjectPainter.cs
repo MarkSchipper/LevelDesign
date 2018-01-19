@@ -319,7 +319,12 @@ namespace LevelEditor
             {
                 _objectToAdd = Theme.Dungeon.ReturnObjectToAdd();
             }
-            
+
+            if (Theme.Swamp.ReturnObjectToAdd() != null)
+            {
+                _objectToAdd = Theme.Swamp.ReturnObjectToAdd();
+            }
+
             #region ADDING TO SCENE
             if (_isAddingToScene && _objectToAdd != null)
             {
@@ -655,7 +660,7 @@ namespace LevelEditor
         void AddBuildings()
         {
             
-            _worldTabIndex = GUILayout.Toolbar(_worldTabIndex, new string[] { "Settlement", "Viking", "Graveyard", "Dungeon" });
+            _worldTabIndex = GUILayout.Toolbar(_worldTabIndex, new string[] { "Settlement", "Viking", "Graveyard", "Dungeon", "Swamp" });
             if (_worldTabIndex != -1)
             {
                 switch (_worldTabIndex)
@@ -675,6 +680,10 @@ namespace LevelEditor
                     case 3:
                         GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
                         ShowDungeonTheme();
+                        break;
+                    case 4:
+                        GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
+                        ShowSwampTheme();
                         break;
                     default:
                         break;
@@ -788,6 +797,7 @@ namespace LevelEditor
                 }
             }
         }
+
         void ShowGraveyardTheme()
         {
             GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
@@ -843,6 +853,49 @@ namespace LevelEditor
                         Theme.Dungeon.LoadAll();
                     }
                     Theme.Dungeon.ShowAddBorders(5);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void ShowSwampTheme()
+        {
+            _worldTypeTabIndex = GUILayout.Toolbar(_worldTypeTabIndex, new string[] { "Buildings", "Tiles", "Props", "Trees" });
+            switch (_worldTypeTabIndex)
+            {
+                case 0:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Swamp.ReturnHasLoadedObjects())
+                    {
+                        Theme.Swamp.LoadAll();
+                    }
+                    Theme.Swamp.ShowAddBuildings(5);
+                    break;
+                case 1:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    CheckFloors();
+                    if (!Theme.Swamp.ReturnHasLoadedObjects())
+                    {
+                        Theme.Swamp.LoadAll();
+                    }
+                    Theme.Swamp.ShowAddTiles(5);
+                    break;
+                case 2:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Swamp.ReturnHasLoadedObjects())
+                    {
+                        Theme.Swamp.LoadAll();
+                    }
+                    Theme.Swamp.ShowAddProps(5);
+                    break;
+                case 3:
+                    GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                    if (!Theme.Swamp.ReturnHasLoadedObjects())
+                    {
+                        Theme.Swamp.LoadAll();
+                    }
+                    Theme.Swamp.ShowAddTrees(5);
                     break;
                 default:
                     break;

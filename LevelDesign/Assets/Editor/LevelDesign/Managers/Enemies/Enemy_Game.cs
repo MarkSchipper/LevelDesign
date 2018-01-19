@@ -14,6 +14,7 @@ public class Enemy_Game : MonoBehaviour {
     private static int _editGameSelectIndex;
     private static EnemyCombat.EnemyBehaviour _enemyData;
     private static EnemyCombat.EnemyBattle _enemyCombatData;
+    private static EnemyCombat.EnemyMotor _enemyMovementData;
     private static string _enemyName;
     private static float _enemyHealth;
     private static float _enemyMana;
@@ -90,6 +91,7 @@ public class Enemy_Game : MonoBehaviour {
             #region ENEMY PLACEMENT
             if (EnemyCombat.EnemyDatabase.ReturnEnemySpawn(_editSelectIndex) == EnemyCombat.EnemySpawn.Placement)
             {
+                Debug.Log(_selectedObject);
                 // the actual prefab
                 GameObject _enemy = Instantiate(_selectedObject, new Vector3(0, 0, 0), Quaternion.identity);
                 _enemy.name = EnemyCombat.EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex);
@@ -121,8 +123,8 @@ public class Enemy_Game : MonoBehaviour {
                 _enemy.AddComponent<EnemyCombat.EnemyMotor>();
                 _enemy.AddComponent<EnemyCombat.EnemyBattle>();
                 _enemy.AddComponent<EnemyCombat.EnemySoundManager>();
-                _enemy.GetComponent<EnemyCombat.EnemyBehaviour>().SetEnemyStats(_random, EnemyCombat.EnemyDatabase.ReturnEnemyID(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHealth(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMana(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyAttackRange(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHitFeedback(_editSelectIndex),EnemyCombat.EnemyDatabase.ReturnEnemyMovement(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyLootTable(_editSelectIndex));
-                _enemy.GetComponent<EnemyCombat.EnemyBattle>().SetCombatStats(EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex));
+                _enemy.GetComponent<EnemyCombat.EnemyBehaviour>().SetEnemyStats(_random, EnemyCombat.EnemyDatabase.ReturnEnemyID(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHealth(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMana(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHitFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyLootTable(_editSelectIndex));
+                _enemy.GetComponent<EnemyCombat.EnemyBattle>().SetCombatStats(EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnSpecial(_editSelectIndex));
                 _enemy.GetComponent<EnemyCombat.EnemyMotor>().SetAttackRange(EnemyCombat.EnemyDatabase.ReturnEnemyAttackRange(_editSelectIndex));
 
                 // Create a seperate GameObject for the AggroRange
@@ -217,6 +219,7 @@ public class Enemy_Game : MonoBehaviour {
             if (GUI.changed)
             {
                 _enemyData = GameObject.Find(_enemiesSorted[_editGameSelectIndex]).GetComponentInChildren<EnemyCombat.EnemyBehaviour>();
+                _enemyMovementData = GameObject.Find(_enemiesSorted[_editGameSelectIndex]).GetComponentInChildren<EnemyCombat.EnemyMotor>();
                 _enemyCombatData = GameObject.Find(_enemiesSorted[_editGameSelectIndex]).GetComponentInChildren<EnemyCombat.EnemyBattle>();
                 _enemyName = _enemyData.ReturnName();
                 _enemyHealth = _enemyData.ReturnHealth();
@@ -261,7 +264,7 @@ public class Enemy_Game : MonoBehaviour {
             
                 GUILayout.Space(20);
             
-                _enemyMovement = (EnemyCombat.EnemyMovement)EditorGUILayout.EnumPopup("Behaviour: ", _enemyData.ReturnMovement());
+                _enemyMovement = (EnemyCombat.EnemyMovement)EditorGUILayout.EnumPopup("Behaviour: ", _enemyMovementData.ReturnMovement());
 
                 if (_enemyMovement == EnemyCombat.EnemyMovement.Patrol)
                 {
@@ -305,7 +308,7 @@ public class Enemy_Game : MonoBehaviour {
         
             if (GUILayout.Button("Update Enemy"))
             {
-                _enemyData.SetEnemyStats(_enemyData.ReturnGameID(), _enemyData.ReturnEnemyID(), _enemyName, (int)_enemyHealth, (int)_enemyMana, _enemyDamage, _enemyAttackRange, _enemyType, _deathFeedbackList[_deathIndex],_hitFeedbackList[_hitIndex], _enemyMovement, "", _enemyCooldown, LootDatabase.ReturnLootTableNames()[_lootIndex]);
+                //_enemyData.SetEnemyStats(_enemyData.ReturnGameID(), _enemyData.ReturnEnemyID(), _enemyName, (int)_enemyHealth, (int)_enemyMana, _enemyDamage, _enemyAttackRange, _enemyType, _deathFeedbackList[_deathIndex],_hitFeedbackList[_hitIndex], _enemyMovement, "", _enemyCooldown, LootDatabase.ReturnLootTableNames()[_lootIndex]);
                 _enemySaved = true;
                 _loadedDatabase = false;
             }

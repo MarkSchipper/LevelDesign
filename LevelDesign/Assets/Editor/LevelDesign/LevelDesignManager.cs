@@ -46,7 +46,7 @@ public class LevelDesignManager : EditorWindow {
     {
         GUI.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 1);
 
-        _tabIndex = GUILayout.Toolbar(_tabIndex, new string[] { "Player", "NPC", "Enemies", "World", "Scene Setup", "Quests", "Sounds", "Levels" });
+        _tabIndex = GUILayout.Toolbar(_tabIndex, new string[] { "Player", "NPC", "Enemies", "World", "Scene Setup", "Quests" });
         switch (_tabIndex)
         {
             case 0:
@@ -73,10 +73,6 @@ public class LevelDesignManager : EditorWindow {
                 GUI.backgroundColor = new Color(0.5f, 0.7f, 0.4f, 1);
                 ShowQuestManager();
                 break;
-            case 6:
-                GUI.backgroundColor = new Color(0.6f, 0.4f, 0.6f, 1);
-                ShowSoundManager();
-                break;
             default:
                 break;
         }
@@ -84,7 +80,7 @@ public class LevelDesignManager : EditorWindow {
 
     void ShowPlayer()
     {
-        _playerTabIndex = GUILayout.Toolbar(_playerTabIndex, new string[] { "Player Settings", "Player Spells", "Player Statistics", "Item Manager" });
+        _playerTabIndex = GUILayout.Toolbar(_playerTabIndex, new string[] { "Player Settings", "Player Spells", "Player Statistics"});
         switch (_playerTabIndex)
         {
             case 0:
@@ -98,10 +94,6 @@ public class LevelDesignManager : EditorWindow {
             case 2:
                 GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
                 PlayerStats.ShowPlayerStatistics();
-                break;
-            case 3:
-                GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
-                ShowItemManager();
                 break;
             default:
                 break;  
@@ -134,10 +126,11 @@ public class LevelDesignManager : EditorWindow {
 
     void ShowItemManager()
     {
-        _itemTabIndex = GUILayout.Toolbar(_itemTabIndex, new string[] { "Add Item", "Edit Item", "Delete Item" });
+        _itemTabIndex = GUILayout.Toolbar(_itemTabIndex, new string[] { "Add Item", "Edit Item", "Delete Item", "Game Operations" });
         switch (_itemTabIndex)
         {
             case 0:
+                ItemManager.LoadResources();
                 ItemManager.ShowAddItem();
                 break;
             case 1:
@@ -148,6 +141,9 @@ public class LevelDesignManager : EditorWindow {
             case 2:
                 ItemManager.ClearValues();
                 ItemManager.ShowDeleteItem();
+                break;
+            case 3:
+                ItemManager.ShowAddGame();
                 break;
             default:
                 break;
@@ -323,7 +319,7 @@ public class LevelDesignManager : EditorWindow {
 
     void ShowWorld()
     {
-        _worldTabIndex = GUILayout.Toolbar(_worldTabIndex, new string[] { "Level Editor", "Object Painter", "Zones", "Player Feedback" });
+        _worldTabIndex = GUILayout.Toolbar(_worldTabIndex, new string[] { "Level Editor", "Object Painter", "Zones", "Player Feedback", "Item Manager" });
         switch (_worldTabIndex)
         {
             case 0:
@@ -343,6 +339,10 @@ public class LevelDesignManager : EditorWindow {
             case 3:
                 GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
                 ShowFeedbackEditor();
+                break;
+            case 4:
+                GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
+                ShowItemManager();
                 break;
             default:
                 break;
@@ -427,14 +427,13 @@ public class LevelDesignManager : EditorWindow {
     
     void ShowSceneManager()
     {
-        _sceneTabIndex = GUILayout.Toolbar(_sceneTabIndex, new string[] { "Set up new scene", "Update Manager"});
+        _sceneTabIndex = GUILayout.Toolbar(_sceneTabIndex, new string[] { "Create a new scene", "Update Manager"});
         switch (_sceneTabIndex)
         {
             case 0:
                 SceneManager.ShowNewScene();
                 break;
             case 1:
-                SceneManager.ResetCounters();
                 SceneManager.ShowUpdateScene();
                 break;
             default:
@@ -486,7 +485,7 @@ public class LevelDesignManager : EditorWindow {
         }
     }
 
-    void ShowSoundManager()
+    void ShowLevelManager()
     {
 
     }
