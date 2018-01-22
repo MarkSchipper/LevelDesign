@@ -479,18 +479,33 @@ namespace CombatSystem
 
         public static void UpdatePlayerExp(int _exp)
         {
-            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "UPDATE PlayerStats SET PlayerExp = '" + _exp + "' WHERE PlayerID = '1'";
-            dbcmd.CommandText = sqlQuery;
-            dbcmd.ExecuteScalar();
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
+
+            _playerExp += _exp;
+            if (_playerExp < _playerLevel * _expMultiplier)
+            {
+                string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/PlayerStatsDB.db"; //Path to database.
+                IDbConnection dbconn;
+                dbconn = (IDbConnection)new SqliteConnection(conn);
+                dbconn.Open(); //Open connection to the database.
+                IDbCommand dbcmd = dbconn.CreateCommand();
+                string sqlQuery = "UPDATE PlayerStats SET PlayerExp = '" + _playerExp + "' WHERE PlayerID = '1'";
+                dbcmd.CommandText = sqlQuery;
+                dbcmd.ExecuteScalar();
+                dbcmd.Dispose();
+                dbcmd = null;
+                dbconn.Close();
+                dbconn = null;
+            }
+            else
+            {
+                _playerExp -= _playerLevel * _expMultiplier;
+                _playerLevel += 1;
+                
+                PlayerLevelUp(_playerLevel, _playerExp);
+                InteractionManager.instance.LevelUp();
+            }
+
+            
         }
 
         public static int ReturnPlayerGold()

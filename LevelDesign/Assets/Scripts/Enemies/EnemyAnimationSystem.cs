@@ -102,11 +102,25 @@ namespace EnemyCombat
 
         public void SetRangedAttackPlayer()
         {
-            _animator.SetBool("isRangedAttack", true);
             _animator.SetBool("isCombatIdle", false);
-            _animator.SetBool("skipIdle", true);
-
+            _animator.SetBool("isRun", false);
+            _animator.SetBool("isWalk", false);
+            _animator.SetBool("isRanged", true);
             
+            _animator.SetBool("skipIdle", true);
+            
+        }
+
+        public void SetCastRangedAttack()
+        {
+            _animator.SetBool("isRangedAttack", true);
+        }
+
+        public void StopRangedAttack()
+        {
+            _animator.SetBool("isRanged", false);
+            _animator.SetBool("isRangedAttack", false);
+            _animator.SetBool("isCombatIdle", true);
         }
 
         public void SetEnemyDeath()

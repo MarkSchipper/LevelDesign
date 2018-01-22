@@ -40,7 +40,7 @@ public class LootGenerator : MonoBehaviour {
                 }
             }
         }
-        Debug.Log("Created table " + _lootTable);
+
     }
 
     public void DeleteEntry(LootTypes _gold, string _table)

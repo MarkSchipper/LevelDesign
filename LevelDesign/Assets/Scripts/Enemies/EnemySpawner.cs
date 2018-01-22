@@ -153,7 +153,7 @@ namespace EnemyCombat
                 _enemy.AddComponent<EnemyCombat.EnemyBehaviour>();
                 EnemyCombat.EnemyBehaviour _ecs = _enemy.GetComponent<EnemyCombat.EnemyBehaviour>();
 
-                _ecs.SetEnemyStats(_enemyGameID, _enemyID, _enemyName, _enemyHealth, _enemyMana, _enemyDamage, _enemyAttackRange, _enemyType, _enemyDeathFeedback, _enemyHitFeedback, _enemyMovement, _enemyRangedSpell, _enemyCooldown, _lootTable);
+                //_ecs.SetEnemyStats(_enemyGameID, _enemyID, _enemyName, _enemyHealth, _enemyMana, _enemyDamage, _enemyAttackRange, _enemyType, _enemyDeathFeedback, _enemyHitFeedback, _enemyMovement, _enemyRangedSpell, _enemyCooldown, _lootTable);
 
                 // Create a seperate GameObject for the AggroRange
                 GameObject _enemyAggro = new GameObject();

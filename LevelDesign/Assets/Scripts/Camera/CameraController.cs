@@ -95,7 +95,7 @@ namespace CombatSystem
             {
                 Destroy(this.gameObject);
             }
-            DontDestroyOnLoad(this.gameObject);
+           // DontDestroyOnLoad(this.gameObject);
         }
 
         void Start()
@@ -126,7 +126,10 @@ namespace CombatSystem
                     hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
                     hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
                     Cursor.lockState = CursorLockMode.Locked;
-                    PlayerController.instance.RotatePlayer(-hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime);
+                    if (!CombatSystem.PlayerController.instance.ReturnPlayerDead())
+                    {
+                        PlayerController.instance.RotatePlayer(-hOrbitInput * orbit.hOrbitSmooth * Time.deltaTime);
+                    }
 
                 }
                 if (Input.GetMouseButtonUp(1))
@@ -141,17 +144,21 @@ namespace CombatSystem
             {
                 vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
                 hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
-                PlayerController.instance.RotatePlayer(-hOrbitInput);
-                RotateCamera(vOrbitInput, -hOrbitInput);
+                if (!CombatSystem.PlayerController.instance.ReturnPlayerDead())
+                {
+                    PlayerController.instance.RotatePlayer(-hOrbitInput);
+                    RotateCamera(vOrbitInput, -hOrbitInput);
+                }
                 Cursor.visible = false;
             }
         }
 
         void Update()
         {
-            if (!CombatSystem.PlayerController.instance.ReturnInputBlock())
+            GetInput();
+            if (!CombatSystem.PlayerController.instance.ReturnPlayerDead())
             {
-                GetInput();
+            
                 //OrbitTarget();
                 ZoomInOnTarget();
                 MoveToTarget();
@@ -160,82 +167,87 @@ namespace CombatSystem
                     LookAtTarget();
                 }
             }
+            if(CombatSystem.PlayerController.instance.ReturnPlayerDead())
+            {
+                Cursor.visible = true;
+            }
           
         }
 
         void FixedUpdate()
         {
-            
-           // LookAtTarget();
-            OrbitTarget();
-
-            collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
-            collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
-
-
-            for (int i = 0; i < 5; i++)
+            if (!CombatSystem.PlayerController.instance.ReturnPlayerDead())
             {
-                if (debug.drawDesiredCollisionLines)
-                {
-                    Debug.DrawLine(targetPos, collision.desiredCameraClipPoints[i], Color.white);
-                }
-                if (debug.drawAdjustedCollisionLines)
-                {
-                    Debug.DrawLine(targetPos, collision.adjustedCameraClipPoints[i], Color.green);
-                }
-            }
+                // LookAtTarget();
+                OrbitTarget();
+
+                collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
+                collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
 
 
-            collision.CheckColliding(targetPos);
-            if (collision.colliding)
-            {
-                
-                if (collision.ReturnCollidedWith() != null)
+                for (int i = 0; i < 5; i++)
                 {
-                    if (collision.ReturnCollidedWith().GetComponent<Renderer>() != null)
+                    if (debug.drawDesiredCollisionLines)
                     {
-                        collision.ReturnCollidedWith().GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
+                        Debug.DrawLine(targetPos, collision.desiredCameraClipPoints[i], Color.white);
                     }
-                    else
+                    if (debug.drawAdjustedCollisionLines)
                     {
-                        if (collision.ReturnCollidedWith().GetComponentInParent<Renderer>() != null)
-                        {
-                            collision.ReturnCollidedWith().GetComponentInParent<Renderer>().material.color = new Color(1, 1, 1, 0);
-                        }
-                        if (collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>() != null)
-                        {
-                            collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>().material.color = new Color(1, 1, 1, 0);
-                        }
+                        Debug.DrawLine(targetPos, collision.adjustedCameraClipPoints[i], Color.green);
                     }
                 }
-            }
-            if (!collision.colliding)
-            {
-                if (collision.ReturnCollidedWith() != null)
+
+
+                collision.CheckColliding(targetPos);
+                if (collision.colliding)
                 {
-                    if (collision.ReturnCollidedWith().GetComponent<Renderer>() != null)
+
+                    if (collision.ReturnCollidedWith() != null)
                     {
-                        collision.ReturnCollidedWith().GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
-                    }
-                    else
-                    {
-                        if (collision.ReturnCollidedWith().GetComponentInParent<Renderer>() != null)
+                        if (collision.ReturnCollidedWith().GetComponent<Renderer>() != null)
                         {
-                            collision.ReturnCollidedWith().GetComponentInParent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                            collision.ReturnCollidedWith().GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
                         }
-                        if (collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>() != null)
+                        else
                         {
-                            collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>().material.color = new Color(1, 1, 1, 1);
+                            if (collision.ReturnCollidedWith().GetComponentInParent<Renderer>() != null)
+                            {
+                                collision.ReturnCollidedWith().GetComponentInParent<Renderer>().material.color = new Color(1, 1, 1, 0);
+                            }
+                            if (collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>() != null)
+                            {
+                                collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>().material.color = new Color(1, 1, 1, 0);
+                            }
                         }
                     }
                 }
-            }
+                if (!collision.colliding)
+                {
+                    if (collision.ReturnCollidedWith() != null)
+                    {
+                        if (collision.ReturnCollidedWith().GetComponent<Renderer>() != null)
+                        {
+                            collision.ReturnCollidedWith().GetComponent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                        }
+                        else
+                        {
+                            if (collision.ReturnCollidedWith().GetComponentInParent<Renderer>() != null)
+                            {
+                                collision.ReturnCollidedWith().GetComponentInParent<Renderer>().material.color = new Color(1, 1, 1, 1);
+                            }
+                            if (collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>() != null)
+                            {
+                                collision.ReturnCollidedWith().transform.parent.GetComponentInChildren<Renderer>().material.color = new Color(1, 1, 1, 1);
+                            }
+                        }
+                    }
+                }
 
-            if (_isCameraShake)
-            {
-                ShakeIt();
+                if (_isCameraShake)
+                {
+                    ShakeIt();
+                }
             }
-
         }
 
         public void SetPostProfile(string name)
@@ -252,6 +264,11 @@ namespace CombatSystem
                 }
             }
 
+        }
+
+        public void SetLevelSettings(float _clip)
+        {
+            Camera.main.farClipPlane = _clip;
         }
 
         void MoveToTarget()

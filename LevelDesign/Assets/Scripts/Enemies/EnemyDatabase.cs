@@ -15,21 +15,16 @@ namespace EnemyCombat
         Ranged,
     }
 
-    public enum EnemyMeleeSpecial
+    public enum EnemySpecial
     {
         None,
         Charge,
         Hook,
         Teleport,
+        EarthQuake,
+        Webbing,
     }
 
-    public enum EnemyRangedSpecial
-    {
-        None,
-        EarthQuake,
-        HellBlast,
-    }
-    
     public enum EnemyMovement
     {
         None,
@@ -54,8 +49,7 @@ namespace EnemyCombat
         private static List<int> _enemyMana = new List<int>();
         private static List<EnemyType> _enemyType = new List<EnemyType>();
         private static List<float> _enemyDamage = new List<float>();
-        private static List<EnemyMeleeSpecial> _meleeSpecial = new List<EnemyMeleeSpecial>();
-        private static List<EnemyRangedSpecial> _rangedSpecial = new List<EnemyRangedSpecial>();
+        private static List<EnemySpecial> _specialAttack = new List<EnemySpecial>();
         private static List<string> _enemyPrefab = new List<string>();
         private static List<EnemyMovement> _enemyMovement = new List<EnemyMovement>();
         private static List<int> _enemyWaypoints = new List<int>();
@@ -92,46 +86,31 @@ namespace EnemyCombat
                     _enemyType.Add(EnemyType.Ranged);
                 }
                 _enemyDamage.Add(reader.GetFloat(3));
-
-                if(reader.GetString(2) == "Melee")
+                if (reader.GetString(4) == "Hook")
                 {
-                    if (reader.GetString(4) == "Hook")
-                    {
-                        _meleeSpecial.Add(EnemyMeleeSpecial.Hook);
-                    }
-                    if (reader.GetString(4) == "Charge")
-                    {
-                        _meleeSpecial.Add(EnemyMeleeSpecial.Charge);
-                    }
-                    if (reader.GetString(4) == "Teleport")
-                    {
-                        _meleeSpecial.Add(EnemyMeleeSpecial.Teleport);
-                    }
-                    if (reader.GetString(4) == "None")
-                    {
-                        _meleeSpecial.Add(EnemyMeleeSpecial.None);
-                    }
-
-                    _rangedSpecial.Add(EnemyRangedSpecial.None);
+                    _specialAttack.Add(EnemySpecial.Hook);
                 }
-                if (reader.GetString(2) == "Ranged")
+                if (reader.GetString(4) == "Charge")
                 {
+                    _specialAttack.Add(EnemySpecial.Charge);
+                }
+                if (reader.GetString(4) == "Teleport")
+                {
+                    _specialAttack.Add(EnemySpecial.Teleport);
+                }
+                if(reader.GetString(4) == "EarthQuake")
+                {
+                    _specialAttack.Add(EnemySpecial.EarthQuake);
+                }
 
-                    if(reader.GetString(4) == "EarthQuake")
-                    {
-                        _rangedSpecial.Add(EnemyRangedSpecial.EarthQuake);
-                    }
+                if(reader.GetString(4) == "Webbing")
+                {
+                    _specialAttack.Add(EnemySpecial.Webbing);
+                }
 
-                    if(reader.GetString(4) == "HellBlast")
-                    {
-                        _rangedSpecial.Add(EnemyRangedSpecial.HellBlast);
-                    }
-
-                    if(reader.GetString(4) == "None")
-                    {
-                        _rangedSpecial.Add(EnemyRangedSpecial.None);
-                    }
-                    _meleeSpecial.Add(EnemyMeleeSpecial.None);
+                if(reader.GetString(4) == "None")
+                {
+                    _specialAttack.Add(EnemySpecial.None);
                 }
                 _enemyHealth.Add(reader.GetInt32(5));
                 _enemyMana.Add(reader.GetInt32(6));
@@ -246,14 +225,9 @@ namespace EnemyCombat
             return _enemyRangedSpell[_id];
         }
 
-        public static EnemyMeleeSpecial ReturnMeleeSpecial(int _id)
+        public static EnemySpecial ReturnSpecial(int _id)
         {
-            return _meleeSpecial[_id];
-        }
-
-        public static EnemyRangedSpecial ReturnRangedSpecial(int _id)
-        {
-            return _rangedSpecial[_id];
+            return _specialAttack[_id];
         }
 
         public static string ReturnEnemyPrefab(int _id)
@@ -418,8 +392,7 @@ namespace EnemyCombat
             _enemyMana.Clear();
             _enemyType.Clear();
             _enemyDamage.Clear();
-            _meleeSpecial.Clear();
-            _rangedSpecial.Clear();
+            _specialAttack.Clear();
             _enemyPrefab.Clear();
             _enemyMovement.Clear();
             _enemyWaypoints.Clear();

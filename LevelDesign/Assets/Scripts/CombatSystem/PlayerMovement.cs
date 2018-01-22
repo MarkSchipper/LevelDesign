@@ -215,7 +215,7 @@ namespace CombatSystem
 
                     _moveDirection.y -= 0.25f * Time.deltaTime;
 
-                    if (_playerFallingDistance > 1.5f)
+                    if (_playerFallingDistance > 2.0f)
                     {
                         if (!_setOnce)
                         {

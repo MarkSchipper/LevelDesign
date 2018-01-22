@@ -10,6 +10,7 @@ public enum ItemType
     QuestItem,
     Weapon,
     Armour,
+    Keys,
     None,
 }
 

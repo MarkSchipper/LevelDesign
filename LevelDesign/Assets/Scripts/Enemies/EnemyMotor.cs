@@ -30,11 +30,13 @@ namespace EnemyCombat
         private float _attackRange;
         private float _cooldownTimer;
         private float _distanceTraveled = 0.0f;
+        [SerializeField]
+        private EnemyMovement _movement;
 
         private Vector3 _oldPosition;
         private List<GameObject> _waypoints = new List<GameObject>();
 
-        private float _maxLeashDistance = 15f;
+        private float _maxLeashDistance = 25f;
         private Vector3 _leashStart;
         private bool _leashingBack = false;
 
@@ -74,7 +76,7 @@ namespace EnemyCombat
                 }
             }
 
-            if(_climbOutOfGround)
+            if (_climbOutOfGround)
             {
                 _animationSystem.StopEnemyWalking();
             }
@@ -86,7 +88,7 @@ namespace EnemyCombat
                     _waypoints.Add(GameObject.Find(enemyBehaviour.ReturnName() + "_" + enemyBehaviour.ReturnGameID() + "_WAYPOINT_" + i));
                 }
             }
-            
+
         }
 
         // Update is called once per frame
@@ -99,12 +101,12 @@ namespace EnemyCombat
                     _climbFinished = true;
                     _climbOutOfGround = false;
 
-                    if (EnemyDatabase.ReturnMovement(enemyBehaviour.ReturnEnemyID()) == EnemyMovement.Patrol)
+                    if (_movement == EnemyMovement.Patrol)
                     {
                         _animationSystem.SetEnemyWalking(true);
                         STATE_PATROL = true;
                     }
-                    if (EnemyDatabase.ReturnMovement(enemyBehaviour.ReturnEnemyID()) == EnemyMovement.Idle)
+                    if (_movement == EnemyMovement.Idle)
                     {
                         STATE_IDLE = true;
                     }
@@ -130,7 +132,7 @@ namespace EnemyCombat
                             if (_leashingBack)
                             {
                                 STATE_ATTACK = false;
-                                if (EnemyDatabase.ReturnMovement(enemyBehaviour.ReturnEnemyID()) == EnemyMovement.Patrol)
+                                if (_movement == EnemyMovement.Patrol)
                                 {
                                     if (Vector3.Distance(transform.position, _waypoints[0].transform.position) > 1f)
                                     {
@@ -146,14 +148,14 @@ namespace EnemyCombat
                             }
                             else
                             {
-                                if (EnemyDatabase.ReturnMovement(enemyBehaviour.ReturnEnemyID()) == EnemyMovement.Patrol)
+                                if (_movement == EnemyMovement.Patrol)
                                 {
                                     _animationSystem.StopEnemyRunning();
                                     _animationSystem.SetEnemyWalking(true);
                                     STATE_PATROL = true;
                                     _currentWayPoint++;
                                 }
-                                if (EnemyDatabase.ReturnMovement(enemyBehaviour.ReturnEnemyID()) == EnemyMovement.Idle)
+                                if (_movement == EnemyMovement.Idle)
                                 {
                                     STATE_IDLE = true;
                                 }
@@ -185,6 +187,7 @@ namespace EnemyCombat
                             if (_targetToAttack != null)
                             {
                                 MoveToAttack(_targetToAttack.transform.position);
+
                             }
                         }
                         if (STATE_TOCLOSE)
@@ -195,7 +198,7 @@ namespace EnemyCombat
                 }
                 if (!STATE_ALIVE)
                 {
-                    Debug.Log("he deaded");
+
                     STATE_ATTACK = false;
                     STATE_IDLE = false;
                     STATE_PATROL = false;
@@ -230,12 +233,12 @@ namespace EnemyCombat
                     _animationSystem.SetEnemyWalking(true);
                     _distanceTraveled += (transform.position - _oldPosition).magnitude;
 
-                    if(_distanceTraveled > 1.18f)
+                    if (_distanceTraveled > 1.18f)
                     {
                         enemySoundManager.PlaySound(EnemySound.FOOTSTEPS, transform.position);
                         _distanceTraveled = 0.0f;
                     }
-                    
+
                 }
             }
             else {
@@ -284,7 +287,7 @@ namespace EnemyCombat
                 {
                     _animationSystem.StopEnemyRunning();
                     _animationSystem.StopEnemyWalking();
-                    _animationSystem.SetEnemyCombatIdle();
+                    //_animationSystem.SetEnemyCombatIdle();
                     STATE_INRANGE = true;
 
                     _cooldownTimer = 4.5f;
@@ -294,7 +297,7 @@ namespace EnemyCombat
 
         void MoveBack(Vector3 _target)
         {
-            if(STATE_TOCLOSE)
+            if (STATE_TOCLOSE)
             {
                 Vector3 _oldPosition = transform.position;
                 Vector3 _dir = _target - transform.position;
@@ -305,7 +308,7 @@ namespace EnemyCombat
 
                 Vector3 _back = transform.TransformDirection(Vector3.back);
 
-                if (_dir.magnitude  < _attackRange - 1)
+                if (_dir.magnitude < _attackRange - 1)
                 {
 
                     _characterController.SimpleMove(_back * _enemyRunSpeed);
@@ -342,13 +345,13 @@ namespace EnemyCombat
             Vector3 _oldPosition = transform.position;
             Vector3 _dir = _pos - transform.position;
             _dir.y = 0f;
-            
+
             Quaternion _targetRotation = Quaternion.LookRotation(_dir);
             transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * 4);
 
             Vector3 _forward = transform.TransformDirection(Vector3.forward);
 
-            if(_dir.magnitude >= 1.1f)
+            if (_dir.magnitude >= 1.1f)
             {
                 _characterController.SimpleMove(_forward * _enemyRunSpeed);
                 _animationSystem.StopEnemyCombatIdle();
@@ -374,13 +377,13 @@ namespace EnemyCombat
             Vector3 _dir = _target - transform.position;
             _dir.y = 0f;
 
-       
-            if(_dir.magnitude < _attackRange - 1)
+
+            if (_dir.magnitude < _attackRange - 1)
             {
                 STATE_INRANGE = false;
                 STATE_TOCLOSE = true;
             }
-           
+
         }
 
         public void SetAttackRange(float _range)
@@ -404,7 +407,7 @@ namespace EnemyCombat
 
         public void SetEnemyState(string state, bool set)
         {
-            switch(state)
+            switch (state)
             {
                 case "STATE_PATROL":
                     STATE_PATROL = set;
@@ -436,6 +439,21 @@ namespace EnemyCombat
             _animationSystem.SetEnemyUnFrozen();
         }
 
+        public void ResetEnemy()
+        {
+            _animationSystem.StopEnemyCombatIdle();
+            _animationSystem.StopEnemyRunning();
+
+            if (_movement == EnemyMovement.Patrol)
+            {
+                STATE_PATROL = true;
+            }
+            else
+            {
+                STATE_IDLE = true;
+            }
+        }
+
         public bool ReturnAliveState()
         {
             return STATE_ALIVE;
@@ -464,7 +482,6 @@ namespace EnemyCombat
                 STATE_LEASHED = false;
                 _isLeashSet = false;
                 _leashingBack = true;
-                Debug.Log("LEASH ENDED");
                 CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
             }
         }
@@ -477,6 +494,11 @@ namespace EnemyCombat
         public float ReturnAttackRange()
         {
             return _attackRange;
+        }
+
+        public EnemyMovement ReturnMovement()
+        {
+            return _movement;
         }
 
         IEnumerator CloseEncounterTimer()

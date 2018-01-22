@@ -7,6 +7,7 @@ namespace EnemyCombat
 
     public enum SpecialAttackType
     {
+        None,
         KNOCKBACK,
         STUN,
         INCAPACITATE,

@@ -622,7 +622,6 @@ namespace CombatSystem
                 }
                 if (coll.name == "Enemy_MELEE_TRIGGER" && coll.GetComponentInParent<EnemyCombat.EnemyMotor>().ReturnAliveState())
                 {
-                    Debug.Log("HIT");
                     if (!_hasTakenDamage)
                     {
                         if (_playerHealth - (int)coll.GetComponentInParent<EnemyCombat.EnemyBattle>().ReturnDamage() > 0)
@@ -724,7 +723,7 @@ namespace CombatSystem
 
         public void PlayerDeath(bool _set)
         {
-            INPUT_BLOCK = true;
+         //   INPUT_BLOCK = true;
             InteractionManager.instance.ShowUI(false);
             if(_set)
             {
@@ -738,6 +737,7 @@ namespace CombatSystem
             }
             SoundManager.instance.PlaySound(SOUNDS.PLAYERDEATH, transform.position, false);
             StartCoroutine(CharacterSpawnVFX(true));
+            Cursor.visible = true;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -793,7 +793,6 @@ namespace CombatSystem
             }
             else if(_playerMana - _manaCost <= 0)
             {
-                Dialogue.DialogueManager.instance.ShowMessage("NOT ENOUGH MANA", true); 
                 return false;
             }
             else
@@ -868,14 +867,16 @@ namespace CombatSystem
 
             _isCastingSpell = false;
             _spellcastComplete = false;
-
+            Debug.Log("Heal Amount: " + _amount);
             if(_playerHealth + _amount > InteractionManager.instance.ReturnPlayerMaxHealth())
             {
                 _playerHealth = InteractionManager.instance.ReturnPlayerMaxHealth();
+                InteractionManager.instance.SetPlayerHealth(_playerHealth);
             }
             else
             {
                 _playerHealth += _amount;
+                InteractionManager.instance.SetPlayerHealth(_playerHealth);
             }
 
             
@@ -916,7 +917,7 @@ namespace CombatSystem
             float dot;
             if(_selectedActor != null)
             {
-                Debug.Log(_selectedActor);
+
                 dot = Vector3.Dot(transform.forward, (_selectedActor.transform.position - transform.position).normalized);
                 
                 if(dot > 0.5f)
@@ -946,7 +947,7 @@ namespace CombatSystem
         public void SetPlayerInCombat(bool _set)
         {
             STATE_INCOMBAT = _set;
-            
+
             if(_set)
             {
                 STATE_IDLE = false;
@@ -1123,7 +1124,7 @@ namespace CombatSystem
 
                         SoundManager.instance.PlaySound(SOUNDS.PLAYERBLINK, transform.position, true);
                         
-                        CombatSystem.CameraController.CameraShake(2, 0.5f);
+                       // CombatSystem.CameraController.CameraShake(2, 0.5f);
 
                         Destroy(_blinkMarker);
                         Destroy(_blinkedParticles, 1.5f);
@@ -1252,7 +1253,7 @@ namespace CombatSystem
 
                 _experienceRequired *= _expMultiplier;
 
-                InteractionManager.instance.LevelUp(transform.position, this.gameObject);
+                InteractionManager.instance.LevelUp();
                 SoundManager.instance.PlaySound(SOUNDS.LEVELUP, transform.position, true);
 
             }
@@ -1298,6 +1299,7 @@ namespace CombatSystem
 
         IEnumerator Regenerate()
         {
+
             yield return new WaitForSeconds(2);
             if (_playerHealth < CombatSystem.InteractionManager.instance.ReturnPlayerMaxHealth())
             {

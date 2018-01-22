@@ -25,12 +25,10 @@ namespace EnemyCombat
         [SerializeField] private int _enemyMana;
         [SerializeField] private string _deathFeedback;
         [SerializeField] private string _hitFeedback;
-        [SerializeField] private string _enemySpecialAttack;
-        [SerializeField] private EnemyMovement _enemyMovement;
-        [SerializeField] private float _maxLeashDistance;
         [SerializeField] private string _lootTable;
         [SerializeField] private bool _dissolveOnDeath;
         [SerializeField] private float _waitToDissolve;
+        [SerializeField] private int _expToGive = 60;
 
         private EnemyAnimationSystem _animationSystem;
         private CharacterController _characterController;
@@ -121,6 +119,7 @@ namespace EnemyCombat
                     Destroy(coll.gameObject);
                     
                     enemyMotor.SetEnemyState("STATE_ATTACK", true);
+                    enemyMotor.SetAttack(true, coll.GetComponent<SpellObject>().ReturnSpellCaster());
 
                     CombatSystem.PlayerController.instance.SetPlayerInCombat(true);
                     if (!CombatSystem.PlayerController.instance.ReturnInCombat())
@@ -203,7 +202,7 @@ namespace EnemyCombat
         //                                                                                                      //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void SetEnemyStats(int _ingameID, int _id, int _health, int _mana, float _damage, float _range, EnemyType _type, string _death, string _hit, EnemyMovement _movement, string _spell, string _table)
+        public void SetEnemyStats(int _ingameID, int _id, int _health, int _mana, string _death, string _hit, string _table)
         {
             _gameID = _ingameID;
             _enemyID = _id;
@@ -212,13 +211,12 @@ namespace EnemyCombat
             _enemyMaxHealth = _health;
             _deathFeedback = _death;
             _hitFeedback = _hit;
-            _enemyMovement = _movement;
             _lootTable = _table;
 
         }
 
         // Overloading the SetEnemyStats with the EnemyName
-        public void SetEnemyStats(int _ingameID, int _id, string _name, int _health, int _mana, float _damage, float _range, EnemyType _type, string _death, string _hit, EnemyMovement _movement, string _spell, float _cd, string _table)
+        public void SetEnemyStats(int _ingameID, int _id, string _name, int _health, int _mana,  string _death, string _hit, string _table)
         {
             _gameID = _ingameID;
             _enemyID = _id;
@@ -228,7 +226,6 @@ namespace EnemyCombat
             _enemyMaxHealth = _health;
             _deathFeedback = _death;
             _hitFeedback = _hit;
-            _enemyMovement = _movement;
             _lootTable = _table;
         }
 
@@ -255,11 +252,6 @@ namespace EnemyCombat
         public string ReturnName()
         {
             return _enemyName;
-        }
-
-        public EnemyMovement ReturnMovement()
-        {
-            return _enemyMovement;
         }
 
         public int ReturnWayPointAmount()
@@ -311,18 +303,7 @@ namespace EnemyCombat
             Debug.Log("Reset!");
             _enemyHealth = _enemyMaxHealth;
             enemyMotor.SetEnemyState("STATE_ATTACK", false);
-            _animationSystem.StopEnemyCombatIdle();
-            _animationSystem.StopEnemyRunning();
-
-            if(_enemyMovement == EnemyMovement.Patrol)
-            {
-                enemyMotor.SetEnemyState("STATE_PATROL", true);
-            }
-            else
-            {
-                enemyMotor.SetEnemyState("STATE_IDLE", true);
-            }
-            
+            enemyMotor.ResetEnemy(); 
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -361,10 +342,15 @@ namespace EnemyCombat
             Destroy(this.gameObject, 120f);
             Destroy(_enemySelected, 5f);
 
+
             enemyMotor.SetEnemyState("STATE_ALIVE", false);
 
             if (!_spawnOnce)
             {
+
+                CombatSystem.CombatDatabase.UpdatePlayerExp(_expToGive);
+                CombatSystem.InteractionManager.instance.DisplayExpGained(_expToGive, _targetToAttack.transform.position);
+
                 GameObject _tmp = Instantiate(_deathParticles, transform.position, Quaternion.identity);
                 _tmp.GetComponent<ParticleSystem>().Play();
                 Destroy(_tmp, 5f);
@@ -379,14 +365,7 @@ namespace EnemyCombat
 
                 CombatSystem.PlayerController.instance.DeleteEnemyListEntry(_gameID);
 
-                if (this.gameObject.name == "MushroomSoldier")
-                {
-                    CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.MUSHROOMDEATH, _targetToAttack.transform.position, true);
-                }
-                else
-                {
-                    CombatSystem.SoundManager.instance.PlaySound(CombatSystem.SOUNDS.ENEMYDEATH, _targetToAttack.transform.position, true);
-                }
+                enemySoundManager.PlaySound(EnemySound.DEATH, transform.position);
                 
                 if(_dissolveOnDeath)
                 {
@@ -458,9 +437,8 @@ namespace EnemyCombat
 
         IEnumerator DissolveEnemy(float _wait, float _time)
         {
-            Debug.Log("Wait for dissolve");
+
             yield return new WaitForSeconds(_wait);
-            Debug.Log("Dissolve");
             float _timer = 0f;
             while (true)
             {

@@ -7,7 +7,7 @@ namespace EnemyCombat
 
     public class EnemyBattle : MonoBehaviour
     {
-
+        
         private float _cooldownTimer;
         [SerializeField]
         private float _cooldown;
@@ -18,11 +18,12 @@ namespace EnemyCombat
         private EnemySoundManager enemySoundManager;
 
         [SerializeField]
-        private string _enemySpecialAttack;
+        private EnemySpecial _enemySpecialAttack;
         [SerializeField]
         private float _enemyDamage;
         [SerializeField]
         private EnemyType _enemyType;
+        [SerializeField]
         private string _enemyRangedSpell;
         private GameObject _rangedSpell;
 
@@ -30,6 +31,9 @@ namespace EnemyCombat
 
         private int _closeCounter;
         private int _specialAttackCounter;
+
+        [SerializeField]
+        private GameObject _CastFrom;
 
         // Use this for initialization
         void Start()
@@ -44,6 +48,9 @@ namespace EnemyCombat
             {
                 _rangedSpell = Resources.Load("Characters/Enemies/RangedSpells/" + _enemyRangedSpell) as GameObject;
             }
+
+            _cooldownTimer = _cooldown;
+
         }
 
         // Update is called once per frame
@@ -54,41 +61,41 @@ namespace EnemyCombat
 
         public void AttackPlayer(Vector3 enemyPos, Vector3 targetPos, float attackRange)
         {
+            
             _targetVector = targetPos;
             Vector3 _dir = targetPos - enemyPos;
 
             if (_closeCounter != _specialAttackCounter)
             {
-                if (_dir.magnitude < attackRange)
-                {
-                    _dir.y = 0f;                                                                                // we dont want to move up
-                    Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
+                Quaternion _targetRot = Quaternion.LookRotation(_dir);                                      // get the rotation in which we should look at
 
-                    transform.rotation = Quaternion.Slerp(transform.rotation, _targetRot, Time.deltaTime * 4);
-                    if (_cooldownTimer >= _cooldown)
+                transform.rotation = Quaternion.Slerp(transform.rotation, _targetRot, Time.deltaTime * 4);
+                if (_cooldownTimer >= _cooldown)
+                {
+                    if (_enemyType == EnemyType.Melee)
                     {
-                        if (_enemyType == EnemyType.Melee)
+                        _animationSystem.SetAttackPlayer();
+
+                        if (this.gameObject.name == "MushroomSoldier")
                         {
-                            _animationSystem.SetAttackPlayer();
-                            Debug.Log(_animationSystem);
-                            if (this.gameObject.name == "MushroomSoldier")
-                            {
-                                enemySoundManager.PlaySound(EnemySound.ATTACK, transform.position);
-                            }
-                        }
-                        if (_enemyType == EnemyType.Ranged)
-                        {
-                            _animationSystem.SetRangedAttackPlayer();
-                            StartCoroutine(WaitToFireRangedSpell());
+                            enemySoundManager.PlaySound(EnemySound.ATTACK, transform.position);
                         }
                         StartCoroutine(CancelAttackAnimations());
-                        _cooldownTimer = 0.0f;
                     }
-                    else
+                    if (_enemyType == EnemyType.Ranged)
                     {
-                        _cooldownTimer += Time.deltaTime;
-                        _animationSystem.SetEnemyCombatIdle();
+                        _animationSystem.StopEnemyCombatIdle();
+                        _animationSystem.SetRangedAttackPlayer();
+                        StartCoroutine(WaitToFireRangedSpell());
+                        
                     }
+                    
+                    _cooldownTimer = 0.0f;
+                }
+                else
+                {
+                    _cooldownTimer += Time.deltaTime;
+                    _animationSystem.SetEnemyCombatIdle();
                 }
             }
             else
@@ -114,9 +121,9 @@ namespace EnemyCombat
 
         void SpecialAttackPlayer()
         {
-            if (_enemySpecialAttack != "")
+            if (_enemySpecialAttack != EnemySpecial.None)
             {
-                GameObject _special = Instantiate(Resources.Load("Characters/Enemies/SpecialAttacks/" + _enemySpecialAttack), _targetVector, Quaternion.identity) as GameObject;
+                GameObject _special = Instantiate(Resources.Load("Characters/Enemies/SpecialAttacks/" + _enemySpecialAttack.ToString()), _targetVector, Quaternion.identity) as GameObject;
                 if (_special.GetComponent<EnemySpecialAttack>().ReturnAttackType() == SpecialAttackType.KNOCKBACK)
                 {
                     CombatSystem.PlayerController.instance.AddKnockback(Vector3.back, 125f);
@@ -137,12 +144,13 @@ namespace EnemyCombat
             _animationSystem = anim;
         }
 
-        public void SetCombatStats(float _cd, float _dmg, string _spell, EnemyType _type)
+        public void SetCombatStats(float _cd, float _dmg, string _spell, EnemyType _type, EnemySpecial _special)
         {
             _cooldown = _cd;
             _enemyDamage = _dmg;
             _enemyRangedSpell = _spell;
             _enemyType = _type;
+            _enemySpecialAttack = _special;
         }
 
         public void SetCloseCounter(int i)
@@ -182,8 +190,15 @@ namespace EnemyCombat
         void EnemyCastSpell(Vector3 _target)
         {
             Vector3 _aimAt = _target - transform.position;
-
-            GameObject _projectile = Instantiate(_rangedSpell, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity) as GameObject;
+            GameObject _projectile;
+            if (_CastFrom != null)
+            {
+                _projectile = Instantiate(_rangedSpell, new Vector3(_CastFrom.transform.position.x, _CastFrom.transform.position.y, _CastFrom.transform.position.z), Quaternion.identity) as GameObject;
+            }
+            else
+            {
+                _projectile = Instantiate(_rangedSpell, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+            }
             _projectile.transform.rotation = Quaternion.LookRotation(_aimAt);
             _projectile.AddComponent<SpellObject>();
             _projectile.GetComponent<SpellObject>().SetDamage(_enemyDamage);
@@ -193,8 +208,19 @@ namespace EnemyCombat
         IEnumerator WaitToFireRangedSpell()
         {
             yield return new WaitForSeconds(1.6f);
-            EnemyCastSpell(_targetVector);
+            _animationSystem.SetCastRangedAttack();
+            enemySoundManager.PlaySound(EnemySound.ATTACK, transform.position);
+            StartCoroutine(WaitForSpellCastingAnimation());
+           // _animationSystem.StopRangedAttack();
+        }
 
+        IEnumerator WaitForSpellCastingAnimation()
+        {
+
+            yield return new WaitForSeconds(1);
+            EnemyCastSpell(_targetVector);
+           
+            _animationSystem.StopRangedAttack();
         }
 
         IEnumerator CancelAttackAnimations()
@@ -202,7 +228,7 @@ namespace EnemyCombat
 
             yield return new WaitForSeconds(0.5f);
             _animationSystem.CancelAttackBool();
-
+            
         }
     }
 }

@@ -68,6 +68,10 @@ public class ItemDatabase : MonoBehaviour {
             {
                 _itemType.Add(ItemType.Armour);
             }
+            if (reader.GetString(3) == "Keys")
+            {
+                _itemType.Add(ItemType.Keys);
+            }
 
             _itemStats.Add(reader.GetInt32(4));
             _itemObjectID.Add(reader.GetInt32(5));
@@ -155,6 +159,11 @@ public class ItemDatabase : MonoBehaviour {
     }
 
     public static List<string> ReturnItemNames()
+    {
+        return _itemName;
+    }
+
+    public List<string> ReturnAllItemNames()
     {
         return _itemName;
     }

@@ -345,26 +345,44 @@ namespace CombatSystem
                             // if its a damage spell
                             if (CombatDatabase.ReturnSpellType(i) == SpellTypes.Damage)
                             {
-                                if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
+                                if (PlayerController.instance.ReturnSelectedActor() != null)
                                 {
-                                    if (PlayerController.instance.IsPlayerFacingEnemy())
+                                    if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
                                     {
-                                        _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
-                                        _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));
+                                        if (PlayerController.instance.ReturnPlayerIsInRange())
+                                        {
+                                            if (PlayerController.instance.IsPlayerFacingEnemy())
+                                            {
+                                                _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
+                                                _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));
 
-                                        CombatSystem.PlayerController.instance.SetHandSpellCastinVFX(true);
-                                        Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerController.instance.ReturnPlayerGameObject());
+                                                CombatSystem.PlayerController.instance.SetHandSpellCastinVFX(true);
+                                                Combat.SetSpell(CombatDatabase.ReturnSpellID(i), CombatDatabase.ReturnSpellType(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellPrefab(i), _selectedActor, PlayerController.instance.ReturnPlayerGameObject());
 
-                                        _spellCastTimer = 0.0f;
-                                        _spellTimer[i] = 0.0f;
+                                                _spellCastTimer = 0.0f;
+                                                _spellTimer[i] = 0.0f;
 
-                                        _isSpellCasting = true;
-                                        _spellID = i;
+                                                _isSpellCasting = true;
+                                                _spellID = i;
+                                            }
+                                            else
+                                            {
+                                                Dialogue.DialogueManager.instance.ShowMessage("You are not facing your target", true);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Dialogue.DialogueManager.instance.ShowMessage("You are to far away", true);
+                                        }
                                     }
                                     else
                                     {
-                                        Dialogue.DialogueManager.instance.ShowMessage("YOU ARE NOT FACING YOUR TARGET", true);
+                                        Dialogue.DialogueManager.instance.ShowMessage("Not enough mana", true);
                                     }
+                                }
+                                else
+                                {
+                                    Dialogue.DialogueManager.instance.ShowMessage("Nothing selected", true);
                                 }
                             }
                             if (CombatDatabase.ReturnSpellType(i) == SpellTypes.AOE)
@@ -503,14 +521,16 @@ namespace CombatSystem
             // If we are not loading a Level, perform the OnGUI
             if (!_isLoadingLevel)
             {
+
                 if (_showUI)
                 {
-                    DisplaySpellIcons();
-
                     if (_showTooltip)
                     {
-                        GUI.Box(new Rect(Event.current.mousePosition.x + 15, Event.current.mousePosition.y - 100, 200, 30), _toolTip);
+                        GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 200, 250, 200), _toolTip, _skin.GetStyle("Tooltip"));
                     }
+                    DisplaySpellIcons();
+
+                    
 
                     // If the player has selected an Actor ( NPC or Enemy )
 
@@ -635,6 +655,7 @@ namespace CombatSystem
             else
             {
                 _hoveringOverUI = false;
+                _showTooltip = false;
             }
 
             for (int i = 0; i < _guiIcons.Count; i++)
@@ -676,8 +697,10 @@ namespace CombatSystem
                 // If the mouse is in one of the rectangles
                 if (_spellRect[i].Contains(Event.current.mousePosition))
                 {
-                    _toolTip = CreateToolTip(CombatDatabase.ReturnSpellDesc(i));
+                    
+                    _toolTip = CreateToolTip(CombatDatabase.ReturnSpellDesc(i), CombatDatabase.ReturnSpellValue(i), CombatDatabase.ReturnSpellManaCost(i), CombatDatabase.ReturnCastTime(i), CombatDatabase.ReturnSpellType(i));
                     _showTooltip = true;
+
 
                     // If we are NOT spell casting - we can cast a new spell
                     if (!_isSpellCasting)
@@ -810,7 +833,7 @@ namespace CombatSystem
                 }
                 else
                 {
-                    _showTooltip = false;
+                    //_showTooltip = false;
                 }
             }
 
@@ -829,9 +852,25 @@ namespace CombatSystem
             }
         }
 
-        string CreateToolTip(string _text)
+        string CreateToolTip(string _text, float _value, float _manacost, float _casttime, SpellTypes _type)
         {
-            _toolTip = _text;
+            if (_type == SpellTypes.Damage || _type == SpellTypes.AOE)
+            {
+                _toolTip = _text + "\n" + "Damage: " + _value + "\n" + "Mana: " + _manacost + "\n" + "Cast Time: " + _casttime;
+            }
+            if(_type == SpellTypes.Ability)
+            {
+                _toolTip = _text + "\n" + "Mana: " + _manacost + "\n" + "Cast Time: " + _casttime;
+            }
+            if(_type == SpellTypes.Debuff)
+            {
+                _toolTip = _text + "\n" + "Duration: " + _value + "\n" + "Mana: " + _manacost + "\n" + "Cast Time: " + _casttime;
+            }
+            if(_type == SpellTypes.Healing)
+            {
+                _toolTip = _text + "\n" + "Healing: " + _value + "\n" + "Mana: " + _manacost + "\n" + "Cast Time: " + _casttime;
+            }
+
             return _toolTip;
         }
 
@@ -913,11 +952,27 @@ namespace CombatSystem
             GameObject _floatingText = Instantiate(Resources.Load("UI/PlayerDamagePopups"), _playerPos, Quaternion.identity) as GameObject;
             _floatingText.GetComponentInChildren<Text>().text = _dmg.ToString();
 
-            Debug.Log(_dmg);
+
             _floatingText.transform.SetParent(GameObject.Find("Canvas").transform, false);
             _floatingText.transform.position = new Vector2(_screenPos.x, _screenPos.y + 200);
 
             Destroy(_floatingText, 2f);
+        }
+
+        public void DisplayExpGained(int _exp, Vector3 _playerPos)
+        {
+            Vector2 _screenPos = Camera.main.WorldToScreenPoint(_playerPos);
+
+            GameObject _floatingText = Instantiate(Resources.Load("UI/PlayerExpPopups"), _playerPos, Quaternion.identity) as GameObject;
+            _floatingText.GetComponentInChildren<Text>().text = "Exp: " + _exp.ToString(); 
+            
+
+            _floatingText.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            _floatingText.transform.position = new Vector2(_screenPos.x, _screenPos.y + 200);
+
+            Destroy(_floatingText, 2f);
+
+            FillExperienceBar();
         }
 
         public void SetPlayerMaxHealth(float _health)
@@ -938,6 +993,10 @@ namespace CombatSystem
         public void SetPlayerHealth(float _amount)
         {
             _playerHP.fillAmount = _amount / _playerMaxHealth;
+            if(_playerInCombat.enabled)
+            {
+                _playerInCombat.fillAmount = _amount / _playerMaxHealth;
+            }
         }
 
         public float ReturnPlayerMaxHealth()
@@ -974,12 +1033,20 @@ namespace CombatSystem
             _canvasLoadingScreenImage.SetActive(_set);
         }
 
-        public void LevelUp(Vector3 _pos, GameObject _player)
+        public void LevelUp()
         {
-            GameObject _tmp = Instantiate(Resources.Load("VFX/LevelUp"), _pos, Quaternion.identity) as GameObject;
-            _tmp.transform.SetParent(_player.transform);
-
+            GameObject _tmp = Instantiate(Resources.Load("VFX/LevelUp"), CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
+            SoundManager.instance.PlaySound(SOUNDS.LEVELUP, CombatSystem.PlayerController.instance.ReturnPlayerPosition(),true);
             Destroy(_tmp, 3f);
+
+            Vector2 _screenPos = Camera.main.WorldToScreenPoint(CombatSystem.PlayerController.instance.ReturnPlayerPosition());
+
+            GameObject _floatingText = Instantiate(Resources.Load("UI/PlayerLevelUp"), CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
+            _floatingText.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            _floatingText.transform.position = new Vector2(_screenPos.x, _screenPos.y + 400);
+
+            Destroy(_floatingText, 2f);
+
         }
 
         public bool ReturnHoveringOverUI()

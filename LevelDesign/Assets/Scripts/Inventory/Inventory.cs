@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour {
         {
             instance = this;
         }
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     
     void Start()
@@ -222,6 +222,7 @@ public class Inventory : MonoBehaviour {
                 
                 if (_slots[i]._itemName != null)
                 {
+                    Debug.Log(_slots[i]._itemIcon);
                     // Draw the texture of the slots and potential Icon
                     GUI.Box(slotRect, _slots[i]._itemName);
                     GUI.DrawTexture(slotRect, _slots[i]._itemIcon);
@@ -326,6 +327,7 @@ public class Inventory : MonoBehaviour {
                     if(_itemDB.ReturnItemList()[j]._itemID == _id)
                     {
                         _inventory[i] = _itemDB.ReturnItemList()[j];
+                        Debug.Log(_inventory[i]._itemIcon);
                     }
                 }
 
@@ -350,7 +352,7 @@ public class Inventory : MonoBehaviour {
         return _result;       
     }
 
-    void SaveInventory()
+    public void SaveInventory()
     {
         for (int i = 0; i < _inventory.Count; i++)
         {
@@ -370,6 +372,21 @@ public class Inventory : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public bool ItemInInventory(string name)
+    {
+        bool _result = false;
+
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            if(_inventory[i]._itemName == name)
+            {
+                _result = true;
+            }
+        }
+
+        return _result;
     }
 
     public void DrawLootWindow()

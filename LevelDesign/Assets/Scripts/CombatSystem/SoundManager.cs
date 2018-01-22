@@ -540,6 +540,7 @@ namespace CombatSystem
 
         void PlayLevelUp(Vector3 _playerPos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_levelUp);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(_playerPos));
 
