@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="ParameterPresetFolder" id="{048ed276-f3d4-40a8-8bc6-45730c715af3}">
+        <property name="name">
+            <value>footstep_materials_mix</value>
+        </property>
+        <relationship name="folder">
+            <destination>{7bff88b4-46d1-44ac-9caa-ff36bf574fb6}</destination>
+        </relationship>
+    </object>
+</objects>

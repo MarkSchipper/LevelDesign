@@ -5,7 +5,7 @@
             <value>heartbeat</value>
         </property>
         <relationship name="folder">
-            <destination>{73753b74-861a-478c-b849-7aa6328b93a2}</destination>
+            <destination>{df67a425-5b27-4b1a-9d81-cb1db7be5cd5}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{8a060102-8503-4e13-9c98-0f98ee9614af}</destination>

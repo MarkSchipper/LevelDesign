@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{cd86bfe8-ed17-4a50-bc52-cba981ee7203}">
+        <property name="assetPath">
+            <value>Banshee_Death.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>44.0999985</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>3.7067346938775509</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{215e1db7-855a-460c-b344-bba38bdff580}</destination>
+        </relationship>
+    </object>
+</objects>

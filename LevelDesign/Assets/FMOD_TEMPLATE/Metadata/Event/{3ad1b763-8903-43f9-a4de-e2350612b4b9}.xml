@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{3ad1b763-8903-43f9-a4de-e2350612b4b9}">
         <property name="name">
             <value>Thunder</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>1</value>
         </property>
+        <relationship name="folder">
+            <destination>{7e9e0056-a1bd-4b23-8b5b-d858178ecfbd}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{418cf6a0-724c-483b-8375-ed409a18e392}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{7e9e0056-a1bd-4b23-8b5b-d858178ecfbd}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{418cf6a0-724c-483b-8375-ed409a18e392}">
@@ -89,8 +89,8 @@
     </object>
     <object class="MixerBusPanner" id="{7e367410-01a7-4f8d-be80-7908d8a4d2b4}"/>
     <object class="MultiSound" id="{f1fb6be8-417c-4f19-b29b-2278ccd7735d}">
-        <property name="start">
-            <value>0</value>
+        <property name="isAsync">
+            <value>true</value>
         </property>
         <property name="length">
             <value>2</value>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{b719e164-9e27-4113-aa73-34a3bfb5c223}">
         <property name="name">
             <value>raging_fire</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{1c634620-36cb-47e6-8529-3f3ba3a3773e}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{8206d9bf-668e-44ca-a5d9-ecef605da161}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{1c634620-36cb-47e6-8529-3f3ba3a3773e}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{8206d9bf-668e-44ca-a5d9-ecef605da161}">
@@ -92,11 +92,11 @@
     </object>
     <object class="MixerBusPanner" id="{746e1153-f1b1-4491-961f-9e3933870bdb}"/>
     <object class="SingleSound" id="{b53f4868-df52-419c-8a4f-2cf7c291a413}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>53.999999999999986</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{e87ea469-91bc-43c1-bc91-b721ebda6efa}</destination>
@@ -145,6 +145,13 @@
     </object>
     <object class="MixerBusPanner" id="{0090a2a0-71c1-4530-b64a-d7f6ea768430}"/>
     <object class="MixerBusFader" id="{3315b449-26d3-4a21-aa89-0e8ec27bac9b}"/>
-    <object class="SpatialiserEffect" id="{4968893a-0f8a-472c-b546-5f0642520617}"/>
+    <object class="ProxyEffect" id="{4968893a-0f8a-472c-b546-5f0642520617}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{df0dc6ac-da04-4f08-ab17-25e79df171ee}"/>
 </objects>

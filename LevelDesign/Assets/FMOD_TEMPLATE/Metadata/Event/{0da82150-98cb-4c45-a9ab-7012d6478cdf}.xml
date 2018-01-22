@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{0da82150-98cb-4c45-a9ab-7012d6478cdf}">
         <property name="name">
             <value>Death_sfx</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{dec049fc-f748-4e56-9164-7b0a3d6de5da}</destination>
         </relationship>
@@ -31,9 +34,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{dec049fc-f748-4e56-9164-7b0a3d6de5da}">
@@ -99,11 +99,11 @@
     </object>
     <object class="MixerBusPanner" id="{84dddf7c-2a04-4576-a8b5-a87fdf7cdbbd}"/>
     <object class="SingleSound" id="{cb8430d3-6193-4edb-be68-4358c583a692}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>7.2884580498866214</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{786dae40-f803-43e0-b99c-88e3a32950db}</destination>
@@ -129,6 +129,9 @@
         </property>
         <property name="length">
             <value>1.0229251700680273</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{4a837e54-ca8d-4de5-9d49-2b0ec073fde4}</destination>
@@ -173,7 +176,14 @@
     </object>
     <object class="MixerBusPanner" id="{77abdda0-7df0-4d6e-a582-ada1144f3984}"/>
     <object class="MixerBusFader" id="{a54995f0-217c-4081-b28f-5244983318a9}"/>
-    <object class="SpatialiserEffect" id="{8485265f-5418-4397-9dd5-ab694704b6e0}"/>
+    <object class="ProxyEffect" id="{8485265f-5418-4397-9dd5-ab694704b6e0}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{37ea7aa3-2ea7-478e-b9cb-052e0b42af28}"/>
     <object class="MixerBusFader" id="{8fe93d0c-381b-4e0f-9f59-1a083d3666da}"/>
     <object class="SFXReverbEffect" id="{caf47a0b-a1aa-495c-925e-ee03185095e8}">

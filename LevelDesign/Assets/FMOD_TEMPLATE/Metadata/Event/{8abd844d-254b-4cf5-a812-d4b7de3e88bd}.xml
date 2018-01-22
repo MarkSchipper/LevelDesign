@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{8abd844d-254b-4cf5-a812-d4b7de3e88bd}">
         <property name="name">
             <value>lightswitch</value>
@@ -14,6 +14,9 @@ Recordings by David at Track Time Audio.</value>
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{9f4d4c39-bb6b-480f-88c1-8d1a0f4edee6}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{37b60ebf-d71f-471e-a067-c5bdeeb916ab}</destination>
         </relationship>
@@ -44,9 +47,6 @@ Recordings by David at Track Time Audio.</value>
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{9f4d4c39-bb6b-480f-88c1-8d1a0f4edee6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{37b60ebf-d71f-471e-a067-c5bdeeb916ab}">
@@ -86,13 +86,13 @@ Recordings by David at Track Time Audio.</value>
         </relationship>
     </object>
     <object class="Timeline" id="{14e3412b-657b-42ee-8f14-d141ced28136}"/>
-    <object class="GameParameter" id="{1a95b74b-2d56-42ff-9bdc-236c37be8d94}">
-        <property name="name">
-            <value>Direction</value>
-        </property>
+    <object class="ParameterProxy" id="{1a95b74b-2d56-42ff-9bdc-236c37be8d94}">
         <relationship name="modules">
             <destination>{67e38765-14cf-4bcf-8033-975942b55409}</destination>
             <destination>{a728a1b0-dc06-4b79-9972-8ec1bae32a1c}</destination>
+        </relationship>
+        <relationship name="preset">
+            <destination>{37348ed3-eb0a-4f81-9169-467cb6f3e5db}</destination>
         </relationship>
     </object>
     <object class="UserProperty" id="{0961f9f8-daff-4269-b4f7-a6d33971c805}">
@@ -131,9 +131,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="MultiSound" id="{67e38765-14cf-4bcf-8033-975942b55409}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0.20000000000000001</value>
@@ -227,9 +224,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -243,9 +237,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{b5253e67-7bed-445e-8a02-916de2154592}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -261,9 +252,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -277,9 +265,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{39cefd1a-0d0b-4bd6-9641-1790f9913ced}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -311,9 +296,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -327,9 +309,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{5259162c-8018-4000-a7b9-0501aefdf641}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -345,9 +324,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -361,9 +337,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{60f25783-f636-4265-a9b1-37c70678edd9}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -382,6 +355,13 @@ Recordings by David at Track Time Audio.</value>
     </object>
     <object class="MixerBusPanner" id="{9bf0d7ce-c942-4b5e-9fed-1b783f1ed8e9}"/>
     <object class="MixerBusFader" id="{14eed15b-7d8c-4dfa-8adc-b3b91bfffc3b}"/>
-    <object class="SpatialiserEffect" id="{284ec466-a11f-461b-b053-81b6c9965eed}"/>
+    <object class="ProxyEffect" id="{284ec466-a11f-461b-b053-81b6c9965eed}">
+        <property name="inputFormat">
+            <value>0</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{d48dbc4e-7c02-4ace-b1bc-7e1fec4330cf}"/>
 </objects>

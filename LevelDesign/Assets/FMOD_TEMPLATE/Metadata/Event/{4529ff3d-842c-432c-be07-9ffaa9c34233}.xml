@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{4529ff3d-842c-432c-be07-9ffaa9c34233}">
         <property name="name">
             <value>dungeon</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>1</value>
         </property>
+        <relationship name="folder">
+            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{58463772-ee14-415a-a2df-c1a43f556c9c}</destination>
         </relationship>
@@ -37,9 +40,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{748d3177-aad1-46f5-958e-d7e11f36cc87}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{58463772-ee14-415a-a2df-c1a43f556c9c}">
@@ -172,14 +172,17 @@
     </object>
     <object class="MixerBusPanner" id="{73704feb-a6dd-49db-b5ed-d74bb9077fa4}"/>
     <object class="SingleSound" id="{0c76118e-5ea1-4048-898b-98527a8802ef}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
-            <value>58.666666666666664</value>
+            <value>55.916666666666664</value>
+        </property>
+        <property name="timelockedOffset">
+            <value>2.75</value>
         </property>
         <property name="volume">
-            <value>-4</value>
+            <value>-3.5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{9baaccae-7972-4a6a-8b45-9ddb74d4d521}</destination>
@@ -207,7 +210,10 @@
             <value>57.957006802721089</value>
         </property>
         <property name="volume">
-            <value>-5</value>
+            <value>-2.5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{6058e95c-885e-4da3-abf3-37352bfca37b}</destination>
@@ -232,13 +238,16 @@
             <value>true</value>
         </property>
         <property name="triggerProbability">
-            <value>44.5</value>
+            <value>39.5</value>
         </property>
         <property name="start">
             <value>7</value>
         </property>
         <property name="length">
             <value>5.643041666666667</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{e1fc96aa-6cd4-49f7-b403-80ac2abcfdb4}</destination>
@@ -257,6 +266,9 @@
         <property name="length">
             <value>5.643041666666667</value>
         </property>
+        <property name="looping">
+            <value>true</value>
+        </property>
         <relationship name="audioFile">
             <destination>{e1fc96aa-6cd4-49f7-b403-80ac2abcfdb4}</destination>
         </relationship>
@@ -274,6 +286,9 @@
         <property name="length">
             <value>5.643041666666667</value>
         </property>
+        <property name="looping">
+            <value>true</value>
+        </property>
         <relationship name="audioFile">
             <destination>{e1fc96aa-6cd4-49f7-b403-80ac2abcfdb4}</destination>
         </relationship>
@@ -290,6 +305,9 @@
         </property>
         <property name="length">
             <value>5.643041666666667</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{e1fc96aa-6cd4-49f7-b403-80ac2abcfdb4}</destination>
@@ -326,7 +344,10 @@
             <value>23.405714285714286</value>
         </property>
         <property name="volume">
-            <value>-18</value>
+            <value>-20.5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{3d17e97f-5c96-419d-9bb4-beecafda7612}</destination>
@@ -360,7 +381,10 @@
             <value>20.311979166666667</value>
         </property>
         <property name="volume">
-            <value>-9.5</value>
+            <value>-19</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{24f50960-0983-49be-bff5-2ee3387cdb62}</destination>
@@ -380,7 +404,10 @@
             <value>6.4253125000000004</value>
         </property>
         <property name="volume">
-            <value>-8</value>
+            <value>-16</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{3d22c1cd-d77e-479a-bf7a-e7f4037b44ec}</destination>
@@ -414,7 +441,10 @@
             <value>21.333333333333332</value>
         </property>
         <property name="volume">
-            <value>-2.5</value>
+            <value>-5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{00ba65e0-d990-4691-9faa-77855b16b4c8}</destination>
@@ -435,11 +465,11 @@
         </relationship>
     </object>
     <object class="SingleSound" id="{e28fde39-e253-4b1f-95f9-d1dcebc3d6e0}">
-        <property name="start">
-            <value>4</value>
-        </property>
         <property name="length">
             <value>77</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{4af4464e-dd29-4f85-b60d-93d5aa266396}</destination>
@@ -473,7 +503,10 @@
             <value>14.312494331065759</value>
         </property>
         <property name="volume">
-            <value>-17</value>
+            <value>-20</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{70b1e2eb-36a5-45aa-b0ac-53141316889a}</destination>
@@ -493,7 +526,10 @@
             <value>14.312494331065759</value>
         </property>
         <property name="volume">
-            <value>-16.5</value>
+            <value>-33</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{70b1e2eb-36a5-45aa-b0ac-53141316889a}</destination>
@@ -515,10 +551,10 @@
     </object>
     <object class="LoopRegion" id="{dce75de3-ec42-4b21-b397-dea3af29ea07}">
         <property name="position">
-            <value>4</value>
+            <value>0</value>
         </property>
         <property name="length">
-            <value>83</value>
+            <value>77</value>
         </property>
         <relationship name="timeline">
             <destination>{a2addf45-94d3-43a1-9563-ede5162cbf85}</destination>

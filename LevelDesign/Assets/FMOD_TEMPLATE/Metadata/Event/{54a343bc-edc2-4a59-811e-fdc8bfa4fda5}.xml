@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{54a343bc-edc2-4a59-811e-fdc8bfa4fda5}">
         <property name="name">
             <value>doorknob</value>
@@ -14,6 +14,9 @@ Recordings by David at Track Time Audio.</value>
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{9f4d4c39-bb6b-480f-88c1-8d1a0f4edee6}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{16f526df-3276-435b-b407-fa040ae4422b}</destination>
         </relationship>
@@ -37,7 +40,7 @@ Recordings by David at Track Time Audio.</value>
             <destination>{16b807a9-9904-4415-abc6-52c71e1c3503}</destination>
         </relationship>
         <relationship name="parameters">
-            <destination>{37348ed3-eb0a-4f81-9169-467cb6f3e5db}</destination>
+            <destination>{5f99dd48-11dc-03a6-0a95-d2e56da9d99c}</destination>
         </relationship>
         <relationship name="userProperties">
             <destination>{1f5f52f5-5817-42c1-b4e0-a1447575d879}</destination>
@@ -45,9 +48,6 @@ Recordings by David at Track Time Audio.</value>
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{9f4d4c39-bb6b-480f-88c1-8d1a0f4edee6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{16f526df-3276-435b-b407-fa040ae4422b}">
@@ -99,10 +99,10 @@ Recordings by David at Track Time Audio.</value>
             <destination>{5cb4a609-5890-4e68-b77d-adb03c6f7add}</destination>
         </relationship>
     </object>
-    <object class="GameParameter" id="{37348ed3-eb0a-4f81-9169-467cb6f3e5db}">
-        <property name="name">
-            <value>Direction</value>
-        </property>
+    <object class="ParameterProxy" id="{5f99dd48-11dc-03a6-0a95-d2e56da9d99c}">
+        <relationship name="preset">
+            <destination>{37348ed3-eb0a-4f81-9169-467cb6f3e5db}</destination>
+        </relationship>
     </object>
     <object class="UserProperty" id="{1f5f52f5-5817-42c1-b4e0-a1447575d879}">
         <property name="key">
@@ -141,8 +141,8 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
+        <property name="isAsync">
+            <value>true</value>
         </property>
         <property name="length">
             <value>5.02203</value>
@@ -181,8 +181,8 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
+        <property name="isAsync">
+            <value>true</value>
         </property>
         <property name="length">
             <value>5.1982400000000002</value>
@@ -239,9 +239,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -255,9 +252,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{a0670976-555a-4ca1-8286-a5af3e1ee0f4}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -273,9 +267,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -289,9 +280,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{87c4448e-8f9c-403b-89ba-84f53f7adb4f}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -324,9 +312,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -341,9 +326,6 @@ Recordings by David at Track Time Audio.</value>
         <property name="triggerProbabilityEnabled">
             <value>true</value>
         </property>
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>0</value>
         </property>
@@ -357,9 +339,6 @@ Recordings by David at Track Time Audio.</value>
     <object class="SingleSound" id="{7c621055-e278-4100-b253-5a1b870a6e23}">
         <property name="triggerProbabilityEnabled">
             <value>true</value>
-        </property>
-        <property name="start">
-            <value>0</value>
         </property>
         <property name="length">
             <value>0</value>
@@ -378,7 +357,14 @@ Recordings by David at Track Time Audio.</value>
     </object>
     <object class="MixerBusPanner" id="{2ffcb463-1227-49b6-bef6-39f923afdafc}"/>
     <object class="MixerBusFader" id="{f2e01145-1508-4d66-91d0-57e51441b5b4}"/>
-    <object class="SpatialiserEffect" id="{6682ecdb-827e-4562-95a8-6ae57dfb7480}"/>
+    <object class="ProxyEffect" id="{6682ecdb-827e-4562-95a8-6ae57dfb7480}">
+        <property name="inputFormat">
+            <value>0</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{f8bd1050-0f34-493f-b33a-e5021770cfec}"/>
     <object class="MixerBusFader" id="{8abb0d7e-d1c6-4031-b9d2-7c7e63baedb7}"/>
 </objects>

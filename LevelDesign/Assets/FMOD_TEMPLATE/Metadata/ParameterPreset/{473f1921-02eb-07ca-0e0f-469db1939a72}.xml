@@ -5,7 +5,7 @@
             <value>surface</value>
         </property>
         <relationship name="folder">
-            <destination>{557fd065-84d7-4a05-9d49-b5283a7aea08}</destination>
+            <destination>{f728451a-5104-46be-be70-9f77c5d05fef}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{073bdf81-8a61-44cd-b9ac-8527431859d3}</destination>

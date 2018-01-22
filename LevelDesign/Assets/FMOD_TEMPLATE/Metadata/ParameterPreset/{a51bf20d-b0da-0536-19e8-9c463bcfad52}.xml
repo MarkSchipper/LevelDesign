@@ -5,7 +5,7 @@
             <value>snow</value>
         </property>
         <relationship name="folder">
-            <destination>{d07fb94a-dbd0-456d-91e6-7019c6ead1c9}</destination>
+            <destination>{048ed276-f3d4-40a8-8bc6-45730c715af3}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{e51f34ad-3850-4631-ae4b-5ffcc9446ef3}</destination>

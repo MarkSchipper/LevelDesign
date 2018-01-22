@@ -5,7 +5,7 @@
             <value>tension</value>
         </property>
         <relationship name="folder">
-            <destination>{dc2a0721-8ec5-4d43-a9cf-c0f943a4ad0a}</destination>
+            <destination>{28762704-1283-461f-b086-654bc7869e9f}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{d43ee2bb-4f30-419f-b2a3-9297df0579f0}</destination>

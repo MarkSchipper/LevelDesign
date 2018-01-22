@@ -5,7 +5,7 @@
             <value>time</value>
         </property>
         <relationship name="folder">
-            <destination>{be62813c-4042-4eed-a78c-c094a449d62b}</destination>
+            <destination>{fdd04cff-a2de-4322-b951-c6a5df27deec}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{50697726-5acd-4a25-95fa-bfce38d08800}</destination>

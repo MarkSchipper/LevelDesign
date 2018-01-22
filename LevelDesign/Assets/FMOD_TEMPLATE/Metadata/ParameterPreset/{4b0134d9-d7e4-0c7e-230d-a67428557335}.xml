@@ -5,7 +5,7 @@
             <value>birds</value>
         </property>
         <relationship name="folder">
-            <destination>{0bb45cfe-374f-4df6-953c-ca8bf7b668fe}</destination>
+            <destination>{905a66a9-2849-4c16-b1b3-a4a634331d9a}</destination>
         </relationship>
         <relationship name="parameter">
             <destination>{0b05f279-5f6e-4f79-94ae-65cedadeb094}</destination>

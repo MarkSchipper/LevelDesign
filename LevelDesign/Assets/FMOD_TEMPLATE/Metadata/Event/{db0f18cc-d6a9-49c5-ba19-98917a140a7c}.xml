@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{db0f18cc-d6a9-49c5-ba19-98917a140a7c}">
         <property name="name">
             <value>Death</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{9e094f21-b63f-4392-9078-3e74ae792b92}</destination>
         </relationship>
@@ -31,9 +34,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{9e094f21-b63f-4392-9078-3e74ae792b92}">
@@ -105,6 +105,9 @@
         <property name="length">
             <value>1.0229251700680273</value>
         </property>
+        <property name="looping">
+            <value>true</value>
+        </property>
         <relationship name="audioFile">
             <destination>{4a837e54-ca8d-4de5-9d49-2b0ec073fde4}</destination>
         </relationship>
@@ -124,14 +127,14 @@
         </relationship>
     </object>
     <object class="SingleSound" id="{e4ec4f17-670c-4f74-a0ec-cfbb720edd9b}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>7.2884580498866214</value>
         </property>
         <property name="color">
             <value>Cyan</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{8dc2a6b2-d9d8-44ba-9d44-f3937713f8db}</destination>
@@ -172,7 +175,14 @@
     </object>
     <object class="MixerBusPanner" id="{ebc0d651-b46b-417c-baba-61e2c70bb2ff}"/>
     <object class="MixerBusFader" id="{4f66ac9c-73b8-447b-aea4-2c10a58ef6d4}"/>
-    <object class="SpatialiserEffect" id="{b1e0945a-3dcb-494a-9522-e2dad008c514}"/>
+    <object class="ProxyEffect" id="{b1e0945a-3dcb-494a-9522-e2dad008c514}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{1037c761-881d-4338-a24c-8a9a995870b7}"/>
     <object class="MixerBusFader" id="{dacbdca2-fa78-48c0-8451-62d06e47f90e}"/>
 </objects>

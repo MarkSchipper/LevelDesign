@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{eb1dd759-ce32-494d-9c20-4a5841435a57}">
         <property name="name">
             <value>building_collapse3</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{fd14ca21-b763-4b0b-b45e-d19dd59331b6}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{9e2bebf7-7c3d-490a-94d7-a2ac807eb1a9}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{fd14ca21-b763-4b0b-b45e-d19dd59331b6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{9e2bebf7-7c3d-490a-94d7-a2ac807eb1a9}">
@@ -89,14 +89,14 @@
     </object>
     <object class="MixerBusPanner" id="{4013b704-47eb-4c00-ac68-43cc9c9bc108}"/>
     <object class="SingleSound" id="{11a7073b-8489-4bea-816d-24b299c53293}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>22.680000000000003</value>
         </property>
         <property name="timelockedOffset">
             <value>22.52</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{26c5de19-2853-41b3-9df1-13c3a1ed138c}</destination>
@@ -131,6 +131,13 @@
     </object>
     <object class="MixerBusPanner" id="{7d64b45c-a679-4157-ac6b-4ae007f8b19d}"/>
     <object class="MixerBusFader" id="{46700eeb-80d6-4752-b7f7-2a620444fc99}"/>
-    <object class="SpatialiserEffect" id="{f0fb9662-533a-451d-88d6-01d325801ab5}"/>
+    <object class="ProxyEffect" id="{f0fb9662-533a-451d-88d6-01d325801ab5}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{76c1322f-540c-4733-87d7-3b5a8fd8723b}"/>
 </objects>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{2ae6a404-8811-4cef-9eaf-377dd026ed51}">
         <property name="name">
             <value>Dark Times</value>
@@ -11,6 +11,9 @@
         <property name="outputFormat">
             <value>1</value>
         </property>
+        <relationship name="folder">
+            <destination>{a63689a4-7c40-464a-bd68-5311eb6eb517}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{cbe9000f-86fa-40fe-be0c-022cd141a388}</destination>
         </relationship>
@@ -34,9 +37,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{a63689a4-7c40-464a-bd68-5311eb6eb517}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{cbe9000f-86fa-40fe-be0c-022cd141a388}">
@@ -93,14 +93,14 @@
     </object>
     <object class="MixerBusPanner" id="{01c30911-a3c3-4816-887b-d82a73e707c4}"/>
     <object class="SingleSound" id="{2ac540c4-2621-44d2-abf7-6065ceb3c1fa}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>180.21918367346939</value>
         </property>
         <property name="timelockedOffset">
             <value>3.5</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="audioFile">
             <destination>{f11963d0-4b01-4604-9f1a-4acb54719431}</destination>

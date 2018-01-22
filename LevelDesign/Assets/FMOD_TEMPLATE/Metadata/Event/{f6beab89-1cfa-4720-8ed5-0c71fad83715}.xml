@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{f6beab89-1cfa-4720-8ed5-0c71fad83715}">
         <property name="name">
             <value>Break Crate</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{e5754ba7-685f-457c-9d48-d036adc69c59}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{87ac75e3-f955-4f0c-a8f0-0bbd22e37c65}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{e5754ba7-685f-457c-9d48-d036adc69c59}">
@@ -89,14 +89,14 @@
     </object>
     <object class="MixerBusPanner" id="{45ccda62-a500-4350-afd8-e6d0dfba4148}"/>
     <object class="SingleSound" id="{8b7997ae-4473-4f3a-8be5-a96dabba70dd}">
-        <property name="start">
-            <value>0</value>
-        </property>
         <property name="length">
             <value>1.5</value>
         </property>
         <property name="volume">
-            <value>-3.5</value>
+            <value>-7</value>
+        </property>
+        <property name="looping">
+            <value>true</value>
         </property>
         <relationship name="modulators">
             <destination>{242cf597-b4ea-483d-8c8d-86df6b607f60}</destination>
@@ -122,6 +122,7 @@
     </object>
     <object class="MixerBusEffectChain" id="{a1ccaff1-2a26-4404-98ae-0726e8b85ca4}">
         <relationship name="effects">
+            <destination>{08408cf1-3c6f-4730-a5b5-9abeb35dd420}</destination>
             <destination>{50738dd6-4d5c-4a61-83e1-9876fb49613b}</destination>
             <destination>{66ca8b87-f472-454a-9c4f-697be09ede7f}</destination>
         </relationship>
@@ -150,7 +151,22 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{f9487ebd-4911-4b6a-8a0f-e568ad50e6e1}"/>
+    <object class="MixerSend" id="{08408cf1-3c6f-4730-a5b5-9abeb35dd420}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="mixerReturn">
+            <destination>{1da1eb86-24b2-4026-a274-8e8410599e57}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{50738dd6-4d5c-4a61-83e1-9876fb49613b}"/>
-    <object class="SpatialiserEffect" id="{66ca8b87-f472-454a-9c4f-697be09ede7f}"/>
+    <object class="ProxyEffect" id="{66ca8b87-f472-454a-9c4f-697be09ede7f}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{d395ee25-1400-40c8-a89b-8d970e2d48e4}"/>
 </objects>

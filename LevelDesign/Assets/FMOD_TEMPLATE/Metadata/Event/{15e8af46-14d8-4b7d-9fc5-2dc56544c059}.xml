@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.01.08.00">
+<objects serializationModel="Studio.01.10.00">
     <object class="Event" id="{15e8af46-14d8-4b7d-9fc5-2dc56544c059}">
         <property name="name">
             <value>fire_ball_cast</value>
@@ -7,6 +7,9 @@
         <property name="outputFormat">
             <value>2</value>
         </property>
+        <relationship name="folder">
+            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
+        </relationship>
         <relationship name="mixer">
             <destination>{93a5bd05-b6b1-48c0-9cf2-c9dfa05ef2c2}</destination>
         </relationship>
@@ -30,9 +33,6 @@
         </relationship>
         <relationship name="banks">
             <destination>{0fcd6f54-dae4-490c-a5a5-ae14a2063291}</destination>
-        </relationship>
-        <relationship name="folder">
-            <destination>{03af2978-55fd-4e59-99e6-698e92573a67}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{93a5bd05-b6b1-48c0-9cf2-c9dfa05ef2c2}">
@@ -89,11 +89,8 @@
     </object>
     <object class="MixerBusPanner" id="{9699e353-f0ff-471c-8a45-3f3063671ca2}"/>
     <object class="MultiSound" id="{926fb766-dfe8-491b-b946-eb59eb50dfda}">
-        <property name="start">
-            <value>0</value>
-        </property>
-        <property name="length">
-            <value>1</value>
+        <property name="isAsync">
+            <value>true</value>
         </property>
         <relationship name="sounds">
             <destination>{a5e98f68-b814-4c73-8934-18fc03cc96cd}</destination>
@@ -145,6 +142,13 @@
     </object>
     <object class="MixerBusPanner" id="{92737fd7-954f-4241-bb9a-c985022e1f7e}"/>
     <object class="MixerBusFader" id="{f6139b39-d452-45cd-a6a8-718f4db90e86}"/>
-    <object class="SpatialiserEffect" id="{ff970e94-e262-4fac-b124-2ab15def61ed}"/>
+    <object class="ProxyEffect" id="{ff970e94-e262-4fac-b124-2ab15def61ed}">
+        <property name="inputFormat">
+            <value>1</value>
+        </property>
+        <relationship name="preset">
+            <destination>{596ef6a6-120b-07a0-2149-8b24ca8fe10c}</destination>
+        </relationship>
+    </object>
     <object class="MixerBusFader" id="{335f84fa-2a22-4102-a6bc-29591c2ef041}"/>
 </objects>
