@@ -351,7 +351,7 @@ namespace CombatSystem
                                     {
                                         if (PlayerController.instance.ReturnPlayerIsInRange())
                                         {
-                                            if (PlayerController.instance.IsPlayerFacingEnemy())
+                                            if (PlayerBattle.instance.IsPlayerFacingEnemy())
                                             {
                                                 _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
                                                 _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));
@@ -538,11 +538,6 @@ namespace CombatSystem
                     {
                         if (_selectedActor != null)
                         {
-                            Rect _rect = new Rect(Screen.width - Screen.width + 60, Screen.height - Screen.height + 50, 310, 128);
-                            Rect _npcName = new Rect(_rect.x + 150, _rect.y + 30, 100, 20);
-                            Rect _npcProfession = new Rect(_rect.x + 150, _rect.y + 80, 100, 20);
-
-                            
                             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             //                                                              Enemy Selected                                                          //
                             //                                                                                                                                      //
@@ -705,7 +700,7 @@ namespace CombatSystem
                     // If we are NOT spell casting - we can cast a new spell
                     if (!_isSpellCasting)
                     {
-                        if (Event.current.button == 0 && Event.current.type == EventType.MouseDown && !PlayerController.instance.ReturnIsCastingSpell())
+                        if (Event.current.button == 0 && Event.current.type == EventType.MouseDown && !PlayerBattle.instance.ReturnIsCastingSpell())
                         {
                             // if it is not an ability -> it is a spell
                             if (CombatDatabase.ReturnAbility(i) == Abilities.None)
@@ -715,7 +710,7 @@ namespace CombatSystem
                                 {
                                     if (PlayerController.instance.CanPlayerCastSpell(CombatDatabase.ReturnSpellManaCost(i)))
                                     {
-                                        if (PlayerController.instance.IsPlayerFacingEnemy())
+                                        if (PlayerBattle.instance.IsPlayerFacingEnemy())
                                         {
                                             _spellCastVFX = Instantiate(_spawnVFX, CombatSystem.PlayerController.instance.ReturnPlayerPosition(), Quaternion.identity) as GameObject;
                                             _spellCastVFX.transform.Rotate(new Vector3(-90, 0, 0));

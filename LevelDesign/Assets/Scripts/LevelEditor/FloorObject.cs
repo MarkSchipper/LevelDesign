@@ -13,7 +13,7 @@ public class FloorObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+        this.GetComponent<MeshRenderer>().enabled = false;
         this.GetComponent<MeshCollider>().enabled = false;
         this.GetComponent<BoxCollider>().enabled = false;
 

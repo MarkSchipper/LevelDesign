@@ -26,6 +26,8 @@ namespace Theme
         private static int _previewOffset = 175;
         private static int _previewTilesOffset = 200;
 
+        private static int _selectedIndex;
+
         private static GameObject _objectToAdd;
 
         private static bool _hasLoadedObjects;
@@ -61,9 +63,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_vikingBuildingsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -98,7 +102,6 @@ namespace Theme
 
                     if (i % _numberOfRows == 0)
                     {
-
                         _yPos++;
                         _xPos = 0;
                     }
@@ -110,9 +113,11 @@ namespace Theme
 
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;                         
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -153,9 +158,11 @@ namespace Theme
 
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -176,15 +183,12 @@ namespace Theme
             for (int i = 0; i < _vikingPropsIcons.Count; i++)
             {
                 _previewRect[i] = new Rect(20 + (_previewWindow * _xPos), _previewOffset + (_previewWindow * _yPos + 10), _previewWindow, _previewWindow);
-
-
                 _xPos++;
 
                 if (i > 0)
                 {
                     if ((i + 1) % _numberOfRows == 0)
                     {
-
                         _yPos++;
                         _xPos = 0;
                     }
@@ -195,9 +199,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_vikingPropsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if(_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -240,9 +246,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_vikingPerimeterIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if(_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -339,11 +347,198 @@ namespace Theme
         {
             return _objectToAdd;
         }
+
+        public static int ReturnSnapAmount()
+        {
+            return _snapAmount;
+        }
+
         public static void DeleteLoadedObject()
         {
             if (_objectToAdd != null)
             {
                 DestroyImmediate(_objectToAdd);
+            }
+        }
+
+        public static void NextObject(int _tabIndex, int _tileIndex)
+        {
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex + 1 < _vikingBuildingsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+
+                    switch(_tileIndex)
+                    {
+                        case 0:
+                            if (_selectedIndex + 1 < _vikingSurfacesIcons.Count)
+                            {
+                                _selectedIndex++;
+                                if (_objectToAdd != null)
+                                {
+                                    DestroyImmediate(_objectToAdd);
+                                }
+                                if (Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[_selectedIndex]) != null)
+                                {
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[_selectedIndex])) as GameObject;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (_selectedIndex + 1 < _vikingEdgesIcons.Count)
+                            {
+                                _selectedIndex++;
+                                if (_objectToAdd != null)
+                                {
+                                    DestroyImmediate(_objectToAdd);
+                                }
+                                if (Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[_selectedIndex]) != null)
+                                {
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[_selectedIndex])) as GameObject;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex + 1 < _vikingPerimeterIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex + 1 < _vikingPropsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void PreviousObject(int _tabIndex, int _tileIndex)
+        {
+
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Buildings/" + _vikingBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+
+                    switch (_tileIndex)
+                    {
+                        case 0:
+                            if (_selectedIndex - 1 >= 0)
+                            {
+                                _selectedIndex--;
+                                if (_objectToAdd != null)
+                                {
+                                    DestroyImmediate(_objectToAdd);
+                                }
+                                if (Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[_selectedIndex]) != null)
+                                {
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Surfaces/" + _vikingSurfacesIcons[_selectedIndex])) as GameObject;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (_selectedIndex - 1 >= 0)
+                            {
+                                _selectedIndex--;
+                                if (_objectToAdd != null)
+                                {
+                                    DestroyImmediate(_objectToAdd);
+                                }
+                                if (Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[_selectedIndex]) != null)
+                                {
+                                    _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Tiles/Edges/" + _vikingEdgesIcons[_selectedIndex])) as GameObject;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Perimeter/" + _vikingPerimeterIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Viking/Props/" + _vikingPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 

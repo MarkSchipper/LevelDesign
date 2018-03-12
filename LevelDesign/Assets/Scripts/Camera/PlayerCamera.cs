@@ -9,7 +9,6 @@ namespace CombatSystem
 
 
         private Transform _centerPoint;
-        private float _zoom = 0;
 
         private static bool _isCameraShake = false;
         private static float _shakeIntensity;

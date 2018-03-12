@@ -146,6 +146,7 @@ namespace EnemyCombat
 
         public void SetCombatStats(float _cd, float _dmg, string _spell, EnemyType _type, EnemySpecial _special)
         {
+            
             _cooldown = _cd;
             _enemyDamage = _dmg;
             _enemyRangedSpell = _spell;

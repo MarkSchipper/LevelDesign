@@ -57,6 +57,7 @@ public class ConditionNode : BaseInputNode {
         hasInputs = true;
         hasOutputs = true;
         _title = "ConditionNode";
+        
     }
 
     void OnEnable()
@@ -75,11 +76,11 @@ public class ConditionNode : BaseInputNode {
                 _questID.Clear();
                 _questTitle.Clear();
             }
-            Quest.QuestDatabase.GetAllQuests();
-            for (int i = 0; i < Quest.QuestDatabase.ReturnAllQuestsCount(); i++)
+            Quest.QuestDatabaseManager.GetAllQuests();
+            for (int i = 0; i < Quest.QuestDatabaseManager.ReturnAllQuestTitles().Count; i++)
             {
-                _questID.Add(Quest.QuestDatabase.GetQuestID(i));
-                _questTitle.Add(Quest.QuestDatabase.GetQuestTitle(i));
+                _questID.Add(Quest.QuestDatabaseManager.ReturnAllQuestID()[i]);
+                _questTitle.Add(Quest.QuestDatabaseManager.ReturnAllQuestTitles()[i]);
             }
             _loadedQuests = true;
         }

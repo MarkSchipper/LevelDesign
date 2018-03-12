@@ -331,7 +331,7 @@ namespace NPC
         }
         public void CheckForQuest()
         {
-            if(Quest.QuestDatabase.NPCHasNewQuest(_npcID))
+            if(Quest.QuestGameManager.NPCHasNewQuest(_npcID))
             {
                 if (_hasQuestVFX == null)
                 {

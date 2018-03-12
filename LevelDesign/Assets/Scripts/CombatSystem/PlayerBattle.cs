@@ -10,8 +10,25 @@ namespace CombatSystem
         // bools
         private bool SPELL_BARRIER = false;
 
+        private GameObject _selectedActor;
+        private bool _isCastingSpell;
+
         // gameobjects
         private GameObject _barrierGameObject;
+
+        public static PlayerBattle instance;
+
+        void Awake()
+        {
+            if(instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                DestroyImmediate(instance);
+            }
+        }
 
         // Use this for initialization
         void Start()
@@ -28,6 +45,51 @@ namespace CombatSystem
                     _barrierGameObject.transform.position = transform.position;
                 }
             }
+        }
+
+        public void SetActor(GameObject _actor)
+        {
+            _selectedActor = _actor;
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                              IsPlayerFacingEnemy                                         //
+        //                                                                                                          //
+        // Is the Player facing the selected enemy                                                                  //
+        // Perform the DOT on the players current Forward vector                                                    //
+        // DOT(Player Forward Vector, Position of the selected enemy - the players position) and normalize it       //
+        // If the DOT Product is greater than 0.5f then we are 'facing' the enemy                                   //
+        //  Return true                                                                                             //
+        //                                                                                                          //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public bool IsPlayerFacingEnemy()
+        {
+            float dot;
+            if (_selectedActor != null)
+            {
+                dot = Vector3.Dot(transform.forward, (_selectedActor.transform.position - transform.position).normalized);
+
+                if (dot > 0.5f)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Return _isCastingSpell
+        public bool ReturnIsCastingSpell()
+        {
+            return _isCastingSpell;
         }
 
         public void CreateBarrier(float _time)

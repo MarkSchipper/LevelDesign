@@ -72,12 +72,10 @@ namespace CombatSystem
         private static float _shakeDuration;
         private Vector3 _oldPosition;
 
-        private  Quaternion _startPosition;
-        private bool _resetCamera = false;
 
         private bool _orbitCamera = false;
 
-        private float vOrbitInput, hOrbitInput, zoomInput, hOrbitSnapInput;
+        private float vOrbitInput, hOrbitInput, zoomInput;
 
         private static bool _firstPerson = false;
         private float _rotateAngleX = 0f;
@@ -101,7 +99,7 @@ namespace CombatSystem
         void Start()
         {
             SetCameraTarget(transform.parent.transform);
-            _startPosition = transform.rotation;
+
             MoveToTarget();
 
             collision.Initialize(Camera.main);
@@ -124,7 +122,6 @@ namespace CombatSystem
                     _orbitCamera = true;
                     vOrbitInput = Input.GetAxis(input.ORBIT_VERTICAL);
                     hOrbitInput = Input.GetAxis(input.ORBIT_HORIZONTAL);
-                    hOrbitSnapInput = Input.GetAxisRaw(input.ORBIT_HORIZONTAL_SNAP);
                     Cursor.lockState = CursorLockMode.Locked;
                     if (!CombatSystem.PlayerController.instance.ReturnPlayerDead())
                     {

@@ -42,6 +42,34 @@ namespace EnemyCombat
 
         }
 
+        public void Start()
+        {
+            if (_enemyDeath == string.Empty)
+            {
+                _enemyDeath = "event:/Enemies/EnemyDeath";
+            }
+            if (_enemyAttack == string.Empty)
+            {
+                _enemyAttack = "event:/Enemies/EnemyHit";
+            }
+            if (_enemyCharge == string.Empty)
+            {
+                _enemyCharge = "event:/Enemies/EnemyCharge";
+            }
+            if (_enemyClimb == string.Empty)
+            {
+                _enemyClimb = "event:/Enemies/MushroomSoldier/Climb";
+            }
+            if (_enemyFootsteps == string.Empty)
+            {
+                _enemyFootsteps = "event:/Enemies/Banshee/Footsteps";
+            }
+            if (_enemySpawn == string.Empty)
+            {
+                _enemySpawn = "event:/Enemies/EnemySpawn";
+            }
+        }
+
         public void PlaySound(EnemySound sound, Vector3 pos)
         {
             switch(sound)
@@ -71,6 +99,7 @@ namespace EnemyCombat
 
         void PlayEnemyAttack(Vector3 pos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyAttack);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 
@@ -80,6 +109,7 @@ namespace EnemyCombat
 
         void PlayEnemyCharge(Vector3 pos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyCharge);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 
@@ -89,6 +119,7 @@ namespace EnemyCombat
 
         void PlayEnemyClimb(Vector3 pos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyClimb);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 
@@ -98,6 +129,7 @@ namespace EnemyCombat
 
         void PlayEnemyDeath(Vector3 pos)
         {
+           
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyDeath);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 
@@ -107,6 +139,7 @@ namespace EnemyCombat
 
         void PlayEnemyFootsteps(Vector3 pos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemyFootsteps);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 
@@ -116,6 +149,7 @@ namespace EnemyCombat
 
         void PlayEnemySpawn(Vector3 pos)
         {
+            
             FMOD.Studio.EventInstance e = FMODUnity.RuntimeManager.CreateInstance(_enemySpawn);
             e.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(pos));
 

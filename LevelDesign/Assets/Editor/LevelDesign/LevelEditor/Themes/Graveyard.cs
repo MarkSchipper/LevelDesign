@@ -19,6 +19,7 @@ namespace Theme
         private static int _previewOffset = 175;
         private static int _previewTilesOffset = 200;
 
+        private static int _selectedIndex;
 
         public static void ShowGraveyard(int _numberOfRows)
         {
@@ -55,9 +56,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_graveyardIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if(_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -97,11 +100,49 @@ namespace Theme
             return _objectToAdd;
         }
 
+        public static int ReturnSnapAmount()
+        {
+            return _snapAmount;
+        }
+
         public static void DeleteLoadedObject()
         {
             if (_objectToAdd != null)
             {
                 DestroyImmediate(_objectToAdd);
+            }
+        }
+
+        public static void NextObject()
+        {
+            if (_selectedIndex + 1 < _graveyardIcons.Count)
+            {
+                _selectedIndex++;
+                if (_objectToAdd != null)
+                {
+                    DestroyImmediate(_objectToAdd);
+                }
+                if (Resources.Load("World_Building/Graveyard/" + _graveyardIcons[_selectedIndex]) != null)
+                {
+                    _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardIcons[_selectedIndex])) as GameObject;
+                }
+            }
+        }
+
+        public static void PreviousObject()
+        {
+
+            if (_selectedIndex - 1 >= 0)
+            {
+                _selectedIndex--;
+                if (_objectToAdd != null)
+                {
+                    DestroyImmediate(_objectToAdd);
+                }
+                if (Resources.Load("World_Building/Graveyard/" + _graveyardIcons[_selectedIndex]) != null)
+                {
+                    _objectToAdd = Instantiate(Resources.Load("World_Building/Graveyard/" + _graveyardIcons[_selectedIndex])) as GameObject;
+                }
             }
         }
     }

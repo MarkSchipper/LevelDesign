@@ -25,6 +25,8 @@ namespace Theme
         private static int _previewOffset = 175;
         private static int _previewTilesOffset = 200;
 
+        private static int _selectedIndex;
+
         private static GameObject _objectToAdd;
 
         public static void ShowAddBuildings(int _numberOfRows)
@@ -58,9 +60,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_swampBuildingsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Buildings/" + _swampBuildingsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -94,16 +98,17 @@ namespace Theme
                     }
                 }
 
-
                 EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Swamp/Tiles/" + _swampTilesIcons[i]) as Texture2D);
 
                 if (_previewRect[i].Contains(Event.current.mousePosition))
                 {
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Tiles/" + _swampTilesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -144,9 +149,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_swampPropsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Props/" + _swampPropsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -187,9 +194,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_swampTreesIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Trees/" + _swampTreesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -208,6 +217,12 @@ namespace Theme
         {
             return _objectToAdd;
         }
+
+        public static int ReturnSnapAmount()
+        {
+            return _snapAmount;
+        }
+
         public static void DeleteLoadedObject()
         {
             if (_objectToAdd != null)
@@ -215,7 +230,6 @@ namespace Theme
                 DestroyImmediate(_objectToAdd);
             }
         }
-
 
         public static void LoadAll()
         {
@@ -281,5 +295,141 @@ namespace Theme
             _hasLoadedObjects = true;
         }
 
+        public static void NextObject(int _tabIndex)
+        {
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex + 1 < _swampBuildingsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Buildings/" + _swampBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Buildings/" + _swampBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+                    if (_selectedIndex + 1 < _swampTilesIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Tiles/" + _swampTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Tiles/" + _swampTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // props
+                    if (_selectedIndex + 1 < _swampPropsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Props/" + _swampPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Props/" + _swampPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // trees
+                    if (_selectedIndex + 1 < _swampTreesIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Trees/" + _swampTreesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Trees/" + _swampTreesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void PreviousObject(int _tabIndex)
+        {
+
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Buildings/" + _swampBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Buildings/" + _swampBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Tiles/" + _swampTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Tiles/" + _swampTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // props
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Props/" + _swampPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Props/" + _swampPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // trees
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Swamp/Trees/" + _swampTreesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Swamp/Trees/" + _swampTreesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

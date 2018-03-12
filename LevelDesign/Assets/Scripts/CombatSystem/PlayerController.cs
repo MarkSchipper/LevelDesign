@@ -36,9 +36,6 @@ namespace CombatSystem
         // Movement Floats
       
         private float _rotateAngle = 0f;
-        private float _rotatedAngle = 0f;
-        private float _playerDistanceTraveled = 0.0f;
-        private float _playerFallingDistance = 0.0f;
         private float _blinkMaxDistance;
 
         // out of combat timer
@@ -54,8 +51,6 @@ namespace CombatSystem
         private float _playerExperience;
         private float _playerGold;
         private float _expMultiplier;
-        private float _damageMultiplier;
-        private float _healthMultiplier;
         private float _manaMultiplier;
         private float _healingMultiplier;
         private float _experienceRequired;
@@ -452,14 +447,14 @@ namespace CombatSystem
                                     if (!_hit.collider.gameObject.GetComponent<EnemyCombat.EnemyBehaviour>().ReturnLootable())
                                     {
                                         _selectedActor = _hit.collider.gameObject;
-
+                                        PlayerBattle.instance.SetActor(_hit.collider.gameObject);
                                         InteractionManager.instance.SetSelected(_selectedActor);
                                         _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(true);
                                     }
                                     else
                                     {
                                         _selectedActor = _hit.collider.transform.parent.gameObject;
-                                        
+                                        PlayerBattle.instance.SetActor(_hit.collider.transform.parent.gameObject);
                                         if (_selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().ReturnEnemyLootTable() != string.Empty)
                                         {
                                             Inventory.instance.ShowLootWindow(_selectedActor);
@@ -473,6 +468,7 @@ namespace CombatSystem
                                         _selectedActor.GetComponentInChildren<EnemyCombat.EnemyBehaviour>().SetSelected(false);
                                     }
                                     _selectedActor = null;
+                                    PlayerBattle.instance.SetActor(null);
                                     InteractionManager.instance.SetSelected(null);
                                 }
 
@@ -494,7 +490,7 @@ namespace CombatSystem
                                         {
                                             _selectedNPC.GetComponent<NPC.NpcSystem>().IsSelected(false);
                                         }
-
+                                        PlayerBattle.instance.SetActor(null);
                                         _selectedActor = null;
                                         _selectedNPC = null;
                                     }
@@ -689,10 +685,7 @@ namespace CombatSystem
             _playerExperience =     CombatDatabase.ReturnPlayerExp();
             _playerGold =           CombatDatabase.ReturnPlayerGold();
             _expMultiplier =        CombatDatabase.ReturnExpMultiplier();
-            _healthMultiplier =     CombatDatabase.ReturnHealthMultiplier();
-            _manaMultiplier =       CombatDatabase.ReturnManaMultiplier();
             _healingMultiplier =    CombatDatabase.ReturnHealingMultiplier();
-            _damageMultiplier =     CombatDatabase.ReturnDamageMultiplier();
 
             // Set the experience required to level up
             _experienceRequired = _playerLevel * _expMultiplier;
@@ -718,8 +711,6 @@ namespace CombatSystem
         {
             transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
         }
-
-        
 
         public void PlayerDeath(bool _set)
         {
@@ -766,12 +757,6 @@ namespace CombatSystem
                 StartCoroutine(Regenerate());
                 _regen = true;
             }
-        }
-
-        // Return _isCastingSpell
-        public bool ReturnIsCastingSpell()
-        {
-            return _isCastingSpell;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -902,44 +887,9 @@ namespace CombatSystem
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //                                              IsPlayerFacingEnemy                                         //
-        //                                                                                                          //
-        // Is the Player facing the selected enemy                                                                  //
-        // Perform the DOT on the players current Forward vector                                                    //
-        // DOT(Player Forward Vector, Position of the selected enemy - the players position) and normalize it       //
-        // If the DOT Product is greater than 0.5f then we are 'facing' the enemy                                   //
-        //  Return true                                                                                             //
-        //                                                                                                          //
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        public bool IsPlayerFacingEnemy()
-        {
-            float dot;
-            if(_selectedActor != null)
-            {
-
-                dot = Vector3.Dot(transform.forward, (_selectedActor.transform.position - transform.position).normalized);
-                
-                if(dot > 0.5f)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                                  SetPlayerInCombat(bool _set)                                            //
         //                                                                                                          //
-        //  Set STATE_INCOMBAT to _set                                                                                 //
+        //  Set STATE_INCOMBAT to _set                                                                              //
         //      Call the InteractionManager and display the Player in Combat                                        //
         //                                                                                                          //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1002,6 +952,7 @@ namespace CombatSystem
         public void SetEnemy(GameObject _target)
         {
             _selectedActor = _target;
+            PlayerBattle.instance.SetActor(_target);
 
         }
 
@@ -1234,14 +1185,15 @@ namespace CombatSystem
 
         public void CompletedQuest()
         {
-            if(_playerExperience + Quest.QuestDatabase.ReturnCurrentQuestExp() < _experienceRequired)
+            if(_playerExperience + Quest.QuestGameManager.ReturnCurrentQuestExp() < _experienceRequired)
             {
-                _playerExperience += Quest.QuestDatabase.ReturnCurrentQuestExp();
+                _playerExperience += Quest.QuestGameManager.ReturnCurrentQuestExp();
+                CombatDatabase.UpdatePlayerExp((int)_playerExperience);
             }
 
-            else if (_playerExperience + Quest.QuestDatabase.ReturnCurrentQuestExp() >= _experienceRequired)
+            else if (_playerExperience + Quest.QuestGameManager.ReturnCurrentQuestExp() >= _experienceRequired)
             {
-                _playerExperience = (_experienceRequired - _playerExperience) - Quest.QuestDatabase.ReturnCurrentQuestExp();
+                _playerExperience = (_experienceRequired - _playerExperience) - Quest.QuestGameManager.ReturnCurrentQuestExp();
 
                 if(_playerExperience < 0)
                 {

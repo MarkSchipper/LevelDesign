@@ -92,6 +92,8 @@ namespace DialogueSystem
         private Vector2 _gridOffset;
         private Vector2 _offSet;
 
+        private Vector2 _windowOffset = new Vector2(0, 0);
+
         private static NodeEditor editor;
 
         static void ShowEditor()
@@ -137,7 +139,7 @@ namespace DialogueSystem
             //_skin.GetStyle("background");
 
             Event e = Event.current;
-            mousePos = e.mousePosition;
+            mousePos = e.mousePosition - _windowOffset;
 
             EditorGUILayout.BeginHorizontal();
 
@@ -185,6 +187,11 @@ namespace DialogueSystem
                     for (int i = 0; i < windows.Count; i++)
                     {
                         Dialogue.DialogueDatabase.AddDialogue(random, i, _npcID, windows[i].ReturnPreviousNode(), windows[i].ReturnQuestion(), windows[i].ReturnResponse(), windows[i].ReturnCorrectAnswer(), windows[i].ReturnTitle(), windows[i].windowRect.position, windows[i].ReturnQuestID(), windows[i].ReturnCondition(), windows[i].ReturnConditionStatement(), windows[i].ReturnConditionTerm(), windows[i].ReturnConditionValue());
+                        if(windows[i].ReturnTitle() == "Add Quest")
+                        {
+                            Quest.QuestDatabaseManager.UpdateQuestNPC(windows[i].ReturnQuestID(), _npcID);
+                            Debug.Log("there is a quest");
+                        }
                     }
                     
                 }
@@ -245,7 +252,7 @@ namespace DialogueSystem
                     }
 
                     // If we have not clicked on a window but still right clicked we want to Menu to appear to add new nodes
-
+                    
                     if (!clickedOnWindow)
                     {
                         GenericMenu menu = new GenericMenu();
@@ -253,12 +260,13 @@ namespace DialogueSystem
                         // ANIMATION MENUS
                         menu.AddDisabledItem(new GUIContent("[ Dialogue ]"));
                         menu.AddItem(new GUIContent("Dialogue/Add Dialogue Start Node"), false, ContextCallback, "dialogueStartNode");
-                        menu.AddItem(new GUIContent("Dialogue/Add Conversation Node"), false, ContextCallback, "conversationNode");
-                        menu.AddItem(new GUIContent("Dialogue/Response Node"), false, ContextCallback, "responseNode");
+                        menu.AddItem(new GUIContent("Dialogue/Add Question Node"), false, ContextCallback, "conversationNode");
+                        menu.AddItem(new GUIContent("Dialogue/Add Answer Node"), false, ContextCallback, "responseNode");
                         menu.AddItem(new GUIContent("Dialogue/Quest Node"), false, ContextCallback, "questNode");
-                        menu.AddItem(new GUIContent("Dialogue/End Node"), false, ContextCallback, "endNode");
                         menu.AddDisabledItem(new GUIContent("-------"));
                         menu.AddItem(new GUIContent("Conditions/Add Condition Node"), false, ContextCallback, "conditionNode");
+                        menu.AddDisabledItem(new GUIContent("-------"));
+                        menu.AddItem(new GUIContent("Dialogue/End Node"), false, ContextCallback, "endNode");
                         _addedData = false;
 
                         menu.ShowAsContext();
@@ -320,7 +328,7 @@ namespace DialogueSystem
 
                         if (selectedInputNode.GetType().ToString() == "YesOutputKnob")
                         {
-                            windows[selectIndex].SetAnswer(false);
+                            windows[selectIndex].SetAnswer(true);
                         }
 
                     }
@@ -364,10 +372,9 @@ namespace DialogueSystem
             {
                 bool clickedOnWindow = false;
                 int selectIndex = -1;
-
+                
                 for (int i = 0; i < windowOutputKnob.Count; i++)
                 {
-
                     if (windowOutputKnob[i].windowRect.Contains(mousePos))
                     {
                         selectedOutputNode = windowOutputKnob[i];
@@ -412,6 +419,7 @@ namespace DialogueSystem
                     NoOutputKnob noToChange = windowNoKnob[selectIndex].ClickedOnNoOutput(mousePos);
                     YesOutputKnob yesToChange = windowYesKnob[selectIndex].ClickedOnYesOutput(mousePos);
 
+                    
                     if (nodeToChange != null)
                     {
                         selectedOutputNode = nodeToChange;
@@ -435,11 +443,20 @@ namespace DialogueSystem
 
             if(e.type == EventType.ScrollWheel)
             {
+                if (_zoomDelta.y > 0.2f)
+                {
+                    _zoomDelta += new Vector2(e.delta.y / 20, e.delta.y / 20);
+                    
+                    _pivotPoint = mousePos;
+                    e.Use();
+                }
+                else
+                {
+                    _zoomDelta = new Vector2(0.21f, 0.21f);
+//                    e.Use();
+                }
                 
-                _zoomDelta += new Vector2(e.delta.y / 10, e.delta.y / 10);
-                _pivotPoint = mousePos;
                 
-                e.Use();
             }
             #endregion
             
@@ -450,7 +467,8 @@ namespace DialogueSystem
             {
 
                 // Draw the Bezier Curve
-                Rect mouseRect = new Rect(e.mousePosition.x, e.mousePosition.y, 10, 10);
+                Rect mouseRect = new Rect(mousePos.x, mousePos.y, 10, 10);
+                
                 DrawNodeCurve(selectedOutputNode.windowRect, mouseRect);
 
                 Repaint();
@@ -460,7 +478,7 @@ namespace DialogueSystem
 
            // GUI.EndGroup();
             DrawGrid(25, 0.1f, Color.black, new Rect(0,50, Screen.width * 4, Screen.height * 4));
-            BeginZoomArea(new Rect(0, 0, Screen.width * 10, Screen.height * 10));
+            BeginZoomArea(new Rect(_windowOffset.x, _windowOffset.y, Screen.width * 10, Screen.height * 100));
 
             foreach (BaseNode n in windows)
             {
@@ -651,7 +669,7 @@ namespace DialogueSystem
                 else
                 {
                     dialogueStart.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight / 2 + 5);
-                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
+                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2) , mousePos.y + _windowHeight, 12, 12);
                 }
                 YesOutputKnob yesOutput = new YesOutputKnob();
                 NoOutputKnob noOutput = new NoOutputKnob();
@@ -737,14 +755,14 @@ namespace DialogueSystem
                 if(_addedData)
                 {
                     response.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2) , Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
                     output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 12, 12);
                 }
                 else
                 {
                     response.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
-                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20 , 12, 12);
+                    output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2) , mousePos.y + _windowHeight, 12, 12);
                 }
 
                 YesOutputKnob yesOutput = new YesOutputKnob();
@@ -766,7 +784,7 @@ namespace DialogueSystem
                     response.SetNpcID(_npcID);
                     response.SetPreviousNode(Dialogue.DialogueDatabase.ReturnPreviousNode(_loadCounter));
                     response.SetResponse(Dialogue.DialogueDatabase.ReturnResponse(_loadCounter));
-                    response.SetAnswer(Dialogue.DialogueDatabase.ReturnType(_loadCounter));
+                    response.SetAnswer(Dialogue.DialogueDatabase.ReturnType(_loadCounter)); 
 
        
                     _addedData = false;
@@ -787,13 +805,13 @@ namespace DialogueSystem
                 {
                     questNode.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
                     questNode.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, _windowHeight * 3);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2) , Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
                     output = new OutputKnob(nodeCounter, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y + _windowHeight, 20, 20);
                 }
                 else
                 {
                     questNode.windowRect = new Rect(mousePos.x, mousePos.y, _windowWidth, _windowHeight * 3);
-                    input = new InputKnob(mousePos.x + (_windowWidth / 2), mousePos.y - 20, 12, 12);
+                    input = new InputKnob(mousePos.x + (_windowWidth / 2) , mousePos.y - 20, 12, 12);
                     output = new OutputKnob(nodeCounter, mousePos.x + (_windowWidth / 2), mousePos.y + _windowHeight, 12, 12);
                 }
 
@@ -822,7 +840,7 @@ namespace DialogueSystem
                     endNode.SetConversationID(Dialogue.DialogueDatabase.ReturnConversationID(_loadCounter));
                     endNode.SetPreviousNode(Dialogue.DialogueDatabase.ReturnPreviousNode(_loadCounter));
                     endNode.windowRect = new Rect(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x, Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y, _windowWidth, 50);
-                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20, 12, 12);
+                    input = new InputKnob(Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).x + (_windowWidth / 2), Dialogue.DialogueDatabase.ReturnCanvasPosition(_loadCounter).y - 20 , 12, 12);
                     output = new OutputKnob();
                 }
                 else
@@ -939,7 +957,6 @@ namespace DialogueSystem
 
         public static void DrawNodeCurve(Rect start, Rect end)
         {
-
             Vector3 startPos = new Vector3(start.x + start.width / 2, start.y + start.height / 2, 0);
             Vector3 endPos = new Vector3(end.x + end.width / 2, end.y + end.height / 2, 0);
 
@@ -995,7 +1012,7 @@ namespace DialogueSystem
             for (int i = 0; i < Dialogue.DialogueDatabase.ReturnCount(); i++)
             {
                 
-                if (Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End")
+                if (Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End" && Dialogue.DialogueDatabase.ReturnTitle(i) != "Add Quest")
                 {
                     _addedData = true;
                     _loadCounter = i;
@@ -1007,7 +1024,15 @@ namespace DialogueSystem
                     _loadCounter = i;
                     ContextCallback("endNode");
                 }
-                if(Dialogue.DialogueDatabase.ReturnQuestion(i) != "")
+
+                if (Dialogue.DialogueDatabase.ReturnTitle(i) == "Add Quest")
+                {
+                    _addedData = true;
+                    _loadCounter = i;
+                    ContextCallback("questNode");
+                }
+
+                if (Dialogue.DialogueDatabase.ReturnQuestion(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) == "")
                 {
                     _addedData = true;
                     _loadCounter = i;
@@ -1047,7 +1072,7 @@ namespace DialogueSystem
 
             for (int i = 0; i < Dialogue.DialogueDatabase.ReturnCount(); i++)
             {
-                if(Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End" && Dialogue.DialogueDatabase.ReturnTitle(i) != "ConditionNode")
+                if(Dialogue.DialogueDatabase.ReturnTitle(i) != "" && Dialogue.DialogueDatabase.ReturnTitle(i) != "End" && Dialogue.DialogueDatabase.ReturnTitle(i) != "ConditionNode" && Dialogue.DialogueDatabase.ReturnTitle(i) != "Add Quest")
                 {
 
                 }
@@ -1122,6 +1147,25 @@ namespace DialogueSystem
                     selectedInputNode = null;
                     selectedOutputNode = null;
                 }
+
+                if(Dialogue.DialogueDatabase.ReturnTitle(i) == "Add Quest")
+                {
+                    if(Dialogue.DialogueDatabase.ReturnType(i))
+                    {
+                        selectedInputNode = windowInputKnob[i];
+                        selectedOutputNode = windowYesKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                        windowInputKnob[i].SetYesInput((InputKnob)selectedInputNode, (YesOutputKnob)selectedOutputNode, mousePos);
+                    }
+                    if(!Dialogue.DialogueDatabase.ReturnType(i))
+                    {
+                        selectedInputNode = windowInputKnob[i];
+                        selectedOutputNode = windowNoKnob[Dialogue.DialogueDatabase.ReturnPreviousNode(i)];
+                        windowInputKnob[i].SetNoInput((InputKnob)selectedInputNode, (NoOutputKnob)selectedOutputNode, mousePos);
+                    }
+
+                    selectedInputNode = null;
+                    selectedOutputNode = null;
+                }
                 
             }
             
@@ -1141,6 +1185,7 @@ namespace DialogueSystem
 
         private Rect BeginZoomArea(Rect rect)
         {
+           // GUI.EndGroup();
             GUI.BeginGroup(rect);
             //_prevGuiMatrix = GUI.matrix;
 

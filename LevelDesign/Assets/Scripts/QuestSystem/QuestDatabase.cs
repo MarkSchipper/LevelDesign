@@ -10,46 +10,11 @@ using System.Linq;
 
 namespace Quest
 {
-    public enum QuestType
-    {
-        None,
-        Collect,
-        Kill,
-        Explore,
-    }
 
-    public enum QuestItemAmount
-    {
-        None,
-        Single,
-        Multiple,
-    }
-
-    public enum QuestReward
-    {
-        None,
-        Gold,
-        Experience,
-        Both,
-
-    }
-
-    public enum QuestChain
-    {
-        Single,
-        Chain,
-    }
-
-    public enum QuestChainType
-    {
-        Start,
-        Followup,
-        End,
-    }
 
     public class QuestDatabase
     {
-
+        /*
         private static List<int> _questItemID = new List<int>();
         private static List<string> _questItemNames = new List<string>();
         private static List<string> _questItemPrefabs = new List<string>();
@@ -1589,5 +1554,6 @@ namespace Quest
             dbconn.Close();
             dbconn = null;
         }
+        */
     }
 }

@@ -22,7 +22,7 @@ public class QuestNode : BaseInputNode
     public QuestNode(int _id)
     {
 
-        Quest.QuestDatabase.ClearAll();
+        Quest.QuestDatabaseManager.ClearAll();
 
         windowTitle = "Quest Node";
         hasInputs = true;
@@ -34,42 +34,34 @@ public class QuestNode : BaseInputNode
     public override void DrawWindow()
     {
         base.DrawWindow();
-
-        if (Quest.QuestDatabase.ReturnNpcHasQuests(_npcID))
-        {
+        
             // Fetch all the quests
-            Quest.QuestDatabase.GetAllQuestsNyNPC(_npcID);
+            Quest.QuestDatabaseManager.GetAllQuests();
 
-            _qID = Quest.QuestDatabase.GetQuestID(_selectIndex);
+        _selectIndex = EditorGUILayout.Popup(_selectIndex, Quest.QuestDatabaseManager.ReturnAllQuestTitles().ToArray());
+
+            _qID = Quest.QuestDatabaseManager.ReturnAllQuestID()[_selectIndex];
 
             // Display the Title of the quest
             GUILayout.Label("Quest Title", EditorStyles.boldLabel);
-            _questNames = Quest.QuestDatabase.ReturnQuestTitles();
+            _questNames = Quest.QuestDatabaseManager.ReturnAllQuestTitles();
 
             // Create the popup in the window to select the quest
             _selectIndex = EditorGUILayout.Popup(_selectIndex, _questNames.ToArray());
             
             // Display the text of the quest
             GUILayout.Label("Quest Text", EditorStyles.boldLabel);
-            _questText = EditorGUILayout.TextArea(Quest.QuestDatabase.GetQuestText(_selectIndex), GUILayout.Width(230), GUILayout.Height(60));
+            _questText = EditorGUILayout.TextArea(Quest.QuestDatabaseManager.ReturnAllQuestTexts()[_selectIndex], GUILayout.Width(230), GUILayout.Height(60));
 
             // Display the quest complete text
             GUILayout.Label("Quest Complete Text", EditorStyles.boldLabel);
-            _questComplete = EditorGUILayout.TextArea(Quest.QuestDatabase.GetQuestCompletedText(_selectIndex), GUILayout.Width(230), GUILayout.Height(60));
+            _questComplete = EditorGUILayout.TextArea(Quest.QuestDatabaseManager.ReturnAllQuestCompleteTexts()[_selectIndex], GUILayout.Width(230), GUILayout.Height(60));
 
             if (GUILayout.Button("Save Changes"))
             {
-                Quest.QuestDatabase.SaveQuestFromNode(Quest.QuestDatabase.GetQuestID(_selectIndex), Quest.QuestDatabase.GetQuestTitle(_selectIndex), Quest.QuestDatabase.GetQuestText(_selectIndex), Quest.QuestDatabase.GetQuestCompletedText(_selectIndex));
+                Quest.QuestDatabaseManager.SaveQuestFromNode(Quest.QuestDatabaseManager.ReturnAllQuestID()[_selectIndex], Quest.QuestDatabaseManager.ReturnAllQuestTitles()[_selectIndex], Quest.QuestDatabaseManager.ReturnAllQuestTexts()[_selectIndex], Quest.QuestDatabaseManager.ReturnAllQuestCompleteTexts()[_selectIndex]);
             }
-        }
-        else
-        {
-            GUILayout.Label("NPC HAS NO QUESTS", EditorStyles.boldLabel);
-            if(GUILayout.Button("Add Quest"))
-            {
-                Quest.QuestSystem.GetWindow<Quest.QuestSystem>();
-            }
-        }
+        
 
     }
 

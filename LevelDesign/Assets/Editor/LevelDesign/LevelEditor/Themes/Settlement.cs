@@ -23,6 +23,8 @@ namespace Theme
         private static int _previewOffset = 175;
         private static int _previewTilesOffset = 200;
 
+        private static int _selectedIndex;
+
         private static GameObject _objectToAdd;
 
         private static bool _hasLoadedObjects;
@@ -60,9 +62,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_settlementBuildingsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -106,9 +110,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_settlementPerimeterIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -149,9 +155,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_settlementPropsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -185,16 +193,17 @@ namespace Theme
                     }
                 }
 
-
                 EditorGUI.DrawPreviewTexture(_previewRect[i], Resources.Load("World_Building/ICONS/Settlement/Tiles/" + _settlementTilesIcons[i]) as Texture2D);
 
                 if (_previewRect[i].Contains(Event.current.mousePosition))
                 {
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -281,6 +290,11 @@ namespace Theme
             return _hasLoadedObjects;
         }
 
+        public static int ReturnSnapAmount()
+        {
+            return _snapAmount;
+        }
+
         public static void DeleteLoadedObject()
         {
             if (_objectToAdd != null)
@@ -289,5 +303,142 @@ namespace Theme
             }
         }
 
+        public static void NextObject(int _tabIndex)
+        {
+            switch(_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex + 1 < _settlementBuildingsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+                    if(_selectedIndex + 1 < _settlementTilesIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex + 1 < _settlementPerimeterIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex + 1 < _settlementPropsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void PreviousObject(int _tabIndex)
+        {
+
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Buildings/" + _settlementBuildingsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 1:
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Tiles/" + _settlementTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        Debug.Log(_selectedIndex);
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Perimeter/" + _settlementPerimeterIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Settlement/Props/" + _settlementPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

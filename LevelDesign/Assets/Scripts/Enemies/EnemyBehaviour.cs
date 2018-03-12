@@ -12,7 +12,6 @@ namespace EnemyCombat
         private bool STATE_LOOTABLE = false;
         private bool _isSelected    = false;
         private bool _isInRange     = false;
-        private bool _isChargeSound = false;
         private bool _isOldPosition = false;
         private bool _leashingBack  = false;
         private bool _spawnOnce     = false;
@@ -382,12 +381,12 @@ namespace EnemyCombat
                 CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
             }
 
-            Quest.QuestDatabase.GetAllQuests();
+            Quest.QuestGameManager.GetAllQuests();
             string[] _splitArray = this.transform.parent.name.Split(char.Parse("_"));
 
-            if (Quest.QuestDatabase.ReturnEnemyKillQuest(_splitArray[0]))
+            if (Quest.QuestGameManager.ReturnEnemyKillQuest(_splitArray[0]))
             {
-                Quest.QuestDatabase.UpdateEnemyKillQuest();
+                Quest.QuestGameManager.UpdateEnemyKillQuest();
 
                 Quest.QuestLog.UpdateLog();
             }

@@ -173,10 +173,76 @@ public class Enemy_Game : MonoBehaviour {
 
                 _spawnContainer.AddComponent<SphereCollider>();
                 _spawnContainer.GetComponent<SphereCollider>().isTrigger = true;
-                _spawnContainer.GetComponent<SphereCollider>().radius = EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex) * 1.5f;
+                _spawnContainer.GetComponent<SphereCollider>().radius = EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex) * 1.75f;
 
                 _spawnContainer.AddComponent<EnemyCombat.EnemySpawner>();
-                _spawnContainer.GetComponent<EnemyCombat.EnemySpawner>().SetData(_random, EnemyCombat.EnemyDatabase.ReturnEnemyID(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHealth(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMana(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyAttackRange(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHitFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMovement(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyLootTable(_editSelectIndex));
+              //  _spawnContainer.GetComponent<EnemyCombat.EnemySpawner>().SetData(_random, EnemyCombat.EnemyDatabase.ReturnEnemyID(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHealth(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMana(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyAttackRange(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHitFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMovement(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyLootTable(_editSelectIndex));
+
+                GameObject _enemy = Instantiate(_selectedObject, new Vector3(0, 0, 0), Quaternion.identity);
+                _enemy.name = EnemyCombat.EnemyDatabase.ReturnEnemyPrefab(_editSelectIndex);
+                _enemy.tag = "EnemyMelee";
+                _enemy.transform.parent = _enemyPrefab.transform;
+
+                // Add the hitbox
+
+                _enemy.AddComponent<CapsuleCollider>();
+                _enemy.GetComponent<CapsuleCollider>().isTrigger = true;
+                _enemy.GetComponent<CapsuleCollider>().radius = 1.5f;
+                _enemy.GetComponent<CapsuleCollider>().height = 4.0f;
+                _enemy.GetComponent<CapsuleCollider>().center = new Vector3(0, 2, 0);
+
+
+                // Add the CharacterController to be able to MOVE the character and to add a Collision for combat
+                _enemy.AddComponent<CharacterController>();
+
+                // Set the radius to be 1.5f so its a bit bigger than the character
+                _enemy.GetComponent<CharacterController>().radius = 1.5f;
+                // Set the Height of the capsule collider so its roughly human height
+                _enemy.GetComponent<CharacterController>().height = 4.0f;
+                // Move the center of the capsule collider to 2 ( half of 4.0f) so the collider is resting on the ground
+                _enemy.GetComponent<CharacterController>().center = new Vector3(0, 2, 0);
+
+
+                // Add the EnemyCombatSystem class to the enemy
+                _enemy.AddComponent<EnemyCombat.EnemyBehaviour>();
+                _enemy.AddComponent<EnemyCombat.EnemyMotor>();
+                _enemy.AddComponent<EnemyCombat.EnemyBattle>();
+                _enemy.AddComponent<EnemyCombat.EnemySoundManager>();
+                _enemy.GetComponent<EnemyCombat.EnemyBehaviour>().SetEnemyStats(_random, EnemyCombat.EnemyDatabase.ReturnEnemyID(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHealth(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyMana(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyHitFeedback(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyLootTable(_editSelectIndex));
+                _enemy.GetComponent<EnemyCombat.EnemyBattle>().SetCombatStats(EnemyCombat.EnemyDatabase.ReturnEnemyCooldown(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyDamage(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyRangedSpell(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnEnemyType(_editSelectIndex), EnemyCombat.EnemyDatabase.ReturnSpecial(_editSelectIndex));
+                _enemy.GetComponent<EnemyCombat.EnemyMotor>().SetAttackRange(EnemyCombat.EnemyDatabase.ReturnEnemyAttackRange(_editSelectIndex));
+
+                // Create a seperate GameObject for the AggroRange
+                GameObject _enemyAggro = new GameObject();
+                _enemyAggro.name = EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex) + "_AGGRO";
+
+                _enemyAggro.AddComponent<SphereCollider>();
+                _enemyAggro.GetComponent<SphereCollider>().isTrigger = true;
+                _enemyAggro.GetComponent<SphereCollider>().radius = EnemyCombat.EnemyDatabase.ReturnEnemyAggroRange(_editSelectIndex);
+                _enemyAggro.AddComponent<EnemyCombat.EnemyTrigger>();
+
+                //GameObject _death = Instantiate(Resources.Load("Characters/Enemies/Feedback/Death/" + EnemyDatabase.ReturnEnemyDeathFeedback(_editSelectIndex)) as GameObject );
+
+                // Set the layer to 2 ( IGNORE RAYCAST )
+                _enemyAggro.layer = 2;
+
+                _enemyAggro.transform.parent = _enemy.transform;
+
+                // Waypoints
+
+                if (EnemyCombat.EnemyDatabase.ReturnEnemyMovement(_editSelectIndex) == EnemyCombat.EnemyMovement.Patrol)
+                {
+                    for (int i = 0; i < EnemyCombat.EnemyDatabase.ReturnEnemyWaypoint(_editSelectIndex); i++)
+                    {
+                        GameObject _wayPoint = new GameObject();
+
+                        _wayPoint.name = EnemyCombat.EnemyDatabase.ReturnEnemyName(_editSelectIndex) + "_" + _random + "_WAYPOINT_" + i + "";
+                        _wayPoint.transform.parent = _enemyPrefab.transform;
+
+
+                    }
+                }
+
 
             }
 

@@ -21,6 +21,8 @@ namespace Theme
         private static int _previewOffset = 175;
         private static int _previewTilesOffset = 200;
 
+        private static int _selectedIndex;
+
         private static GameObject _objectToAdd;
 
         private static bool _hasLoadedObjects;
@@ -63,9 +65,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_dungeonTilesIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if(_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -107,9 +111,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_dungeonPropsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -151,9 +157,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_dungeonWallsIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -195,9 +203,11 @@ namespace Theme
                     EditorGUILayout.HelpBox(_dungeonBordersIcons[i].ToString(), MessageType.Info);
                     if (Event.current.button == 0 && Event.current.type == EventType.MouseUp)
                     {
+                        _selectedIndex = 0;
                         if (_objectToAdd != null)
                         {
                             _objectToAdd = null;
+                            _selectedIndex = i;
                         }
                         _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[i])) as GameObject;
                         LevelEditor.ObjectPainter.SetAddingToScene();
@@ -282,11 +292,159 @@ namespace Theme
             return _objectToAdd;
         }
 
+        public static int ReturnSnapAmount()
+        {
+            return _snapAmount;
+        }
+
         public static void DeleteLoadedObject()
         {
             if (_objectToAdd != null)
             {
                 _objectToAdd = null;
+            }
+        }
+
+        public static void NextObject(int _tabIndex)
+        {
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+                   
+                    break;
+                case 1:
+                    if (_selectedIndex + 1 < _dungeonTilesIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex + 1 < _dungeonWallsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex + 1 < _dungeonPropsIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (_selectedIndex + 1 < _dungeonBordersIcons.Count)
+                    {
+                        _selectedIndex++;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void PreviousObject(int _tabIndex)
+        {
+
+            switch (_tabIndex)
+            {
+                case 0:
+                    // buildings
+
+                    break;
+                case 1:
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Tiles/" + _dungeonTilesIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 2:
+                    // perimeter
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Walls/" + _dungeonWallsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 3:
+                    // props
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Props/" + _dungeonPropsIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (_selectedIndex - 1 >= 0)
+                    {
+                        _selectedIndex--;
+                        if (_objectToAdd != null)
+                        {
+                            DestroyImmediate(_objectToAdd);
+                        }
+                        if (Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[_selectedIndex]) != null)
+                        {
+                            _objectToAdd = Instantiate(Resources.Load("World_Building/Dungeon/Borders/" + _dungeonBordersIcons[_selectedIndex])) as GameObject;
+                        }
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -6,7 +6,7 @@ public class PlayerCameraController : MonoBehaviour {
 
     private Transform _target;
     private Vector3 targetPos = Vector3.zero;
-    private Vector3 destination = Vector3.zero;
+
 
     // Use this for initialization
     void Start () {

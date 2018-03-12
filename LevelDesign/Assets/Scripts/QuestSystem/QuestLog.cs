@@ -60,7 +60,27 @@ namespace Quest
         {
             if (!CombatSystem.InteractionManager.instance.ReturnLoadingLevel())
             {
-                InGameQuestLog();
+                if (!_queryDatabase)
+                {
+                    Clear();
+                    Quest.QuestGameManager.ClearAll();
+                    Quest.QuestGameManager.GetAllActiveQuests();
+
+                    for (int i = 0; i < Quest.QuestGameManager.ReturnActiveQuestID().Count; i++)
+                    {
+                        _questLogQuestID.Add(Quest.QuestGameManager.ReturnActiveQuestID()[i]);
+                        _currentCollected.Add(Quest.QuestGameManager.ReturnQuestItemsCollected(_questLogQuestID[i]));
+                        _totalToCollect.Add(Quest.QuestGameManager.ReturnQuestAmount(_questLogQuestID[i]));
+                        _questTitles.Add(Quest.QuestGameManager.ReturnActiveQuestTitle()[i]);
+                        _questTypes.Add(Quest.QuestGameManager.ReturnActiveQuestType()[i]);
+                    }
+
+                    _queryDatabase = true;
+                }
+                if (Quest.QuestGameManager.ReturnActiveQuestID().Count > 0)
+                {
+                    InGameQuestLog();
+                }
 
                 // QUESTLOG WINDOW
                 if (_showQuestLogWindow)
@@ -109,16 +129,16 @@ namespace Quest
             if (!_queryDatabase)
             {
                 Clear();
-                Quest.QuestDatabase.ClearAll();
-                Quest.QuestDatabase.GetAllActiveQuests();
+                Quest.QuestGameManager.ClearAll();
+                Quest.QuestGameManager.GetAllActiveQuests();
 
-                for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
+                for (int i = 0; i < Quest.QuestGameManager.ReturnActiveQuestID().Count; i++)
                 {
-                    _questLogQuestID.Add(Quest.QuestDatabase.ReturnActiveQuestID(i));
-                    _currentCollected.Add(Quest.QuestDatabase.GetQuestItemsCollected(_questLogQuestID[i]));
-                    _totalToCollect.Add(Quest.QuestDatabase.GetQuestAmount(_questLogQuestID[i]));
-                    _questTitles.Add(Quest.QuestDatabase.ReturnActiveQuestTitle(i));
-                    _questTypes.Add(Quest.QuestDatabase.ReturnActiveQuestType(i));
+                    _questLogQuestID.Add(Quest.QuestGameManager.ReturnActiveQuestID()[i]);
+                    _currentCollected.Add(Quest.QuestGameManager.ReturnQuestItemsCollected(_questLogQuestID[i]));
+                    _totalToCollect.Add(Quest.QuestGameManager.ReturnQuestAmount(_questLogQuestID[i]));
+                    _questTitles.Add(Quest.QuestGameManager.ReturnActiveQuestTitle()[i]);
+                    _questTypes.Add(Quest.QuestGameManager.ReturnActiveQuestType()[i]);
                 }
 
                 _queryDatabase = true;
@@ -127,11 +147,11 @@ namespace Quest
             if (!_questQuestCollection)
             {
 
-                for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
+                for (int i = 0; i < Quest.QuestGameManager.ReturnActiveQuestID().Count; i++)
                 {
 
-                    _currentCollected[i] = Quest.QuestDatabase.GetQuestItemsCollected(_questLogQuestID[i]);
-                    _totalToCollect[i] = Quest.QuestDatabase.GetQuestAmount(_questLogQuestID[i]);
+                    _currentCollected[i] = Quest.QuestGameManager.ReturnQuestItemsCollected(_questLogQuestID[i]);
+                    _totalToCollect[i] = Quest.QuestGameManager.ReturnQuestAmount(_questLogQuestID[i]);
                 }
 
                 _questQuestCollection = true;
@@ -146,20 +166,21 @@ namespace Quest
 
             if (_queryDatabase)
             {
+
                 if (_questLogQuestID.Count() > 0)
                 {
-                    for (int i = 0; i < Quest.QuestDatabase.ReturnActiveQuestCount(); i++)
+                    for (int i = 0; i < Quest.QuestGameManager.ReturnActiveQuestID().Count; i++)
                     {
                         if (_questTypes[i] != QuestType.None)
                         {
                             if (_questTypes[i] == QuestType.Collect || _questTypes[i] == QuestType.Kill)
                             {
-                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
-                                if (!Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestGameManager.ReturnActiveQuestTitle()[i], _skin.GetStyle("QuestLogQuest"));
+                                if (!Quest.QuestGameManager.ReturnQuestComplete(_questLogQuestID[i]))
                                 {
                                     GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(" + _currentCollected[i] + "/" + _totalToCollect[i] + ")", _skin.GetStyle("QuestLogQuest"));
                                 }
-                                if (Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                if (Quest.QuestGameManager.ReturnQuestComplete(_questLogQuestID[i]))
                                 {
                                     GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
                                 }
@@ -168,8 +189,8 @@ namespace Quest
                             if (_questTypes[i] == QuestType.Explore)
                             {
 
-                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestDatabase.ReturnActiveQuestTitle(i), _skin.GetStyle("QuestLogQuest"));
-                                if (Quest.QuestDatabase.CheckQuestCompleteByID(_questLogQuestID[i]))
+                                GUI.Label(new Rect(_inGameLogPos.x + 10, _inGameLogPos.y + 30 + (10 * i), 150, 25), Quest.QuestGameManager.ReturnActiveQuestTitle()[i], _skin.GetStyle("QuestLogQuest"));
+                                if (Quest.QuestGameManager.ReturnQuestComplete(_questLogQuestID[i]))
                                 {
                                     GUI.Label(new Rect(_inGameLogPos.x + 150, _inGameLogPos.y + 30 + (10 * i), 150, 25), "(Completed)", _skin.GetStyle("QuestLogQuest"));
                                 }

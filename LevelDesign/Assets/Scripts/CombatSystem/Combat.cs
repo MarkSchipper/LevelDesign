@@ -44,7 +44,7 @@ namespace CombatSystem
         private static float _spellCastTimer;
         private static bool _mayCastSpell = false;
 
-        private static int _spellID;
+
         private static SpellTypes _spellType;
         private static Abilities _ability;
         private static float _spellValue;
@@ -95,7 +95,7 @@ namespace CombatSystem
             {
                 if (_target.tag == "EnemyRanged" || _target.tag == "EnemyMelee")
                 {
-                    _spellID = _id;
+
                     _spellType = _type;
                     
                     _spellValue = _value;
