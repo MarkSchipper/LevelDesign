@@ -329,7 +329,8 @@ public class LevelDesignManager : EditorWindow {
                 break;
             case 1:
                 GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1);
-                LevelEditor.FoliagePainter.GetWindow<LevelEditor.FoliagePainter>();
+                GUILayout.Label("Temp. disabled");
+                //LevelEditor.FoliagePainter.GetWindow<LevelEditor.FoliagePainter>();
                 _worldTabIndex = -1;
                 break;
             case 2:

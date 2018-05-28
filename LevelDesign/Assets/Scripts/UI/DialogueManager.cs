@@ -822,6 +822,23 @@ namespace Dialogue
             {
                 _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
                 Debug.Log(_nodeID);
+                if(Dialogue.Game.DialogueGameDatabase.GetQuestID(_npcID, _nodeID) != -1)
+                {
+                    Debug.Log("there is a quest " + Quest.QuestGameManager.ReturnQuestTitleByID(Dialogue.Game.DialogueGameDatabase.GetQuestID(_npcID, _nodeID)));
+                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Quest.QuestGameManager.ReturnQuestTitleByID(Dialogue.Game.DialogueGameDatabase.GetQuestID(_npcID, _nodeID));
+                    SetAnswers(_questAnswers);
+                }
+                else if(Dialogue.Game.DialogueGameDatabase.GetTitle(_npcID, _nodeID)  != "End")
+                {
+                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
+                    _questText = _selectedNPC.GetComponent<NPC.NpcSystem>().ReturnNpcName() + ": " + Dialogue.Game.DialogueGameDatabase.GetNextQuestion(_npcID, _nodeID);
+                    SetAnswers(Dialogue.Game.DialogueGameDatabase.GetAnswersByQuestion(_npcID, Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID)));
+                    _nodeID = Dialogue.Game.DialogueGameDatabase.GetNextNodeID(_npcID, _nodeID);
+                }
+                else
+                {
+                    CancelDialogue();
+                }
             }
 
             else if (_dialogueAnswers[side] == "Decline" || _dialogueAnswers[side] == "Quit")

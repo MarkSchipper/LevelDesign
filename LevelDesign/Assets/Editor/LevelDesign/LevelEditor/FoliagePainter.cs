@@ -149,246 +149,248 @@ namespace LevelEditor
             }
            
         }
-
+       
         void OnSceneGUI(SceneView _sceneView)
         {
-            // We need to start with Handles.BeginGUI() 
-            // Otherwise we can not use the OnSceneGUI
+            /*
+           // We need to start with Handles.BeginGUI() 
+           // Otherwise we can not use the OnSceneGUI
 
-            Handles.BeginGUI();
+           Handles.BeginGUI();
 
-            // For the scroll window
-            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
-            #region GRASS
-            if (_addGrass)
-            {
-                // GUIPointToWorldRay is used since we are not using a Camera 
-                Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-                RaycastHit _hit;
-           
-             
-                // the actual stuff
-
-                if (Physics.Raycast(_ray, out _hit))
-                {
-                    Vector3 pos = _hit.point;
-                    _myPointer.transform.position = pos;
+           // For the scroll window
+           _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+           #region GRASS
+           if (_addGrass)
+           {
+               // GUIPointToWorldRay is used since we are not using a Camera 
+               Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+               RaycastHit _hit;
 
 
+               // the actual stuff
 
-                    // If we have pressed the left mouse button and the mouse button is DOWN
-                    if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
-                    {
-
-                        // If we cant find the GameObject "FOLIAGE" we add it to the game
-                        if (GameObject.Find("FOLIAGE") == null)
-                        {
-                            GameObject _foliageParent = new GameObject();
-                            _foliageParent.name = "FOLIAGE";
-                        }
-                        else
-                        {
-                            _parent = GameObject.Find("FOLIAGE");
-                        }
-                        
-
-                        // The following
-                        // Mathf.Pow((float)3, _brushSize) * _paintDensity
-                        // We calculate 3 ( predefined number ) to the power of the size of the brush
-                        // We multiply that number by the paintDensity, since that is always a number <= 1 we limit the amount of objects painted
-
-                        GameObject _childParent = new GameObject();
-                        _childParent.name = "Foliage_Child";
-                        _childParent.transform.parent = _parent.transform;
-
-                        for (int i = 0; i < (Mathf.Pow((float)3, _brushSize) * (_paintDensity * _paintDensity)); i++)
-                        {
-
-                            float _scaleRandom = Random.Range(_randomScaleMin, _randomScaleMax);
-                            float _rotateRandom = Random.Range(_randomRotateValueMin, _randomRotateValueMax);
-
-                            for (int j = 0; j < _selectListIndex.Count; j++)
-                            {
-                                // Offset the position of the objects randomly based on half the size of the brushsize
-                                GameObject _foliage = Instantiate(Resources.Load("World_Building/Foliage/" + _foliageNames[_selectListIndex[j]]), new Vector3(pos.x + (Random.Range(_brushSize / 2 * -1, _brushSize / 2)), pos.y, pos.z + (Random.Range(_brushSize / 2 * -1, _brushSize / 2))), Quaternion.identity) as GameObject;
-                                if (_randomScale)
-                                {
-                                    _foliage.transform.localScale = new Vector3(_scaleRandom, _scaleRandom, _scaleRandom);
-                                }
-                                if (_randomRotate)
-                                {
-                                    _foliage.transform.eulerAngles = new Vector3(0, _rotateRandom, 0);
-                                }
-
-                                // for organising purposes we set every new GameObject as a child of the "FOLIAGE" GameObject
-                                _foliage.transform.parent = _childParent.transform;
-
-                            }
-                        }
-
-                    }
-                }
-            }
-
-            #endregion
-
-            #region TREES
-            if(_addTrees)
-            {
-                if (_isAddingToScene)
-                {
-                    // GUIPointToWorldRay is used since we are not using a Camera 
-                    Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-                    RaycastHit _hit;
-
-
-                    // the actual stuff
-
-                    if (Physics.Raycast(_ray, out _hit))
-                    {
-                        Vector3 pos = _hit.point;
-                        _myPointer.transform.position = pos;
+               if (Physics.Raycast(_ray, out _hit))
+               {
+                   Vector3 pos = _hit.point;
+                   _myPointer.transform.position = pos;
 
 
 
-                        // If we have pressed the left mouse button and the mouse button is DOWN
-                        if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
-                        {
+                   // If we have pressed the left mouse button and the mouse button is DOWN
+                   if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
+                   {
 
-                            // If we cant find the GameObject "FOLIAGE" we add it to the game
-                            if (GameObject.Find("TREES") == null)
-                            {
-                                GameObject _foliageParent = new GameObject();
-                                _foliageParent.name = "TREES";
-                            }
-                            else
-                            {
-                                _parent = GameObject.Find("TREES");
-                            }
-
-                            // The following
-                            // Mathf.Pow((float)3, _brushSize) * _paintDensity
-                            // We calculate 3 ( predefined number ) to the power of the size of the brush
-                            // We multiply that number by the paintDensity, since that is always a number <= 1 we limit the amount of objects painted
-
-                            for (int i = 0; i < (Mathf.Pow((float)3, _brushSize) * (_paintDensity / 75 * _paintDensity / 75)); i++)
-                            {
-                                float _scaleRandom = Random.Range(_randomScaleMin, _randomScaleMax);
-                                float _rotateRandom = Random.Range(_randomRotateValueMin, _randomRotateValueMax);
-
-                                // Offset the position of the objects randomly based on half the size of the brushsize
-                                GameObject _foliage = Instantiate(_objectToAdd, new Vector3(pos.x + (Random.Range(_brushSize / 2 * -1, _brushSize / 2)), pos.y, pos.z + (Random.Range(_brushSize / 2 * -1, _brushSize / 2))), Quaternion.identity) as GameObject;
-                                if (_randomScale)
-                                {
-                                    _foliage.transform.localScale = new Vector3(_scaleRandom, _scaleRandom, _scaleRandom);
-                                }
-                                if (_randomRotate)
-                                {
-                                    _foliage.transform.eulerAngles = new Vector3(0, _rotateRandom, 0);
-                                }
-
-                                // for organising purposes we set every new GameObject as a child of the "FOLIAGE" GameObject
-                                _foliage.transform.parent = _parent.transform;
-                                
-                            }
-                        }
-                    }
-                }
-            }
-            #endregion
-
-            #region DECALS
-            if (_addDecals)
-            {
-                if (_isAddingToScene)
-                {
-                    HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-                    Vector3 _newPos;
-                    // GUIPointToWorldRay is used since we are not using a Camera 
-                    Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
-                    RaycastHit _hit;
+                       // If we cant find the GameObject "FOLIAGE" we add it to the game
+                       if (GameObject.Find("FOLIAGE") == null)
+                       {
+                           GameObject _foliageParent = new GameObject();
+                           _foliageParent.name = "FOLIAGE";
+                       }
+                       else
+                       {
+                           _parent = GameObject.Find("FOLIAGE");
+                       }
 
 
-                    // the actual stuff
+                       // The following
+                       // Mathf.Pow((float)3, _brushSize) * _paintDensity
+                       // We calculate 3 ( predefined number ) to the power of the size of the brush
+                       // We multiply that number by the paintDensity, since that is always a number <= 1 we limit the amount of objects painted
 
-                    if (Physics.Raycast(_ray, out _hit))
-                    {
-                        // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
-                        _objectToAdd.layer = 2;
+                       GameObject _childParent = new GameObject();
+                       _childParent.name = "Foliage_Child";
+                       _childParent.transform.parent = _parent.transform;
 
-                        // Snapping
-                        _newPos = new Vector3(_hit.point.x, _hit.point.y + 0.1f, _hit.point.z);
-                        _objectToAdd.transform.position = _newPos;
-                        _objectToAdd.transform.localScale = new Vector3(_brushSize, 1f, _brushSize);
+                       for (int i = 0; i < (Mathf.Pow((float)3, (float)_brushSize) * (_paintDensity * _paintDensity)); i++)
+                       {
 
-                        if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
-                        {
-                            #region SAFEGUARDS
-                            //////////////////////////////////////////////////////////////////////
-                            //                              Safeguards                          //
-                            //////////////////////////////////////////////////////////////////////
+                           float _scaleRandom = Random.Range(_randomScaleMin, _randomScaleMax);
+                           float _rotateRandom = Random.Range(_randomRotateValueMin, _randomRotateValueMax);
 
-                            if (GameObject.Find("WORLD") == null)
-                            {
-                                GameObject _world = new GameObject();
-                                _world.name = "WORLD";
-                            }
+                           for (int j = 0; j < _selectListIndex.Count; j++)
+                           {
+                               // Offset the position of the objects randomly based on half the size of the brushsize
+                               GameObject _foliage = Instantiate(Resources.Load("World_Building/Foliage/" + _foliageNames[_selectListIndex[j]]), new Vector3(pos.x + (Random.Range(_brushSize / 2 * -1, _brushSize / 2)), pos.y, pos.z + (Random.Range(_brushSize / 2 * -1, _brushSize / 2))), Quaternion.identity) as GameObject;
+                               if (_randomScale)
+                               {
+                                   _foliage.transform.localScale = new Vector3(_scaleRandom, _scaleRandom, _scaleRandom);
+                               }
+                               if (_randomRotate)
+                               {
+                                   _foliage.transform.eulerAngles = new Vector3(0, _rotateRandom, 0);
+                               }
 
-                            if (GameObject.Find("PROPS") == null)
-                            {
-                                GameObject _props = new GameObject();
-                                _props.name = "PROPS";
-                                _props.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
+                               // for organising purposes we set every new GameObject as a child of the "FOLIAGE" GameObject
+                               _foliage.transform.parent = _childParent.transform;
 
-                            if (GameObject.Find("POTIONS") == null)
-                            {
-                                GameObject _potions = new GameObject();
-                                _potions.name = "POTIONS";
-                                _potions.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-                            if (GameObject.Find("STATICPROPS") == null)
-                            {
-                                GameObject _staticProps = new GameObject();
-                                _staticProps.name = "STATICPROPS";
-                                _staticProps.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-                            if(GameObject.Find("DECALS") == null)
-                            {
-                                GameObject _decals = new GameObject();
-                                _decals.name = "DECALS";
-                                _decals.transform.SetParent(GameObject.Find("WORLD").transform);
-                            }
-                            #endregion
+                           }
+                       }
 
-                            _objectToAdd.transform.SetParent(GameObject.Find("DECALS").transform);
+                   }
+               }
+           }
 
-                            //Selection.
-                            _isAddingToScene = false;
+           #endregion
 
-                            
-                            //HandleUtility.PickGameObject(Event.current.mousePosition, true);
+           #region TREES
+           if(_addTrees)
+           {
+               if (_isAddingToScene)
+               {
+                   // GUIPointToWorldRay is used since we are not using a Camera 
+                   Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+                   RaycastHit _hit;
 
-                                                   }
-                        if (Event.current.button == 1 && Event.current.type == EventType.MouseDown)
-                        {
-                            DestroyImmediate(_objectToAdd);
-                            _isAddingToScene = false;
-                        }
-                    }
-                    if (Event.current.keyCode == (KeyCode.A) && Event.current.type == EventType.KeyDown)
-                    {
-                        _objectToAdd.transform.localEulerAngles = new Vector3(_objectToAdd.transform.eulerAngles.x, _objectToAdd.transform.eulerAngles.y + 22.5f, _objectToAdd.transform.eulerAngles.z);
-                    }
-                    if (Event.current.keyCode == (KeyCode.D) && Event.current.type == EventType.KeyDown)
-                    {
-                        _objectToAdd.transform.localEulerAngles = new Vector3(_objectToAdd.transform.eulerAngles.x, _objectToAdd.transform.eulerAngles.y - 22.5f, _objectToAdd.transform.eulerAngles.z);
-                    }
-                }
-            }
-            #endregion
-            EditorGUILayout.EndScrollView();
-            Handles.EndGUI();
+
+                   // the actual stuff
+
+                   if (Physics.Raycast(_ray, out _hit))
+                   {
+                       Vector3 pos = _hit.point;
+                       _myPointer.transform.position = pos;
+
+
+
+                       // If we have pressed the left mouse button and the mouse button is DOWN
+                       if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
+                       {
+
+                           // If we cant find the GameObject "FOLIAGE" we add it to the game
+                           if (GameObject.Find("TREES") == null)
+                           {
+                               GameObject _foliageParent = new GameObject();
+                               _foliageParent.name = "TREES";
+                           }
+                           else
+                           {
+                               _parent = GameObject.Find("TREES");
+                           }
+
+                           // The following
+                           // Mathf.Pow((float)3, _brushSize) * _paintDensity
+                           // We calculate 3 ( predefined number ) to the power of the size of the brush
+                           // We multiply that number by the paintDensity, since that is always a number <= 1 we limit the amount of objects painted
+
+                           for (int i = 0; i < (Mathf.Pow((float)3, _brushSize) * (_paintDensity / 75 * _paintDensity / 75)); i++)
+                           {
+                               float _scaleRandom = Random.Range(_randomScaleMin, _randomScaleMax);
+                               float _rotateRandom = Random.Range(_randomRotateValueMin, _randomRotateValueMax);
+
+                               // Offset the position of the objects randomly based on half the size of the brushsize
+                               GameObject _foliage = Instantiate(_objectToAdd, new Vector3(pos.x + (Random.Range(_brushSize / 2 * -1, _brushSize / 2)), pos.y, pos.z + (Random.Range(_brushSize / 2 * -1, _brushSize / 2))), Quaternion.identity) as GameObject;
+                               if (_randomScale)
+                               {
+                                   _foliage.transform.localScale = new Vector3(_scaleRandom, _scaleRandom, _scaleRandom);
+                               }
+                               if (_randomRotate)
+                               {
+                                   _foliage.transform.eulerAngles = new Vector3(0, _rotateRandom, 0);
+                               }
+
+                               // for organising purposes we set every new GameObject as a child of the "FOLIAGE" GameObject
+                               _foliage.transform.parent = _parent.transform;
+
+                           }
+                       }
+                   }
+               }
+           }
+           #endregion
+
+           #region DECALS
+           if (_addDecals)
+           {
+               if (_isAddingToScene)
+               {
+                   HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+                   Vector3 _newPos;
+                   // GUIPointToWorldRay is used since we are not using a Camera 
+                   Ray _ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
+                   RaycastHit _hit;
+
+
+                   // the actual stuff
+
+                   if (Physics.Raycast(_ray, out _hit))
+                   {
+                       // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
+                       _objectToAdd.layer = 2;
+
+                       // Snapping
+                       _newPos = new Vector3(_hit.point.x, _hit.point.y + 0.1f, _hit.point.z);
+                       _objectToAdd.transform.position = _newPos;
+                       _objectToAdd.transform.localScale = new Vector3(_brushSize, 1f, _brushSize);
+
+                       if (Event.current.button == 0 && Event.current.type == EventType.MouseDown)
+                       {
+                           #region SAFEGUARDS
+                           //////////////////////////////////////////////////////////////////////
+                           //                              Safeguards                          //
+                           //////////////////////////////////////////////////////////////////////
+
+                           if (GameObject.Find("WORLD") == null)
+                           {
+                               GameObject _world = new GameObject();
+                               _world.name = "WORLD";
+                           }
+
+                           if (GameObject.Find("PROPS") == null)
+                           {
+                               GameObject _props = new GameObject();
+                               _props.name = "PROPS";
+                               _props.transform.SetParent(GameObject.Find("WORLD").transform);
+                           }
+
+                           if (GameObject.Find("POTIONS") == null)
+                           {
+                               GameObject _potions = new GameObject();
+                               _potions.name = "POTIONS";
+                               _potions.transform.SetParent(GameObject.Find("WORLD").transform);
+                           }
+                           if (GameObject.Find("STATICPROPS") == null)
+                           {
+                               GameObject _staticProps = new GameObject();
+                               _staticProps.name = "STATICPROPS";
+                               _staticProps.transform.SetParent(GameObject.Find("WORLD").transform);
+                           }
+                           if(GameObject.Find("DECALS") == null)
+                           {
+                               GameObject _decals = new GameObject();
+                               _decals.name = "DECALS";
+                               _decals.transform.SetParent(GameObject.Find("WORLD").transform);
+                           }
+                           #endregion
+
+                           _objectToAdd.transform.SetParent(GameObject.Find("DECALS").transform);
+
+                           //Selection.
+                           _isAddingToScene = false;
+
+
+                           //HandleUtility.PickGameObject(Event.current.mousePosition, true);
+
+                                                  }
+                       if (Event.current.button == 1 && Event.current.type == EventType.MouseDown)
+                       {
+                           DestroyImmediate(_objectToAdd);
+                           _isAddingToScene = false;
+                       }
+                   }
+                   if (Event.current.keyCode == (KeyCode.A) && Event.current.type == EventType.KeyDown)
+                   {
+                       _objectToAdd.transform.localEulerAngles = new Vector3(_objectToAdd.transform.eulerAngles.x, _objectToAdd.transform.eulerAngles.y + 22.5f, _objectToAdd.transform.eulerAngles.z);
+                   }
+                   if (Event.current.keyCode == (KeyCode.D) && Event.current.type == EventType.KeyDown)
+                   {
+                       _objectToAdd.transform.localEulerAngles = new Vector3(_objectToAdd.transform.eulerAngles.x, _objectToAdd.transform.eulerAngles.y - 22.5f, _objectToAdd.transform.eulerAngles.z);
+                   }
+               }
+           }
+           #endregion
+           EditorGUILayout.EndScrollView();
+           Handles.EndGUI();
+            */
         }
 
         void ShowAddFoliage()
