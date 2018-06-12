@@ -306,11 +306,17 @@ namespace LevelEditor
                 
                 if (Physics.Raycast(_ray, out _hit))
                 {
-
+                    Debug.Log(_hit.collider.name);
                     // Set the object layer to 2 ( IGNORE RAYCAST ) so we can raycast on the new object
                     foreach (Transform child in _objectToAdd.transform)
                     {
                         child.gameObject.layer = 2;
+                    }
+
+                    // If the object to add does not have any children then set the object layer to 2
+                    if(_objectToAdd.transform.childCount == 0)
+                    {
+                        _objectToAdd.gameObject.layer = 2;
                     }
 
                     // Snapping
