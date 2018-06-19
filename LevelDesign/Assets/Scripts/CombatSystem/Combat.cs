@@ -156,6 +156,12 @@ namespace CombatSystem
                     _projectile = Instantiate(_spellPrefab, new Vector3(_playerPos.x, _playerPos.y + 2.5f, _playerPos.z), Quaternion.identity) as GameObject;
 
                     _projectile.transform.LookAt(_selectedTarget.transform);
+
+                if (_projectile.GetComponent<Rigidbody>() == null)
+                    {
+                        _projectile.AddComponent<Rigidbody>();
+                    }
+
                     _projectile.GetComponent<Rigidbody>().AddForce(new Vector3(_playerAimVector.x, _playerAimVector.y, _playerAimVector.z) * 1.5f);
                     _projectile.AddComponent<SpellObject>();
                     _projectile.GetComponent<SpellObject>().SetFromPlayer(true);

@@ -178,6 +178,7 @@ namespace DialogueSystem
                 if (Dialogue.DialogueDatabase.ReturnCount() > 0)
                 {
                     _loadedNodes = true;
+                    Debug.Log(Dialogue.DialogueDatabase.ReturnCount());
                 }
 
                 if (!_loadedNodes)
@@ -197,6 +198,7 @@ namespace DialogueSystem
                 }
                 if(_loadedNodes)
                 {
+                    Debug.Log("Windows count " + windows.Count);
                     if (windows.Count > 0)
                     {
                         Dialogue.DialogueDatabase.DeletePreviousDialogue(windows[1].ReturnConversationID());
@@ -211,11 +213,12 @@ namespace DialogueSystem
                     }
                     else
                     {
-                        if (GUILayout.Button("This will delete all dialogue!"))
+                        GUILayout.Space(25);
+                        if(EditorUtility.DisplayDialog("Delete Dialogue", "Are you sure you want to delete this dialogue?", "Yes", "No"))
                         {
-
                             Dialogue.DialogueDatabase.DeleteByNPC(_npcID);
                         }
+
                     }
                 }
                 

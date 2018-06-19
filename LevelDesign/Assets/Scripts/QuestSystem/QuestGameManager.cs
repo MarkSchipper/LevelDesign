@@ -64,6 +64,7 @@ namespace Quest
 
         public static void GetAllQuests()
         {
+            ClearAll();
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -104,6 +105,7 @@ namespace Quest
                     _allQuestAmount.Add(reader.GetInt32(5));
                 }
                 _allQuestMobs.Add(reader.GetString(6));
+                Debug.Log(reader.GetString(6));
                 if (reader.GetString(7) == "True")
                 {
                     _allQuestActive.Add(true);
@@ -416,8 +418,10 @@ namespace Quest
 
         public static bool ReturnEnemyKillQuest(string _name)
         {
+            Debug.Log(_allQuestMobs.Count);
             for (int i = 0; i < _allQuestMobs.Count; i++)
             {
+                Debug.Log(_allQuestMobs[i] + " - " + _name);
                 if (_allQuestMobs[i] == _name)
                 {
                     _questID = _allQuestID[i];
@@ -692,6 +696,31 @@ namespace Quest
             dbconn.Open(); //Open connection to the database.
             IDbCommand dbcmd = dbconn.CreateCommand();
             string sqlQuery = "SELECT QuestComplete FROM Quests WHERE QuestID = '" + _id + "' AND QuestActive = 'True' AND QuestEnabled = 'True'";
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+            if (_tmp != null)
+            {
+                return bool.Parse(_tmp.ToString());
+            }
+            else {
+                return false;
+            }
+        }
+
+        public static bool ReturnQuestCompleted(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT QuestComplete FROM Quests WHERE QuestID = '" + _id + "'";
             dbcmd.CommandText = sqlQuery;
             System.Object _tmp = dbcmd.ExecuteScalar();
 

@@ -427,6 +427,7 @@ namespace CombatSystem
                                     // Set the NPC selected to "Selected" in its NPC Class
                                     if (_hit.collider.gameObject.GetComponent<NPC.NpcSystem>().ReturnHasConversation())
                                     {
+
                                         _selectedNPC.GetComponentInChildren<NPC.NpcSystem>().IsSelected(true);
                                         _selectedNPC.gameObject.GetComponentInChildren<NPC.NpcSystem>().SetInteraction(true);
 
@@ -1209,7 +1210,7 @@ namespace CombatSystem
                 SoundManager.instance.PlaySound(SOUNDS.LEVELUP, transform.position, true);
 
             }
-
+            InteractionManager.instance.DisplayExpGained((int)Quest.QuestGameManager.ReturnCurrentQuestExp(), transform.position);
             InteractionManager.instance.FillExperienceBar();
         }
 

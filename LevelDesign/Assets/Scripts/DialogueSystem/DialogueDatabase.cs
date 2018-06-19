@@ -186,6 +186,32 @@ namespace Dialogue
 
         }
 
+        public static int GetInitialQuestIDFromNPC(int _id)
+        {
+            string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
+            IDbConnection dbconn;
+            dbconn = (IDbConnection)new SqliteConnection(conn);
+            dbconn.Open(); //Open connection to the database.
+            IDbCommand dbcmd = dbconn.CreateCommand();
+            string sqlQuery = "SELECT QuestID FROM Dialogue WHERE NpcID = '" + _id + "' AND QuestID != '-1' AND PreviousNode = '0'";
+            dbcmd.CommandText = sqlQuery;
+            System.Object _tmp = dbcmd.ExecuteScalar();
+
+            dbcmd.Dispose();
+            dbcmd = null;
+            dbconn.Close();
+            dbconn = null;
+
+            if (_tmp != null)
+            {
+                return int.Parse(_tmp.ToString());
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public static int GetNextNodeID(int _id, int _node)
         {
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.

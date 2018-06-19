@@ -36,15 +36,21 @@ namespace Dialogue
                 dbconn.Close();
                 dbconn = null;
 
-                if(_tmp.ToString() != string.Empty)
+                if (_tmp != null)
                 {
-                    return _tmp.ToString();
+                    if (_tmp.ToString() != string.Empty)
+                    {
+                        return _tmp.ToString();
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
                 }
                 else
                 {
                     return string.Empty;
                 }
-
             }
 
             public static List<string> GetAnswersByQuestion(int _npc, int _node)
@@ -281,6 +287,7 @@ namespace Dialogue
 
             public static string GetTitle(int _npc, int _node)
             {
+
                 string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/DialogueDB.db"; //Path to database.
                 IDbConnection dbconn;
                 dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -295,8 +302,14 @@ namespace Dialogue
                 dbcmd = null;
                 dbconn.Close();
                 dbconn = null;
-
-                return _tmp.ToString();
+                if (_tmp != null)
+                {
+                    return _tmp.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
 
             public static string GetCurrentTitle(int _npc, int _node)

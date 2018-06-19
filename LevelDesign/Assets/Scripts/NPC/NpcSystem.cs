@@ -321,11 +321,12 @@ namespace NPC
 
         public bool ReturnHasConversation()
         {
-            if (Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_npcID) != string.Empty)
+            if (Dialogue.DialogueDatabase.GetInitialQuestionFromNPC(_npcID) != string.Empty || Dialogue.DialogueDatabase.GetInitialQuestIDFromNPC(_npcID) != -1)
             {
                 return true;
             }
-            else {
+            else
+            {
                 return false;
             }
         }

@@ -370,7 +370,7 @@ namespace EnemyCombat
                 {
                     StartCoroutine(DissolveEnemy(_waitToDissolve, 1f));
                 }
-
+                Quest.QuestGameManager.GetAllQuests();
                 _spawnOnce = true;
             }
 
@@ -381,8 +381,9 @@ namespace EnemyCombat
                 CombatSystem.PlayerController.instance.SetPlayerInCombat(false);
             }
 
-            Quest.QuestGameManager.GetAllQuests();
+
             string[] _splitArray = this.transform.parent.name.Split(char.Parse("_"));
+
 
             if (Quest.QuestGameManager.ReturnEnemyKillQuest(_splitArray[0]))
             {
