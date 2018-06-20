@@ -67,7 +67,7 @@ public class Feedback_Game : MonoBehaviour {
             }
 
 
-            //AddToGame(FeedbackDB.ReturnFeedbackID(_feedbackSelectIndex), _type, _trigger, FeedbackDB.ReturnFeedbackTimer(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackIdleTimer(_feedbackSelectIndex), _shape, FeedbackDB.ReturnFeedbackText(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackCondition(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackAchievement(_feedbackSelectIndex), FeedbackDB.ReturnFeedbackTriggerSize(_feedbackSelectIndex), FeedbackDB.ReturnAchievementAmount(_feedbackSelectIndex));
+            AddToGame(FeedbackEditor.FeedbackDB.ReturnFeedbackID(_feedbackSelectIndex), _type, _trigger, FeedbackEditor.FeedbackDB.ReturnFeedbackTimer(_feedbackSelectIndex), FeedbackEditor.FeedbackDB.ReturnFeedbackIdleTimer(_feedbackSelectIndex), _shape, FeedbackEditor.FeedbackDB.ReturnFeedbackText(_feedbackSelectIndex), FeedbackEditor.FeedbackDB.ReturnFeedbackCondition(_feedbackSelectIndex), FeedbackEditor.FeedbackDB.ReturnFeedbackAchievement(_feedbackSelectIndex), FeedbackEditor.FeedbackDB.ReturnFeedbackTriggerSize(_feedbackSelectIndex), FeedbackEditor.FeedbackDB.ReturnAchievementAmount(_feedbackSelectIndex));
         }
     }
 

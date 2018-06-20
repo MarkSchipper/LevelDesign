@@ -392,7 +392,7 @@ public class LevelDesignManager : EditorWindow {
         switch (_feedbackDBTabIndex)
         {
             case 0:
-                Feedback_DB.ClearAll();
+                //Feedback_DB.ClearAll();    
                 Feedback_DB.ShowAddFeedback();
                 break;
             case 1:

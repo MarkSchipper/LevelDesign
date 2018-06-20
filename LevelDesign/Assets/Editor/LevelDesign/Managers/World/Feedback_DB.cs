@@ -61,22 +61,26 @@ public class Feedback_DB : MonoBehaviour {
     private static bool _deleteConfirmation;
     private static int _deleteIndex;
     private static bool _deletedFeedback;
+    private static bool _updateType = false;
 
     public static void ShowAddFeedback()
     {
         _isDataLoaded = false;
         _deleteConfirmation = false;
         _deletedFeedback = false;
+
         _feedbackType = (FeedbackType)EditorGUILayout.EnumPopup("Feedback Type: ", _feedbackType);
+        
         switch (_feedbackType)
         {
-            case FeedbackType.None:
-                break;
+           
             case FeedbackType.Hint:
                 ShowAddHint();
                 break;
             case FeedbackType.Achievement:
                 ShowAddAchievement();
+                break;
+            case FeedbackType.None:
                 break;
             default:
                 break;
@@ -85,6 +89,11 @@ public class Feedback_DB : MonoBehaviour {
 
     static void ShowAddHint()
     {
+        if(!_updateType && _feedbackText != "")
+        {
+            ClearAll();
+            _updateType = true;
+        }
         _feedbackType = FeedbackType.Hint;
         _feedbackTrigger = (FeedbackTrigger)EditorGUILayout.EnumPopup("Trigger Hint by: ", _feedbackTrigger);
 
@@ -117,6 +126,7 @@ public class Feedback_DB : MonoBehaviour {
 
     static void ShowAddAchievement()
     {
+        _updateType = false;
         _achievementType = (AchievementType)EditorGUILayout.EnumPopup("Achievement for: ", _achievementType);
 
         if (_achievementType != AchievementType.None)
@@ -138,6 +148,7 @@ public class Feedback_DB : MonoBehaviour {
 
     public static void ShowEditFeedback()
     {
+        _updateType = false;
         _deleteConfirmation = false;
         _deletedFeedback = false;
         GUILayout.Label("Edit Feedback", EditorStyles.boldLabel);
@@ -191,6 +202,7 @@ public class Feedback_DB : MonoBehaviour {
 
     static void EditHint(int _id)
     {
+        _updateType = false;
         if (!_isHintDataLoaded)
         {
             if (FeedbackEditor.FeedbackDB.ReturnFeedbackTrigger(_id) == "Game_Start")
@@ -271,6 +283,7 @@ public class Feedback_DB : MonoBehaviour {
 
     static void EditAchievement(int _id)
     {
+        _updateType = false;
         if (!_isAchievementDataLoaded)
         {
 
@@ -316,6 +329,7 @@ public class Feedback_DB : MonoBehaviour {
 
     public static void ShowDeleteFeedback()
     {
+        _updateType = false;
         GUILayout.Label("Delete Feedback");
 
         if(!_deleteConfirmation)
@@ -344,6 +358,16 @@ public class Feedback_DB : MonoBehaviour {
 
             FeedbackEditor.FeedbackDB.GetAllFeedback();
         }
+    }
+
+    public static bool ReturnUpdate()
+    {
+        return _updateType;
+    }
+
+    public static void SetUpdate(bool _set)
+    {
+        _updateType = _set;
     }
 
     public static void ClearAll()
