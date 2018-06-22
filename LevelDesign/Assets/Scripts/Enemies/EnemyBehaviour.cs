@@ -370,6 +370,7 @@ namespace EnemyCombat
                 {
                     StartCoroutine(DissolveEnemy(_waitToDissolve, 1f));
                 }
+                Quest.QuestGameManager.ClearAll();
                 Quest.QuestGameManager.GetAllQuests();
                 _spawnOnce = true;
             }
@@ -387,6 +388,7 @@ namespace EnemyCombat
 
             if (Quest.QuestGameManager.ReturnEnemyKillQuest(_splitArray[0]))
             {
+                Debug.Log("Killed enemy");
                 Quest.QuestGameManager.UpdateEnemyKillQuest();
 
                 Quest.QuestLog.UpdateLog();

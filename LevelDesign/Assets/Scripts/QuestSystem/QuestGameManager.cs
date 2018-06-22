@@ -64,7 +64,7 @@ namespace Quest
 
         public static void GetAllQuests()
         {
-            ClearAll();
+           
             string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/Databases/QuestDB.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -418,31 +418,36 @@ namespace Quest
 
         public static bool ReturnEnemyKillQuest(string _name)
         {
+            bool test = false;
             Debug.Log(_allQuestMobs.Count);
-            for (int i = 0; i < _allQuestMobs.Count; i++)
+            for (int j = 0; j < _allQuestMobs.Count; j++)
             {
-                Debug.Log(_allQuestMobs[i] + " - " + _name);
-                if (_allQuestMobs[i] == _name)
+                Debug.Log(_allQuestMobs[j]);
+                if (_allQuestMobs[j] == _name)
                 {
-                    _questID = _allQuestID[i];
-                    //CheckKillQuestComplete(i);
-                    _tmpID = i;
-                    return true;
+                    _questID = _allQuestID[j];
+                    CheckKillQuestComplete(j);
+                    _tmpID = j;
+                    test = true;
+                    break;
                 }
                 else
                 {
-                    return false;
+                    test = false;
                 }
+               
             }
-            return false;
+            Debug.Log(test);
+            return test;
         }
 
         public static void CheckKillQuestComplete(int _id)
         {
-
-            if (_allQuestAmount[_id] == _allQuestCollected[_id])
+            Debug.Log(_allQuestAmount[_id] + " - " + _allQuestCollected[_id]);
+            if (_allQuestAmount[_id] == ReturnQuestItemsCollected(_questID))
             {
                 SetQuestComplete(_questID);
+                Quest.QuestLog.UpdateLog();
             }
         }
 
